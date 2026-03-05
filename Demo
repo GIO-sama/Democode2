@@ -1,0 +1,2502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Buhay Boarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root {
+  --navy:     #0D2B45;
+  --blue:     #1462A8;
+  --sky:      #3B92D4;
+  --teal:     #0D8A78;
+  --tealBg:   #E3F5F2;
+  --warm:     #F6F2ED;
+  --card:     #FFFFFF;
+  --border:   #E5DDD4;
+  --text:     #181820;
+  --muted:    #7A7A8C;
+  --red:      #BC3A2B;
+  --redBg:    #FDECEA;
+  --amber:    #C97D0A;
+  --amberBg:  #FEF3DC;
+  --green:    #1A7A48;
+  --greenBg:  #E4F5EC;
+  --purple:   #5B2F8A;
+  --purpleBg: #F0E8FA;
+  --sh:       0 2px 12px rgba(13,43,69,.09);
+  --shLg:     0 8px 32px rgba(13,43,69,.15);
+  --r:        14px;
+  --rSm:      8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:#0D2B45;}
+body{font-family:'Nunito Sans',sans-serif;font-size:15px;color:var(--text);display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(150deg,#0D2B45 0%,#163D65 60%,#0D2B45 100%);}
+
+/* ── Phone Shell ── */
+.phone{width:100%;max-width:420px;height:100vh;max-height:860px;background:var(--warm);overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 0 80px rgba(0,0,0,.55);}
+@media(min-width:440px){.phone{border-radius:36px;height:860px;}}
+
+/* ── Status bar ── */
+.sb{background:var(--navy);color:#fff;display:flex;justify-content:space-between;align-items:center;padding:10px 20px 8px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;flex-shrink:0;}
+
+/* ── Screens ── */
+.screen{display:none;flex-direction:column;flex:1;overflow:hidden;animation:fadeIn .2s ease;}
+.screen.active{display:flex;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Scroll ── */
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.scroll::-webkit-scrollbar{display:none;}
+
+/* ── Bottom nav ── */
+.bnav{position:absolute;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;padding:8px 0 env(safe-area-inset-bottom,14px);z-index:100;}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0;cursor:pointer;}
+.ni:active{opacity:.6;}
+.ni-ic{font-size:20px;line-height:1;}
+.ni-lb{font-family:'Nunito',sans-serif;font-size:10px;font-weight:700;color:var(--muted);}
+.ni.on .ni-lb{color:var(--blue);}
+.ni.on .ni-ic{filter:drop-shadow(0 0 4px rgba(20,98,168,.4));}
+
+/* ── Typography helpers ── */
+.f-nun{font-family:'Nunito',sans-serif;}
+h-title{font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:var(--text);}
+
+/* ── Buttons ── */
+.btn{display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;transition:opacity .15s;font-family:'Nunito',sans-serif;font-weight:800;}
+.btn:active{opacity:.8;}
+.btn-navy{background:var(--navy);color:#fff;border-radius:12px;padding:14px;font-size:15px;width:100%;}
+.btn-blue{background:var(--blue);color:#fff;border-radius:10px;padding:10px 16px;font-size:13px;}
+.btn-teal{background:var(--teal);color:#fff;border-radius:10px;padding:10px 16px;font-size:13px;}
+.btn-ghost{background:var(--card);color:var(--navy);border:1.5px solid var(--border);border-radius:12px;padding:14px;font-size:15px;width:100%;}
+.btn-ghost-sm{background:transparent;color:var(--navy);border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-size:13px;}
+.btn-red-sm{background:var(--redBg);color:var(--red);border-radius:8px;padding:8px 12px;font-size:13px;font-family:'Nunito',sans-serif;font-weight:800;border:none;cursor:pointer;}
+.btn-green-sm{background:var(--greenBg);color:var(--green);border-radius:8px;padding:8px 12px;font-size:13px;font-family:'Nunito',sans-serif;font-weight:800;border:none;cursor:pointer;}
+
+/* ── Cards ── */
+.card{background:var(--card);border-radius:var(--r);border:1.5px solid var(--border);box-shadow:var(--sh);}
+.card-p{padding:14px;}
+
+/* ── Form elements ── */
+.lbl{display:block;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--navy);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;}
+.inp,.sel,.ta{width:100%;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-family:'Nunito Sans',sans-serif;font-size:15px;color:var(--text);outline:none;transition:border-color .2s;-webkit-appearance:none;}
+.inp:focus,.sel:focus,.ta:focus{border-color:var(--blue);}
+.ta{resize:none;height:88px;line-height:1.5;}
+.hint{font-size:11px;color:var(--muted);margin-top:4px;}
+
+/* ── Chips ── */
+.chip{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:6px 13px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap;cursor:pointer;flex-shrink:0;}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff;}
+
+/* ── Tags ── */
+.tag{display:inline-flex;align-items:center;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;}
+.tg{background:var(--tealBg);color:var(--teal);}
+.tr{background:var(--redBg);color:var(--red);}
+.ta2{background:var(--amberBg);color:var(--amber);}
+.tn{background:rgba(13,43,69,.08);color:var(--navy);}
+.tp{background:var(--purpleBg);color:var(--purple);}
+.tgn{background:var(--greenBg);color:var(--green);}
+
+/* ── Section label ── */
+.slbl{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;}
+
+/* ── Top bar ── */
+.topbar{background:var(--navy);padding:14px 18px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.topbar-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:#fff;flex:1;}
+.back{color:#fff;font-size:22px;cursor:pointer;padding:4px;line-height:1;}
+
+/* ── Callout box ── */
+.callout{border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;}
+.callout-ic{font-size:20px;flex-shrink:0;margin-top:1px;}
+.callout-txt{font-size:13px;line-height:1.5;}
+.callout-txt strong{font-family:'Nunito',sans-serif;font-weight:800;}
+.cl-warn{background:var(--amberBg);color:var(--amber);}
+.cl-info{background:var(--tealBg);color:var(--teal);}
+.cl-red{background:var(--redBg);color:var(--red);}
+.cl-green{background:var(--greenBg);color:var(--green);}
+.cl-purple{background:var(--purpleBg);color:var(--purple);}
+
+/* ── Toast ── */
+.toast{position:absolute;bottom:90px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;padding:10px 20px;border-radius:24px;white-space:nowrap;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;}
+.toast.show{opacity:1;}
+
+/* ── Modal ── */
+.modal-bg{position:absolute;inset:0;background:rgba(13,43,69,.55);z-index:200;display:flex;align-items:flex-end;backdrop-filter:blur(2px);}
+.modal{background:var(--warm);border-radius:20px 20px 0 0;padding:24px 20px;width:100%;max-height:85%;overflow-y:auto;}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px;}
+.modal-title{font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:var(--text);margin-bottom:4px;}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:18px;}
+.hidden{display:none!important;}
+
+/* ════════════════════════════════
+   ROLE SELECT
+════════════════════════════════ */
+#s-role{background:linear-gradient(160deg,var(--navy) 0%,#1462A8 100%);}
+.role-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;}
+.role-logo{font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:#fff;margin-bottom:4px;}
+.role-logo span{color:#7ECFFC;}
+.role-tagline{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:40px;text-align:center;line-height:1.6;}
+.role-cards{width:100%;display:flex;flex-direction:column;gap:12px;}
+.role-card{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.18);border-radius:16px;padding:18px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:14px;}
+.role-card:active{transform:scale(.98);background:rgba(255,255,255,.18);}
+.role-ic{font-size:28px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);border-radius:12px;flex-shrink:0;}
+.role-info{}
+.role-name{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:#fff;margin-bottom:2px;}
+.role-desc{font-size:12px;color:rgba(255,255,255,.6);line-height:1.4;}
+.role-arrow{margin-left:auto;color:rgba(255,255,255,.4);font-size:18px;}
+
+/* ════════════════════════════════
+   SEEKER — HOME
+════════════════════════════════ */
+.shdr{background:linear-gradient(160deg,var(--navy) 0%,#1462A8 100%);padding:18px 18px 24px;flex-shrink:0;}
+.shdr-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.shdr-greet{color:rgba(255,255,255,.65);font-size:12px;font-weight:600;margin-bottom:2px;}
+.shdr-title{font-family:'Nunito',sans-serif;font-size:21px;font-weight:900;color:#fff;}
+.shdr-title span{color:#7ECFFC;}
+.av-btn{width:38px;height:38px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;border:2px solid rgba(255,255,255,.22);}
+.sc-toggle{display:flex;background:rgba(255,255,255,.12);border-radius:24px;padding:3px;gap:2px;margin-bottom:12px;}
+.sc-btn{flex:1;padding:7px 8px;border-radius:20px;border:none;background:transparent;color:rgba(255,255,255,.65);font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;text-align:center;}
+.sc-btn.on{background:#fff;color:var(--navy);}
+.srch{background:#fff;border-radius:11px;display:flex;align-items:center;padding:9px 13px;gap:9px;}
+.srch input{flex:1;border:none;outline:none;font-family:'Nunito Sans',sans-serif;font-size:14px;color:var(--text);background:transparent;}
+.srch input::placeholder{color:var(--muted);}
+.fil-btn{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;}
+.filter-row{display:flex;gap:8px;padding:12px 16px 4px;overflow-x:auto;flex-shrink:0;}
+.filter-row::-webkit-scrollbar{display:none;}
+
+/* listing cards */
+.cards-list{padding:0 14px;display:flex;flex-direction:column;gap:12px;}
+.lcard{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);cursor:pointer;transition:transform .15s;border:1px solid var(--border);}
+.lcard:active{transform:scale(.98);}
+.lcard-img{height:136px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.lcard-img-ph{font-size:44px;opacity:.28;}
+.lcard-badge{position:absolute;top:9px;left:9px;color:#fff;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;padding:4px 8px;border-radius:6px;letter-spacing:.4px;text-transform:uppercase;}
+.lcard-rooms{position:absolute;bottom:9px;right:9px;background:rgba(0,0,0,.52);color:#fff;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;backdrop-filter:blur(4px);}
+.lcard-body{padding:12px 13px 13px;}
+.lcard-name{font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px;}
+.lcard-loc{font-size:12px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:3px;}
+.lcard-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px;}
+.lcard-foot{display:flex;justify-content:space-between;align-items:center;padding-top:9px;border-top:1px solid var(--border);}
+.lcard-price{font-family:'Nunito',sans-serif;font-weight:900;font-size:17px;color:var(--navy);}
+.lcard-price span{font-size:12px;font-weight:600;color:var(--muted);}
+
+/* ════════════════════════════════
+   SEEKER — DETAIL
+════════════════════════════════ */
+.dhero{height:188px;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.dhero-ph{font-size:64px;opacity:.22;}
+.dhero-vbadge{position:absolute;bottom:12px;left:12px;background:var(--teal);color:#fff;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;padding:4px 10px;border-radius:7px;}
+.dhero-photos{position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,.48);color:#fff;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;padding:4px 10px;border-radius:7px;}
+.dbody{padding:16px 16px 0;}
+.dname{font-family:'Nunito',sans-serif;font-size:21px;font-weight:900;color:var(--text);margin-bottom:3px;}
+.dloc{font-size:13px;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:4px;}
+.snap{background:var(--card);border-radius:var(--r);border:1.5px solid var(--border);padding:14px;margin-bottom:12px;box-shadow:var(--sh);}
+.snap-title{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px;}
+.snap-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.snap-itm{display:flex;flex-direction:column;gap:2px;}
+.snap-lbl{font-size:11px;color:var(--muted);font-weight:600;}
+.snap-val{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);}
+.snap-val.g{color:var(--green);} .snap-val.r{color:var(--red);} .snap-val.a{color:var(--amber);}
+.rules-box{background:var(--card);border-radius:var(--r);border:1.5px solid var(--border);padding:14px;margin-bottom:12px;}
+.rule-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);}
+.rule-row:last-child{border-bottom:none;}
+.rule-nm{font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:7px;}
+.rstatus{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;padding:3px 8px;border-radius:6px;}
+.ryes{background:var(--greenBg);color:var(--green);}
+.rno{background:var(--redBg);color:var(--red);}
+.rpartial{background:var(--amberBg);color:var(--amber);}
+.dactions{display:flex;gap:9px;padding:12px 16px;flex-shrink:0;background:var(--warm);border-top:1px solid var(--border);}
+.dactions-stack{display:flex;flex-direction:column;gap:9px;padding:12px 16px;flex-shrink:0;background:var(--warm);border-top:1px solid var(--border);}
+
+/* ════════════════════════════════
+   SEEKER — INQUIRY FORM
+════════════════════════════════ */
+.fscroll{flex:1;overflow-y:auto;padding:18px 16px 100px;}
+.fintro{background:var(--card);border-radius:var(--r);padding:13px;border:1.5px solid var(--border);margin-bottom:18px;display:flex;gap:11px;align-items:flex-start;}
+.fintro-ic{font-size:22px;flex-shrink:0;margin-top:1px;}
+.fintro-txt{font-size:13px;color:var(--muted);line-height:1.5;}
+.fintro-txt strong{color:var(--text);font-weight:700;}
+.fg{margin-bottom:15px;}
+.ffoot{position:sticky;bottom:0;background:var(--warm);padding:10px 16px 80px;border-top:1px solid var(--border);}
+
+/* ════════════════════════════════
+   SEEKER — VISIT SCHEDULER
+════════════════════════════════ */
+.cal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.slot{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:11px 8px;text-align:center;cursor:pointer;transition:all .2s;}
+.slot:active,.slot.on{background:var(--navy);border-color:var(--navy);}
+.slot.on .slot-date,.slot.on .slot-time{color:#fff;}
+.slot.taken{background:var(--border);cursor:default;opacity:.5;}
+.slot-date{font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--text);margin-bottom:2px;}
+.slot-time{font-size:11px;color:var(--muted);}
+
+/* ════════════════════════════════
+   SEEKER — MY INQUIRIES
+════════════════════════════════ */
+.inq-item{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:13px;margin-bottom:9px;cursor:pointer;}
+.inq-item:active{opacity:.8;}
+.inq-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.inq-house{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);}
+.inq-time{font-size:11px;color:var(--muted);}
+.inq-status{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+.sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.inq-q{font-size:13px;color:var(--muted);line-height:1.4;}
+
+/* ════════════════════════════════
+   TENANT — HOME
+════════════════════════════════ */
+.thdr{background:linear-gradient(160deg,var(--teal) 0%,#0D6B5A 100%);padding:18px 18px 22px;flex-shrink:0;}
+.thdr-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.thdr-greet{color:rgba(255,255,255,.65);font-size:12px;font-weight:600;margin-bottom:2px;}
+.thdr-title{font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#fff;}
+.house-pill{background:rgba(255,255,255,.15);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;}
+.hp-ic{font-size:20px;}
+.hp-name{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:#fff;}
+.hp-addr{font-size:11px;color:rgba(255,255,255,.6);}
+.ann-item{background:var(--card);border-radius:12px;border:1.5px solid var(--border);padding:13px;margin-bottom:9px;display:flex;gap:11px;align-items:flex-start;}
+.ann-card{background:var(--card);border-radius:12px;border:1.5px solid var(--border);padding:13px;margin-bottom:9px;cursor:pointer;transition:all .15s;}
+.ann-card:active{background:var(--warm);}
+.ann-hdr{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px;}
+.new-dot{width:8px;height:8px;background:var(--blue);border-radius:50%;margin-top:4px;flex-shrink:0;margin-left:auto;}
+.ann-ic{font-size:22px;flex-shrink:0;}
+.ann-cat{font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;padding:2px 7px;border-radius:5px;margin-bottom:4px;display:inline-block;}
+.ann-title{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);margin-bottom:3px;}
+.ann-body{font-size:13px;color:var(--muted);line-height:1.45;}
+.ann-time{font-size:11px;color:var(--muted);margin-top:5px;}
+.ann-new{width:8px;height:8px;background:var(--blue);border-radius:50%;margin-top:4px;flex-shrink:0;}
+
+/* ════════════════════════════════
+   TENANT — HOUSE INFO
+════════════════════════════════ */
+.info-section{background:var(--card);border-radius:var(--r);border:1.5px solid var(--border);padding:14px;margin-bottom:12px;}
+.info-sec-title{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:11px;}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);}
+.info-row:last-child{border-bottom:none;}
+.info-lbl{font-size:13px;color:var(--muted);}
+.info-val{font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--text);text-align:right;}
+.info-val.link{color:var(--blue);}
+
+/* ════════════════════════════════
+   TENANT — MAINTENANCE
+════════════════════════════════ */
+.mreq-item{background:var(--card);border-radius:12px;border:1.5px solid var(--border);padding:12px 13px;margin-bottom:9px;display:flex;gap:10px;align-items:flex-start;}
+.mreq-ic{font-size:20px;flex-shrink:0;margin-top:1px;}
+.mreq-title{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);margin-bottom:2px;}
+.mreq-desc{font-size:12px;color:var(--muted);margin-bottom:5px;}
+.mreq-foot{display:flex;gap:6px;align-items:center;}
+
+/* ════════════════════════════════
+   LANDLORD — DASHBOARD
+════════════════════════════════ */
+.lhdr{background:linear-gradient(160deg,var(--navy) 0%,#1A4070 100%);padding:18px 18px 20px;flex-shrink:0;}
+.lhdr-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.lhdr-greet{color:rgba(255,255,255,.6);font-size:12px;font-weight:600;margin-bottom:2px;}
+.lhdr-name{font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#fff;}
+.income-card{background:rgba(255,255,255,.1);border-radius:14px;padding:13px;border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(8px);}
+.ic-lbl{font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;color:rgba(255,255,255,.5);letter-spacing:.9px;text-transform:uppercase;margin-bottom:3px;}
+.ic-amt{font-family:'Nunito',sans-serif;font-size:27px;font-weight:900;color:#fff;margin-bottom:9px;letter-spacing:-.5px;}
+.ic-amt span{font-size:15px;font-weight:600;opacity:.65;}
+.ic-row{display:flex;gap:8px;}
+.ic-pill{background:rgba(255,255,255,.1);border-radius:8px;padding:7px 10px;flex:1;text-align:center;}
+.ic-pill-v{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#fff;display:block;}
+.ic-pill-l{font-size:10px;color:rgba(255,255,255,.5);font-weight:600;}
+
+/* room grid */
+.rg{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:14px;}
+.rt{background:var(--card);border-radius:10px;padding:9px 7px;text-align:center;border:1.5px solid var(--border);cursor:pointer;transition:all .15s;}
+.rt:active{transform:scale(.96);}
+.rt-num{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);margin-bottom:3px;}
+.rt-st{font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;padding:2px 4px;border-radius:4px;}
+.st-paid{color:var(--green);} .st-pend{color:var(--amber);background:var(--amberBg);border-radius:4px;padding:2px 4px;}
+.st-empty{background:var(--border);color:var(--muted);border-radius:4px;padding:2px 4px;}
+
+/* quick actions */
+.qa-grid{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;}
+.qa-grid::-webkit-scrollbar{display:none;}
+.qa-btn{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;text-align:center;cursor:pointer;flex-shrink:0;transition:all .15s;min-width:80px;}
+.qa-btn:active{background:var(--border);}
+.qa-ic{font-size:20px;margin-bottom:3px;}
+.qa-lbl{font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;color:var(--navy);line-height:1.2;}
+
+/* vacancy alert */
+.vac-alert{background:var(--redBg);border:1.5px solid rgba(188,58,43,.2);border-radius:12px;padding:11px 13px;display:flex;gap:9px;align-items:flex-start;}
+.vac-txt{font-size:13px;color:var(--red);line-height:1.4;}
+.vac-txt strong{font-family:'Nunito',sans-serif;font-weight:800;}
+
+/* inbox */
+.inbox-item{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px 13px;margin-bottom:8px;cursor:pointer;display:flex;gap:9px;align-items:flex-start;transition:all .15s;}
+.inbox-item:active{transform:scale(.99);}
+.iav{width:35px;height:35px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:var(--tealBg);}
+.icontent{flex:1;}
+.iname{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);margin-bottom:1px;}
+.imeta{font-size:11px;color:var(--muted);margin-bottom:3px;}
+.iq{font-size:12px;color:var(--text);line-height:1.35;}
+.itime{font-size:10px;color:var(--muted);white-space:nowrap;}
+.ndot{width:7px;height:7px;background:var(--blue);border-radius:50%;margin-top:3px;flex-shrink:0;}
+
+/* expense tracker */
+.exp-item{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px 13px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start;}
+.exp-left{display:flex;gap:9px;align-items:flex-start;}
+.exp-ic{font-size:20px;flex-shrink:0;}
+.exp-name{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);margin-bottom:2px;}
+.exp-cat{font-size:11px;color:var(--muted);}
+.exp-amt{font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:var(--red);}
+.exp-date{font-size:11px;color:var(--muted);text-align:right;}
+
+/* maint tracker landlord */
+.mt-item{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:12px 13px;margin-bottom:8px;}
+.mt-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;}
+.mt-title{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);}
+.mt-room{font-size:11px;color:var(--muted);margin-bottom:5px;}
+.mt-desc{font-size:12px;color:var(--muted);line-height:1.4;margin-bottom:8px;}
+.mt-foot{display:flex;gap:7px;align-items:center;}
+
+/* ── section wrapper ── */
+.sec{padding:14px 14px 0;}
+.sec-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+
+/* ── Tenant Registration ── */
+.reg-wrap{display:flex;flex-direction:column;height:100%;background:var(--warm);}
+.reg-hero{background:linear-gradient(135deg,var(--teal),#0D6B5A);padding:32px 24px 28px;color:#fff;}
+.reg-hero-title{font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;margin-bottom:6px;}
+.reg-hero-sub{font-size:13px;opacity:.85;line-height:1.4;}
+.reg-body{padding:24px 20px;flex:1;}
+.reg-step{font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px;}
+.otp-row{display:flex;gap:8px;margin-top:4px;}
+.otp-inp{flex:1;height:48px;border:2px solid var(--border);border-radius:10px;font-family:'Nunito',sans-serif;font-size:22px;font-weight:800;text-align:center;color:var(--navy);background:#fff;outline:none;transition:border .2s;}
+.otp-inp:focus{border-color:var(--teal);}
+.reg-code-box{background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:14px;padding:18px 20px;margin-bottom:18px;color:#fff;text-align:center;}
+.reg-code-lbl{font-size:12px;opacity:.7;margin-bottom:6px;}
+.reg-code-val{font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;letter-spacing:6px;}
+.reg-code-room{font-size:12px;opacity:.7;margin-top:4px;}
+
+/* ── Landlord Tenant Management ── */
+.tenant-card{background:var(--card);border:1.5px solid var(--border);border-radius:13px;padding:14px;margin-bottom:9px;}
+.tc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+.tc-name{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);}
+.tc-room{font-size:11px;color:var(--muted);margin-top:2px;}
+.tc-status-active{display:inline-flex;align-items:center;gap:4px;background:var(--greenBg);color:var(--green);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;}
+.tc-status-pending{display:inline-flex;align-items:center;gap:4px;background:var(--amberBg);color:var(--amber);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;}
+.tc-code{display:flex;align-items:center;gap:8px;background:var(--warm);border-radius:9px;padding:8px 11px;margin-top:6px;}
+.tc-code-lbl{font-size:11px;color:var(--muted);flex:1;}
+.tc-code-val{font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:var(--navy);letter-spacing:3px;}
+.tc-code-copy{font-size:11px;color:var(--blue);font-weight:700;cursor:pointer;}
+
+/* ── QR Code Screen ── */
+.qr-wrap{display:flex;flex-direction:column;align-items:center;padding:28px 24px;text-align:center;}
+.qr-title{font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:var(--navy);margin-bottom:6px;}
+.qr-sub{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.5;}
+.qr-box{background:#fff;border-radius:16px;padding:20px;box-shadow:var(--shLg);margin-bottom:20px;}
+.qr-house{background:var(--navy);color:#fff;border-radius:10px;padding:10px 16px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;margin-bottom:18px;}
+.qr-instruction{background:var(--blueLt,#EDF4FC);border-radius:12px;padding:14px 16px;text-align:left;width:100%;}
+.qr-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:13px;color:var(--text);line-height:1.4;}
+.qr-step:last-child{margin-bottom:0;}
+.qr-step-num{background:var(--blue);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px;}
+
+/* ── Primary Action Cards (Landlord) ── */
+.primary-actions{display:flex;flex-direction:column;gap:10px;padding:14px 14px 0;}
+.pa-card{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:16px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .15s;}
+.pa-card:active{transform:scale(.98);background:var(--warm);}
+.pa-card.primary{background:var(--navy);border-color:var(--navy);}
+.pa-card.primary .pa-title{color:#fff;}
+.pa-card.primary .pa-sub{color:rgba(255,255,255,.65);}
+.pa-ic-wrap{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.pa-ic-wrap.navy{background:rgba(255,255,255,.12);}
+.pa-ic-wrap.blue{background:var(--blueLt,#EDF4FC);}
+.pa-ic-wrap.teal{background:var(--tealBg);}
+.pa-ic-wrap.amber{background:var(--amberBg);}
+.pa-title{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);}
+.pa-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.pa-badge{margin-left:auto;background:var(--red);color:#fff;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;padding:3px 8px;border-radius:20px;flex-shrink:0;}
+.pa-arrow{margin-left:auto;color:var(--muted);font-size:18px;flex-shrink:0;}
+
+/* ── Room info card (tenant) ── */
+.room-info-card{background:linear-gradient(135deg,var(--teal),#0D6B5A);border-radius:14px;padding:16px;margin-bottom:14px;color:#fff;display:flex;justify-content:space-between;align-items:center;}
+.ric-left{}
+.ric-room{font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;margin-bottom:2px;}
+.ric-house{font-size:12px;opacity:.8;}
+.ric-right{text-align:right;}
+.ric-rent{font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;}
+.ric-due{font-size:11px;opacity:.75;margin-top:2px;}
+.ric-paid{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.2);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;margin-top:4px;}
+
+/* ── Quick report button (tenant) ── */
+.report-btn{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;margin-bottom:14px;transition:all .15s;}
+.report-btn:active{background:var(--warm);}
+.report-ic{width:40px;height:40px;background:var(--redBg);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.report-text{flex:1;}
+.report-title{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);}
+.report-sub{font-size:12px;color:var(--muted);margin-top:1px;}
+.report-arrow{color:var(--muted);font-size:18px;}
+
+/* ── Onboarding empty states in Filipino ── */
+.empty-fil{text-align:center;padding:36px 20px;color:var(--muted);}
+.empty-fil-ic{font-size:42px;margin-bottom:12px;}
+.empty-fil-title{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.empty-fil-sub{font-size:13px;line-height:1.5;}
+
+/* ── Add tenant modal extras ── */
+.invite-display{background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:14px;padding:20px;text-align:center;margin:12px 0;}
+.invite-lbl{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:8px;}
+.invite-code{font-family:'Nunito',sans-serif;font-size:36px;font-weight:900;color:#fff;letter-spacing:8px;}
+.invite-room{font-size:12px;color:rgba(255,255,255,.65);margin-top:6px;}
+.invite-hint{font-size:12px;color:var(--muted);text-align:center;margin-top:10px;line-height:1.5;}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="sb"><span id="clock">9:41</span><div style="display:flex;gap:6px">📶 🔋</div></div>
+
+  <!-- ═══════════════════════════
+       ROLE SELECT
+  ═══════════════════════════ -->
+  <div class="screen active" id="s-role">
+    <div class="role-wrap">
+      <div class="role-logo">Buhay <span>Boarding</span></div>
+      <div class="role-tagline">Verified boarding houses in Burauen.<br>Who are you today?</div>
+      <div class="role-cards">
+        <div class="role-card" onclick="setRole('seeker')">
+          <div class="role-ic">🔍</div>
+          <div class="role-info">
+            <div class="role-name">Looking for a Room</div>
+            <div class="role-desc">Browse verified listings, ask questions, schedule visits</div>
+          </div>
+          <div class="role-arrow">›</div>
+        </div>
+        <div class="role-card" onclick="setRole('tenant')">
+          <div class="role-ic">🏠</div>
+          <div class="role-info">
+            <div class="role-name">Current Tenant</div>
+            <div class="role-desc">View announcements, house info, submit maintenance</div>
+          </div>
+          <div class="role-arrow">›</div>
+        </div>
+        <div class="role-card" onclick="goTo('t-register')" style="border-color:var(--teal);background:var(--tealBg)">
+          <div class="role-ic">🔑</div>
+          <div class="role-info">
+            <div class="role-name" style="color:var(--teal)">New Tenant — First Time</div>
+            <div class="role-desc">May invite code ka? I-register ang iyong account dito</div>
+          </div>
+          <div class="role-arrow" style="color:var(--teal)">›</div>
+        </div>
+        <div class="role-card" onclick="setRole('landlord')">
+          <div class="role-ic">📋</div>
+          <div class="role-info">
+            <div class="role-name">Landlord</div>
+            <div class="role-desc">Manage listings, inquiries, tenants, and financials</div>
+          </div>
+          <div class="role-arrow">›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       SEEKER — HOME
+  ═══════════════════════════ -->
+  <div class="screen" id="s-home">
+    <div class="shdr">
+      <div class="shdr-top">
+        <div>
+          <div class="shdr-greet">Maayong buntag 👋</div>
+          <div class="shdr-title">Buhay <span>Boarding</span></div>
+        </div>
+        <div class="av-btn" onclick="goTo('s-myinq')">💬</div>
+      </div>
+      <div class="sc-toggle">
+        <button class="sc-btn on" onclick="switchSchool(this,'evsu')">EVSU Burauen</button>
+        <button class="sc-btn" onclick="switchSchool(this,'bcc')">BCC</button>
+      </div>
+      <div class="srch">
+        <span style="font-size:15px;color:var(--muted)">🔍</span>
+        <input type="text" placeholder="Search boarding houses..." oninput="filterHouses(this.value)" id="srch-inp">
+        <button class="fil-btn" onclick="toggleFilter()">⚡</button>
+      </div>
+    </div>
+    <div class="filter-row" id="filter-row">
+      <div class="chip on" onclick="setFilter('all',this)">All</div>
+      <div class="chip" onclick="setFilter('available',this)">Available now</div>
+      <div class="chip" onclick="setFilter('under2k',this)">Under ₱2k</div>
+      <div class="chip" onclick="setFilter('wifi',this)">WiFi included</div>
+      <div class="chip" onclick="setFilter('nocurfew',this)">No curfew</div>
+    </div>
+    <div class="scroll" style="padding:10px 0 90px">
+      <div style="padding:0 14px 10px"><span class="slbl" id="houses-count">3 houses near EVSU</span></div>
+      <div class="cards-list" id="houses-list"></div>
+    </div>
+    <div class="bnav">
+      <div class="ni on"><span class="ni-ic">🏠</span><span class="ni-lb">Discover</span></div>
+      <div class="ni" onclick="goTo('s-myinq')"><span class="ni-ic">💬</span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="showToast('Profile coming soon!')"><span class="ni-ic">👤</span><span class="ni-lb">Profile</span></div>
+      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic">🔄</span><span class="ni-lb">Switch</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       SEEKER — DETAIL
+  ═══════════════════════════ -->
+  <div class="screen" id="s-detail">
+    <div class="topbar">
+      <div class="back" onclick="goTo('s-home')">←</div>
+      <div class="topbar-title" id="d-topname">Boarding House</div>
+    </div>
+    <div class="scroll" style="padding-bottom:90px">
+      <div class="dhero" id="d-hero">
+        <span class="dhero-ph">🏠</span>
+        <div class="dhero-vbadge" id="d-vbadge">✓ Verified</div>
+        <div class="dhero-photos">📷 8 photos</div>
+      </div>
+      <div class="dbody">
+        <div class="dname" id="d-name">—</div>
+        <div class="dloc" id="d-loc">📍 —</div>
+        <div class="snap">
+          <div class="snap-title">Room Snapshot</div>
+          <div class="snap-grid" id="d-snap"></div>
+        </div>
+        <div class="rules-box" id="d-rules-box">
+          <div class="snap-title">House Rules</div>
+          <div id="d-rules"></div>
+        </div>
+        <div class="snap" id="d-tenants-snap" style="display:none">
+          <div class="snap-title">Current Tenants</div>
+          <div id="d-tenants-list"></div>
+        </div>
+      </div>
+    </div>
+    <div class="dactions" id="d-actions"></div>
+  </div>
+
+  <!-- ═══════════════════════════
+       SEEKER — INQUIRY FORM
+  ═══════════════════════════ -->
+  <div class="screen" id="s-inquiry">
+    <div class="topbar">
+      <div class="back" onclick="goTo('s-detail')">←</div>
+      <div class="topbar-title">Ask a Question</div>
+    </div>
+    <div class="fscroll">
+      <div class="fintro">
+        <span class="fintro-ic">💡</span>
+        <div class="fintro-txt">This reaches the landlord directly. <strong>No cold messaging</strong> — your info is already structured so they can reply fast.</div>
+      </div>
+      <div class="fg"><label class="lbl">Your Name</label><input class="inp" type="text" id="inq-name" placeholder="e.g. Maria Santos"></div>
+      <div class="fg"><label class="lbl">School</label>
+        <select class="sel" id="inq-school">
+          <option value="">Select school</option>
+          <option>EVSU Burauen Campus</option>
+          <option>Burauen Community College</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="fg"><label class="lbl">Course & Year Level</label><input class="inp" type="text" id="inq-course" placeholder="e.g. BSIT — 2nd Year"></div>
+      <div class="fg"><label class="lbl">Target Move-in Date</label><input class="inp" type="date" id="inq-date"></div>
+      <div class="fg">
+        <label class="lbl">Your Question <span style="color:var(--muted);font-weight:400;font-size:11px;text-transform:none">(optional)</span></label>
+        <textarea class="ta" id="inq-q" placeholder="Any specific question..." maxlength="200" oninput="document.getElementById('cc').textContent=this.value.length+'/200'"></textarea>
+        <div style="text-align:right;font-size:11px;color:var(--muted);margin-top:3px" id="cc">0/200</div>
+      </div>
+    </div>
+    <div class="ffoot">
+      <button class="btn btn-navy" onclick="submitInquiry()">Send Inquiry →</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       SEEKER — VISIT SCHEDULER
+  ═══════════════════════════ -->
+  <div class="screen" id="s-visit">
+    <div class="topbar">
+      <div class="back" onclick="goTo('s-detail')">←</div>
+      <div class="topbar-title">Schedule a Visit</div>
+    </div>
+    <div class="fscroll">
+      <div class="fintro">
+        <span class="fintro-ic">📅</span>
+        <div class="fintro-txt">Pick an available time slot. Landlord confirms within a few hours. <strong>No back-and-forth needed.</strong></div>
+      </div>
+      <div class="slbl" style="margin-bottom:10px">Available Slots</div>
+      <div class="cal-grid" id="slot-grid"></div>
+      <div id="visit-confirm-area" class="hidden">
+        <div class="callout cl-green" style="margin-bottom:14px">
+          <span class="callout-ic">✅</span>
+          <div class="callout-txt"><strong>Slot selected!</strong> Tap confirm to send your visit request.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ffoot">
+      <button class="btn btn-navy" id="confirm-visit-btn" onclick="confirmVisit()" style="opacity:.4;pointer-events:none">Confirm Visit Request</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       SEEKER — WAITLIST
+  ═══════════════════════════ -->
+  <div class="screen" id="s-waitlist">
+    <div class="topbar">
+      <div class="back" onclick="goTo('s-detail')">←</div>
+      <div class="topbar-title">Join Waitlist</div>
+    </div>
+    <div class="fscroll">
+      <div style="text-align:center;padding:24px 20px 20px">
+        <div style="font-size:48px;margin-bottom:14px">⏳</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:var(--text);margin-bottom:8px" id="wl-house-name">House Name</div>
+        <div style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px">This house is currently full. Join the waitlist and get notified the moment a room opens up.</div>
+        <div class="callout cl-warn" style="text-align:left;margin-bottom:20px">
+          <span class="callout-ic">📊</span>
+          <div class="callout-txt"><strong>Current waitlist: <span id="wl-pos">3</span> people ahead.</strong> Average wait time based on historical data: 3–4 weeks.</div>
+        </div>
+      </div>
+      <div class="fg" style="padding:0 16px"><label class="lbl">Your Name</label><input class="inp" type="text" id="wl-name" placeholder="e.g. Ana Reyes"></div>
+      <div class="fg" style="padding:0 16px"><label class="lbl">Phone / GCash</label><input class="inp" type="text" id="wl-phone" placeholder="0917 xxx xxxx"></div>
+      <div class="fg" style="padding:0 16px"><label class="lbl">School</label>
+        <select class="sel" id="wl-school">
+          <option>EVSU Burauen Campus</option>
+          <option>Burauen Community College</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="ffoot">
+      <button class="btn btn-navy" onclick="joinWaitlist()">Join Waitlist</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       SEEKER — MY INQUIRIES
+  ═══════════════════════════ -->
+  <div class="screen" id="s-myinq">
+    <div class="topbar">
+      <div class="back" onclick="goTo('s-home')">←</div>
+      <div class="topbar-title">My Inquiries</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px">
+      <div id="myinq-empty" class="hidden" style="text-align:center;padding:40px 20px;color:var(--muted)">
+        <div style="font-size:40px;margin-bottom:12px">💬</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px">No inquiries yet</div>
+        <div style="font-size:13px">Your sent inquiries appear here. Go browse listings!</div>
+      </div>
+      <div id="myinq-list"></div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('s-home')"><span class="ni-ic">🏠</span><span class="ni-lb">Discover</span></div>
+      <div class="ni on"><span class="ni-ic">💬</span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="showToast('Profile coming soon!')"><span class="ni-ic">👤</span><span class="ni-lb">Profile</span></div>
+      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic">🔄</span><span class="ni-lb">Switch</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       SEEKER — SUCCESS
+  ═══════════════════════════ -->
+  <div class="screen" id="s-success">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 28px;text-align:center;background:var(--warm)">
+      <div style="font-size:56px;margin-bottom:18px" id="succ-ic">✅</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:var(--navy);margin-bottom:8px" id="succ-title">Inquiry Sent!</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:24px" id="succ-body">Your inquiry was sent. Landlords typically respond within 24 hours.</div>
+      <div class="card card-p" style="width:100%;margin-bottom:22px;text-align:left" id="succ-card"></div>
+      <button class="btn btn-navy" onclick="goTo('s-home')" style="width:100%;margin-bottom:10px">← Back to Directory</button>
+      <button class="btn btn-ghost" onclick="goTo('s-myinq')" style="width:100%">View All Inquiries</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       TENANT — HOME
+  ═══════════════════════════ -->
+  <div class="screen" id="t-home">
+    <div class="thdr">
+      <div class="thdr-top">
+        <div>
+          <div class="thdr-greet">Welcome home 🌿</div>
+          <div class="thdr-title" id="t-tenant-name">Ana Reyes</div>
+        </div>
+        <div class="av-btn" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.25)">🐱</div>
+      </div>
+      <div class="house-pill">
+        <span class="hp-ic">🏠</span>
+        <div><div class="hp-name" id="t-house-name">Dela Cruz Boarding House</div><div class="hp-addr" id="t-house-addr">Purok 3, Burauen • Room 1</div></div>
+      </div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px">
+      <!-- Room info card — always visible, never empty -->
+      <div class="room-info-card" id="t-room-card">
+        <div class="ric-left">
+          <div class="ric-room" id="t-room-label">Room 1</div>
+          <div class="ric-house" id="t-room-house">Dela Cruz BH</div>
+          <div class="ric-paid" id="t-payment-status">✓ Bayad na</div>
+        </div>
+        <div class="ric-right">
+          <div class="ric-rent" id="t-room-rent">₱1,500</div>
+          <div class="ric-due">bawat buwan</div>
+        </div>
+      </div>
+      <!-- Quick report — always visible -->
+      <div class="report-btn" onclick="goTo('t-maint');setTimeout(()=>openMaintModal(),200)">
+        <div class="report-ic">🔧</div>
+        <div class="report-text">
+          <div class="report-title">May sira sa kwarto?</div>
+          <div class="report-sub">I-report agad — matatanggap ng landlord</div>
+        </div>
+        <div class="report-arrow">›</div>
+      </div>
+      <div class="sec-hdr" style="margin-bottom:10px">
+        <span class="slbl">Announcements</span>
+        <span style="font-size:12px;color:var(--blue);font-family:'Nunito',sans-serif;font-weight:700" id="t-ann-badge">2 bago</span>
+      </div>
+      <div id="t-ann-list"></div>
+      <div id="t-ann-empty" class="hidden">
+        <div class="empty-fil">
+          <div class="empty-fil-ic">📢</div>
+          <div class="empty-fil-title">Wala pang announcements</div>
+          <div class="empty-fil-sub">Kapag may ipi-post ang landlord mo — lalabas dito agad.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni on"><span class="ni-ic">📢</span><span class="ni-lb">Updates</span></div>
+      <div class="ni" onclick="goTo('t-houseinfo')"><span class="ni-ic">ℹ️</span><span class="ni-lb">House Info</span></div>
+      <div class="ni" onclick="goTo('t-maint')"><span class="ni-ic">🔧</span><span class="ni-lb">Maintenance</span></div>
+      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic">🔄</span><span class="ni-lb">Switch</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       TENANT — HOUSE INFO
+  ═══════════════════════════ -->
+  <div class="screen" id="t-houseinfo">
+    <div class="topbar" style="background:linear-gradient(135deg,var(--teal),#0D6B5A)">
+      <div class="back" onclick="goTo('t-home')">←</div>
+      <div class="topbar-title">House Info</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px">
+      <div class="info-section">
+        <div class="info-sec-title">Your Tenancy</div>
+        <div class="info-row"><span class="info-lbl">Room</span><span class="info-val">Room 1 (Single)</span></div>
+        <div class="info-row"><span class="info-lbl">Monthly Rent</span><span class="info-val">₱1,500</span></div>
+        <div class="info-row"><span class="info-lbl">Move-in Date</span><span class="info-val">June 3, 2025</span></div>
+        <div class="info-row"><span class="info-lbl">Contract Until</span><span class="info-val">June 2026</span></div>
+      </div>
+      <div class="info-section">
+        <div class="info-sec-title">Payment</div>
+        <div class="info-row"><span class="info-lbl">Due Date</span><span class="info-val">Every 1st of month</span></div>
+        <div class="info-row"><span class="info-lbl">GCash Number</span><span class="info-val link">0917 xxx xxxx</span></div>
+        <div class="info-row"><span class="info-lbl">Grace Period</span><span class="info-val">3 days</span></div>
+        <div class="info-row"><span class="info-lbl">This Month</span><span class="info-val" style="color:var(--green)">✓ Paid</span></div>
+      </div>
+      <div class="info-section">
+        <div class="info-sec-title">House Rules</div>
+        <div class="info-row"><span class="info-lbl">Curfew</span><span class="info-val">10:00 PM</span></div>
+        <div class="info-row"><span class="info-lbl">WiFi Password</span><span class="info-val">buhayboarding25</span></div>
+        <div class="info-row"><span class="info-lbl">Cooking</span><span class="info-val" style="color:var(--red)">Not allowed</span></div>
+        <div class="info-row"><span class="info-lbl">Visitors</span><span class="info-val">Until 8PM only</span></div>
+        <div class="info-row"><span class="info-lbl">Laundry Area</span><span class="info-val">Sat & Sun only</span></div>
+      </div>
+      <div class="info-section">
+        <div class="info-sec-title">Contacts</div>
+        <div class="info-row"><span class="info-lbl">Landlord</span><span class="info-val">Maria Dela Cruz</span></div>
+        <div class="info-row"><span class="info-lbl">Landlord # </span><span class="info-val link">0917 yyy yyyy</span></div>
+        <div class="info-row"><span class="info-lbl">Emergency</span><span class="info-val link">0917 zzz zzzz</span></div>
+        <div class="info-row"><span class="info-lbl">Barangay</span><span class="info-val">Purok 3 Hall</span></div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('t-home')"><span class="ni-ic">📢</span><span class="ni-lb">Updates</span></div>
+      <div class="ni on"><span class="ni-ic">ℹ️</span><span class="ni-lb">House Info</span></div>
+      <div class="ni" onclick="goTo('t-maint')"><span class="ni-ic">🔧</span><span class="ni-lb">Maintenance</span></div>
+      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic">🔄</span><span class="ni-lb">Switch</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       TENANT — MAINTENANCE
+  ═══════════════════════════ -->
+  <div class="screen" id="t-maint">
+    <div class="topbar" style="background:linear-gradient(135deg,var(--teal),#0D6B5A)">
+      <div class="back" onclick="goTo('t-home')">←</div>
+      <div class="topbar-title">Maintenance</div>
+      <button class="btn btn-teal" style="padding:7px 12px;font-size:12px;margin-left:auto" onclick="openMaintModal()">+ Report</button>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px">
+      <div class="slbl" style="margin-bottom:10px">My Requests</div>
+      <div id="t-maint-list"></div>
+      <div id="t-maint-empty" class="hidden" style="text-align:center;padding:32px 0;color:var(--muted)">
+        <div style="font-size:36px;margin-bottom:10px">🔧</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px">No requests yet</div>
+        <div style="font-size:13px">Report something broken and the landlord gets notified instantly.</div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('t-home')"><span class="ni-ic">📢</span><span class="ni-lb">Updates</span></div>
+      <div class="ni" onclick="goTo('t-houseinfo')"><span class="ni-ic">ℹ️</span><span class="ni-lb">House Info</span></div>
+      <div class="ni on"><span class="ni-ic">🔧</span><span class="ni-lb">Maintenance</span></div>
+      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic">🔄</span><span class="ni-lb">Switch</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       LANDLORD — HOME
+  ═══════════════════════════ -->
+  <div class="screen" id="l-home">
+    <div class="lhdr">
+      <div class="lhdr-top">
+        <div><div class="lhdr-greet">Good morning 🌅</div><div class="lhdr-name">Maria Dela Cruz</div></div>
+        <div class="av-btn" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2)">👩</div>
+      </div>
+      <div class="income-card">
+        <div class="ic-lbl">This Month</div>
+        <div class="ic-amt" id="l-total-amt">₱<span>0</span></div>
+        <div class="ic-row">
+          <div class="ic-pill"><span class="ic-pill-v" id="l-pending-amt">₱0</span><span class="ic-pill-l">Pending</span></div>
+          <div class="ic-pill"><span class="ic-pill-v" id="l-rooms-paid">0/0</span><span class="ic-pill-l">Rooms Paid</span></div>
+          <div class="ic-pill"><span class="ic-pill-v" id="l-vacant-count">0</span><span class="ic-pill-l">Vacant</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll" style="padding-bottom:90px">
+      <!-- 3 Primary Actions — the only things a landlord MUST know -->
+      <div class="primary-actions">
+        <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">Mga Pangunahing Aksyon</div>
+        <div class="pa-card primary" onclick="goTo('l-inbox')">
+          <div class="pa-ic-wrap navy"><span style="font-size:22px">💬</span></div>
+          <div style="flex:1">
+            <div class="pa-title">Mga Nagtatanong</div>
+            <div class="pa-sub" style="color:rgba(255,255,255,.65)">Tingnan ang mga inquiries ng seekers</div>
+          </div>
+          <div id="l-inbox-badge" class="pa-badge hidden">0</div>
+          <div style="color:rgba(255,255,255,.5);font-size:18px">›</div>
+        </div>
+        <div class="pa-card" onclick="goTo('l-announce')">
+          <div class="pa-ic-wrap teal"><span style="font-size:22px">📢</span></div>
+          <div style="flex:1">
+            <div class="pa-title">Mag-announce sa Tenants</div>
+            <div class="pa-sub">Ipadala ng mensahe sa lahat ng tenant</div>
+          </div>
+          <div class="pa-arrow">›</div>
+        </div>
+        <div class="pa-card" onclick="goTo('l-tenants')">
+          <div class="pa-ic-wrap blue"><span style="font-size:22px">👥</span></div>
+          <div style="flex:1">
+            <div class="pa-title">I-onboard ang Tenants</div>
+            <div class="pa-sub">Dagdag ng tenant, gumawa ng invite code</div>
+          </div>
+          <div id="l-pending-badge" class="pa-badge hidden" style="background:var(--amber)">0</div>
+          <div class="pa-arrow">›</div>
+        </div>
+      </div>
+      <!-- Room Status -->
+      <div class="sec" style="margin-top:14px">
+        <div class="sec-hdr"><span class="slbl">Status ng mga Kwarto</span><span style="font-size:12px;color:var(--blue);font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer" onclick="goTo('l-rooms')">I-manage →</span></div>
+        <div class="rg" id="l-room-grid"></div>
+      </div>
+      <div style="padding:0 14px;margin-bottom:14px" id="l-vac-alert"></div>
+      <!-- Secondary Actions -->
+      <div class="sec" style="margin-bottom:14px">
+        <div class="slbl" style="margin-bottom:10px">Iba pang Tools</div>
+        <div class="qa-grid">
+          <div class="qa-btn" onclick="goTo('l-reminder')"><div class="qa-ic">🔔</div><div class="qa-lbl">Reminder</div></div>
+          <div class="qa-btn" onclick="goTo('l-expense')"><div class="qa-ic">💸</div><div class="qa-lbl">Gastos</div></div>
+          <div class="qa-btn" onclick="goTo('l-maint')"><div class="qa-ic">🔧</div><div class="qa-lbl">Maintenance</div></div>
+          <div class="qa-btn" onclick="goTo('l-visits')"><div class="qa-ic">📅</div><div class="qa-lbl">Visits</div></div>
+          <div class="qa-btn" onclick="goTo('l-qr')"><div class="qa-ic">📲</div><div class="qa-lbl">QR Code</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni on"><span class="ni-ic">📊</span><span class="ni-lb">Overview</span></div>
+      <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic">💬</span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic">🏠</span><span class="ni-lb">Rooms</span></div>
+      <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic">👥</span><span class="ni-lb">Tenants</span></div>
+      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic">🔄</span><span class="ni-lb">Switch</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       LANDLORD — INBOX
+  ═══════════════════════════ -->
+  <div class="screen" id="l-inbox">
+    <div class="topbar">
+      <div class="back" onclick="goTo('l-home')">←</div>
+      <div class="topbar-title">Inquiry Inbox</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:12px;color:rgba(255,255,255,.6);font-weight:700" id="l-inbox-count"></div>
+    </div>
+    <div class="scroll" style="padding:12px 13px 90px">
+      <div id="l-inbox-list"></div>
+      <div id="l-inbox-empty" class="hidden" style="text-align:center;padding:40px 0;color:var(--muted)">
+        <div style="font-size:40px;margin-bottom:12px">📭</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:700">No inquiries yet</div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('l-home')"><span class="ni-ic">📊</span><span class="ni-lb">Overview</span></div>
+      <div class="ni on"><span class="ni-ic">💬</span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic">🏠</span><span class="ni-lb">Rooms</span></div>
+      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic">🔄</span><span class="ni-lb">Switch</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       LANDLORD — ROOMS
+  ═══════════════════════════ -->
+  <div class="screen" id="l-rooms">
+    <div class="topbar">
+      <div class="back" onclick="goTo('l-home')">←</div>
+      <div class="topbar-title">Room & Tenant Manager</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px" id="l-rooms-list"></div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('l-home')"><span class="ni-ic">📊</span><span class="ni-lb">Overview</span></div>
+      <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic">💬</span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni on"><span class="ni-ic">🏠</span><span class="ni-lb">Rooms</span></div>
+      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic">🔄</span><span class="ni-lb">Switch</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       LANDLORD — ANNOUNCEMENTS
+  ═══════════════════════════ -->
+  <div class="screen" id="l-announce">
+    <div class="topbar">
+      <div class="back" onclick="goTo('l-home')">←</div>
+      <div class="topbar-title">Post Announcement</div>
+    </div>
+    <div class="fscroll">
+      <div class="fintro">
+        <span class="fintro-ic">📢</span>
+        <div class="fintro-txt">This goes to <strong>all current tenants</strong> as a push notification. Use for reminders, notices, and emergencies only.</div>
+      </div>
+      <div class="fg">
+        <label class="lbl">Category</label>
+        <select class="sel" id="ann-cat">
+          <option value="reminder">💵 Rent Reminder</option>
+          <option value="info">ℹ️ Info / Notice</option>
+          <option value="emergency">🚨 Emergency</option>
+          <option value="activity">🎉 Activity</option>
+        </select>
+      </div>
+      <div class="fg"><label class="lbl">Title</label><input class="inp" type="text" id="ann-title" placeholder="e.g. Rent due this Friday"></div>
+      <div class="fg">
+        <label class="lbl">Message</label>
+        <textarea class="ta" style="height:110px" id="ann-body" placeholder="Write your announcement here..."></textarea>
+      </div>
+      <div class="callout cl-info" style="margin-top:4px">
+        <span class="callout-ic">📖</span>
+        <div class="callout-txt">Tenants receive this but <strong>cannot reply</strong>. Keep it short and clear.</div>
+      </div>
+    </div>
+    <div class="ffoot">
+      <button class="btn btn-navy" onclick="postAnnouncement()">Send to All Tenants</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       LANDLORD — REMINDER
+  ═══════════════════════════ -->
+  <div class="screen" id="l-reminder">
+    <div class="topbar">
+      <div class="back" onclick="goTo('l-home')">←</div>
+      <div class="topbar-title">Payment Reminders</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px">
+      <div class="callout cl-warn" style="margin-bottom:16px">
+        <span class="callout-ic">⚡</span>
+        <div class="callout-txt"><strong>One tap sends to all pending tenants.</strong> They receive: "Rent due — GCash: 0917xxxxxx | Amount: ₱1,500"</div>
+      </div>
+      <div class="slbl" style="margin-bottom:10px">Pending Payments</div>
+      <div id="l-reminder-list"></div>
+      <div style="height:16px"></div>
+      <button class="btn btn-navy" onclick="sendAllReminders()">🔔 Send Reminder to All Pending</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       LANDLORD — EXPENSE
+  ═══════════════════════════ -->
+  <div class="screen" id="l-expense">
+    <div class="topbar">
+      <div class="back" onclick="goTo('l-home')">←</div>
+      <div class="topbar-title">Expense Tracker</div>
+      <button class="btn btn-blue" style="padding:7px 12px;font-size:12px;margin-left:auto" onclick="openExpenseModal()">+ Add</button>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px">
+      <div class="income-card" style="background:linear-gradient(135deg,var(--navy),#1462A8);margin-bottom:16px;padding:14px;border-radius:14px">
+        <div class="ic-lbl" style="margin-bottom:4px">Total Expenses This Month</div>
+        <div class="ic-amt" id="l-exp-total">₱<span>0</span></div>
+      </div>
+      <div class="slbl" style="margin-bottom:10px">Expense Log</div>
+      <div id="l-exp-list"></div>
+      <div id="l-exp-empty" class="hidden" style="text-align:center;padding:32px 0;color:var(--muted)">
+        <div style="font-size:36px;margin-bottom:10px">💸</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:700">No expenses logged</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       LANDLORD — MAINTENANCE
+  ═══════════════════════════ -->
+  <div class="screen" id="l-maint">
+    <div class="topbar">
+      <div class="back" onclick="goTo('l-home')">←</div>
+      <div class="topbar-title">Maintenance Requests</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px">
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <div class="card card-p" style="flex:1;text-align:center">
+          <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:var(--red)" id="l-maint-pending-count">0</div>
+          <div style="font-size:11px;color:var(--muted)">Pending</div>
+        </div>
+        <div class="card card-p" style="flex:1;text-align:center">
+          <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:var(--amber)" id="l-maint-inprog-count">0</div>
+          <div style="font-size:11px;color:var(--muted)">In Progress</div>
+        </div>
+        <div class="card card-p" style="flex:1;text-align:center">
+          <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:var(--green)" id="l-maint-done-count">0</div>
+          <div style="font-size:11px;color:var(--muted)">Done This Mo.</div>
+        </div>
+      </div>
+      <div id="l-maint-list"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       LANDLORD — VISITS
+  ═══════════════════════════ -->
+  <div class="screen" id="l-visits">
+    <div class="topbar">
+      <div class="back" onclick="goTo('l-home')">←</div>
+      <div class="topbar-title">Visit Schedule</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px">
+      <div class="callout cl-info" style="margin-bottom:16px">
+        <span class="callout-ic">📅</span>
+        <div class="callout-txt">Seekers pick from these slots. <strong>Confirmed visits show here.</strong></div>
+      </div>
+      <div class="slbl" style="margin-bottom:10px">Upcoming Visits</div>
+      <div id="l-visits-list"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       MODALS
+  ═══════════════════════════ -->
+  <!-- Maintenance Report Modal -->
+  <div class="modal-bg hidden" id="modal-maint">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Report a Problem</div>
+      <div class="modal-sub">Landlord is notified immediately.</div>
+      <div class="fg"><label class="lbl">What's broken?</label>
+        <select class="sel" id="mreq-type">
+          <option>🚰 Plumbing / Faucet</option>
+          <option>💡 Electrical / Lights</option>
+          <option>🪟 Window / Door</option>
+          <option>❄️ Air conditioning</option>
+          <option>🧹 Pest / Hygiene</option>
+          <option>🌊 Flooding / Water leak</option>
+          <option>📶 WiFi / Internet</option>
+          <option>🔧 Other</option>
+        </select>
+      </div>
+      <div class="fg"><label class="lbl">Describe the problem</label>
+        <textarea class="ta" id="mreq-desc" placeholder="Give as much detail as possible..."></textarea>
+      </div>
+      <div class="fg"><label class="lbl">Urgency</label>
+        <select class="sel" id="mreq-urgency">
+          <option value="normal">Normal — can wait a few days</option>
+          <option value="urgent">Urgent — needs fixing soon</option>
+          <option value="emergency">Emergency — affecting safety</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:9px;margin-top:6px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeMaintModal()">Cancel</button>
+        <button class="btn btn-navy" style="flex:2" onclick="submitMaintRequest()">Submit Request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expense Add Modal -->
+  <div class="modal-bg hidden" id="modal-expense">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Add Expense</div>
+      <div class="modal-sub">Track what you spend to run the house.</div>
+      <div class="fg"><label class="lbl">Category</label>
+        <select class="sel" id="exp-cat">
+          <option>🔧 Repairs</option>
+          <option>💡 Utilities</option>
+          <option>🛒 Supplies</option>
+          <option>👷 Labor</option>
+          <option>🏗️ Improvement</option>
+          <option>📦 Other</option>
+        </select>
+      </div>
+      <div class="fg"><label class="lbl">Description</label><input class="inp" type="text" id="exp-desc" placeholder="e.g. Fixed leaky faucet Room 3"></div>
+      <div class="fg"><label class="lbl">Amount (₱)</label><input class="inp" type="number" id="exp-amt" placeholder="0"></div>
+      <div class="fg"><label class="lbl">Date</label><input class="inp" type="date" id="exp-date"></div>
+      <div style="display:flex;gap:9px;margin-top:6px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeExpenseModal()">Cancel</button>
+        <button class="btn btn-navy" style="flex:2" onclick="addExpense()">Save Expense</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inquiry Detail Modal (Landlord) -->
+  <div class="modal-bg hidden" id="modal-inq-detail">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div id="modal-inq-content"></div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px" id="modal-inq-actions"></div>
+    </div>
+  </div>
+
+  <!-- Room Edit Modal -->
+  <div class="modal-bg hidden" id="modal-room">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title" id="room-modal-title">Edit Room</div>
+      <div class="modal-sub" id="room-modal-sub"></div>
+      <div class="fg"><label class="lbl">Payment Status</label>
+        <select class="sel" id="room-status-sel">
+          <option value="paid">Paid ✅</option>
+          <option value="pending">Pending ⏳</option>
+          <option value="empty">Vacant 🏠</option>
+        </select>
+      </div>
+      <div class="fg"><label class="lbl">Tenant Name</label><input class="inp" type="text" id="room-tenant-name" placeholder="Full name"></div>
+      <div style="display:flex;gap:9px;margin-top:6px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeRoomModal()">Cancel</button>
+        <button class="btn btn-navy" style="flex:2" onclick="saveRoom()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ═══════════════════════════
+       TENANT — REGISTRATION
+  ═══════════════════════════ -->
+  <div class="screen" id="t-register">
+    <div class="reg-wrap">
+      <div class="reg-hero">
+        <div style="font-size:32px;margin-bottom:10px">🔑</div>
+        <div class="reg-hero-title">I-register ang iyong account</div>
+        <div class="reg-hero-sub">Humingi ng invite code sa iyong landlord.<br>Isang beses lang mag-register — tapos na.</div>
+      </div>
+      <div class="reg-body">
+        <div id="reg-step-1">
+          <div class="reg-step">Hakbang 1 ng 3 — Impormasyon mo</div>
+          <div class="fg" style="margin-bottom:14px">
+            <label class="lbl">Pangalan mo (buong pangalan)</label>
+            <input class="inp" type="text" id="reg-name" placeholder="e.g. Ana Santos Reyes">
+          </div>
+          <div class="fg" style="margin-bottom:20px">
+            <label class="lbl">Phone number</label>
+            <input class="inp" type="tel" id="reg-phone" placeholder="e.g. 09171234567">
+          </div>
+          <button class="btn btn-teal" style="width:100%" onclick="regStep1()">Susunod →</button>
+          <div style="text-align:center;margin-top:14px">
+            <span style="font-size:12px;color:var(--muted)">May account na? </span>
+            <span style="font-size:12px;color:var(--blue);font-weight:700;cursor:pointer" onclick="setRole('tenant')">Mag-login</span>
+          </div>
+        </div>
+        <div id="reg-step-2" class="hidden">
+          <div class="reg-step">Hakbang 2 ng 3 — Invite Code</div>
+          <div class="fg" style="margin-bottom:8px">
+            <label class="lbl">I-enter ang 6-digit invite code mula sa landlord</label>
+            <div class="otp-row">
+              <input class="otp-inp" type="number" maxlength="1" id="otp0" oninput="otpNext(0)">
+              <input class="otp-inp" type="number" maxlength="1" id="otp1" oninput="otpNext(1)">
+              <input class="otp-inp" type="number" maxlength="1" id="otp2" oninput="otpNext(2)">
+              <input class="otp-inp" type="number" maxlength="1" id="otp3" oninput="otpNext(3)">
+              <input class="otp-inp" type="number" maxlength="1" id="otp4" oninput="otpNext(4)">
+              <input class="otp-inp" type="number" maxlength="1" id="otp5" oninput="otpNext(5)">
+            </div>
+          </div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.5">Ang invite code ay ibinibigay ng iyong landlord. Kung wala ka pang code — makiusap sa kanya.</div>
+          <button class="btn btn-teal" style="width:100%;margin-bottom:10px" onclick="regStep2()">I-verify ang Code →</button>
+          <button class="btn btn-ghost" style="width:100%" onclick="showRegStep(1)">← Bumalik</button>
+        </div>
+        <div id="reg-step-3" class="hidden">
+          <div class="reg-step">Hakbang 3 ng 3 — Kumpirmasyon</div>
+          <div class="invite-display" id="reg-confirm-display">
+            <div class="invite-lbl">Nahanap ka namin! 🎉</div>
+            <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#fff" id="reg-confirm-name">Ana Reyes</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.75);margin-top:6px" id="reg-confirm-room">Room 1 — Dela Cruz BH</div>
+          </div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:20px;text-align:center">Tama ba ito? Kapag nag-confirm ka — maa-access mo na ang iyong tenant dashboard.</div>
+          <button class="btn btn-teal" style="width:100%;margin-bottom:10px" onclick="completeRegistration()">✓ Oo, ito ako — I-confirm</button>
+          <button class="btn btn-ghost" style="width:100%" onclick="showRegStep(2)">← Hindi, bumalik</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       LANDLORD — TENANT MANAGEMENT
+  ═══════════════════════════ -->
+  <div class="screen" id="l-tenants">
+    <div class="topbar">
+      <div class="back" onclick="goTo('l-home')">←</div>
+      <div class="topbar-title">Mga Tenant</div>
+      <button class="btn btn-teal" style="padding:7px 12px;font-size:12px;margin-left:auto" onclick="openAddTenantModal()">+ Dagdag</button>
+    </div>
+    <div class="scroll" style="padding:14px 14px 30px">
+      <!-- How it works — simple 3-step -->
+      <div style="background:var(--blueLt,#EDF4FC);border-radius:12px;padding:14px 16px;margin-bottom:16px">
+        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--navy);margin-bottom:10px">Paano i-onboard ang tenant?</div>
+        <div class="qr-step"><div class="qr-step-num">1</div><div>I-click ang <strong>+ Dagdag</strong> — i-enter ang pangalan, phone, at room ng tenant</div></div>
+        <div class="qr-step"><div class="qr-step-num">2</div><div>Makikita ang <strong>6-digit invite code</strong> — ibigay ito sa tenant mo sa text o personal</div></div>
+        <div class="qr-step"><div class="qr-step-num">3</div><div>I-enter ng tenant ang code sa app — <strong>active na agad</strong> ang kanyang account</div></div>
+      </div>
+      <div id="l-tenants-list"></div>
+      <div id="l-tenants-empty" class="hidden">
+        <div class="empty-fil">
+          <div class="empty-fil-ic">👥</div>
+          <div class="empty-fil-title">Wala pang tenants</div>
+          <div class="empty-fil-sub">I-click ang "+ Dagdag" para mag-add ng tenant at makagawa ng invite code para sa kanila.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('l-home')"><span class="ni-ic">📊</span><span class="ni-lb">Overview</span></div>
+      <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic">💬</span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic">🏠</span><span class="ni-lb">Rooms</span></div>
+      <div class="ni on"><span class="ni-ic">👥</span><span class="ni-lb">Tenants</span></div>
+      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic">🔄</span><span class="ni-lb">Switch</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════
+       LANDLORD — QR CODE
+  ═══════════════════════════ -->
+  <div class="screen" id="l-qr">
+    <div class="topbar">
+      <div class="back" onclick="goTo('l-home')">←</div>
+      <div class="topbar-title">QR Code ng Boarding House</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 30px">
+      <div class="qr-wrap">
+        <div class="qr-house" id="qr-house-name">Dela Cruz Boarding House</div>
+        <div class="qr-title">I-scan para mag-register</div>
+        <div class="qr-sub">I-print ito at i-lagay sa common area o pintuan — i-scan ng tenant para mag-register.</div>
+        <div class="qr-box">
+          <div id="qr-code-display"></div>
+        </div>
+        <button class="btn btn-navy" style="width:100%;margin-bottom:12px" onclick="showToast('QR code copied! I-paste sa chat o email.')">📋 Kopyahin ang Link</button>
+        <div class="qr-instruction">
+          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--navy);margin-bottom:10px">Paano gamitin ang QR code:</div>
+          <div class="qr-step"><div class="qr-step-num">1</div><div>I-print ang QR code — i-lagay sa common area, CR, o pintuan ng boarding house</div></div>
+          <div class="qr-step"><div class="qr-step-num">2</div><div>I-scan ng tenant gamit ang camera ng phone — awtomatikong bubukas ang registration</div></div>
+          <div class="qr-step"><div class="qr-step-num">3</div><div>Humingi ng invite code sa iyo ang tenant — ibigay ang code para sa kanilang room</div></div>
+          <div class="qr-step" style="margin-bottom:0"><div class="qr-step-num">4</div><div>Active na ang account nila — matanggap na nila ang announcements mo</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('l-home')"><span class="ni-ic">📊</span><span class="ni-lb">Overview</span></div>
+      <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic">💬</span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic">🏠</span><span class="ni-lb">Rooms</span></div>
+      <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic">👥</span><span class="ni-lb">Tenants</span></div>
+      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic">🔄</span><span class="ni-lb">Switch</span></div>
+    </div>
+  </div>
+
+  <!-- Add Tenant Modal -->
+  <div class="modal-bg hidden" id="modal-add-tenant">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Dagdag ng Tenant</div>
+      <div class="modal-sub">I-enter ang impormasyon ng tenant — ikaw ang gagawa ng invite code para sa kanila.</div>
+      <div class="fg"><label class="lbl">Pangalan ng Tenant</label><input class="inp" type="text" id="at-name" placeholder="e.g. Ana Santos Reyes"></div>
+      <div class="fg"><label class="lbl">Phone Number</label><input class="inp" type="tel" id="at-phone" placeholder="e.g. 09171234567"></div>
+      <div class="fg"><label class="lbl">Room</label>
+        <select class="sel" id="at-room"></select>
+      </div>
+      <div style="display:flex;gap:9px;margin-top:6px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeAddTenantModal()">Kanselahin</button>
+        <button class="btn btn-navy" style="flex:2" onclick="addTenantAndGenerateCode()">Gumawa ng Invite Code →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invite Code Display Modal -->
+  <div class="modal-bg hidden" id="modal-invite-code">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Invite Code Handa Na! 🎉</div>
+      <div class="modal-sub" id="ic-modal-sub">Ibigay ito sa tenant mo — sa text, personal, o Viber.</div>
+      <div class="invite-display">
+        <div class="invite-lbl">6-digit Invite Code</div>
+        <div class="invite-code" id="ic-code-display">000000</div>
+        <div class="invite-room" id="ic-room-display">Room 1 — Dela Cruz BH</div>
+      </div>
+      <div class="invite-hint">I-text o i-Viber ang code na ito sa tenant mo.<br>Gagamitin nila ito para mag-register sa app.</div>
+      <div style="display:flex;gap:9px;margin-top:14px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeInviteModal()">Isara</button>
+        <button class="btn btn-teal" style="flex:2" onclick="copyInviteCode()">📋 Kopyahin ang Code</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+const state = {
+  role: null,
+  currentHouseId: 1,
+  currentRoom: null,
+  selectedSlot: null,
+  currentInqId: null,
+  filter: 'all',
+  school: 'evsu',
+
+  houses: [
+    {
+      id: 1, name: 'Dela Cruz Boarding House',
+      gradient: 'linear-gradient(135deg,#1462A8,#0D8A78)',
+      address: 'Purok 3, Burauen', distanceEVSU: 4, distanceBCC: 14,
+      price: 1500, curfew: '10:00 PM', verified: 'May 2025',
+      amenities: ['WiFi included','Study room','Laundry area'],
+      rules: {wifi:true,cooking:false,visitors:'Until 8PM',pets:false,laundry:true,advance:'1 month'},
+      rooms: [
+        {id:1,name:'R1',status:'paid',tenant:'Ana Reyes',amount:1500},
+        {id:2,name:'R2',status:'paid',tenant:'Juan Cruz',amount:1500},
+        {id:3,name:'R3',status:'pending',tenant:'Lisa Tan',amount:1500},
+        {id:4,name:'R4',status:'paid',tenant:'Mark Uy',amount:1500},
+        {id:5,name:'R5',status:'empty',tenant:null,amount:1500},
+        {id:6,name:'R6',status:'empty',tenant:null,amount:1500},
+      ],
+      waitlist: ['Carlos M.','Jenny P.'],
+      available() { return this.rooms.filter(r=>r.status==='empty').length; }
+    },
+    {
+      id: 2, name: 'Reyes Family Apartments',
+      gradient: 'linear-gradient(135deg,#1A6B3C,#1462A8)',
+      address: 'Purok 5, Burauen', distanceEVSU: 2, distanceBCC: 18,
+      price: 2000, curfew: 'No curfew', verified: 'April 2025',
+      amenities: ['Private CR','Cooking allowed','No curfew'],
+      rules: {wifi:false,cooking:true,visitors:'Anytime',pets:false,laundry:true,advance:'2 months'},
+      rooms: [
+        {id:1,name:'R1',status:'paid',tenant:'Ben Torres',amount:2000},
+        {id:2,name:'R2',status:'paid',tenant:'Cris Lim',amount:2000},
+        {id:3,name:'R3',status:'empty',tenant:null,amount:2000},
+        {id:4,name:'R4',status:'empty',tenant:null,amount:2000},
+      ],
+      waitlist: [],
+      available() { return this.rooms.filter(r=>r.status==='empty').length; }
+    },
+    {
+      id: 3, name: 'Santos Boarding House',
+      gradient: 'linear-gradient(135deg,#5B2F8A,#1462A8)',
+      address: 'Purok 7, Burauen', distanceEVSU: 7, distanceBCC: 8,
+      price: 1200, curfew: '9:00 PM', verified: 'May 2025',
+      amenities: ['Laundry area','Near BCC','Budget-friendly'],
+      rules: {wifi:false,cooking:false,visitors:'Not allowed',pets:false,laundry:true,advance:'1 month'},
+      rooms: [
+        {id:1,name:'R1',status:'paid',tenant:'Diana M.',amount:1200},
+        {id:2,name:'R2',status:'paid',tenant:'Ed Santos',amount:1200},
+        {id:3,name:'R3',status:'paid',tenant:'Faye R.',amount:1200},
+        {id:4,name:'R4',status:'paid',tenant:'Greg V.',amount:1200},
+      ],
+      waitlist: ['Hannah B.','Ivan C.','Jan D.'],
+      available() { return this.rooms.filter(r=>r.status==='empty').length; }
+    }
+  ],
+
+  inquiries: [
+    {id:1,houseId:1,name:'Ana Santos',school:'EVSU Burauen Campus',course:'BSED 1st Year',date:'2025-06-01',q:'May bakante pa po ba kayo para single room?',status:'pending',time:'2h ago',avatar:'🐱'},
+    {id:2,houseId:1,name:'Juan Cruz',school:'BCC',course:'BSIT 2nd Year',date:'2025-07-01',q:'Puwede po bang mag-visit this Saturday morning?',status:'pending',time:'5h ago',avatar:'🐻'},
+    {id:3,houseId:1,name:'Liza Tan',school:'EVSU Burauen Campus',course:'BSN 3rd Year',date:'2025-06-15',q:'Ilan po ang kasama sa CR? May hot shower?',status:'replied',time:'1d ago',avatar:'🐸'},
+  ],
+
+  announcements: [
+    {id:1,cat:'reminder',title:'Rent Due This Friday',body:'Reminder: Rent for July is due this Friday, July 5. Please pay via GCash 0917xxxxxx. Late fee of ₱50/day applies after the 3-day grace period.',time:'2 hours ago',isNew:true},
+    {id:2,cat:'info',title:'Water Interruption Tomorrow',body:'LEYTE WATER DISTRICT: Water supply will be interrupted tomorrow July 3, 8AM–2PM. Please store water in advance. Sorry for the inconvenience.',time:'Yesterday',isNew:true},
+    {id:3,cat:'info',title:'WiFi Password Updated',body:'The WiFi password has been changed to: buhayboarding25. The old password has been deactivated. Please update your devices.',time:'3 days ago',isNew:false},
+    {id:4,cat:'activity',title:'House Cleaning Saturday',body:'Let\'s keep our house clean! Scheduled general cleaning this Saturday 8AM. Please clean your rooms and assigned common areas. Participation required.',time:'5 days ago',isNew:false},
+  ],
+
+  maintenanceRequests: [
+    {id:1,room:'Room 3',type:'🚰 Plumbing / Faucet',desc:'Leaky faucet in shared bathroom',urgency:'urgent',status:'in_progress',tenantName:'Lisa Tan',time:'2 days ago'},
+    {id:2,room:'Room 1',type:'📶 WiFi / Internet',desc:'WiFi signal very weak on the far side of room',urgency:'normal',status:'done',tenantName:'Ana Reyes',time:'1 week ago'},
+  ],
+
+  expenses: [
+    {id:1,cat:'🔧 Repairs',desc:'Fixed CR flush Room 2',amount:350,date:'2025-06-28'},
+    {id:2,cat:'💡 Utilities',desc:'Meralco bill June',amount:2800,date:'2025-06-25'},
+    {id:3,cat:'🛒 Supplies',desc:'Cleaning supplies & lightbulbs',amount:480,date:'2025-06-20'},
+  ],
+
+  visits: [
+    {id:1,name:'Ana Santos',house:'Dela Cruz BH',date:'Jun 28','time':'2:00 PM',status:'confirmed'},
+    {id:2,name:'Ben Torres',house:'Dela Cruz BH',date:'Jun 29','time':'10:00 AM',status:'pending'},
+  ],
+
+  visitSlots: [
+    {id:1,date:'Mon Jun 30',time:'2:00 PM',taken:false},
+    {id:2,date:'Mon Jun 30',time:'4:00 PM',taken:true},
+    {id:3,date:'Tue Jul 1',time:'10:00 AM',taken:false},
+    {id:4,date:'Tue Jul 1',time:'2:00 PM',taken:false},
+    {id:5,date:'Wed Jul 2',time:'3:00 PM',taken:false},
+    {id:6,date:'Thu Jul 3',time:'9:00 AM',taken:false},
+  ],
+
+  myInquiries: [],
+  myMaintenanceRequests: [],
+  nextId: 10,
+
+  // Tenant onboarding
+  pendingTenants: [
+    {id:1,name:'Ana Reyes',phone:'09170000001',room:'R1',houseId:1,code:'481923',status:'active'},
+    {id:2,name:'Juan Cruz',phone:'09170000002',room:'R2',houseId:1,code:'273845',status:'active'},
+    {id:3,name:'Lisa Tan',phone:'09170000003',room:'R3',houseId:1,code:'938471',status:'pending'},
+    {id:4,name:'Mark Uy',phone:'09170000004',room:'R4',houseId:1,code:'627394',status:'active'},
+  ],
+  tenantProfile: null, // set on registration
+  regTempName: '',
+  regTempPhone: '',
+  currentInviteCode: null,
+};
+
+// Save/load key data
+function save() {
+  try {
+    localStorage.setItem('bb_state', JSON.stringify({
+      inquiries: state.inquiries,
+      announcements: state.announcements,
+      maintenanceRequests: state.maintenanceRequests,
+      expenses: state.expenses,
+      myInquiries: state.myInquiries,
+      myMaintenanceRequests: state.myMaintenanceRequests,
+      nextId: state.nextId,
+      houses: state.houses,
+    }));
+  } catch(e){}
+}
+function load() {
+  try {
+    const d = JSON.parse(localStorage.getItem('bb_state'));
+    if(d) {
+      state.inquiries = d.inquiries || state.inquiries;
+      state.announcements = d.announcements || state.announcements;
+      state.maintenanceRequests = d.maintenanceRequests || state.maintenanceRequests;
+      state.expenses = d.expenses || state.expenses;
+      state.myInquiries = d.myInquiries || [];
+      state.myMaintenanceRequests = d.myMaintenanceRequests || [];
+      state.nextId = d.nextId || 10;
+      if(d.houses) {
+        d.houses.forEach(dh => {
+          const sh = state.houses.find(h=>h.id===dh.id);
+          if(sh) { sh.rooms = dh.rooms; sh.waitlist = dh.waitlist; }
+        });
+      }
+    }
+  } catch(e){}
+}
+load();
+
+// ════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════
+function goTo(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if(el) {
+    el.classList.add('active');
+    el.querySelectorAll('.scroll').forEach(s=>s.scrollTop=0);
+    refreshScreen(id);
+  }
+}
+
+function refreshScreen(id) {
+  switch(id) {
+    case 's-home': renderHouses(); break;
+    case 's-myinq': renderMyInquiries(); break;
+    case 's-visit': renderSlots(); break;
+    case 't-home': renderTenantHome(); break;
+    case 't-maint': renderTenantMaint(); break;
+    case 'l-home': renderLandlordHome(); break;
+    case 'l-inbox': renderLandlordInbox(); break;
+    case 'l-rooms': renderRooms(); break;
+    case 'l-expense': renderExpenses(); break;
+    case 'l-maint': renderLandlordMaint(); break;
+    case 'l-visits': renderVisits(); break;
+    case 'l-reminder': renderReminders(); break;
+    case 'l-tenants': renderTenantManagement(); break;
+    case 'l-qr': renderQRCode(); break;
+    case 't-register': showRegStep(1); break;
+  }
+}
+
+function setRole(r) {
+  state.role = r;
+  if(r==='seeker') goTo('s-home');
+  else if(r==='tenant') goTo('t-home');
+  else if(r==='landlord') goTo('l-home');
+}
+
+// ════════════════════════════════════════
+// CLOCK
+// ════════════════════════════════════════
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours().toString().padStart(2,'0');
+  const m = now.getMinutes().toString().padStart(2,'0');
+  document.getElementById('clock').textContent = h+':'+m;
+}
+updateClock(); setInterval(updateClock,60000);
+
+// ════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ════════════════════════════════════════
+// MODALS
+// ════════════════════════════════════════
+function openMaintModal() { document.getElementById('modal-maint').classList.remove('hidden'); }
+function closeMaintModal() { document.getElementById('modal-maint').classList.add('hidden'); }
+function openExpenseModal() {
+  document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('modal-expense').classList.remove('hidden');
+}
+function closeExpenseModal() { document.getElementById('modal-expense').classList.add('hidden'); }
+function closeRoomModal() { document.getElementById('modal-room').classList.add('hidden'); }
+function closeInqModal() { document.getElementById('modal-inq-detail').classList.add('hidden'); }
+
+// ════════════════════════════════════════
+// SEEKER — HOUSES
+// ════════════════════════════════════════
+function renderHouses() {
+  const list = document.getElementById('houses-list');
+  const countEl = document.getElementById('houses-count');
+  let houses = state.houses;
+
+  // school filter
+  if(state.school==='evsu') houses = houses.sort((a,b)=>a.distanceEVSU-b.distanceEVSU);
+  else houses = houses.sort((a,b)=>a.distanceBCC-b.distanceBCC);
+
+  // filter
+  if(state.filter==='available') houses = houses.filter(h=>h.available()>0);
+  else if(state.filter==='under2k') houses = houses.filter(h=>h.price<2000);
+  else if(state.filter==='wifi') houses = houses.filter(h=>h.rules.wifi);
+  else if(state.filter==='nocurfew') houses = houses.filter(h=>h.curfew==='No curfew');
+
+  // search
+  const q = document.getElementById('srch-inp')?.value?.toLowerCase()||'';
+  if(q) houses = houses.filter(h=>h.name.toLowerCase().includes(q)||h.address.toLowerCase().includes(q));
+
+  const school = state.school==='evsu'?'EVSU':'BCC';
+  countEl.textContent = houses.length+' house'+(houses.length!==1?'s':'')+' near '+school;
+
+  list.innerHTML = houses.map(h=>{
+    const avail = h.available();
+    const isFull = avail===0;
+    const hasWaitlist = h.waitlist.length>0;
+    const dist = state.school==='evsu'?h.distanceEVSU:h.distanceBCC;
+    const tagStr = h.amenities.map(a=>`<span class="tag tg">${a}</span>`).join('');
+    const badge = isFull
+      ? '<span class="lcard-badge" style="background:var(--red)">Full</span>'
+      : '<span class="lcard-badge" style="background:var(--teal)">✓ Verified</span>';
+    const rooms = isFull
+      ? `<span class="lcard-rooms">Waitlist: ${h.waitlist.length}</span>`
+      : `<span class="lcard-rooms">${avail} room${avail!==1?'s':''} left</span>`;
+    const cta = isFull
+      ? `<button class="btn btn-blue" style="background:var(--amberBg);color:var(--amber);font-size:12px;padding:8px 13px;border-radius:8px">Join Waitlist</button>`
+      : `<button class="btn btn-blue" style="font-size:12px;padding:8px 13px;border-radius:8px">Ask a Question</button>`;
+    return `
+      <div class="lcard" onclick="openHouse(${h.id})">
+        <div class="lcard-img" style="background:${h.gradient}">
+          <span class="lcard-img-ph">🏠</span>
+          ${badge}${rooms}
+        </div>
+        <div class="lcard-body">
+          <div class="lcard-name">${h.name}</div>
+          <div class="lcard-loc">📍 ${dist} min walk from ${school} gate</div>
+          <div class="lcard-tags">${tagStr}</div>
+          <div class="lcard-foot">
+            <div class="lcard-price">₱${h.price.toLocaleString()}<span>/mo</span></div>
+            ${cta}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function openHouse(id) {
+  state.currentHouseId = id;
+  const h = state.houses.find(x=>x.id===id);
+  if(!h) return;
+  const avail = h.available();
+  const isFull = avail===0;
+  const dist = state.school==='evsu'?h.distanceEVSU:h.distanceBCC;
+  const school = state.school==='evsu'?'EVSU':'BCC';
+
+  document.getElementById('d-topname').textContent = h.name;
+  document.getElementById('d-hero').style.background = h.gradient;
+  document.getElementById('d-vbadge').textContent = `✓ Verified ${h.verified}`;
+  document.getElementById('d-name').textContent = h.name;
+  document.getElementById('d-loc').textContent = `📍 ${h.address} — ${dist} min walk from ${school} gate`;
+
+  // Snapshot
+  document.getElementById('d-snap').innerHTML = `
+    <div class="snap-itm"><span class="snap-lbl">Monthly Rent</span><span class="snap-val">₱${h.price.toLocaleString()}</span></div>
+    <div class="snap-itm"><span class="snap-lbl">Available Rooms</span><span class="snap-val ${isFull?'r':'g'}">${isFull?'Full – Waitlist':avail+' of '+h.rooms.length}</span></div>
+    <div class="snap-itm"><span class="snap-lbl">Curfew</span><span class="snap-val">${h.curfew}</span></div>
+    <div class="snap-itm"><span class="snap-lbl">Utilities</span><span class="snap-val">${h.rules.wifi?'WiFi included':'Utilities separate'}</span></div>
+    <div class="snap-itm"><span class="snap-lbl">Bathroom</span><span class="snap-val">Shared</span></div>
+    <div class="snap-itm"><span class="snap-lbl">Advance</span><span class="snap-val">${h.rules.advance}</span></div>`;
+
+  // Rules
+  document.getElementById('d-rules').innerHTML = [
+    ['🌐','WiFi',h.rules.wifi,'Included','Not included'],
+    ['🍳','Cooking',h.rules.cooking,'Allowed','Not allowed'],
+    ['👥','Visitors',true,h.rules.visitors,'Not allowed'],
+    ['🐾','Pets',h.rules.pets,'Allowed','Not allowed'],
+    ['👕','Laundry',h.rules.laundry,'On-site area','No laundry area'],
+  ].map(([ic,nm,cond,yes,no])=>`
+    <div class="rule-row">
+      <span class="rule-nm"><span>${ic}</span>${nm}</span>
+      <span class="rstatus ${cond?'ryes':nm==='Visitors'?'rpartial':'rno'}">${cond?(nm==='Visitors'?h.rules.visitors:yes):no}</span>
+    </div>`).join('');
+
+  // Actions
+  const actEl = document.getElementById('d-actions');
+  if(isFull) {
+    actEl.innerHTML = `<button class="btn btn-navy" onclick="openWaitlist(${h.id})" style="flex:1">⏳ Join Waitlist (${h.waitlist.length} ahead)</button>`;
+  } else {
+    actEl.innerHTML = `
+      <button class="btn btn-navy" onclick="goTo('s-inquiry')" style="flex:2">📝 Ask a Question</button>
+      <button class="btn btn-ghost" onclick="goTo('s-visit')" style="flex:1">📅 Visit</button>`;
+  }
+  goTo('s-detail');
+}
+
+function switchSchool(el,school) {
+  state.school = school;
+  el.parentNode.querySelectorAll('.sc-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  renderHouses();
+}
+
+function setFilter(f,el) {
+  state.filter = f;
+  document.querySelectorAll('#s-home .chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  renderHouses();
+}
+
+function filterHouses(q) { renderHouses(); }
+
+// ════════════════════════════════════════
+// SEEKER — INQUIRY
+// ════════════════════════════════════════
+function submitInquiry() {
+  const name = document.getElementById('inq-name').value.trim();
+  const school = document.getElementById('inq-school').value;
+  const course = document.getElementById('inq-course').value.trim();
+  const date = document.getElementById('inq-date').value;
+  const q = document.getElementById('inq-q').value.trim();
+  if(!name||!school||!course||!date) { showToast('Please fill in all required fields'); return; }
+
+  const h = state.houses.find(x=>x.id===state.currentHouseId);
+  const inq = {
+    id: state.nextId++,
+    houseId: state.currentHouseId,
+    name, school, course, date, q: q||'(No specific question)',
+    status:'pending', time:'Just now',
+    avatar:['🐱','🐻','🐸','🦊','🐨','🐼'][Math.floor(Math.random()*6)]
+  };
+  state.inquiries.unshift(inq);
+  state.myInquiries.unshift({id:inq.id, houseId:inq.houseId, houseName:h.name, status:'pending', q:inq.q, time:'Just now'});
+  save();
+
+  // clear form
+  ['inq-name','inq-course','inq-date','inq-q'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('inq-school').value='';
+
+  // show success
+  document.getElementById('succ-ic').textContent='✅';
+  document.getElementById('succ-title').textContent='Inquiry Sent!';
+  document.getElementById('succ-body').textContent=`Your inquiry was sent to ${h.name}. Landlords typically respond within 24 hours.`;
+  document.getElementById('succ-card').innerHTML=`
+    <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px">Inquiry Summary</div>
+    ${[['House',h.name],['Status','⏳ Awaiting Reply'],['School',school],['Move-in',date||'—']].map(([l,v])=>`
+    <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span style="color:var(--muted)">${l}</span>
+      <span style="font-weight:700">${v}</span>
+    </div>`).join('')}`;
+  goTo('s-success');
+}
+
+// ════════════════════════════════════════
+// SEEKER — VISIT
+// ════════════════════════════════════════
+function renderSlots() {
+  state.selectedSlot = null;
+  const btn = document.getElementById('confirm-visit-btn');
+  btn.style.opacity='.4'; btn.style.pointerEvents='none';
+  document.getElementById('visit-confirm-area').classList.add('hidden');
+
+  document.getElementById('slot-grid').innerHTML = state.visitSlots.map(s=>`
+    <div class="slot ${s.taken?'taken':''}" id="slot-${s.id}" onclick="${s.taken?'':('pickSlot('+s.id+')')}">
+      <div class="slot-date">${s.date}</div>
+      <div class="slot-time">${s.time}</div>
+      ${s.taken?'<div style="font-size:10px;color:var(--muted);margin-top:2px">Taken</div>':''}
+    </div>`).join('');
+}
+
+function pickSlot(id) {
+  state.selectedSlot = id;
+  document.querySelectorAll('.slot').forEach(s=>s.classList.remove('on'));
+  document.getElementById('slot-'+id)?.classList.add('on');
+  const btn = document.getElementById('confirm-visit-btn');
+  btn.style.opacity='1'; btn.style.pointerEvents='auto';
+  document.getElementById('visit-confirm-area').classList.remove('hidden');
+}
+
+function confirmVisit() {
+  if(!state.selectedSlot) return;
+  const slot = state.visitSlots.find(s=>s.id===state.selectedSlot);
+  if(slot) slot.taken = true;
+  const h = state.houses.find(x=>x.id===state.currentHouseId);
+  state.visits.unshift({id:state.nextId++,name:'You',house:h.name,date:slot.date,time:slot.time,status:'pending'});
+  save();
+
+  document.getElementById('succ-ic').textContent='📅';
+  document.getElementById('succ-title').textContent='Visit Requested!';
+  document.getElementById('succ-body').textContent=`Your visit request was sent to ${h.name}. The landlord will confirm soon.`;
+  document.getElementById('succ-card').innerHTML=`
+    <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px">Visit Details</div>
+    ${[['House',h.name],['Date',slot.date],['Time',slot.time],['Status','⏳ Awaiting Confirmation']].map(([l,v])=>`
+    <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span style="color:var(--muted)">${l}</span><span style="font-weight:700">${v}</span>
+    </div>`).join('')}`;
+  goTo('s-success');
+}
+
+// ════════════════════════════════════════
+// SEEKER — WAITLIST
+// ════════════════════════════════════════
+function openWaitlist(id) {
+  const h = state.houses.find(x=>x.id===id);
+  document.getElementById('wl-house-name').textContent = h.name;
+  document.getElementById('wl-pos').textContent = h.waitlist.length;
+  goTo('s-waitlist');
+}
+
+function joinWaitlist() {
+  const name = document.getElementById('wl-name').value.trim();
+  if(!name) { showToast('Please enter your name'); return; }
+  const h = state.houses.find(x=>x.id===state.currentHouseId);
+  h.waitlist.push(name);
+  save();
+
+  document.getElementById('succ-ic').textContent='⏳';
+  document.getElementById('succ-title').textContent='You\'re on the Waitlist!';
+  document.getElementById('succ-body').textContent=`You are #${h.waitlist.length} on the waitlist for ${h.name}. You'll be notified when a room opens.`;
+  document.getElementById('succ-card').innerHTML=`
+    <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px">Waitlist Info</div>
+    ${[['House',h.name],['Your Position','#'+h.waitlist.length],['Status','Waiting for vacancy']].map(([l,v])=>`
+    <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span style="color:var(--muted)">${l}</span><span style="font-weight:700">${v}</span>
+    </div>`).join('')}`;
+  goTo('s-success');
+}
+
+// ════════════════════════════════════════
+// SEEKER — MY INQUIRIES
+// ════════════════════════════════════════
+function renderMyInquiries() {
+  const el = document.getElementById('myinq-list');
+  const empty = document.getElementById('myinq-empty');
+  // Sync statuses
+  state.myInquiries.forEach(mi=>{
+    const inq = state.inquiries.find(i=>i.id===mi.id);
+    if(inq) mi.status = inq.status;
+  });
+  if(!state.myInquiries.length) { el.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  const statusMap = {
+    pending:  {color:'var(--amber)',  dot:'var(--amber)', label:'Awaiting Reply'},
+    replied:  {color:'var(--green)',  dot:'var(--green)', label:'Replied'},
+    interested:{color:'var(--blue)', dot:'var(--blue)',  label:'Landlord Interested'},
+    not_a_fit:{color:'var(--red)',    dot:'var(--red)',   label:'Not a Fit'},
+    visit_scheduled:{color:'var(--teal)',dot:'var(--teal)',label:'Visit Scheduled'},
+    offered:  {color:'var(--green)',  dot:'var(--green)', label:'Room Offered!'},
+    declined: {color:'var(--muted)',  dot:'var(--muted)', label:'Declined'},
+  };
+  el.innerHTML = state.myInquiries.map(mi=>{
+    const s = statusMap[mi.status]||statusMap.pending;
+    return `<div class="inq-item">
+      <div class="inq-top"><span class="inq-house">${mi.houseName}</span><span class="inq-time">${mi.time}</span></div>
+      <div class="inq-status"><div class="sdot" style="background:${s.dot}"></div><span style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:${s.color}">${s.label}</span></div>
+      <div class="inq-q">${mi.q}</div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════
+// TENANT — ANNOUNCEMENTS
+// ════════════════════════════════════════
+function renderTenantAnnouncements() {
+  renderTenantHome(); // delegate to new comprehensive render
+}
+
+const C = {
+  amberBg:'var(--amberBg)',amber:'var(--amber)',
+  tealBg:'var(--tealBg)',teal:'var(--teal)',
+  redBg:'var(--redBg)',red:'var(--red)',
+  purpleBg:'var(--purpleBg)',purple:'var(--purple)',
+  greenBg:'var(--greenBg)',green:'var(--green)',
+};
+
+// ════════════════════════════════════════
+// TENANT — MAINTENANCE
+// ════════════════════════════════════════
+function renderTenantMaint() {
+  const el = document.getElementById('t-maint-list');
+  const empty = document.getElementById('t-maint-empty');
+  const myReqs = state.myMaintenanceRequests;
+  if(!myReqs.length) { el.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  const sMap = {pending:{bg:C.amberBg,tc:C.amber,label:'Pending'},in_progress:{bg:C.tealBg,tc:C.teal,label:'In Progress'},done:{bg:C.greenBg,tc:C.green,label:'Done ✓'}};
+  el.innerHTML = myReqs.map(r=>{
+    const s = sMap[r.status]||sMap.pending;
+    return `<div class="mreq-item">
+      <span class="mreq-ic">${r.type.split(' ')[0]}</span>
+      <div style="flex:1">
+        <div class="mreq-title">${r.type.replace(/^\S+\s/,'')}</div>
+        <div class="mreq-desc">${r.desc}</div>
+        <div class="mreq-foot">
+          <span class="tag" style="background:${s.bg};color:${s.tc}">${s.label}</span>
+          <span style="font-size:11px;color:var(--muted);margin-left:6px">${r.time}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function submitMaintRequest() {
+  const type = document.getElementById('mreq-type').value;
+  const desc = document.getElementById('mreq-desc').value.trim();
+  const urgency = document.getElementById('mreq-urgency').value;
+  if(!desc) { showToast('Please describe the problem'); return; }
+  const req = {id:state.nextId++,room:'Room 1',type,desc,urgency,status:'pending',tenantName:'Ana Reyes',time:'Just now'};
+  state.maintenanceRequests.unshift(req);
+  state.myMaintenanceRequests.unshift({...req});
+  save();
+  closeMaintModal();
+  document.getElementById('mreq-desc').value='';
+  renderTenantMaint();
+  showToast('Request submitted! Landlord notified 🔧');
+}
+
+// ════════════════════════════════════════
+// LANDLORD — HOME
+// ════════════════════════════════════════
+function renderLandlordHome() {
+  const h = state.houses[0];
+  const paid = h.rooms.filter(r=>r.status==='paid').length;
+  const pending = h.rooms.filter(r=>r.status==='pending').length;
+  const empty = h.rooms.filter(r=>r.status==='empty').length;
+  const total = h.rooms.reduce((s,r)=>s+(r.status!=='empty'?r.amount:0),0);
+  const pendAmt = pending * h.price;
+
+  document.getElementById('l-total-amt').innerHTML = `₱<span>${total.toLocaleString()}</span>`;
+  document.getElementById('l-pending-amt').textContent = '₱'+pendAmt.toLocaleString();
+  document.getElementById('l-rooms-paid').textContent = paid+'/'+h.rooms.length;
+  document.getElementById('l-vacant-count').textContent = empty;
+
+  // Inbox badge
+  const newInqCount = state.inquiries.filter(i=>i.status==='pending').length;
+  const inboxBadge = document.getElementById('l-inbox-badge');
+  if(inboxBadge) {
+    if(newInqCount > 0) { inboxBadge.textContent = newInqCount + ' bago'; inboxBadge.classList.remove('hidden'); }
+    else inboxBadge.classList.add('hidden');
+  }
+
+  // Pending tenants badge
+  const pendingTenants = state.pendingTenants.filter(t=>t.houseId===state.currentHouseId&&t.status==='pending').length;
+  const pendBadge = document.getElementById('l-pending-badge');
+  if(pendBadge) {
+    if(pendingTenants > 0) { pendBadge.textContent = pendingTenants + ' pending'; pendBadge.classList.remove('hidden'); }
+    else pendBadge.classList.add('hidden');
+  }
+
+  // Room grid
+  document.getElementById('l-room-grid').innerHTML = h.rooms.map(r=>`
+    <div class="rt" onclick="openRoomModal(${r.id})">
+      <div class="rt-num">${r.name}</div>
+      <div class="rt-st st-${r.status==='paid'?'paid':r.status==='pending'?'pend':'empty'}">${r.status==='paid'?'Paid':r.status==='pending'?'Pending':'Empty'}</div>
+    </div>`).join('');
+
+  // Vacancy alert
+  const vacEl = document.getElementById('l-vac-alert');
+  if(empty>0) {
+    const lost = empty * h.price * 0.5;
+    vacEl.innerHTML = `<div class="vac-alert">
+      <span style="font-size:20px">💸</span>
+      <div class="vac-txt"><strong>Vacancy cost this month: ₱${lost.toLocaleString()}</strong><br>${empty} room${empty>1?'s':''} empty — equal to ${Math.round(lost/70)} kilos of rice.</div>
+    </div>`;
+  } else {
+    vacEl.innerHTML = `<div class="callout cl-green"><span class="callout-ic">🎉</span><div class="callout-txt"><strong>Lahat ng kwarto occupied!</strong> 0 vacancy cost this month.</div></div>`;
+  }
+}
+
+function openRoomModal(roomId) {
+  const h = state.houses[0];
+  const r = h.rooms.find(x=>x.id===roomId);
+  if(!r) return;
+  state.currentRoom = roomId;
+  document.getElementById('room-modal-title').textContent = 'Edit '+r.name;
+  document.getElementById('room-modal-sub').textContent = r.tenant ? 'Tenant: '+r.tenant : 'Vacant room';
+  document.getElementById('room-status-sel').value = r.status;
+  document.getElementById('room-tenant-name').value = r.tenant||'';
+  document.getElementById('modal-room').classList.remove('hidden');
+}
+
+function saveRoom() {
+  const h = state.houses[0];
+  const r = h.rooms.find(x=>x.id===state.currentRoom);
+  if(!r) return;
+  r.status = document.getElementById('room-status-sel').value;
+  r.tenant = document.getElementById('room-tenant-name').value.trim()||null;
+  if(r.status==='empty') r.tenant=null;
+  save();
+  closeRoomModal();
+  renderLandlordHome();
+  showToast('Room updated ✓');
+}
+
+// ════════════════════════════════════════
+// LANDLORD — INBOX
+// ════════════════════════════════════════
+function inboxItem(inq, preview=false) {
+  const statusMap = {
+    pending:{tag:'ta2',label:'Pending'},replied:{tag:'tgn',label:'Replied'},
+    interested:{tag:'tg',label:'Interested'},not_a_fit:{tag:'tr',label:'Not a Fit'},
+    visit_scheduled:{tag:'tp',label:'Visit Set'},offered:{tag:'tgn',label:'Offered'},declined:{tag:'tn',label:'Declined'},
+  };
+  const s = statusMap[inq.status]||statusMap.pending;
+  const h = state.houses.find(x=>x.id===inq.houseId);
+  return `<div class="inbox-item" onclick="openInqDetail(${inq.id})">
+    <div class="iav">${inq.avatar}</div>
+    <div class="icontent">
+      <div class="iname">${inq.name}</div>
+      <div class="imeta">${inq.school} • ${inq.course} • Move-in: ${inq.date||'—'}</div>
+      <div class="iq">${inq.q}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px">
+      <span class="itime">${inq.time}</span>
+      ${inq.status==='pending'?'<div class="ndot"></div>':`<span class="tag ${s.tag}" style="font-size:10px">${s.label}</span>`}
+    </div>
+  </div>`;
+}
+
+function renderLandlordInbox() {
+  const el = document.getElementById('l-inbox-list');
+  const empty = document.getElementById('l-inbox-empty');
+  const count = document.getElementById('l-inbox-count');
+  const pending = state.inquiries.filter(i=>i.status==='pending').length;
+  count.textContent = pending ? pending+' new' : '';
+  if(!state.inquiries.length) { el.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  el.innerHTML = state.inquiries.map(i=>inboxItem(i)).join('');
+}
+
+function openInqDetail(id) {
+  const inq = state.inquiries.find(i=>i.id===id);
+  if(!inq) return;
+  state.currentInqId = id;
+  const h = state.houses.find(x=>x.id===inq.houseId);
+  const statusLabels = {pending:'Pending',replied:'Replied',interested:'Interested',not_a_fit:'Not a Fit',visit_scheduled:'Visit Scheduled',offered:'Room Offered',declined:'Declined'};
+
+  document.getElementById('modal-inq-content').innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div style="font-size:36px">${inq.avatar}</div>
+      <div><div class="modal-title" style="margin-bottom:2px">${inq.name}</div>
+      <div style="font-size:13px;color:var(--muted)">${inq.school} • ${inq.course}</div></div>
+    </div>
+    ${[['Move-in Date',inq.date||'Not specified'],['Target House',h?.name||'—'],['Current Status',statusLabels[inq.status]||inq.status]].map(([l,v])=>`
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
+      <span style="color:var(--muted)">${l}</span><span style="font-weight:700">${v}</span>
+    </div>`).join('')}
+    <div style="margin-top:12px;background:var(--grayBg,#f6f2ed);border-radius:10px;padding:12px">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:4px">QUESTION</div>
+      <div style="font-size:14px;line-height:1.5">${inq.q}</div>
+    </div>`;
+
+  document.getElementById('modal-inq-actions').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="btn-green-sm" onclick="setInqStatus('replied')">✅ Replied</button>
+      <button class="btn-green-sm" onclick="setInqStatus('interested')" style="background:var(--tealBg);color:var(--teal)">👍 Interested</button>
+      <button class="btn-green-sm" onclick="setInqStatus('visit_scheduled')" style="background:var(--purpleBg);color:var(--purple)">📅 Visit Set</button>
+      <button class="btn-green-sm" onclick="setInqStatus('offered')" style="background:var(--greenBg);color:var(--green)">🏠 Offer Room</button>
+      <button class="btn-red-sm" onclick="setInqStatus('not_a_fit')">👎 Not a Fit</button>
+      <button class="btn-red-sm" onclick="setInqStatus('declined')" style="background:var(--border);color:var(--muted)">❌ Decline</button>
+    </div>
+    <button class="btn btn-ghost" onclick="closeInqModal()" style="margin-top:4px">Close</button>`;
+
+  document.getElementById('modal-inq-detail').classList.remove('hidden');
+}
+
+function setInqStatus(status) {
+  const inq = state.inquiries.find(i=>i.id===state.currentInqId);
+  if(inq) { inq.status = status; save(); }
+  closeInqModal();
+  renderLandlordInbox();
+  renderLandlordHome();
+  showToast('Status updated ✓');
+}
+
+// ════════════════════════════════════════
+// LANDLORD — ROOMS
+// ════════════════════════════════════════
+function renderRooms() {
+  const h = state.houses[0];
+  const sMap = {paid:{bg:C.greenBg,tc:C.green,label:'Paid ✅'},pending:{bg:C.amberBg,tc:C.amber,label:'Pending ⏳'},empty:{bg:'var(--border)',tc:'var(--muted)',label:'Vacant'}};
+  document.getElementById('l-rooms-list').innerHTML = h.rooms.map(r=>{
+    const s = sMap[r.status]||sMap.empty;
+    return `<div class="card card-p" style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:var(--text);margin-bottom:3px">${r.name}</div>
+        <div style="font-size:13px;color:var(--muted)">${r.tenant||'No tenant'}</div>
+        <div style="font-size:12px;color:var(--muted)">₱${r.amount.toLocaleString()}/mo</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+        <span class="tag" style="background:${s.bg};color:${s.tc}">${s.label}</span>
+        <button class="btn-ghost-sm f-nun" style="font-size:12px" onclick="openRoomModal(${r.id})">Edit</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════
+// LANDLORD — ANNOUNCEMENTS
+// ════════════════════════════════════════
+function postAnnouncement() {
+  const cat = document.getElementById('ann-cat').value;
+  const title = document.getElementById('ann-title').value.trim();
+  const body = document.getElementById('ann-body').value.trim();
+  if(!title||!body) { showToast('Please fill in title and message'); return; }
+  state.announcements.unshift({id:state.nextId++,cat,title,body,time:'Just now',isNew:true});
+  save();
+  document.getElementById('ann-title').value='';
+  document.getElementById('ann-body').value='';
+  showToast('Announcement sent to all tenants 📢');
+  goTo('l-home');
+}
+
+// ════════════════════════════════════════
+// LANDLORD — REMINDERS
+// ════════════════════════════════════════
+function renderReminders() {
+  const h = state.houses[0];
+  const pending = h.rooms.filter(r=>r.status==='pending');
+  const el = document.getElementById('l-reminder-list');
+  if(!pending.length) {
+    el.innerHTML = '<div class="callout cl-green"><span class="callout-ic">✅</span><div class="callout-txt"><strong>All tenants have paid!</strong> No reminders needed this month.</div></div>';
+    return;
+  }
+  el.innerHTML = pending.map(r=>`
+    <div class="card card-p" style="margin-bottom:9px;display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text)">${r.tenant||'Unknown'}</div>
+        <div style="font-size:12px;color:var(--muted)">${r.name} • ₱${r.amount.toLocaleString()} due</div>
+      </div>
+      <button class="btn btn-blue" style="padding:8px 12px;font-size:12px" onclick="sendSingleReminder(${r.id})">Send 🔔</button>
+    </div>`).join('');
+}
+
+function sendSingleReminder(roomId) {
+  showToast('Reminder sent! 🔔');
+}
+function sendAllReminders() {
+  const h = state.houses[0];
+  const count = h.rooms.filter(r=>r.status==='pending').length;
+  if(!count) { showToast('No pending payments!'); return; }
+  showToast(`Reminder sent to ${count} tenant${count>1?'s':''} 🔔`);
+}
+
+// ════════════════════════════════════════
+// LANDLORD — EXPENSES
+// ════════════════════════════════════════
+function renderExpenses() {
+  const el = document.getElementById('l-exp-list');
+  const empty = document.getElementById('l-exp-empty');
+  const total = state.expenses.reduce((s,e)=>s+Number(e.amount),0);
+  document.getElementById('l-exp-total').innerHTML = `₱<span>${total.toLocaleString()}</span>`;
+  if(!state.expenses.length) { el.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  el.innerHTML = state.expenses.map(e=>`
+    <div class="exp-item">
+      <div class="exp-left">
+        <span class="exp-ic">${e.cat.split(' ')[0]}</span>
+        <div><div class="exp-name">${e.desc}</div><div class="exp-cat">${e.cat.replace(/^\S+\s/,'')}</div></div>
+      </div>
+      <div style="text-align:right">
+        <div class="exp-amt">-₱${Number(e.amount).toLocaleString()}</div>
+        <div class="exp-date">${e.date}</div>
+      </div>
+    </div>`).join('');
+}
+
+function addExpense() {
+  const cat = document.getElementById('exp-cat').value;
+  const desc = document.getElementById('exp-desc').value.trim();
+  const amt = document.getElementById('exp-amt').value;
+  const date = document.getElementById('exp-date').value;
+  if(!desc||!amt) { showToast('Please fill in all fields'); return; }
+  state.expenses.unshift({id:state.nextId++,cat,desc,amount:Number(amt),date});
+  save();
+  closeExpenseModal();
+  renderExpenses();
+  showToast('Expense logged ✓');
+}
+
+// ════════════════════════════════════════
+// LANDLORD — MAINTENANCE
+// ════════════════════════════════════════
+function renderLandlordMaint() {
+  const reqs = state.maintenanceRequests;
+  const pending = reqs.filter(r=>r.status==='pending').length;
+  const inprog = reqs.filter(r=>r.status==='in_progress').length;
+  const done = reqs.filter(r=>r.status==='done').length;
+  document.getElementById('l-maint-pending-count').textContent = pending;
+  document.getElementById('l-maint-inprog-count').textContent = inprog;
+  document.getElementById('l-maint-done-count').textContent = done;
+  const sMap = {
+    pending:{bg:C.amberBg,tc:C.amber,label:'Pending'},
+    in_progress:{bg:C.tealBg,tc:C.teal,label:'In Progress'},
+    done:{bg:C.greenBg,tc:C.green,label:'Done ✓'},
+  };
+  const el = document.getElementById('l-maint-list');
+  if(!reqs.length) { el.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">No maintenance requests</div>'; return; }
+  el.innerHTML = reqs.map(r=>{
+    const s = sMap[r.status]||sMap.pending;
+    const urgMap = {normal:'',urgent:'🔴 Urgent',emergency:'🚨 Emergency'};
+    return `<div class="mt-item">
+      <div class="mt-top">
+        <div><div class="mt-title">${r.type}</div><div class="mt-room">${r.room} • ${r.tenantName} • ${r.time}</div></div>
+        <span class="tag" style="background:${s.bg};color:${s.tc};font-size:10px">${s.label}</span>
+      </div>
+      <div class="mt-desc">${r.desc}</div>
+      <div class="mt-foot">
+        ${r.urgency!=='normal'?`<span class="tag tr" style="font-size:10px">${urgMap[r.urgency]}</span>`:''}
+        ${r.status==='pending'?`<button class="btn-green-sm" style="font-size:11px;padding:5px 10px" onclick="updateMaint(${r.id},'in_progress')">Mark In Progress</button>`:''}
+        ${r.status==='in_progress'?`<button class="btn-green-sm" style="font-size:11px;padding:5px 10px" onclick="updateMaint(${r.id},'done')">Mark Done ✓</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateMaint(id, status) {
+  const r = state.maintenanceRequests.find(x=>x.id===id);
+  if(r) { r.status=status; save(); renderLandlordMaint(); showToast('Status updated ✓'); }
+}
+
+// ════════════════════════════════════════
+// LANDLORD — VISITS
+// ════════════════════════════════════════
+function renderVisits() {
+  const el = document.getElementById('l-visits-list');
+  if(!state.visits.length) { el.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">No scheduled visits yet</div>'; return; }
+  el.innerHTML = state.visits.map(v=>{
+    const isPending = v.status==='pending';
+    return `<div class="card card-p" style="margin-bottom:9px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;margin-bottom:2px">${v.name}</div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:6px">${v.date} at ${v.time}</div>
+        </div>
+        <span class="tag ${isPending?'ta2':'tgn'}">${isPending?'Pending':'Confirmed'}</span>
+      </div>
+      ${isPending?`<div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn-green-sm" style="flex:1" onclick="confirmVisitL(${v.id})">✅ Confirm</button>
+        <button class="btn-red-sm" style="flex:1" onclick="cancelVisit(${v.id})">Cancel</button>
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function confirmVisitL(id) {
+  const v = state.visits.find(x=>x.id===id);
+  if(v) { v.status='confirmed'; save(); renderVisits(); showToast('Visit confirmed ✓'); }
+}
+function cancelVisit(id) {
+  state.visits = state.visits.filter(x=>x.id!==id);
+  save(); renderVisits(); showToast('Visit cancelled');
+}
+
+// ════════════════════════════════════════
+// TENANT REGISTRATION FLOW
+// ════════════════════════════════════════
+function showRegStep(n) {
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('reg-step-'+i);
+    if(el) el.classList.toggle('hidden', i !== n);
+  });
+}
+
+function regStep1() {
+  const name = document.getElementById('reg-name').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  if(!name) { showToast('⚠️ Ilagay ang iyong pangalan'); return; }
+  if(!phone || phone.length < 10) { showToast('⚠️ Mali ang phone number'); return; }
+  state.regTempName = name;
+  state.regTempPhone = phone;
+  showRegStep(2);
+  setTimeout(() => document.getElementById('otp0').focus(), 100);
+}
+
+function otpNext(i) {
+  const el = document.getElementById('otp'+i);
+  const v = el.value;
+  if(v.length > 1) el.value = v.slice(-1);
+  if(v && i < 5) document.getElementById('otp'+(i+1)).focus();
+}
+
+function getOtpValue() {
+  return [0,1,2,3,4,5].map(i => document.getElementById('otp'+i).value).join('');
+}
+
+function regStep2() {
+  const code = getOtpValue();
+  if(code.length < 6) { showToast('⚠️ I-complete ang 6-digit code'); return; }
+  // Find matching tenant
+  const match = state.pendingTenants.find(t => t.code === code);
+  if(!match) { showToast('❌ Mali ang invite code. Subukan ulit.'); return; }
+  const house = state.houses.find(h => h.id === match.houseId);
+  const room = house?.rooms.find(r => r.name === match.room);
+  document.getElementById('reg-confirm-name').textContent = match.name;
+  document.getElementById('reg-confirm-room').textContent = `${match.room} — ${house?.name || 'Boarding House'}`;
+  state.currentInviteCode = code;
+  showRegStep(3);
+}
+
+function completeRegistration() {
+  const match = state.pendingTenants.find(t => t.code === state.currentInviteCode);
+  if(!match) { showToast('❌ May problema. Subukan ulit.'); return; }
+  match.status = 'active';
+  const house = state.houses.find(h => h.id === match.houseId);
+  const room = house?.rooms.find(r => r.name === match.room);
+  state.tenantProfile = {
+    name: match.name,
+    phone: match.phone,
+    room: match.room,
+    roomLabel: match.room,
+    rent: room?.amount || 1500,
+    houseId: match.houseId,
+    houseName: house?.name || 'Boarding House',
+    houseAddr: house?.address || 'Burauen',
+    paymentStatus: room?.status || 'pending',
+  };
+  save();
+  showToast('🎉 Maligayang pagdating, ' + match.name + '!');
+  setRole('tenant');
+}
+
+// ════════════════════════════════════════
+// LANDLORD — TENANT MANAGEMENT
+// ════════════════════════════════════════
+function renderTenantManagement() {
+  const list = document.getElementById('l-tenants-list');
+  const empty = document.getElementById('l-tenants-empty');
+  const tenants = state.pendingTenants.filter(t => t.houseId === state.currentHouseId);
+  if(!tenants.length) {
+    list.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  list.innerHTML = tenants.map(t => {
+    const isActive = t.status === 'active';
+    return `<div class="tenant-card">
+      <div class="tc-top">
+        <div>
+          <div class="tc-name">${t.name}</div>
+          <div class="tc-room">${t.room} • ${t.phone}</div>
+        </div>
+        <div>${isActive
+          ? '<span class="tc-status-active">✓ Active</span>'
+          : '<span class="tc-status-pending">⏳ Pending</span>'
+        }</div>
+      </div>
+      ${!isActive ? `<div class="tc-code">
+        <span class="tc-code-lbl">Invite Code</span>
+        <span class="tc-code-val">${t.code}</span>
+        <span class="tc-code-copy" onclick="copyCode('${t.code}','${t.name}')">Kopyahin</span>
+      </div>` : `<div class="tc-code"><span class="tc-code-lbl">Registered na — active ang account</span></div>`}
+    </div>`;
+  }).join('');
+  // Update pending badge
+  const pending = tenants.filter(t => t.status === 'pending').length;
+  const badge = document.getElementById('l-pending-badge');
+  if(badge) {
+    if(pending > 0) { badge.textContent = pending; badge.classList.remove('hidden'); }
+    else badge.classList.add('hidden');
+  }
+}
+
+function openAddTenantModal() {
+  const house = state.houses.find(h => h.id === state.currentHouseId);
+  const sel = document.getElementById('at-room');
+  sel.innerHTML = house.rooms.map(r =>
+    `<option value="${r.name}">${r.name}${r.tenant ? ' ('+r.tenant+')' : ' — Bakante'}</option>`
+  ).join('');
+  document.getElementById('at-name').value = '';
+  document.getElementById('at-phone').value = '';
+  document.getElementById('modal-add-tenant').classList.remove('hidden');
+}
+
+function closeAddTenantModal() {
+  document.getElementById('modal-add-tenant').classList.add('hidden');
+}
+
+function addTenantAndGenerateCode() {
+  const name = document.getElementById('at-name').value.trim();
+  const phone = document.getElementById('at-phone').value.trim();
+  const room = document.getElementById('at-room').value;
+  if(!name) { showToast('⚠️ Ilagay ang pangalan ng tenant'); return; }
+  if(!phone || phone.length < 10) { showToast('⚠️ Mali ang phone number'); return; }
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  const newTenant = {
+    id: state.nextId++,
+    name, phone, room,
+    houseId: state.currentHouseId,
+    code,
+    status: 'pending'
+  };
+  state.pendingTenants.push(newTenant);
+  save();
+  closeAddTenantModal();
+  // Show invite code modal
+  state.currentInviteCode = code;
+  document.getElementById('ic-code-display').textContent = code;
+  const house = state.houses.find(h => h.id === state.currentHouseId);
+  document.getElementById('ic-room-display').textContent = `${room} — ${house?.name}`;
+  document.getElementById('ic-modal-sub').textContent = `Para kay ${name} — ibigay ito sa kanya sa text o personal.`;
+  document.getElementById('modal-invite-code').classList.remove('hidden');
+  renderTenantManagement();
+}
+
+function closeInviteModal() {
+  document.getElementById('modal-invite-code').classList.add('hidden');
+}
+
+function copyInviteCode() {
+  const code = document.getElementById('ic-code-display').textContent;
+  const room = document.getElementById('ic-room-display').textContent;
+  showToast('Code copied: ' + code);
+  closeInviteModal();
+}
+
+function copyCode(code, name) {
+  showToast(`✓ Code ni ${name} — ${code} — nakopya!`);
+}
+
+// ════════════════════════════════════════
+// QR CODE GENERATION
+// ════════════════════════════════════════
+function renderQRCode() {
+  const container = document.getElementById('qr-code-display');
+  if(!container) return;
+  container.innerHTML = '';
+  const house = state.houses.find(h => h.id === state.currentHouseId);
+  if(document.getElementById('qr-house-name'))
+    document.getElementById('qr-house-name').textContent = house?.name || 'Boarding House';
+  try {
+    new QRCode(container, {
+      text: `buhayboarding://register?house=${state.currentHouseId}&name=${encodeURIComponent(house?.name||'')}`,
+      width: 200, height: 200,
+      colorDark: '#0D2B45', colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  } catch(e) {
+    container.innerHTML = `<div style="width:200px;height:200px;background:var(--warm);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);text-align:center;padding:16px">QR Code para sa<br><strong>${house?.name}</strong></div>`;
+  }
+}
+
+// ════════════════════════════════════════
+// TENANT HOME — ROOM INFO
+// ════════════════════════════════════════
+function renderTenantHome() {
+  // Get tenant profile — use registered profile or default
+  const profile = state.tenantProfile || {
+    name: 'Ana Reyes', room: 'R1', roomLabel: 'Room 1',
+    rent: 1500, houseId: 1, houseName: 'Dela Cruz Boarding House',
+    houseAddr: 'Purok 3, Burauen', paymentStatus: 'paid'
+  };
+  // Update header
+  const nameEl = document.getElementById('t-tenant-name');
+  if(nameEl) nameEl.textContent = profile.name;
+  const houseNameEl = document.getElementById('t-house-name');
+  if(houseNameEl) houseNameEl.textContent = profile.houseName;
+  const houseAddrEl = document.getElementById('t-house-addr');
+  if(houseAddrEl) houseAddrEl.textContent = `${profile.houseAddr} • ${profile.roomLabel || profile.room}`;
+  // Room card
+  const roomLbl = document.getElementById('t-room-label');
+  if(roomLbl) roomLbl.textContent = profile.roomLabel || profile.room;
+  const roomHouse = document.getElementById('t-room-house');
+  if(roomHouse) roomHouse.textContent = profile.houseName;
+  const roomRent = document.getElementById('t-room-rent');
+  if(roomRent) roomRent.textContent = '₱' + (profile.rent||0).toLocaleString();
+  const payStatus = document.getElementById('t-payment-status');
+  if(payStatus) {
+    if(profile.paymentStatus === 'paid') {
+      payStatus.textContent = '✓ Bayad na';
+      payStatus.style.background = 'rgba(255,255,255,.2)';
+    } else {
+      payStatus.textContent = '⏳ Hindi pa bayad';
+      payStatus.style.background = 'rgba(255,200,0,.25)';
+    }
+  }
+  // Announcements
+  const newCount = state.announcements.filter(a=>a.isNew).length;
+  const badge = document.getElementById('t-ann-badge');
+  if(badge) badge.textContent = newCount > 0 ? newCount + ' bago' : 'Lahat';
+  const list = document.getElementById('t-ann-list');
+  const emptyEl = document.getElementById('t-ann-empty');
+  if(!state.announcements.length) {
+    if(list) list.innerHTML = '';
+    if(emptyEl) emptyEl.classList.remove('hidden');
+    return;
+  }
+  if(emptyEl) emptyEl.classList.add('hidden');
+  const catMap = {reminder:{ic:'💵',bg:'var(--amberBg)',c:'var(--amber)'},info:{ic:'ℹ️',bg:'var(--blueLt,#EDF4FC)',c:'var(--blue)'},emergency:{ic:'🚨',bg:'var(--redBg)',c:'var(--red)'},activity:{ic:'🎉',bg:'var(--greenBg)',c:'var(--green)'}};
+  if(list) list.innerHTML = state.announcements.map(a => {
+    const cat = catMap[a.cat]||catMap.info;
+    return `<div class="ann-card" onclick="markAnnRead(${a.id})">
+      <div class="ann-hdr">
+        <div class="ann-ic" style="background:${cat.bg};">${cat.ic}</div>
+        <div class="ann-title">${a.title}</div>
+        ${a.isNew ? '<div class="new-dot"></div>' : ''}
+      </div>
+      <div class="ann-body">${a.body}</div>
+      <div class="ann-time">${a.time}</div>
+    </div>`;
+  }).join('');
+}
+
+function markAnnRead(id) {
+  const ann = state.announcements.find(a=>a.id===id);
+  if(ann) { ann.isNew = false; save(); renderTenantHome(); }
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+renderHouses();
+</script>
+</body>
+</html>

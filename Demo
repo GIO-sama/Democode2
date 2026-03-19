@@ -2367,7 +2367,7 @@ body {
     <div class="shdr">
       <div class="shdr-top">
         <div>
-          <div class="shdr-greet" id="seeker-greeting">Magandang umaga 👋</div>
+          <div class="shdr-greet" id="seeker-greeting">Magandang umaga </div>
           <div class="shdr-title">Buhay <span>Boarding</span></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
@@ -2470,7 +2470,7 @@ body {
           <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:2px;" id="inq-confirm-meta">₱1,500/mo · 4 min from EVSU</div>
         </div>
         <div style="background:rgba(255,255,255,.2);border-radius:8px;padding:4px 10px;">
-          <span style="font-size:11px;font-family:'Nunito',sans-serif;font-weight:700;color:#fff;">✓ Verified</span>
+          <span style="font-size:11px;font-family:'Nunito',sans-serif;font-weight:700;color:#fff;"> Verified</span>
         </div>
       </div>
       <div class="fintro">
@@ -2650,7 +2650,7 @@ body {
     <div class="thdr">
       <div class="thdr-top">
         <div>
-          <div class="thdr-greet">Welcome home 🌿</div>
+          <div class="thdr-greet">Welcome home </div>
           <div class="thdr-title" id="t-tenant-name">Ana Reyes</div>
         </div>
         <div class="av-btn" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.2)"><i class="ph ph-user-circle" style="font-size:19px;color:rgba(255,255,255,.8)"></i></div>
@@ -2697,13 +2697,9 @@ body {
       <div class="ni on"><span class="ni-ic"><i class="ph ph-megaphone"></i></span><span class="ni-lb">Updates</span></div>
       <div class="ni" onclick="goTo('t-houseinfo')"><span class="ni-ic"><i class="ph ph-info"></i></span><span class="ni-lb">House Info</span></div>
       <div class="ni" onclick="goTo('t-maint')"><span class="ni-ic"><i class="ph ph-wrench"></i></span><span class="ni-lb">Maintenance</span></div>
-      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic"><i class="ph ph-arrows-left-right"></i></span><span class="ni-lb">Switch</span></div>
+      <div class="ni" onclick="goTo('t-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
   </div>
-
-  <!-- ═══════════════════════════════
-       TENANT — HOUSE INFO
-  ═══════════════════════════════ -->
   <div class="screen" id="t-houseinfo">
     <div class="topbar" style="background:linear-gradient(135deg,var(--teal),#0B6357)">
       <div class="back" onclick="goTo('t-home')"><i class="ph ph-arrow-left"></i></div>
@@ -2722,7 +2718,7 @@ body {
         <div class="info-row"><span class="info-lbl">Due Date</span><span class="info-val">Every 1st of month</span></div>
         <div class="info-row"><span class="info-lbl">GCash Number</span><span class="info-val link" id="thi-gcash">0917 xxx xxxx</span></div>
         <div class="info-row"><span class="info-lbl">Grace Period</span><span class="info-val">3 days</span></div>
-        <div class="info-row"><span class="info-lbl">This Month</span><span class="info-val" id="thi-status" style="color:var(--green)">✓ Paid</span></div>
+        <div class="info-row"><span class="info-lbl">This Month</span><span class="info-val" id="thi-status" style="color:var(--green)"> Paid</span></div>
       </div>
       <div class="info-section">
         <div class="info-sec-title">House Rules</div>
@@ -2730,6 +2726,12 @@ body {
         <div class="info-row"><span class="info-lbl">WiFi</span><span class="info-val" id="thi-wifi">Included</span></div>
         <div class="info-row"><span class="info-lbl">Cooking</span><span class="info-val" id="thi-cooking">Not allowed</span></div>
         <div class="info-row"><span class="info-lbl">Visitors</span><span class="info-val" id="thi-visitors">Until 8PM</span></div>
+        <div class="info-row"><span class="info-lbl">Pets</span><span class="info-val" id="thi-pets">Not allowed</span></div>
+        <div class="info-row"><span class="info-lbl">Laundry</span><span class="info-val" id="thi-laundry">On-site area</span></div>
+      </div>
+      <div class="info-section" id="thi-custom-rules-section" style="display:none">
+        <div class="info-sec-title">Additional Rules</div>
+        <div id="thi-custom-rules-list"></div>
       </div>
       <div class="info-section">
         <div class="info-sec-title">Contacts</div>
@@ -2743,13 +2745,9 @@ body {
       <div class="ni" onclick="goTo('t-home')"><span class="ni-ic"><i class="ph ph-megaphone"></i></span><span class="ni-lb">Updates</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-info"></i></span><span class="ni-lb">House Info</span></div>
       <div class="ni" onclick="goTo('t-maint')"><span class="ni-ic"><i class="ph ph-wrench"></i></span><span class="ni-lb">Maintenance</span></div>
-      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic"><i class="ph ph-arrows-left-right"></i></span><span class="ni-lb">Switch</span></div>
+      <div class="ni" onclick="goTo('t-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
   </div>
-
-  <!-- ═══════════════════════════════
-       TENANT — MAINTENANCE
-  ═══════════════════════════════ -->
   <div class="screen" id="t-maint">
     <div class="topbar" style="background:linear-gradient(135deg,var(--teal),#0B6357)">
       <div class="back" onclick="goTo('t-home')"><i class="ph ph-arrow-left"></i></div>
@@ -2771,17 +2769,150 @@ body {
       <div class="ni" onclick="goTo('t-home')"><span class="ni-ic"><i class="ph ph-megaphone"></i></span><span class="ni-lb">Updates</span></div>
       <div class="ni" onclick="goTo('t-houseinfo')"><span class="ni-ic"><i class="ph ph-info"></i></span><span class="ni-lb">House Info</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-wrench"></i></span><span class="ni-lb">Maintenance</span></div>
-      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic"><i class="ph ph-arrows-left-right"></i></span><span class="ni-lb">Switch</span></div>
+      <div class="ni" onclick="goTo('t-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
   </div>
 
   <!-- ═══════════════════════════════
-       LANDLORD — HOME
+       TENANT — PROFILE
   ═══════════════════════════════ -->
+  <div class="screen" id="t-profile">
+    <div class="topbar" style="background:linear-gradient(135deg,var(--teal),#0B6357)">
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+      <div class="topbar-title">My Profile</div>
+      <div style="color:rgba(255,255,255,.7);font-size:13px;font-weight:700;cursor:pointer;padding:4px 8px;" onclick="goTo('t-profile-setup')">Edit</div>
+    </div>
+    <div class="scroll sprofile-body">
+      <!-- Avatar + name header -->
+      <div style="background:linear-gradient(160deg,var(--teal) 0%,#0B5E4A 100%);padding:20px 18px 24px;flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:58px;height:58px;background:rgba(255,255,255,.18);border-radius:50%;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;" id="tp-avatar-wrap">
+            <i class="ph ph-user-circle" style="font-size:32px;color:rgba(255,255,255,.8);"></i>
+          </div>
+          <div>
+            <div style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:#fff;" id="tp-disp-name">—</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.65);margin-top:2px;" id="tp-disp-school">—</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:0;background:rgba(255,255,255,.1);border-radius:12px;border:1px solid rgba(255,255,255,.15);margin-top:16px;">
+          <div style="flex:1;text-align:center;padding:10px 8px;border-right:1px solid rgba(255,255,255,.15);">
+            <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:#fff;" id="tp-disp-room">R1</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.55);">Room</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:10px 8px;border-right:1px solid rgba(255,255,255,.15);">
+            <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:#fff;" id="tp-disp-rent">₱1,500</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.55);">Monthly</div>
+          </div>
+          <div style="flex:1;text-align:center;padding:10px 8px;">
+            <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:900;color:#4ADE80;" id="tp-disp-status">Paid</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.55);">Status</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:14px 14px 0">
+        <!-- Personal info -->
+        <div class="pcard" style="margin-top:0">
+          <div class="pcard-title">Personal Info</div>
+          <div class="prow"><span class="prow-lbl">Full Name</span><span class="prow-val" id="tp-disp-fullname">—</span></div>
+          <div class="prow"><span class="prow-lbl">Phone</span><span class="prow-val" id="tp-disp-phone">—</span></div>
+          <div class="prow"><span class="prow-lbl">Course</span><span class="prow-val" id="tp-disp-course">—</span></div>
+          <div class="prow"><span class="prow-lbl">Gender</span><span class="prow-val" id="tp-disp-gender">—</span></div>
+        </div>
+
+        <!-- Emergency contact -->
+        <div class="pcard">
+          <div class="pcard-title">Emergency Contact</div>
+          <div class="prow"><span class="prow-lbl">Name</span><span class="prow-val" id="tp-disp-emname">—</span></div>
+          <div class="prow"><span class="prow-lbl">Phone</span><span class="prow-val" id="tp-disp-emphone">—</span></div>
+        </div>
+
+        <!-- Payment history button -->
+        <div class="pcard" style="cursor:pointer;" onclick="goTo('t-payments')">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div class="pcard-title" style="margin-bottom:2px">Payment History</div>
+              <div style="font-size:12px;color:var(--muted);">View all your rent records</div>
+            </div>
+            <i class="ph ph-caret-right" style="font-size:18px;color:var(--muted);"></i>
+          </div>
+        </div>
+
+        <button class="btn btn-ghost" onclick="goTo('t-profile-setup')" style="width:100%;margin-bottom:8px;"><i class="ph ph-pencil-simple"></i> Edit Profile</button>
+        <button class="btn btn-ghost" onclick="goTo('s-role')" style="width:100%;color:var(--red);border-color:var(--redBg);margin-bottom:20px;">Switch Role</button>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('t-home')"><span class="ni-ic"><i class="ph ph-megaphone"></i></span><span class="ni-lb">Updates</span></div>
+      <div class="ni" onclick="goTo('t-houseinfo')"><span class="ni-ic"><i class="ph ph-info"></i></span><span class="ni-lb">House Info</span></div>
+      <div class="ni" onclick="goTo('t-maint')"><span class="ni-ic"><i class="ph ph-wrench"></i></span><span class="ni-lb">Maintenance</span></div>
+      <div class="ni on"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       TENANT — PAYMENT HISTORY
+  ═══════════════════════════════ -->
+  <div class="screen" id="t-payments">
+    <div class="topbar" style="background:linear-gradient(135deg,var(--teal),#0B6357)">
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+      <div class="topbar-title">Payment History</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px">
+      <!-- Summary card -->
+      <div style="background:linear-gradient(135deg,var(--navy),#1558CC);border-radius:var(--r-lg);padding:16px 18px;margin-bottom:16px;">
+        <div style="font-size:11px;color:rgba(255,255,255,.55);font-weight:700;letter-spacing:.3px;margin-bottom:4px;">TOTAL PAID THIS YEAR</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:26px;font-weight:900;color:#fff;" id="tpay-total">₱0</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:4px;" id="tpay-summary">0 payments on record</div>
+      </div>
+
+      <div class="slbl" style="margin-bottom:11px">Records</div>
+      <div id="tpay-list"></div>
+      <div id="tpay-empty" style="text-align:center;padding:32px 0;color:var(--muted);font-size:13px;display:none;">
+        <i class="ph ph-receipt" style="font-size:32px;display:block;margin-bottom:10px;color:var(--muted2);"></i>
+        No payment records yet.
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('t-home')"><span class="ni-ic"><i class="ph ph-megaphone"></i></span><span class="ni-lb">Updates</span></div>
+      <div class="ni" onclick="goTo('t-houseinfo')"><span class="ni-ic"><i class="ph ph-info"></i></span><span class="ni-lb">House Info</span></div>
+      <div class="ni" onclick="goTo('t-maint')"><span class="ni-ic"><i class="ph ph-wrench"></i></span><span class="ni-lb">Maintenance</span></div>
+      <div class="ni" onclick="goTo('t-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       LANDLORD — WAITLIST MANAGER
+  ═══════════════════════════════ -->
+  <div class="screen" id="l-waitlist">
+    <div class="topbar">
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+      <div class="topbar-title">Waitlist Manager</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px">
+      <div class="callout cl-info" style="margin-bottom:16px">
+        <span class="callout-ic"><i class="ph ph-queue"></i></span>
+        <div class="callout-txt">People on the waitlist will be notified when a room opens. You can promote them directly to a room offer.</div>
+      </div>
+      <div id="wl-manager-list"></div>
+      <div id="wl-manager-empty" style="text-align:center;padding:40px 0;color:var(--muted);font-size:13px;display:none;">
+        <i class="ph ph-users-three" style="font-size:36px;display:block;margin-bottom:10px;color:var(--muted2);"></i>
+        No one on the waitlist yet.
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('l-home')"><span class="ni-ic"><i class="ph ph-chart-bar"></i></span><span class="ni-lb">Overview</span></div>
+      <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
+      <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
+    </div>
+  </div>
+
+
   <div class="screen" id="l-home">
     <div class="lhdr">
       <div class="lhdr-top">
-        <div><div class="lhdr-greet" id="landlord-greeting">Good morning 🌅</div><div class="lhdr-name" id="lhdr-dyn-name">Maria Dela Cruz</div></div>
+        <div><div class="lhdr-greet" id="landlord-greeting">Good morning </div><div class="lhdr-name" id="lhdr-dyn-name">Maria Dela Cruz</div></div>
         <div class="av-btn" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15)"><i class="ph ph-user-circle" style="font-size:19px;color:rgba(255,255,255,.75)"></i></div>
       </div>
       <div class="income-card">
@@ -2834,6 +2965,7 @@ body {
         <div class="slbl" style="margin-bottom:11px">Iba pang Tools</div>
         <div class="qa-grid">
           <div class="qa-btn" onclick="goTo('l-listing')"><div class="qa-ic"><i class="ph ph-storefront"></i></div><div class="qa-lbl">My Listing</div></div>
+          <div class="qa-btn" onclick="goTo('l-waitlist')"><div class="qa-ic"><i class="ph ph-queue"></i></div><div class="qa-lbl">Waitlist</div></div>
           <div class="qa-btn" onclick="goTo('l-reminder')"><div class="qa-ic"><i class="ph ph-bell-ringing"></i></div><div class="qa-lbl">Reminder</div></div>
           <div class="qa-btn" onclick="goTo('l-expense')"><div class="qa-ic"><i class="ph ph-receipt"></i></div><div class="qa-lbl">Gastos</div></div>
           <div class="qa-btn" onclick="goTo('l-maint')" style="position:relative"><div class="qa-ic"><i class="ph ph-wrench"></i></div><div class="qa-lbl">Maintenance</div><div id="l-maint-badge" class="hidden" style="position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-family:'Nunito',sans-serif;font-size:9px;font-weight:800;border-radius:10px;padding:2px 5px;min-width:16px;text-align:center;"></div></div>
@@ -3113,7 +3245,7 @@ body {
 
       <!-- Hero: seeker identity -->
       <div class="inq-hero" id="inq-hero-section">
-        <div class="inq-hero-avatar" id="inq-h-avatar">🐱</div>
+        <div class="inq-hero-avatar" id="inq-h-avatar"><i class="ph ph-user-circle"></i></div>
         <div class="inq-hero-info">
           <div class="inq-hero-name" id="inq-h-name">—</div>
           <div class="inq-hero-school" id="inq-h-school">—</div>
@@ -3139,48 +3271,43 @@ body {
         <div class="inq-q-bubble" id="inq-h-question">—</div>
       </div>
 
+      <!-- Reply box -->
+      <div class="inq-q-wrap" style="margin-top:10px">
+        <div class="inq-q-label">Your reply</div>
+        <textarea id="inq-reply-txt" class="ta" style="height:80px;font-size:13px;" placeholder="Type your reply here — the seeker will see this in their inquiry thread..."></textarea>
+        <button onclick="sendInqReply()" style="width:100%;margin-top:8px;background:var(--navy);color:#fff;border:none;border-radius:var(--r);padding:11px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;">
+          <i class="ph ph-paper-plane-tilt"></i> Send Reply
+        </button>
+      </div>
+
       <!-- Status actions -->
       <div class="inq-actions-wrap">
         <div class="inq-action-label">Update status</div>
-
-        <!-- Primary row -->
         <div class="inq-act-row">
           <button class="inq-act-btn inq-act-offer" onclick="setInqStatus('offered')">
-            <i class="ph ph-house-simple"></i>
-            <span>Offer Room</span>
+            <i class="ph ph-house-simple"></i><span>Offer Room</span>
           </button>
           <button class="inq-act-btn inq-act-visit" onclick="setInqStatus('visit_scheduled')">
-            <i class="ph ph-calendar-check"></i>
-            <span>Visit Set</span>
+            <i class="ph ph-calendar-check"></i><span>Visit Set</span>
           </button>
         </div>
-
-        <!-- Secondary row -->
         <div class="inq-act-row">
-          <button class="inq-act-btn inq-act-replied" onclick="setInqStatus('replied')">
-            <i class="ph ph-chat-dots"></i>
-            <span>Replied</span>
-          </button>
           <button class="inq-act-btn inq-act-interested" onclick="setInqStatus('interested')">
-            <i class="ph ph-thumbs-up"></i>
-            <span>Interested</span>
+            <i class="ph ph-thumbs-up"></i><span>Interested</span>
+          </button>
+          <button class="inq-act-btn inq-act-notfit" onclick="setInqStatus('not_a_fit')">
+            <i class="ph ph-x-circle"></i><span>Not a Fit</span>
           </button>
         </div>
-
-        <!-- Reject row -->
         <div class="inq-act-row">
-          <button class="inq-act-btn inq-act-notfit" onclick="setInqStatus('not_a_fit')">
-            <i class="ph ph-x-circle"></i>
-            <span>Not a Fit</span>
-          </button>
           <button class="inq-act-btn inq-act-decline" onclick="setInqStatus('declined')">
-            <i class="ph ph-prohibit"></i>
-            <span>Decline</span>
+            <i class="ph ph-prohibit"></i><span>Decline</span>
+          </button>
+          <button class="inq-act-btn" style="background:var(--warm2);color:var(--navy);" onclick="closeInqModal()">
+            <i class="ph ph-x"></i><span>Close</span>
           </button>
         </div>
       </div>
-
-      <button class="inq-close-btn" onclick="closeInqModal()">Close</button>
     </div>
   </div>
 
@@ -3358,7 +3485,7 @@ body {
       <div class="sprofile-av-row">
         <div class="sprofile-av" id="sp-avatar" style="width:62px;height:62px;background:var(--blueLt);border:2px solid rgba(255,255,255,.3);font-size:28px;">
           <img id="sp-avatar-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%;">
-          <span id="sp-avatar-emoji">🎓</span>
+          <span id="sp-avatar-emoji"><i class="ph ph-graduation-cap"></i></span>
         </div>
         <div>
           <div class="sprofile-name" id="sp-name">Juan dela Cruz</div>
@@ -3492,7 +3619,7 @@ body {
       <div class="lprofile-av-row">
         <div class="lprofile-av" id="lp-avatar" style="width:62px;height:62px;background:var(--tealLt,#F0FDFA);border:2px solid rgba(255,255,255,.3);font-size:28px;">
           <img id="lp-avatar-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%;">
-          <span id="lp-avatar-emoji">🏠</span>
+          <span id="lp-avatar-emoji"><i class="ph ph-house"></i></span>
         </div>
         <div>
           <div class="lprofile-name" id="lp-name">Maria dela Cruz</div>
@@ -3518,7 +3645,7 @@ body {
         <div class="prow"><span class="prow-lbl">Phone</span><span class="prow-val" id="lp-phone">—</span></div>
         <div class="prow" id="lp-gender-row" style="display:none"><span class="prow-lbl">Gender</span><span class="prow-val" id="lp-gender">—</span></div>
         <div class="prow" id="lp-bday-row" style="display:none"><span class="prow-lbl">Birthday</span><span class="prow-val" id="lp-birthday">—</span></div>
-        <div class="prow"><span class="prow-lbl">Verified</span><span class="prow-val" style="color:var(--green);">✓ Verified</span></div>
+        <div class="prow"><span class="prow-lbl">Verified</span><span class="prow-val" style="color:var(--green);"> Verified</span></div>
         <div class="prow"><span class="prow-lbl">Member since</span><span class="prow-val">2025</span></div>
       </div>
       <button class="btn btn-ghost" onclick="goTo('l-listing')" style="margin-bottom:8px;border-color:var(--teal);color:var(--teal);"><i class="ph ph-storefront"></i> Edit My Listing</button>
@@ -3623,15 +3750,16 @@ body {
       </div>
       <div class="editor-sec-lbl">Preset Photo Slots</div>
       <div style="display:flex;flex-wrap:wrap;gap:7px;">
-        <button onclick="addPresetSnap('🛏️','Bedroom')" class="btn-ghost-sm">🛏️ Bedroom</button>
-        <button onclick="addPresetSnap('🚿','Bathroom')" class="btn-ghost-sm">🚿 Bathroom</button>
-        <button onclick="addPresetSnap('🪟','Window View')" class="btn-ghost-sm">🪟 Window</button>
-        <button onclick="addPresetSnap('🍳','Kitchen')" class="btn-ghost-sm">🍳 Kitchen</button>
-        <button onclick="addPresetSnap('👕','Laundry')" class="btn-ghost-sm">👕 Laundry</button>
-        <button onclick="addPresetSnap('🚪','Entrance')" class="btn-ghost-sm">🚪 Entrance</button>
-        <button onclick="addPresetSnap('💡','Study Area')" class="btn-ghost-sm">💡 Study Area</button>
-        <button onclick="addPresetSnap('📶','WiFi Router')" class="btn-ghost-sm">📶 WiFi</button>
-        <button onclick="addPresetSnap('🌿','Garden')" class="btn-ghost-sm">🌿 Garden</button>
+        <button onclick="addPresetSnap('','Bedroom')"    class="btn-ghost-sm"><i class="ph ph-bed"></i> Bedroom</button>
+        <button onclick="addPresetSnap('','Bathroom')"   class="btn-ghost-sm"><i class="ph ph-shower"></i> Bathroom</button>
+        <button onclick="addPresetSnap('','Window View')" class="btn-ghost-sm"><i class="ph ph-frame-corners"></i> Window</button>
+        <button onclick="addPresetSnap('','Kitchen')"    class="btn-ghost-sm"><i class="ph ph-cooking-pot"></i> Kitchen</button>
+        <button onclick="addPresetSnap('','Laundry')"    class="btn-ghost-sm"><i class="ph ph-t-shirt"></i> Laundry</button>
+        <button onclick="addPresetSnap('','Entrance')"   class="btn-ghost-sm"><i class="ph ph-door"></i> Entrance</button>
+        <button onclick="addPresetSnap('','Study Area')" class="btn-ghost-sm"><i class="ph ph-books"></i> Study Area</button>
+        <button onclick="addPresetSnap('','WiFi')"       class="btn-ghost-sm"><i class="ph ph-wifi"></i> WiFi</button>
+        <button onclick="addPresetSnap('','Garden')"     class="btn-ghost-sm"><i class="ph ph-tree"></i> Garden</button>
+        <button onclick="addPresetSnap('','Private CR')" class="btn-ghost-sm"><i class="ph ph-shower"></i> Private CR</button>
       </div>
     </div>
 
@@ -3640,7 +3768,7 @@ body {
       <div class="editor-sec-lbl">Quick Toggles</div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px;box-shadow:var(--sh-xs);">
         <div class="rule-editor-row" style="border-radius:0;margin-bottom:0;border:none;border-bottom:1px solid var(--border);">
-          <span class="rule-editor-emoji">📶</span>
+          <span class="rule-editor-emoji"><i class="ph ph-wifi"></i></span>
           <span class="rule-editor-text">WiFi Included</span>
           <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;">
             <input type="checkbox" id="bhl-wifi" style="opacity:0;width:0;height:0;" onchange="saveBhlToggle()">
@@ -3649,7 +3777,7 @@ body {
           </label>
         </div>
         <div class="rule-editor-row" style="border-radius:0;margin-bottom:0;border:none;border-bottom:1px solid var(--border);">
-          <span class="rule-editor-emoji">🍳</span>
+          <span class="rule-editor-emoji"><i class="ph ph-cooking-pot"></i></span>
           <span class="rule-editor-text">Cooking Allowed</span>
           <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;">
             <input type="checkbox" id="bhl-cooking" style="opacity:0;width:0;height:0;" onchange="saveBhlToggle()">
@@ -3658,7 +3786,7 @@ body {
           </label>
         </div>
         <div class="rule-editor-row" style="border-radius:0;margin-bottom:0;border:none;border-bottom:1px solid var(--border);">
-          <span class="rule-editor-emoji">🐾</span>
+          <span class="rule-editor-emoji"><i class="ph ph-paw-print"></i></span>
           <span class="rule-editor-text">Pets Allowed</span>
           <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;">
             <input type="checkbox" id="bhl-pets" style="opacity:0;width:0;height:0;" onchange="saveBhlToggle()">
@@ -3667,7 +3795,7 @@ body {
           </label>
         </div>
         <div class="rule-editor-row" style="border-radius:0;margin-bottom:0;border:none;">
-          <span class="rule-editor-emoji">👕</span>
+          <span class="rule-editor-emoji"><i class="ph ph-t-shirt"></i></span>
           <span class="rule-editor-text">Laundry Area</span>
           <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;">
             <input type="checkbox" id="bhl-laundry" style="opacity:0;width:0;height:0;" onchange="saveBhlToggle()">
@@ -3700,7 +3828,7 @@ body {
       <div class="editor-sec-lbl">Custom Rules <span style="color:var(--muted);font-size:10px;font-weight:600;text-transform:none;letter-spacing:0">(your specific house rules)</span></div>
       <div id="bhl-custom-rules-list"></div>
       <div class="rule-add-row">
-        <input type="text" class="rule-add-inp" id="bhl-rule-emoji-inp" value="📌" style="width:44px;text-align:center;flex:none;padding:10px 4px;font-size:18px;" readonly onclick="cycleBhlEmoji()">
+        <input type="text" class="rule-add-inp" id="bhl-rule-emoji-inp" value="•" style="width:44px;text-align:center;flex:none;padding:10px 4px;font-size:18px;" readonly onclick="cycleBhlEmoji()">
         <input type="text" class="rule-add-inp" id="bhl-rule-text-inp" placeholder="e.g. No smoking inside rooms">
         <button class="rule-add-btn" onclick="addCustomRule()"><i class="ph ph-plus"></i></button>
       </div>
@@ -4042,14 +4170,14 @@ body {
 
           <div class="map-sheet-dist">
             <div class="map-dist-pill">
-              <span class="map-dist-ic">🎓</span>
+              <span class="map-dist-ic"><i class="ph ph-graduation-cap"></i></span>
               <div>
                 <div class="map-dist-v" id="msh-devsu">—</div>
                 <div class="map-dist-l">min walk · EVSU</div>
               </div>
             </div>
             <div class="map-dist-pill teal">
-              <span class="map-dist-ic">📚</span>
+              <span class="map-dist-ic"><i class="ph ph-books"></i></span>
               <div>
                 <div class="map-dist-v" id="msh-dbcc">—</div>
                 <div class="map-dist-l">min walk · BCC</div>
@@ -4125,7 +4253,7 @@ body {
         <div id="reg-step-3" class="hidden">
           <div class="reg-step">Hakbang 3 ng 3 — Kumpirmasyon</div>
           <div class="invite-display" id="reg-confirm-display">
-            <div class="invite-lbl">Nahanap ka namin! 🎉</div>
+            <div class="invite-lbl">Nahanap ka namin! </div>
             <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#fff" id="reg-confirm-name">Ana Reyes</div>
             <div style="font-size:13px;color:rgba(255,255,255,.7);margin-top:6px" id="reg-confirm-room">Room 1 — Dela Cruz BH</div>
           </div>
@@ -4230,7 +4358,7 @@ body {
   <div class="modal-bg hidden" id="modal-invite-code">
     <div class="modal">
       <div class="modal-handle"></div>
-      <div class="modal-title">Invite Code Handa Na! 🎉</div>
+      <div class="modal-title">Invite Code Handa Na! </div>
       <div class="modal-sub" id="ic-modal-sub">Ibigay ito sa tenant mo — sa text, personal, o Viber.</div>
       <div class="invite-display">
         <div class="invite-lbl">6-digit Invite Code</div>
@@ -4269,17 +4397,17 @@ const state = {
       about: 'Safe, quiet boarding house for students. 5-min walk to BCC, 8-min to EVSU. Newly repainted rooms, clean common area, and reliable WiFi. Near carenderia row and the public market.',
       amenities: ['WiFi included','Study room','Laundry area'],
       snapshots: [
-        {emoji:'🛏️',label:'Bedroom'},
-        {emoji:'🚿',label:'Bathroom'},
-        {emoji:'📶',label:'WiFi Router'},
-        {emoji:'💡',label:'Study Area'},
-        {emoji:'👕',label:'Laundry'},
-        {emoji:'🚪',label:'Entrance'},
+        {emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},
+        {emoji:'<i class="ph ph-shower"></i>',label:'Bathroom'},
+        {emoji:'<i class="ph ph-wifi"></i>',label:'WiFi Router'},
+        {emoji:'<i class="ph ph-lightbulb"></i>',label:'Study Area'},
+        {emoji:'<i class="ph ph-t-shirt"></i>',label:'Laundry'},
+        {emoji:'<i class="ph ph-door"></i>',label:'Entrance'},
       ],
       customRules: [
-        {emoji:'🚭',text:'No smoking anywhere in the premises'},
-        {emoji:'🔕',text:'Quiet hours: 10PM – 6AM'},
-        {emoji:'🗑️',text:'Dispose trash every morning before 7AM'},
+        {emoji:'<i class="ph ph-prohibit"></i>',text:'No smoking anywhere in the premises'},
+        {emoji:'<i class="ph ph-bell-slash"></i>',text:'Quiet hours: 10PM – 6AM'},
+        {emoji:'<i class="ph ph-trash"></i>',text:'Dispose trash every morning before 7AM'},
       ],
       rules: {wifi:true,cooking:false,visitors:'Until 8PM',pets:false,laundry:true,advance:'1 month'},
       rooms: [
@@ -4301,8 +4429,8 @@ const state = {
       price: 2000, curfew: 'No curfew', verified: 'April 2025',
       about: 'Spacious rooms with private CR option. No curfew — perfect for working students. Cooking allowed in the shared kitchen. 7-minute walk to BCC.',
       amenities: ['Private CR','Cooking allowed','No curfew'],
-      snapshots: [{emoji:'🛏️',label:'Bedroom'},{emoji:'🚿',label:'Private CR'},{emoji:'🍳',label:'Kitchen'},{emoji:'🚪',label:'Entrance'}],
-      customRules: [{emoji:'🧹',text:'Clean shared kitchen after use'},{emoji:'🔑',text:'Always lock your room when out'}],
+      snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-shower"></i>',label:'Private CR'},{emoji:'<i class="ph ph-cooking-pot"></i>',label:'Kitchen'},{emoji:'<i class="ph ph-door"></i>',label:'Entrance'}],
+      customRules: [{emoji:'<i class="ph ph-broom"></i>',text:'Clean shared kitchen after use'},{emoji:'<i class="ph ph-key"></i>',text:'Always lock your room when out'}],
       rules: {wifi:false,cooking:true,visitors:'Anytime',pets:false,laundry:true,advance:'2 months'},
       rooms: [
         {id:1,name:'R1',status:'paid',tenant:'Ben Torres',amount:2000},
@@ -4321,8 +4449,8 @@ const state = {
       price: 1200, curfew: '9:00 PM', verified: 'May 2025',
       about: 'Budget-friendly option just 3 minutes from the EVSU gate. Clean and well-maintained. Laundry area available. Strict 9PM curfew for a focused study environment.',
       amenities: ['Near EVSU','Laundry area','Budget-friendly'],
-      snapshots: [{emoji:'🛏️',label:'Bedroom'},{emoji:'👕',label:'Laundry'},{emoji:'🌿',label:'Garden'},{emoji:'🚪',label:'Entrance'}],
-      customRules: [{emoji:'📚',text:'Study hours: 7PM–9PM (quiet)'},{emoji:'🚭',text:'No smoking on the property'}],
+      snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-t-shirt"></i>',label:'Laundry'},{emoji:'',label:'Garden'},{emoji:'<i class="ph ph-door"></i>',label:'Entrance'}],
+      customRules: [{emoji:'<i class="ph ph-books"></i>',text:'Study hours: 7PM–9PM (quiet)'},{emoji:'<i class="ph ph-prohibit"></i>',text:'No smoking on the property'}],
       rules: {wifi:false,cooking:false,visitors:'Not allowed',pets:false,laundry:true,advance:'1 month'},
       rooms: [
         {id:1,name:'R1',status:'paid',tenant:'Diana M.',amount:1200},
@@ -4341,8 +4469,8 @@ const state = {
       price: 1800, curfew: '10:30 PM', verified: 'June 2025',
       about: 'Spacious rooms with WiFi. Both cooking and visitors allowed. Centrally located — roughly equal distance from EVSU and BCC. Great for students who want flexibility.',
       amenities: ['WiFi included','Affordable price','Spacious rooms'],
-      snapshots: [{emoji:'🛏️',label:'Bedroom'},{emoji:'📶',label:'WiFi'},{emoji:'🍳',label:'Kitchen'},{emoji:'🪟',label:'Window View'}],
-      customRules: [{emoji:'🎵',text:'No loud music after 10PM'},{emoji:'🧹',text:'Maintain cleanliness of common areas'}],
+      snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-wifi"></i>',label:'WiFi'},{emoji:'<i class="ph ph-cooking-pot"></i>',label:'Kitchen'},{emoji:'<i class="ph ph-frame-corners"></i>',label:'Window View'}],
+      customRules: [{emoji:'<i class="ph ph-music-notes"></i>',text:'No loud music after 10PM'},{emoji:'<i class="ph ph-broom"></i>',text:'Maintain cleanliness of common areas'}],
       rules: {wifi:true,cooking:true,visitors:'Until 9PM',pets:false,laundry:true,advance:'1 month'},
       rooms: [
         {id:1,name:'R1',status:'paid',tenant:'Hana L.',amount:1800},
@@ -4362,8 +4490,8 @@ const state = {
       price: 1300, curfew: '9:30 PM', verified: 'June 2025',
       about: 'Peaceful boarding house in a quiet residential area. Walking distance to the public market. Ideal for students who prefer a calm environment away from the busy town center.',
       amenities: ['Quiet area','Laundry area','Near market'],
-      snapshots: [{emoji:'🛏️',label:'Bedroom'},{emoji:'👕',label:'Laundry'},{emoji:'🌿',label:'Garden'},{emoji:'🚿',label:'Bathroom'}],
-      customRules: [{emoji:'🔇',text:'Quiet hours strictly observed after 9:30PM'},{emoji:'🚿',text:'30-minute bathroom limit during peak hours'}],
+      snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-t-shirt"></i>',label:'Laundry'},{emoji:'',label:'Garden'},{emoji:'<i class="ph ph-shower"></i>',label:'Bathroom'}],
+      customRules: [{emoji:'<i class="ph ph-speaker-slash"></i>',text:'Quiet hours strictly observed after 9:30PM'},{emoji:'<i class="ph ph-shower"></i>',text:'30-minute bathroom limit during peak hours'}],
       rules: {wifi:false,cooking:false,visitors:'Until 7PM',pets:false,laundry:true,advance:'1 month'},
       rooms: [
         {id:1,name:'R1',status:'paid',tenant:'Jan P.',amount:1300},
@@ -4376,9 +4504,9 @@ const state = {
     }  ],
 
   inquiries: [
-    {id:1,houseId:1,name:'Ana Santos',school:'EVSU Burauen Campus',course:'BSED 1st Year',date:'2025-06-01',q:'May bakante pa po ba kayo para single room?',status:'pending',time:'2h ago',avatar:'🐱'},
-    {id:2,houseId:1,name:'Juan Cruz',school:'BCC',course:'BSIT 2nd Year',date:'2025-07-01',q:'Puwede po bang mag-visit this Saturday morning?',status:'pending',time:'5h ago',avatar:'🐻'},
-    {id:3,houseId:1,name:'Liza Tan',school:'EVSU Burauen Campus',course:'BSN 3rd Year',date:'2025-06-15',q:'Ilan po ang kasama sa CR? May hot shower?',status:'replied',time:'1d ago',avatar:'🐸'},
+    {id:1,houseId:1,name:'Ana Santos',school:'EVSU Burauen Campus',course:'BSED 1st Year',date:'2025-06-01',q:'May bakante pa po ba kayo para single room?',status:'pending',time:'2h ago',avatar:'<i class="ph ph-user-circle"></i>'},
+    {id:2,houseId:1,name:'Juan Cruz',school:'BCC',course:'BSIT 2nd Year',date:'2025-07-01',q:'Puwede po bang mag-visit this Saturday morning?',status:'pending',time:'5h ago',avatar:'<i class="ph ph-user-circle"></i>'},
+    {id:3,houseId:1,name:'Liza Tan',school:'EVSU Burauen Campus',course:'BSN 3rd Year',date:'2025-06-15',q:'Ilan po ang kasama sa CR? May hot shower?',status:'replied',time:'1d ago',avatar:'<i class="ph ph-user-circle"></i>'},
   ],
 
   announcements: [
@@ -4389,14 +4517,14 @@ const state = {
   ],
 
   maintenanceRequests: [
-    {id:1,room:'Room 3',type:'🚰 Plumbing / Faucet',desc:'Leaky faucet in shared bathroom',urgency:'urgent',status:'in_progress',tenantName:'Lisa Tan',time:'2 days ago'},
-    {id:2,room:'Room 1',type:'📶 WiFi / Internet',desc:'WiFi signal very weak on the far side of room',urgency:'normal',status:'done',tenantName:'Ana Reyes',time:'1 week ago'},
+    {id:1,room:'Room 3',type:'<i class="ph ph-faucet"></i> Plumbing / Faucet',desc:'Leaky faucet in shared bathroom',urgency:'urgent',status:'in_progress',tenantName:'Lisa Tan',time:'2 days ago'},
+    {id:2,room:'Room 1',type:'<i class="ph ph-wifi"></i> WiFi / Internet',desc:'WiFi signal very weak on the far side of room',urgency:'normal',status:'done',tenantName:'Ana Reyes',time:'1 week ago'},
   ],
 
   expenses: [
-    {id:1,cat:'🔧 Repairs',desc:'Fixed CR flush Room 2',amount:350,date:'2025-06-28'},
-    {id:2,cat:'💡 Utilities',desc:'Meralco bill June',amount:2800,date:'2025-06-25'},
-    {id:3,cat:'🛒 Supplies',desc:'Cleaning supplies & lightbulbs',amount:480,date:'2025-06-20'},
+    {id:1,cat:'<i class="ph ph-wrench"></i> Repairs',desc:'Fixed CR flush Room 2',amount:350,date:'2025-06-28'},
+    {id:2,cat:'<i class="ph ph-lightbulb"></i> Utilities',desc:'Meralco bill June',amount:2800,date:'2025-06-25'},
+    {id:3,cat:'<i class="ph ph-shopping-cart"></i> Supplies',desc:'Cleaning supplies & lightbulbs',amount:480,date:'2025-06-20'},
   ],
 
   visits: [
@@ -4440,7 +4568,6 @@ function availableRooms(h) {
 
 function save() {
   try {
-    // Strip non-serializable available() method from houses before saving
     const housesClean = state.houses.map(({available, ...rest}) => rest);
     localStorage.setItem('bb_state', JSON.stringify({
       inquiries:              state.inquiries,
@@ -4456,6 +4583,7 @@ function save() {
       tenantProfile:          state.tenantProfile,
       seekerProfile:          state.seekerProfile,
       visitSlots:             state.visitSlots,
+      paymentLog:             state.paymentLog,
     }));
   } catch(e){}
 }
@@ -4533,6 +4661,8 @@ function refreshScreen(id) {
     case 's-visit': renderSlots(); break;
     case 't-home': renderTenantHome(); break;
     case 't-maint': renderTenantMaint(); break;
+    case 't-profile': renderTenantProfile(); break;
+    case 't-payments': renderPaymentHistory(); break;
     case 'l-home': renderLandlordHome(); break;
     case 'l-inbox': renderLandlordInbox(); break;
     case 'l-rooms': renderRooms(); break;
@@ -4541,6 +4671,7 @@ function refreshScreen(id) {
     case 'l-visits': renderVisits(); break;
     case 'l-reminder': renderReminders(); break;
     case 'l-tenants': renderTenantManagement(); break;
+    case 'l-waitlist': renderWaitlistManager(); break;
     case 'l-qr': renderQRCode(); break;
     case 'l-announce': renderAnnouncements(); break;
     case 't-register': showRegStep(1); break;
@@ -4617,9 +4748,9 @@ function updateClock() {
 function updateGreetings() {
   const hr = new Date().getHours();
   let greetFil, greetEn, emoji;
-  if (hr < 12)      { greetFil = 'Magandang umaga';    greetEn = 'Good morning';   emoji = '☀️'; }
-  else if (hr < 18) { greetFil = 'Magandang hapon';    greetEn = 'Good afternoon'; emoji = '🌤️'; }
-  else              { greetFil = 'Magandang gabi';     greetEn = 'Good evening';   emoji = '🌙'; }
+  if (hr < 12)      { greetFil = 'Magandang umaga';    greetEn = 'Good morning';   emoji = ''; }
+  else if (hr < 18) { greetFil = 'Magandang hapon';    greetEn = 'Good afternoon'; emoji = ''; }
+  else              { greetFil = 'Magandang gabi';     greetEn = 'Good evening';   emoji = ''; }
   const sg = document.getElementById('seeker-greeting');
   const lg = document.getElementById('landlord-greeting');
   if (sg) sg.textContent = greetFil + ' ' + emoji;
@@ -4633,9 +4764,9 @@ updateClock(); setInterval(updateClock,60000);
 // ════════════════════════════════════════
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
+  t.innerHTML = msg;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2200);
+  setTimeout(()=>t.classList.remove('show'),2400);
 }
 
 // ════════════════════════════════════════
@@ -4714,23 +4845,23 @@ function renderHouses() {
     const tagStr = h.amenities.map(a=>`<span class="tag tg">${a}</span>`).join('');
     const badge = isFull
       ? '<span class="lcard-badge" style="background:var(--red)">Full</span>'
-      : '<span class="lcard-badge" style="background:var(--teal)">✓ Verified ' + h.verified + '</span>';
+      : '<span class="lcard-badge" style="background:var(--teal)"> Verified ' + h.verified + '</span>';
     // Misfire 1 fix: only show waitlist count when >= 3 (below that it signals low demand)
     const rooms = isFull
       ? `<span class="lcard-rooms" style="background:rgba(239,68,68,.85);">${h.waitlist.length >= 3 ? h.waitlist.length + ' on waitlist' : 'Full'}</span>`
       : avail === 1
-        ? `<span class="lcard-rooms" style="background:rgba(217,119,6,.9);">⚠️ Last room!</span>`
+        ? `<span class="lcard-rooms" style="background:rgba(217,119,6,.9);"><i class="ph ph-warning"></i> Last room!</span>`
         : `<span class="lcard-rooms">${avail} room${avail!==1?'s':''} left</span>`;
     const firstPill = !isFull && h.waitlist.length < 3
       ? `<span style="font-size:10px;font-weight:600;color:rgba(255,255,255,.75);padding:2px 8px;background:rgba(255,255,255,.15);border-radius:20px;">Be first to inquire</span>`
       : '';
     const cta = isFull
-      ? `<button class="btn" style="background:var(--amberBg);color:var(--amber);font-size:12px;padding:8px 13px;border-radius:8px;border:none;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;">⏳ Join Waitlist</button>`
+      ? `<button class="btn" style="background:var(--amberBg);color:var(--amber);font-size:12px;padding:8px 13px;border-radius:8px;border:none;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;"> Join Waitlist</button>`
       : `<button class="btn btn-blue" style="font-size:12px;padding:8px 13px;border-radius:8px">Inquire Now</button>`;
     return `
       <div class="lcard" onclick="openHouse(${h.id})">
         <div class="lcard-img" style="background:${h.gradient}">
-          <span class="lcard-img-ph">🏠</span>
+          <span class="lcard-img-ph"><i class="ph ph-house"></i></span>
           <div style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);border-radius:6px;padding:3px 8px;display:flex;align-items:center;gap:5px;">
             <i class="ph ph-camera" style="font-size:11px;color:rgba(255,255,255,.7);"></i>
             <span style="font-size:10px;color:rgba(255,255,255,.7);font-family:'Nunito Sans',sans-serif;font-weight:600;">Photos during verification visit</span>
@@ -4739,7 +4870,7 @@ function renderHouses() {
         </div>
         <div class="lcard-body">
           <div class="lcard-name">${h.name}</div>
-          <div class="lcard-loc">📍 ${dist} min walk from ${school} gate</div>
+          <div class="lcard-loc"><i class="ph ph-map-pin"></i> ${dist} min walk from ${school} gate</div>
           <div class="lcard-tags">${tagStr}</div>
           <div class="lcard-foot">
             <div class="lcard-price">₱${h.price.toLocaleString()}<span>/mo</span></div>
@@ -4762,9 +4893,9 @@ function openHouse(id) {
 
   document.getElementById('d-topname').textContent = h.name;
   document.getElementById('d-hero').style.background = h.gradient;
-  document.getElementById('d-vbadge').textContent = `✓ Verified ${h.verified}`;
+  document.getElementById('d-vbadge').textContent = ` Verified ${h.verified}`;
   document.getElementById('d-name').textContent = h.name;
-  document.getElementById('d-loc').textContent = `📍 ${h.address} — ${dist} min walk from ${school} gate`;
+  document.getElementById('d-loc').innerHTML = `<i class="ph ph-map-pin"></i> ${h.address} — ${dist} min walk from ${school} gate`;
 
   // About section
   const aboutEl = document.getElementById('d-about');
@@ -4774,13 +4905,13 @@ function openHouse(id) {
   const stripEl = document.getElementById('d-photo-strip');
   if(stripEl) {
     const snaps = h.snapshots && h.snapshots.length ? h.snapshots : [
-      {emoji:'📷',label:'Facade'},{emoji:'🛏️',label:'Room'},{emoji:'🚿',label:'Bathroom'},{emoji:'🚪',label:'Entrance'}
+      {emoji:'<i class="ph ph-camera"></i>',label:'Facade'},{emoji:'<i class="ph ph-bed"></i>',label:'Room'},{emoji:'<i class="ph ph-shower"></i>',label:'Bathroom'},{emoji:'<i class="ph ph-door"></i>',label:'Entrance'}
     ];
     // gradient-tinted bg for each slot
     const gradStart = h.gradient.match(/#[0-9A-Fa-f]{6}/)?.[0] || '#1462A8';
     stripEl.innerHTML = snaps.map(s=>`
       <div class="d-photo-slot" style="background:${gradStart}22;border:1.5px solid ${gradStart}44;">
-        <div class="d-photo-slot-emoji">${s.emoji}</div>
+        <div class="d-photo-slot-emoji">${snapIcon(s.label)}</div>
         <div class="d-photo-slot-label">${s.label}</div>
       </div>`).join('');
   }
@@ -4796,11 +4927,11 @@ function openHouse(id) {
 
   // Rules (standard toggles)
   const standardRules = [
-    ['📶','WiFi',h.rules.wifi,'Included','Not included'],
-    ['🍳','Cooking',h.rules.cooking,'Allowed','Not allowed'],
-    ['👥','Visitors',true,h.rules.visitors,'Not allowed'],
-    ['🐾','Pets',h.rules.pets,'Allowed','Not allowed'],
-    ['👕','Laundry',h.rules.laundry,'On-site area','No laundry area'],
+    ['<i class="ph ph-wifi"></i>','WiFi',h.rules.wifi,'Included','Not included'],
+    ['<i class="ph ph-cooking-pot"></i>','Cooking',h.rules.cooking,'Allowed','Not allowed'],
+    ['<i class="ph ph-users"></i>','Visitors',true,h.rules.visitors,'Not allowed'],
+    ['<i class="ph ph-paw-print"></i>','Pets',h.rules.pets,'Allowed','Not allowed'],
+    ['<i class="ph ph-t-shirt"></i>','Laundry',h.rules.laundry,'On-site area','No laundry area'],
   ].map(([ic,nm,cond,yes,no])=>`
     <div class="rule-row">
       <span class="rule-nm"><span>${ic}</span>${nm}</span>
@@ -4872,18 +5003,18 @@ function openHouse(id) {
     actEl.innerHTML = `
       <div style="width:100%;">
         <div style="background:var(--amberBg);border:1px solid var(--amber);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px;">
-          <span style="font-size:20px;">⚠️</span>
+          <span style="font-size:20px;"><i class="ph ph-warning"></i></span>
           <div>
             <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--amber);">This house is full</div>
             <div style="font-size:12px;color:var(--text);margin-top:2px;">${waitCount > 0 ? waitCount + ' student' + (waitCount>1?'s are':' is') + ' already on the waitlist.' : 'Be the first on the waitlist — get notified when a room opens.'}</div>
           </div>
         </div>
-        <button class="btn btn-navy" onclick="openWaitlist(${h.id})" style="width:100%;padding:13px;">⏳ Join the Waitlist${waitCount > 0 ? ' — Get in Line' : ''}</button>
+        <button class="btn btn-navy" onclick="openWaitlist(${h.id})" style="width:100%;padding:13px;"> Join the Waitlist${waitCount > 0 ? ' — Get in Line' : ''}</button>
       </div>`;
   } else {
     actEl.innerHTML = `
-      <button class="btn btn-navy" onclick="goTo('s-inquiry')" style="flex:2">📝 Ask a Question</button>
-      <button class="btn btn-ghost" onclick="goTo('s-visit')" style="flex:1">📅 Visit</button>`;
+      <button class="btn btn-navy" onclick="goTo('s-inquiry')" style="flex:2"><i class="ph ph-note-pencil"></i> Ask a Question</button>
+      <button class="btn btn-ghost" onclick="goTo('s-visit')" style="flex:1"><i class="ph ph-calendar-blank"></i> Visit</button>`;
   }
   // FIX 10: Populate inquiry confirm card with real house data (Commitment & Consistency)
   const school2 = state.school==='evsu'?'EVSU':'BCC';
@@ -4932,11 +5063,11 @@ function toggleFilter() {
     <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:#0B1F3A;margin-bottom:16px;">Filter Listings</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
       ${[
-        ['all','All listings','🏘️'],
-        ['available','Available now','✅'],
-        ['under2k','Under ₱2,000','💰'],
-        ['wifi','WiFi included','📶'],
-        ['nocurfew','No curfew','🌙'],
+        ['all','All listings','<i class="ph ph-house"></i>'],
+        ['available','Available now','<i class="ph ph-check-circle"></i>'],
+        ['under2k','Under ₱2,000','<i class="ph ph-money"></i>'],
+        ['wifi','WiFi included','<i class="ph ph-wifi"></i>'],
+        ['nocurfew','No curfew',''],
       ].map(([f,lbl,ic])=>`
         <button onclick="setFilter('${f}',null);document.getElementById('filter-sheet').classList.add('hidden');"
           style="display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:12px;border:2px solid ${state.filter===f?'#1558CC':'#E4DDD5'};background:${state.filter===f?'#EFF6FF':'#fff'};font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:700;color:${state.filter===f?'#1558CC':'#374151'};cursor:pointer;text-align:left;">
@@ -4971,7 +5102,7 @@ function submitInquiry() {
     houseId: state.currentHouseId,
     name, school, course, date, q: q||'(No specific question)',
     status:'pending', time:'Just now',
-    avatar:['🐱','🐻','🐸','🦊','🐨','🐼'][Math.floor(Math.random()*6)]
+    avatar:['<i class="ph ph-user-circle"></i>','<i class="ph ph-user-circle"></i>','<i class="ph ph-user-circle"></i>','<i class="ph ph-user-circle"></i>','<i class="ph ph-user-circle"></i>','<i class="ph ph-user-circle"></i>'][Math.floor(Math.random()*6)]
   };
   state.inquiries.unshift(inq);
   state.myInquiries.unshift({id:inq.id, houseId:inq.houseId, houseName:h.name, status:'pending', q:inq.q, time:'Just now'});
@@ -4982,12 +5113,12 @@ function submitInquiry() {
   document.getElementById('inq-school').value='';
 
   // show success
-  document.getElementById('succ-ic').textContent='✅';
+  document.getElementById('succ-ic').innerHTML='<i class="ph ph-check-circle"></i>';
   document.getElementById('succ-title').textContent='Inquiry Sent!';
   document.getElementById('succ-body').textContent=`Your inquiry was sent to ${h.name}. Landlords typically respond within 24 hours.`;
   document.getElementById('succ-card').innerHTML=`
     <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px">Inquiry Summary</div>
-    ${[['House',h.name],['Status','⏳ Awaiting Reply'],['School',school],['Move-in',date||'—']].map(([l,v])=>`
+    ${[['House',h.name],['Status',' Awaiting Reply'],['School',school],['Move-in',date||'—']].map(([l,v])=>`
     <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">
       <span style="color:var(--muted)">${l}</span>
       <span style="font-weight:700">${v}</span>
@@ -5044,12 +5175,12 @@ function confirmVisit() {
   state.visits.unshift({id:state.nextId++,name:'You',house:h.name,date:slot.date,time:slot.time,status:'pending'});
   save();
 
-  document.getElementById('succ-ic').textContent='📅';
+  document.getElementById('succ-ic').innerHTML='<i class="ph ph-calendar-blank"></i>';
   document.getElementById('succ-title').textContent='Visit Requested!';
   document.getElementById('succ-body').textContent=`Your visit request was sent to ${h.name}. The landlord will confirm soon.`;
   document.getElementById('succ-card').innerHTML=`
     <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px">Visit Details</div>
-    ${[['House',h.name],['Date',slot.date],['Time',slot.time],['Status','⏳ Awaiting Confirmation']].map(([l,v])=>`
+    ${[['House',h.name],['Date',slot.date],['Time',slot.time],['Status',' Awaiting Confirmation']].map(([l,v])=>`
     <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">
       <span style="color:var(--muted)">${l}</span><span style="font-weight:700">${v}</span>
     </div>`).join('')}`;
@@ -5074,7 +5205,7 @@ function confirmVisit() {
       calBtn.onclick = () => {
         const a = document.createElement('a');
         a.href = url; a.download='buhay-boarding-visit.ics'; a.click();
-        showToast('Calendar file downloaded! Open it to add to your phone calendar 📅');
+        showToast('Calendar file downloaded! Open it to add to your phone calendar <i class="ph ph-calendar-blank"></i>');
       };
     }
   } catch(e) {}
@@ -5098,7 +5229,7 @@ function joinWaitlist() {
   h.waitlist.push(name);
   save();
 
-  document.getElementById('succ-ic').textContent='⏳';
+  document.getElementById('succ-ic').textContent='';
   document.getElementById('succ-title').textContent='You\'re on the Waitlist!';
   document.getElementById('succ-body').textContent=`You are #${h.waitlist.length} on the waitlist for ${h.name}. You'll be notified when a room opens.`;
   document.getElementById('succ-card').innerHTML=`
@@ -5116,29 +5247,33 @@ function joinWaitlist() {
 function renderMyInquiries() {
   const el = document.getElementById('myinq-list');
   const empty = document.getElementById('myinq-empty');
-  // Sync statuses
   state.myInquiries.forEach(mi=>{
     const inq = state.inquiries.find(i=>i.id===mi.id);
-    if(inq) mi.status = inq.status;
+    if(inq) { mi.status = inq.status; mi.reply = inq.reply || null; }
   });
   if(!state.myInquiries.length) { el.innerHTML=''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
   const statusMap = {
-    pending:  {color:'var(--amber)',  dot:'var(--amber)', label:'Awaiting Reply'},
-    replied:  {color:'var(--green)',  dot:'var(--green)', label:'Replied'},
-    interested:{color:'var(--blue)', dot:'var(--blue)',  label:'Landlord Interested'},
-    not_a_fit:{color:'var(--red)',    dot:'var(--red)',   label:'Not a Fit'},
-    visit_scheduled:{color:'var(--teal)',dot:'var(--teal)',label:'Visit Scheduled'},
-    offered:  {color:'var(--green)',  dot:'var(--green)', label:'Room Offered!'},
-    declined: {color:'var(--muted)',  dot:'var(--muted)', label:'Declined'},
+    pending:        {color:'var(--amber)', dot:'var(--amber)', label:'Awaiting Reply'},
+    replied:        {color:'var(--green)', dot:'var(--green)', label:'Replied'},
+    interested:     {color:'var(--blue)',  dot:'var(--blue)',  label:'Landlord Interested'},
+    not_a_fit:      {color:'var(--red)',   dot:'var(--red)',   label:'Not a Fit'},
+    visit_scheduled:{color:'var(--teal)', dot:'var(--teal)', label:'Visit Scheduled'},
+    offered:        {color:'var(--green)', dot:'var(--green)', label:'Room Offered'},
+    declined:       {color:'var(--muted)', dot:'var(--muted)',label:'Declined'},
   };
   el.innerHTML = state.myInquiries.map(mi=>{
-    const s = statusMap[mi.status]||statusMap.pending;
-    const isPending = mi.status === 'pending';
+    const s = statusMap[mi.status] || statusMap.pending;
+    const replyHtml = mi.reply ? `
+      <div style="margin-top:10px;background:var(--blueLt);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 12px;">
+        <div style="font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;color:var(--blue);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;">Landlord replied</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5;">${mi.reply}</div>
+      </div>` : '';
     return `<div class="inq-item">
       <div class="inq-top"><span class="inq-house">${mi.houseName}</span><span class="inq-time">${mi.time}</span></div>
-      <div class="inq-status"><div class="sdot ${isPending ? 'sdot-pulse' : ''}" style="background:${s.dot}"></div><span style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:${s.color}">${s.label}</span></div>
+      <div class="inq-status"><div class="sdot ${mi.status==='pending'?'sdot-pulse':''}" style="background:${s.dot}"></div><span style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:${s.color}">${s.label}</span></div>
       <div class="inq-q">${mi.q}</div>
+      ${replyHtml}
     </div>`;
   }).join('');
 }
@@ -5167,7 +5302,7 @@ function renderTenantMaint() {
   const myReqs = state.myMaintenanceRequests;
   if(!myReqs.length) { el.innerHTML=''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
-  const sMap = {pending:{bg:C.amberBg,tc:C.amber,label:'Pending'},in_progress:{bg:C.tealBg,tc:C.teal,label:'In Progress'},done:{bg:C.greenBg,tc:C.green,label:'Done ✓'}};
+  const sMap = {pending:{bg:C.amberBg,tc:C.amber,label:'Pending'},in_progress:{bg:C.tealBg,tc:C.teal,label:'In Progress'},done:{bg:C.greenBg,tc:C.green,label:'Done '}};
   el.innerHTML = myReqs.map(r=>{
     const s = sMap[r.status]||sMap.pending;
     return `<div class="mreq-item">
@@ -5196,7 +5331,7 @@ function submitMaintRequest() {
   closeMaintModal();
   document.getElementById('mreq-desc').value='';
   renderTenantMaint();
-  showToast('Request submitted! Landlord notified 🔧');
+  showToast('Request submitted! Landlord notified <i class="ph ph-wrench"></i>');
 }
 
 // ════════════════════════════════════════
@@ -5265,11 +5400,11 @@ function renderLandlordHome() {
   if(empty>0) {
     const lost = empty * h.price * 0.5;
     vacEl.innerHTML = `<div class="vac-alert">
-      <span style="font-size:20px">💸</span>
+      <span style="font-size:20px"><i class="ph ph-money"></i></span>
       <div class="vac-txt"><strong>Vacancy cost this month: ₱${lost.toLocaleString()}</strong><br>${empty} room${empty>1?'s':''} empty — equal to ${Math.round(lost/70)} kilos of rice.</div>
     </div>`;
   } else {
-    vacEl.innerHTML = `<div class="callout cl-green"><span class="callout-ic">🎉</span><div class="callout-txt"><strong>Lahat ng kwarto occupied!</strong> 0 vacancy cost this month.</div></div>`;
+    vacEl.innerHTML = `<div class="callout cl-green"><span class="callout-ic"></span><div class="callout-txt"><strong>Lahat ng kwarto occupied!</strong> 0 vacancy cost this month.</div></div>`;
   }
 }
 
@@ -5295,7 +5430,7 @@ function saveRoom() {
   save();
   closeRoomModal();
   renderLandlordHome();
-  showToast('Room updated ✓');
+  showToast('Room updated ');
 }
 
 // ════════════════════════════════════════
@@ -5366,10 +5501,11 @@ function openInqDetail(id) {
     declined:  'rgba(192,57,43,.5)'
   };
 
-  const set = (elId, v) => { const e = document.getElementById(elId); if(e) e.textContent = v; };
+  const set    = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
+  const setHTML= (id, v) => { const e = document.getElementById(id); if(e) e.innerHTML  = v; };
 
-  // Populate static IDs
-  set('inq-h-avatar',  inq.avatar || '🎓');
+  // Avatar — always a person icon
+  setHTML('inq-h-avatar', '<i class="ph ph-user-circle" style="font-size:28px;color:rgba(255,255,255,.8);"></i>');
   set('inq-h-name',    inq.name);
   set('inq-h-school',  (inq.school||'') + (inq.course ? ' · ' + inq.course : ''));
   set('inq-h-badge',   statusLabels[inq.status] || inq.status);
@@ -5377,17 +5513,19 @@ function openInqDetail(id) {
   set('inq-h-date',    inq.date ? 'Move-in ' + inq.date : 'Date TBD');
   set('inq-h-question', inq.q || '—');
 
+  // Pre-fill reply field with existing reply if present
+  const replyTxt = document.getElementById('inq-reply-txt');
+  if(replyTxt) replyTxt.value = inq.reply || '';
+
   // Badge bg
   const badge = document.getElementById('inq-h-badge');
   if(badge) badge.style.background = statusColors[inq.status] || 'rgba(255,255,255,.18)';
 
-  // Hero gradient — use house gradient for context
+  // Hero gradient
   const hero = document.getElementById('inq-hero-section');
   if(hero && h?.gradient) hero.style.background = h.gradient;
 
-  // Highlight current active status button
   document.querySelectorAll('.inq-act-btn').forEach(btn => btn.style.outline = 'none');
-
   document.getElementById('modal-inq-detail').classList.remove('hidden');
 }
 
@@ -5437,7 +5575,24 @@ function setInqStatus(status) {
   closeInqModal();
   renderLandlordInbox();
   renderLandlordHome();
-  showToast('Status updated ✓');
+  showToast('Status updated ');
+}
+
+function sendInqReply() {
+  const txt = document.getElementById('inq-reply-txt')?.value.trim();
+  if(!txt) { showToast('Type a reply first'); return; }
+  const inq = state.inquiries.find(i=>i.id===state.currentInqId);
+  if(!inq) return;
+  inq.reply = txt;
+  inq.status = 'replied';
+  // Sync to seeker's myInquiries
+  const mi = state.myInquiries.find(m=>m.id===inq.id);
+  if(mi) { mi.reply = txt; mi.status = 'replied'; }
+  save();
+  document.getElementById('inq-reply-txt').value = '';
+  closeInqModal();
+  renderLandlordInbox();
+  showToast('Reply sent');
 }
 
 // ════════════════════════════════════════
@@ -5445,7 +5600,7 @@ function setInqStatus(status) {
 // ════════════════════════════════════════
 function renderRooms() {
   const h = state.houses[0];
-  const sMap = {paid:{bg:C.greenBg,tc:C.green,label:'Paid ✅'},pending:{bg:C.amberBg,tc:C.amber,label:'Pending ⏳'},empty:{bg:'var(--border)',tc:'var(--muted)',label:'Vacant'}};
+  const sMap = {paid:{bg:C.greenBg,tc:C.green,label:'Paid <i class="ph ph-check-circle"></i>'},pending:{bg:C.amberBg,tc:C.amber,label:'Pending '},empty:{bg:'var(--border)',tc:'var(--muted)',label:'Vacant'}};
   document.getElementById('l-rooms-list').innerHTML = h.rooms.map(r=>{
     const s = sMap[r.status]||sMap.empty;
     return `<div class="card card-p" style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
@@ -5502,7 +5657,7 @@ function postAnnouncement() {
   save();
   document.getElementById('ann-title').value='';
   document.getElementById('ann-body').value='';
-  showToast('Announcement sent to all tenants 📢');
+  showToast('Announcement sent to all tenants <i class="ph ph-megaphone"></i>');
   renderAnnouncements();
   // Scroll to history to show the newly posted announcement
   setTimeout(()=>{ const h=document.getElementById('ann-history-list'); if(h) h.scrollIntoView({behavior:'smooth',block:'start'}); }, 200);
@@ -5530,14 +5685,14 @@ function renderReminders() {
       `;
       summaryEl.style.display = '';
     } else {
-      summaryEl.innerHTML = '<div style="font-size:13px;color:var(--green);font-weight:700;">✅ All tenants are paid up this month!</div>';
+      summaryEl.innerHTML = '<div style="font-size:13px;color:var(--green);font-weight:700;"><i class="ph ph-check-circle"></i> All tenants are paid up this month!</div>';
       summaryEl.style.display = '';
     }
   }
   const pending = h.rooms.filter(r=>r.status==='pending');
   const el = document.getElementById('l-reminder-list');
   if(!pending.length) {
-    el.innerHTML = '<div class="callout cl-green"><span class="callout-ic">✅</span><div class="callout-txt"><strong>All tenants have paid!</strong> No reminders needed this month.</div></div>';
+    el.innerHTML = '<div class="callout cl-green"><span class="callout-ic"><i class="ph ph-check-circle"></i></span><div class="callout-txt"><strong>All tenants have paid!</strong> No reminders needed this month.</div></div>';
     return;
   }
   el.innerHTML = pending.map(r=>`
@@ -5546,18 +5701,18 @@ function renderReminders() {
         <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text)">${r.tenant||'Unknown'}</div>
         <div style="font-size:12px;color:var(--muted)">${r.name} • ₱${r.amount.toLocaleString()} due</div>
       </div>
-      <button class="btn btn-blue" style="padding:8px 12px;font-size:12px" onclick="sendSingleReminder(${r.id})">Send 🔔</button>
+      <button class="btn btn-blue" style="padding:8px 12px;font-size:12px" onclick="sendSingleReminder(${r.id})">Send <i class="ph ph-bell"></i></button>
     </div>`).join('');
 }
 
 function sendSingleReminder(roomId) {
-  showToast('Reminder sent! 🔔');
+  showToast('Reminder sent! <i class="ph ph-bell"></i>');
 }
 function sendAllReminders() {
   const h = state.houses[0];
   const count = h.rooms.filter(r=>r.status==='pending').length;
   if(!count) { showToast('No pending payments!'); return; }
-  showToast(`Reminder sent to ${count} tenant${count>1?'s':''} 🔔`);
+  showToast(`Reminder sent to ${count} tenant${count>1?'s':''} <i class="ph ph-bell"></i>`);
 }
 
 // ════════════════════════════════════════
@@ -5571,16 +5726,22 @@ function renderExpenses() {
   if(!state.expenses.length) { el.innerHTML=''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
   el.innerHTML = state.expenses.map(e=>`
-    <div class="exp-item">
-      <div class="exp-left">
-        <span class="exp-ic">${e.cat.split(' ')[0]}</span>
-        <div><div class="exp-name">${e.desc}</div><div class="exp-cat">${e.cat.replace(/^\S+\s/,'')}</div></div>
+    <div class="exp-item" style="align-items:center">
+      <div class="exp-left" style="flex:1">
+        <div><div class="exp-name">${e.desc}</div><div class="exp-cat">${e.cat}</div><div class="exp-date">${e.date}</div></div>
       </div>
-      <div style="text-align:right">
+      <div style="display:flex;align-items:center;gap:10px">
         <div class="exp-amt">-₱${Number(e.amount).toLocaleString()}</div>
-        <div class="exp-date">${e.date}</div>
+        <button onclick="deleteExpense(${e.id})" style="background:var(--redBg);border:none;border-radius:8px;padding:6px 8px;cursor:pointer;color:var(--red);font-size:13px;display:flex;align-items:center;">
+          <i class="ph ph-trash"></i>
+        </button>
       </div>
     </div>`).join('');
+}
+
+function deleteExpense(id) {
+  state.expenses = state.expenses.filter(e=>e.id!==id);
+  save(); renderExpenses(); showToast('Expense removed');
 }
 
 function addExpense() {
@@ -5593,7 +5754,7 @@ function addExpense() {
   save();
   closeExpenseModal();
   renderExpenses();
-  showToast('Expense logged ✓');
+  showToast('Expense logged ');
 }
 
 // ════════════════════════════════════════
@@ -5610,13 +5771,13 @@ function renderLandlordMaint() {
   const sMap = {
     pending:{bg:C.amberBg,tc:C.amber,label:'Pending'},
     in_progress:{bg:C.tealBg,tc:C.teal,label:'In Progress'},
-    done:{bg:C.greenBg,tc:C.green,label:'Done ✓'},
+    done:{bg:C.greenBg,tc:C.green,label:'Done '},
   };
   const el = document.getElementById('l-maint-list');
   if(!reqs.length) { el.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">No maintenance requests</div>'; return; }
   el.innerHTML = reqs.map(r=>{
     const s = sMap[r.status]||sMap.pending;
-    const urgMap = {normal:'',urgent:'🔴 Urgent',emergency:'🚨 Emergency'};
+    const urgMap = {normal:'',urgent:' Urgent',emergency:'<i class="ph ph-siren"></i> Emergency'};
     return `<div class="mt-item">
       <div class="mt-top">
         <div><div class="mt-title">${r.type}</div><div class="mt-room">${r.room} • ${r.tenantName} • ${r.time}</div></div>
@@ -5626,7 +5787,7 @@ function renderLandlordMaint() {
       <div class="mt-foot">
         ${r.urgency!=='normal'?`<span class="tag tr" style="font-size:10px">${urgMap[r.urgency]}</span>`:''}
         ${r.status==='pending'?`<button class="btn-green-sm" style="font-size:11px;padding:5px 10px" onclick="updateMaint(${r.id},'in_progress')">Mark In Progress</button>`:''}
-        ${r.status==='in_progress'?`<button class="btn-green-sm" style="font-size:11px;padding:5px 10px" onclick="updateMaint(${r.id},'done')">Mark Done ✓</button>`:''}
+        ${r.status==='in_progress'?`<button class="btn-green-sm" style="font-size:11px;padding:5px 10px" onclick="updateMaint(${r.id},'done')">Mark Done </button>`:''}
       </div>
     </div>`;
   }).join('');
@@ -5634,7 +5795,7 @@ function renderLandlordMaint() {
 
 function updateMaint(id, status) {
   const r = state.maintenanceRequests.find(x=>x.id===id);
-  if(r) { r.status=status; save(); renderLandlordMaint(); showToast('Status updated ✓'); }
+  if(r) { r.status=status; save(); renderLandlordMaint(); showToast('Status updated '); }
 }
 
 // ════════════════════════════════════════
@@ -5654,7 +5815,7 @@ function renderVisits() {
         <span class="tag ${isPending?'ta2':'tgn'}">${isPending?'Pending':'Confirmed'}</span>
       </div>
       ${isPending?`<div style="display:flex;gap:8px;margin-top:8px">
-        <button class="btn-green-sm" style="flex:1" onclick="confirmVisitL(${v.id})">✅ Confirm</button>
+        <button class="btn-green-sm" style="flex:1" onclick="confirmVisitL(${v.id})"><i class="ph ph-check-circle"></i> Confirm</button>
         <button class="btn-red-sm" style="flex:1" onclick="cancelVisit(${v.id})">Cancel</button>
       </div>`:''}
     </div>`;
@@ -5663,7 +5824,7 @@ function renderVisits() {
 
 function confirmVisitL(id) {
   const v = state.visits.find(x=>x.id===id);
-  if(v) { v.status='confirmed'; save(); renderVisits(); showToast('Visit confirmed ✓'); }
+  if(v) { v.status='confirmed'; save(); renderVisits(); showToast('Visit confirmed '); }
 }
 function cancelVisit(id) {
   state.visits = state.visits.filter(x=>x.id!==id);
@@ -5683,8 +5844,8 @@ function showRegStep(n) {
 function regStep1() {
   const name = document.getElementById('reg-name').value.trim();
   const phone = document.getElementById('reg-phone').value.trim();
-  if(!name) { showToast('⚠️ Ilagay ang iyong pangalan'); return; }
-  if(!phone || phone.length < 10) { showToast('⚠️ Mali ang phone number'); return; }
+  if(!name) { showToast('<i class="ph ph-warning"></i> Ilagay ang iyong pangalan'); return; }
+  if(!phone || phone.length < 10) { showToast('<i class="ph ph-warning"></i> Mali ang phone number'); return; }
   state.regTempName = name;
   state.regTempPhone = phone;
   showRegStep(2);
@@ -5704,10 +5865,10 @@ function getOtpValue() {
 
 function regStep2() {
   const code = getOtpValue();
-  if(code.length < 6) { showToast('⚠️ I-complete ang 6-digit code'); return; }
+  if(code.length < 6) { showToast('<i class="ph ph-warning"></i> I-complete ang 6-digit code'); return; }
   // Find matching tenant
   const match = state.pendingTenants.find(t => t.code === code);
-  if(!match) { showToast('❌ Mali ang invite code. Subukan ulit.'); return; }
+  if(!match) { showToast('<i class="ph ph-x-circle"></i> Mali ang invite code. Subukan ulit.'); return; }
   const house = state.houses.find(h => h.id === match.houseId);
   const room = house?.rooms.find(r => r.name === match.room);
   document.getElementById('reg-confirm-name').textContent = match.name;
@@ -5718,7 +5879,7 @@ function regStep2() {
 
 function completeRegistration() {
   const match = state.pendingTenants.find(t => t.code === state.currentInviteCode);
-  if(!match) { showToast('❌ May problema. Subukan ulit.'); return; }
+  if(!match) { showToast('<i class="ph ph-x-circle"></i> May problema. Subukan ulit.'); return; }
   match.status = 'active';
   const house = state.houses.find(h => h.id === match.houseId);
   const room = house?.rooms.find(r => r.name === match.room);
@@ -5734,7 +5895,7 @@ function completeRegistration() {
     paymentStatus: room?.status || 'pending',
   };
   save();
-  showToast('🎉 Maligayang pagdating, ' + match.name + '!');
+  showToast(' Maligayang pagdating, ' + match.name + '!');
   setRole('tenant');
 }
 
@@ -5760,8 +5921,8 @@ function renderTenantManagement() {
           <div class="tc-room">${t.room} • ${t.phone}</div>
         </div>
         <div>${isActive
-          ? '<span class="tc-status-active">✓ Active</span>'
-          : '<span class="tc-status-pending">⏳ Pending</span>'
+          ? '<span class="tc-status-active"> Active</span>'
+          : '<span class="tc-status-pending"> Pending</span>'
         }</div>
       </div>
       ${!isActive ? `<div class="tc-code">
@@ -5799,8 +5960,8 @@ function addTenantAndGenerateCode() {
   const name = document.getElementById('at-name').value.trim();
   const phone = document.getElementById('at-phone').value.trim();
   const room = document.getElementById('at-room').value;
-  if(!name) { showToast('⚠️ Ilagay ang pangalan ng tenant'); return; }
-  if(!phone || phone.length < 10) { showToast('⚠️ Mali ang phone number'); return; }
+  if(!name) { showToast('<i class="ph ph-warning"></i> Ilagay ang pangalan ng tenant'); return; }
+  if(!phone || phone.length < 10) { showToast('<i class="ph ph-warning"></i> Mali ang phone number'); return; }
   const code = String(Math.floor(100000 + Math.random() * 900000));
   const newTenant = {
     id: state.nextId++,
@@ -5836,14 +5997,14 @@ function copyInviteCode() {
 function copyCode(code, name) {
   if(navigator.clipboard) {
     navigator.clipboard.writeText(code).then(()=>{
-      showToast(`✓ Nakopya ang code ni ${name}: ${code}`);
+      showToast(` Nakopya ang code ni ${name}: ${code}`);
     }).catch(()=> showToast(`Code ni ${name}: ${code}`));
   } else {
     // Fallback for older browsers
     const ta = document.createElement('textarea');
     ta.value = code; ta.style.position='fixed'; ta.style.opacity='0';
     document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); showToast(`✓ Nakopya: ${code}`); }
+    try { document.execCommand('copy'); showToast(` Nakopya: ${code}`); }
     catch(e) { showToast(`Code: ${code}`); }
     document.body.removeChild(ta);
   }
@@ -5875,7 +6036,7 @@ function copyQRLink() {
   const house = state.houses.find(h => h.id === state.currentHouseId);
   const link = `buhayboarding://register?house=${state.currentHouseId}&name=${encodeURIComponent(house?.name||'')}`;
   if(navigator.clipboard) {
-    navigator.clipboard.writeText(link).then(()=>showToast('✓ Na-copy ang registration link!')).catch(()=>showToast('Link: ' + link));
+    navigator.clipboard.writeText(link).then(()=>showToast(' Na-copy ang registration link!')).catch(()=>showToast('Link: ' + link));
   } else {
     showToast('buhayboarding://register?house=' + state.currentHouseId);
   }
@@ -5908,10 +6069,10 @@ function renderTenantHome() {
   const payStatus = document.getElementById('t-payment-status');
   if(payStatus) {
     if(profile.paymentStatus === 'paid') {
-      payStatus.textContent = '✓ Bayad na';
+      payStatus.textContent = ' Bayad na';
       payStatus.style.background = 'rgba(255,255,255,.2)';
     } else {
-      payStatus.textContent = '⏳ Hindi pa bayad';
+      payStatus.textContent = ' Hindi pa bayad';
       payStatus.style.background = 'rgba(255,200,0,.25)';
     }
   }
@@ -5927,7 +6088,7 @@ function renderTenantHome() {
     return;
   }
   if(emptyEl) emptyEl.classList.add('hidden');
-  const catMap = {reminder:{ic:'💵',bg:'var(--amberBg)',c:'var(--amber)'},info:{ic:'ℹ️',bg:'var(--blueLt,#EDF4FC)',c:'var(--blue)'},emergency:{ic:'🚨',bg:'var(--redBg)',c:'var(--red)'},activity:{ic:'🎉',bg:'var(--greenBg)',c:'var(--green)'}};
+  const catMap = {reminder:{ic:'<i class="ph ph-money"></i>',bg:'var(--amberBg)',c:'var(--amber)'},info:{ic:'ℹ️',bg:'var(--blueLt,#EDF4FC)',c:'var(--blue)'},emergency:{ic:'<i class="ph ph-siren"></i>',bg:'var(--redBg)',c:'var(--red)'},activity:{ic:'',bg:'var(--greenBg)',c:'var(--green)'}};
   if(list) list.innerHTML = state.announcements.map(a => {
     const cat = catMap[a.cat]||catMap.info;
     return `<div class="ann-card" onclick="markAnnRead(${a.id})">
@@ -5956,9 +6117,9 @@ renderHouses();
 // PROFILE & ONBOARDING STATE
 // ════════════════════════════════════════
 const profiles = {
-  seeker: { name:'', phone:'', school:'', course:'', budget:1500, avatar:'🎓',
+  seeker: { name:'', phone:'', school:'', course:'', budget:1500, avatar:'<i class="ph ph-graduation-cap"></i>',
             wifi:true, cooking:false, visitors:true, nocurfew:false, created:null },
-  landlord: { name:'', phone:'', bhName:'', address:'', gcash:'', avatar:'🏠', created:null },
+  landlord: { name:'', phone:'', bhName:'', address:'', gcash:'', avatar:'<i class="ph ph-house"></i>', created:null },
   newLandlord: { name:'', phone:'', gcash:'', bhName:'', address:'', school:'EVSU',
                  distance:5, price:1500, rooms:4, curfew:'10:00 PM',
                  wifi:true, cooking:false, visitors:true, laundry:true, step:1 }
@@ -6019,7 +6180,7 @@ function seekerSetupNext() {
     saveProfiles();
     renderSeekerProfile();
     state.role = 'seeker';
-    showToast('Profile created! Welcome to Buhay Boarding 🎉');
+    showToast('Profile created! Welcome to Buhay Boarding ');
     goTo('s-home');
   }
 }
@@ -6042,7 +6203,7 @@ function showSeekerSetupStep(n) {
   document.getElementById('ss-title').textContent = titles[n-1];
   document.getElementById('ss-sub').textContent   = subs[n-1];
   document.getElementById('lo-next-btn') && null; // no-op guard
-  if(n===3) document.getElementById('ss-next-btn').textContent = 'Create Profile ✓';
+  if(n===3) document.getElementById('ss-next-btn').textContent = 'Create Profile ';
   else document.getElementById('ss-next-btn').textContent = 'Next →';
   seekerSetupStep = n;
 }
@@ -6118,7 +6279,7 @@ function setAvatarEl(imgId, emojiId, photo, emoji) {
     if(espan) espan.style.display = 'none';
   } else {
     img.style.display = 'none';
-    if(espan) { espan.style.display = ''; espan.textContent = emoji||'🎓'; }
+    if(espan) { espan.style.display = ''; espan.innerHTML = emoji||'<i class="ph ph-graduation-cap"></i>'; }
   }
 }
 
@@ -6142,7 +6303,7 @@ function renderSeekerProfile() {
   el('sp-visit-count', 0);
   el('sp-wl-count',    0);
   // Photo or emoji
-  setAvatarEl('sp-avatar-img','sp-avatar-emoji', p.photo, p.avatar||'🎓');
+  setAvatarEl('sp-avatar-img','sp-avatar-emoji', p.photo, p.avatar||'<i class="ph ph-graduation-cap"></i>');
   // Optional fields
   const gRow = document.getElementById('sp-gender-row');
   if(gRow) { gRow.style.display = p.gender ? '' : 'none'; el('sp-gender', p.gender||''); }
@@ -6170,22 +6331,30 @@ function renderTenantHouseInfo() {
   const h = state.houses.find(x => x.id === profile.houseId) || state.houses[0];
   const room = (h?.rooms || []).find(r => r.name === profile.room) || h?.rooms?.[0];
   const lp = profiles.landlord;
-
   const el = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
   const sty = (id,s,v) => { const e=document.getElementById(id); if(e) e.style[s]=v; };
-
-  el('thi-room',       room ? room.name + ' — ' + (h?.name||'') : profile.roomLabel);
-  el('thi-rent',       '₱' + (room?.amount||profile.rent||1500).toLocaleString());
-  el('thi-status',     profile.paymentStatus === 'paid' ? '✓ Paid' : '⏳ Pending');
-  sty('thi-status',   'color', profile.paymentStatus === 'paid' ? 'var(--green)' : 'var(--amber)');
-  el('thi-curfew',     h?.curfew || '10:00 PM');
-  el('thi-wifi',       h?.rules?.wifi ? 'Included' : 'Not included');
-  el('thi-cooking',    h?.rules?.cooking ? 'Allowed' : 'Not allowed');
-  el('thi-visitors',   h?.rules?.visitors || 'Until 8PM');
-  el('thi-gcash',      lp.gcash || '0917 xxx xxxx');
-  el('thi-landlord',   lp.name || h?.name?.split(' ')[0] || 'Landlord');
-  el('thi-phone',      lp.phone || '0917 yyy yyyy');
-  el('thi-address',    h?.address || 'Burauen, Leyte');
+  el('thi-room',     room ? room.name + ' — ' + (h?.name||'') : profile.roomLabel);
+  el('thi-rent',     '₱' + (room?.amount||profile.rent||1500).toLocaleString());
+  el('thi-status',   profile.paymentStatus === 'paid' ? 'Paid' : 'Pending');
+  sty('thi-status',  'color', profile.paymentStatus === 'paid' ? 'var(--green)' : 'var(--amber)');
+  el('thi-curfew',   h?.curfew || '10:00 PM');
+  el('thi-wifi',     h?.rules?.wifi ? 'Included' : 'Not included');
+  el('thi-cooking',  h?.rules?.cooking ? 'Allowed' : 'Not allowed');
+  el('thi-visitors', h?.rules?.visitors || 'Until 8PM');
+  el('thi-pets',     h?.rules?.pets ? 'Allowed' : 'Not allowed');
+  el('thi-laundry',  h?.rules?.laundry ? 'On-site area' : 'Not available');
+  el('thi-gcash',    lp.gcash || '0917 xxx xxxx');
+  el('thi-landlord', lp.name || h?.name?.split(' ')[0] || 'Landlord');
+  el('thi-phone',    lp.phone || '0917 yyy yyyy');
+  el('thi-address',  h?.address || 'Burauen, Leyte');
+  // Custom rules from listing editor
+  const sec = document.getElementById('thi-custom-rules-section');
+  const lst = document.getElementById('thi-custom-rules-list');
+  const cr  = h?.customRules || [];
+  if(sec && lst) {
+    sec.style.display = cr.length ? '' : 'none';
+    lst.innerHTML = cr.map(r=>`<div class="info-row"><span class="info-lbl">${r.text}</span></div>`).join('');
+  }
 }
 
 // ════════════════════════════════════════
@@ -6206,7 +6375,7 @@ function saveLandlordProfile() {
   profiles.landlord.created = new Date().toLocaleDateString('en-PH',{month:'long',year:'numeric'});
   saveProfiles();
   renderLandlordProfile();
-  showToast('Profile saved! Welcome 🏠');
+  showToast('Profile saved! Welcome <i class="ph ph-house"></i>');
   goTo('l-home');
 }
 function renderLandlordProfile() {
@@ -6218,7 +6387,7 @@ function renderLandlordProfile() {
   el('lp-address', p.address||'—');
   el('lp-gcash',   p.gcash||'—');
   el('lp-phone',   p.phone||'—');
-  setAvatarEl('lp-avatar-img','lp-avatar-emoji', p.photo, p.avatar||'🏠');
+  setAvatarEl('lp-avatar-img','lp-avatar-emoji', p.photo, p.avatar||'<i class="ph ph-house"></i>');
   const gRow = document.getElementById('lp-gender-row');
   if(gRow) { gRow.style.display = p.gender ? '' : 'none'; el('lp-gender', p.gender||''); }
   const bRow = document.getElementById('lp-bday-row');
@@ -6274,7 +6443,7 @@ function landlordOnboardNext() {
     loStep = 4; showLoStep(4);
   } else if(loStep===4) {
     saveProfiles();
-    showToast('Listing submitted! We\'ll be in touch within 2-3 days 🎉');
+    showToast('Listing submitted! We\'ll be in touch within 2-3 days ');
     loStep = 1;
     goTo('s-role');
   }
@@ -6291,7 +6460,7 @@ function showLoStep(n) {
   if(fill) fill.style.width = (n/LO_STEPS*100)+'%';
   document.getElementById('lo-back-btn').style.display = n>1 ? '' : 'none';
   const nextBtn = document.getElementById('lo-next-btn');
-  if(nextBtn) nextBtn.textContent = n===LO_STEPS ? 'Submit Listing ✓' : 'Next →';
+  if(nextBtn) nextBtn.textContent = n===LO_STEPS ? 'Submit Listing ' : 'Next →';
   const titles = ['List Your Boarding House','Property Details','Rooms & Pricing','Review & Submit'];
   const subs = [
     'Free setup. Verified listing. Start getting serious inquiries.',
@@ -6375,7 +6544,7 @@ function showLandlordProfileBanner() {
 // ════════════════════════════════════════
 // TENANT PROFILE SETUP
 // ════════════════════════════════════════
-if(!profiles.tenant) profiles.tenant = { school:'', course:'', emergencyName:'', emergencyPhone:'', avatar:'🎓', created:null };
+if(!profiles.tenant) profiles.tenant = { school:'', course:'', emergencyName:'', emergencyPhone:'', avatar:'<i class="ph ph-graduation-cap"></i>', created:null };
 function saveTenantProfile() {
   if(!profiles.tenant) profiles.tenant = {};
   profiles.tenant.school         = document.getElementById('tp-school').value;
@@ -6387,7 +6556,7 @@ function saveTenantProfile() {
   // photo and gender already saved on pick
   profiles.tenant.created = new Date().toLocaleDateString('en-PH',{month:'long',year:'numeric'});
   saveProfiles();
-  showToast('Profile saved! ✓');
+  showToast('Profile saved! ');
   goBack();
 }
 
@@ -6428,8 +6597,8 @@ window.addEventListener('error', function(evt) {
 function loadSafe() {
   try {
     const raw = localStorage.getItem('bb_state');
-    if (!raw) return; // no saved state — fresh start, fine
-    const d = JSON.parse(raw); // can throw if corrupted
+    if (!raw) return;
+    const d = JSON.parse(raw);
     if (d.inquiries)       state.inquiries       = d.inquiries;
     if (d.announcements)   state.announcements   = d.announcements;
     if (d.maintenanceRequests) state.maintenanceRequests = d.maintenanceRequests;
@@ -6440,7 +6609,23 @@ function loadSafe() {
     if (d.houses) {
       d.houses.forEach(dh => {
         const sh = state.houses.find(h => h.id === dh.id);
-        if (sh) { sh.rooms = dh.rooms; sh.waitlist = dh.waitlist; }
+        if (sh) {
+          sh.rooms        = dh.rooms        || sh.rooms;
+          sh.waitlist     = dh.waitlist     || sh.waitlist;
+          // Restore listing-editor fields
+          if (dh.name)        sh.name        = dh.name;
+          if (dh.address)     sh.address     = dh.address;
+          if (dh.price)       sh.price       = dh.price;
+          if (dh.curfew)      sh.curfew      = dh.curfew;
+          if (dh.gradient)    sh.gradient    = dh.gradient;
+          if (dh.about)       sh.about       = dh.about;
+          if (dh.snapshots)   sh.snapshots   = dh.snapshots;
+          if (dh.customRules) sh.customRules = dh.customRules;
+          if (dh.amenities)   sh.amenities   = dh.amenities;
+          if (dh.distanceEVSU) sh.distanceEVSU = dh.distanceEVSU;
+          if (dh.distanceBCC)  sh.distanceBCC  = dh.distanceBCC;
+          if (dh.rules)       Object.assign(sh.rules, dh.rules);
+        }
       });
     }
     if (d.visits)          state.visits          = d.visits;
@@ -6448,17 +6633,13 @@ function loadSafe() {
     if (d.tenantProfile)   state.tenantProfile   = d.tenantProfile;
     if (d.seekerProfile)   state.seekerProfile   = d.seekerProfile;
     if (d.visitSlots)      state.visitSlots      = d.visitSlots;
+    if (d.paymentLog)      state.paymentLog      = d.paymentLog;
   } catch(e) {
     console.warn('[BB] localStorage parse failed — using defaults:', e.message);
-    // Log to error store for debugging
     try { localStorage.setItem('bb_last_error', JSON.stringify({type:'parse', msg:e.message, ts:Date.now()})); } catch(_){}
-    // Show recovery notice after a short delay (so DOM is ready)
-    setTimeout(() => {
-      showToast('Data restored from defaults — you can continue normally');
-    }, 800);
+    setTimeout(() => { showToast('Data restored from defaults — you can continue normally'); }, 800);
   }
 }
-// Replace the old load() call at startup
 loadSafe();
 
 
@@ -6485,37 +6666,37 @@ const BHL_GRADIENTS = [
 
 const AMENITY_GROUPS = {
   utilities: [
-    {ic:'📶',label:'WiFi Included'},{ic:'💡',label:'Electricity included'},
-    {ic:'💧',label:'Water included'},{ic:'❄️',label:'Electric fan provided'},
-    {ic:'🔌',label:'Free charging outlets'},{ic:'📺',label:'Cable TV'},
+    {ic:'<i class="ph ph-wifi"></i>',label:'WiFi Included'},{ic:'<i class="ph ph-lightbulb"></i>',label:'Electricity included'},
+    {ic:'<i class="ph ph-drop"></i>',label:'Water included'},{ic:'<i class="ph ph-snowflake"></i>',label:'Electric fan provided'},
+    {ic:'<i class="ph ph-plug"></i>',label:'Free charging outlets'},{ic:'<i class="ph ph-television"></i>',label:'Cable TV'},
   ],
   room: [
-    {ic:'🛏️',label:'With bed frame'},{ic:'🪑',label:'With study table'},
-    {ic:'🗄️',label:'Cabinet / closet'},{ic:'🔐',label:'Door with padlock'},
-    {ic:'🪟',label:'Window with view'},{ic:'🚿',label:'Private CR'},
-    {ic:'🛁',label:'Private bathroom'},{ic:'🏠',label:'Spacious rooms'},
+    {ic:'<i class="ph ph-bed"></i>',label:'With bed frame'},{ic:'<i class="ph ph-office-chair"></i>',label:'With study table'},
+    {ic:'<i class="ph ph-archive-box"></i>',label:'Cabinet / closet'},{ic:'<i class="ph ph-lock-key"></i>',label:'Door with padlock'},
+    {ic:'<i class="ph ph-frame-corners"></i>',label:'Window with view'},{ic:'<i class="ph ph-shower"></i>',label:'Private CR'},
+    {ic:'<i class="ph ph-bathtub"></i>',label:'Private bathroom'},{ic:'<i class="ph ph-house"></i>',label:'Spacious rooms'},
   ],
   location: [
-    {ic:'🎓',label:'Near EVSU'},{ic:'📚',label:'Near BCC'},
-    {ic:'🏪',label:'Near market'},{ic:'🍚',label:'Near carenderia'},
-    {ic:'☕',label:'Near café'},{ic:'🏥',label:'Near hospital'},
-    {ic:'🚌',label:'Near terminal'},{ic:'🏧',label:'Near ATM'},
+    {ic:'<i class="ph ph-graduation-cap"></i>',label:'Near EVSU'},{ic:'<i class="ph ph-books"></i>',label:'Near BCC'},
+    {ic:'<i class="ph ph-storefront"></i>',label:'Near market'},{ic:'',label:'Near carenderia'},
+    {ic:'<i class="ph ph-coffee"></i>',label:'Near café'},{ic:'<i class="ph ph-first-aid"></i>',label:'Near hospital'},
+    {ic:'<i class="ph ph-bus"></i>',label:'Near terminal'},{ic:'<i class="ph ph-credit-card"></i>',label:'Near ATM'},
   ],
   policy: [
-    {ic:'🍳',label:'Cooking allowed'},{ic:'🐾',label:'Pets allowed'},
-    {ic:'👥',label:'Visitors allowed'},{ic:'🔕',label:'Quiet environment'},
-    {ic:'🌙',label:'No curfew'},{ic:'🔒',label:'24/7 security'},
-    {ic:'📷',label:'CCTV cameras'},{ic:'🧹',label:'Weekly cleaning service'},
+    {ic:'<i class="ph ph-cooking-pot"></i>',label:'Cooking allowed'},{ic:'<i class="ph ph-paw-print"></i>',label:'Pets allowed'},
+    {ic:'<i class="ph ph-users"></i>',label:'Visitors allowed'},{ic:'<i class="ph ph-bell-slash"></i>',label:'Quiet environment'},
+    {ic:'',label:'No curfew'},{ic:'<i class="ph ph-lock"></i>',label:'24/7 security'},
+    {ic:'<i class="ph ph-camera"></i>',label:'CCTV cameras'},{ic:'<i class="ph ph-broom"></i>',label:'Weekly cleaning service'},
   ],
 };
 
-const EMOJI_OPTIONS = ['📌','🚫','✅','🔕','🚭','🧹','🔑','📋','⚠️','🌟','🔇','🔒','💧','🗑️','🎵'];
+const RULE_SYMBOLS = ['•','–','→','✦','◆','▸','※','★','◉','○','▪','□','▶','‣','⁃'];
 let bhlEmojiIdx = 0;
 
 function cycleBhlEmoji() {
-  bhlEmojiIdx = (bhlEmojiIdx + 1) % EMOJI_OPTIONS.length;
+  bhlEmojiIdx = (bhlEmojiIdx + 1) % RULE_SYMBOLS.length;
   const el = document.getElementById('bhl-rule-emoji-inp');
-  if(el) el.value = EMOJI_OPTIONS[bhlEmojiIdx];
+  if(el) el.value = RULE_SYMBOLS[bhlEmojiIdx];
 }
 
 function switchBhlTab(tab, btn) {
@@ -6647,9 +6828,9 @@ function addCustomRule() {
   const textEl  = document.getElementById('bhl-rule-text-inp');
   const text = textEl?.value.trim();
   if(!text) { showToast('Type a rule first'); return; }
-  const emoji = emojiEl?.value || '📌';
+  const sym = emojiEl?.value || '•';
   if(!state.houses[0].customRules) state.houses[0].customRules = [];
-  state.houses[0].customRules.push({ emoji, text });
+  state.houses[0].customRules.push({ emoji: sym, text });
   textEl.value = '';
   renderBhlCustomRules();
 }
@@ -6660,6 +6841,19 @@ function deleteCustomRule(idx) {
 }
 
 // Snapshots
+const SNAP_ICONS = {
+  'Bedroom':'ph-bed','Bathroom':'ph-shower','Window View':'ph-frame-corners',
+  'Kitchen':'ph-cooking-pot','Laundry':'ph-t-shirt','Entrance':'ph-door',
+  'Study Area':'ph-books','WiFi Router':'ph-wifi','WiFi':'ph-wifi',
+  'Garden':'ph-tree','Private CR':'ph-shower','Common Area':'ph-house',
+  'Photo':'ph-camera','Window':'ph-frame-corners',
+};
+
+function snapIcon(label) {
+  const cls = SNAP_ICONS[label] || 'ph-image';
+  return `<i class="ph ${cls}" style="font-size:24px;color:var(--muted);"></i>`;
+}
+
 function renderBhlSnapGrid() {
   const h = state.houses[0];
   const grid = document.getElementById('bhl-snap-grid');
@@ -6669,7 +6863,7 @@ function renderBhlSnapGrid() {
   grid.innerHTML = snaps.map((s, i) => `
     <div class="snap-slot filled" style="background:${gradStart}18;border-color:${gradStart}44;">
       <span class="snap-slot-del" onclick="deleteSnap(${i})">×</span>
-      <span class="snap-slot-emoji">${s.emoji}</span>
+      <span class="snap-slot-emoji">${snapIcon(s.label)}</span>
       <span class="snap-slot-label">${s.label}</span>
     </div>`).join('');
 }
@@ -6678,17 +6872,16 @@ function addSnapSlot() {
   const h = state.houses[0];
   if(!h.snapshots) h.snapshots = [];
   if(h.snapshots.length >= 9) { showToast('Maximum 9 photo slots'); return; }
-  h.snapshots.push({emoji:'📷', label:'Photo'});
+  h.snapshots.push({ label:'Photo' });
   renderBhlSnapGrid();
 }
 
-function addPresetSnap(emoji, label) {
+function addPresetSnap(ic_unused, label) {
   const h = state.houses[0];
   if(!h.snapshots) h.snapshots = [];
   if(h.snapshots.length >= 9) { showToast('Maximum 9 photo slots'); return; }
-  // Don't duplicate
   if(h.snapshots.find(s => s.label === label)) { showToast(label + ' already added'); return; }
-  h.snapshots.push({emoji, label});
+  h.snapshots.push({ label });
   renderBhlSnapGrid();
 }
 
@@ -6705,9 +6898,9 @@ function renderAmenityChips() {
     const el = document.getElementById(containerId);
     if(!el) return;
     el.innerHTML = items.map(item => `
-      <div class="am-chip ${selectedSet.has(item.ic + ' ' + item.label) || selectedSet.has(item.label) ? 'on' : ''}"
+      <div class="am-chip ${selectedSet.has(item.label) ? 'on' : ''}"
            onclick="toggleAmenity(this, '${item.label}')">
-        ${item.ic} ${item.label}
+        <span style="display:inline-flex;align-items:center;">${item.ic}</span> ${item.label}
       </div>`).join('');
   };
   renderGroup('bhl-am-utilities', AMENITY_GROUPS.utilities);
@@ -6755,7 +6948,7 @@ function saveBhlListing() {
   }
 
   save();
-  showToast('Listing updated ✓');
+  showToast('Listing updated ');
   setTimeout(() => goBack(), 600);
 }
 
@@ -6799,45 +6992,45 @@ function buildPinHTML(h) {
 // known local establishments placed at approx. positions.
 const LANDMARKS = [
   // ── SCHOOLS ──
-  { cat:'schools', emoji:'🎓', label:'EVSU Burauen Campus',        latlng:[10.8797, 124.9428], color:'#1558CC', bg:'#EFF6FF', note:'Eastern Visayas State University' },
-  { cat:'schools', emoji:'📚', label:'Burauen Community College',  latlng:[10.8783, 124.9355], color:'#0B7A6A', bg:'#F0FDF4', note:'BCC · 2-yr & 4-yr programs' },
-  { cat:'schools', emoji:'🏫', label:'Burauen Nat\'l High School', latlng:[10.8778, 124.9375], color:'#1558CC', bg:'#EFF6FF', note:'BNHS · Dagami-Burauen Rd' },
-  { cat:'schools', emoji:'🏫', label:'BNHS Senior High Bldg',      latlng:[10.8772, 124.9382], color:'#3B91D4', bg:'#EFF6FF', note:'Senior High School Building' },
-  { cat:'schools', emoji:'🏫', label:'Burauen North Central Sch.', latlng:[10.8774, 124.9362], color:'#5B21B6', bg:'#EDE9FE', note:'Sta. Ana St · Elementary' },
-  { cat:'schools', emoji:'🏫', label:'Burauen South Central Sch.', latlng:[10.8712, 124.9360], color:'#5B21B6', bg:'#EDE9FE', note:'South Poblacion · Elementary' },
-  { cat:'schools', emoji:'🏫', label:'Burauen West Central Sch.',  latlng:[10.8758, 124.9330], color:'#5B21B6', bg:'#EDE9FE', note:'West Poblacion · Elementary' },
-  { cat:'schools', emoji:'🏫', label:'Burauen Comp. Nat\'l HS',    latlng:[10.8790, 124.9340], color:'#1A6B3C', bg:'#F0FDF4', note:'Comprehensive HS · Poblacion' },
+  { cat:'schools', emoji:'<i class="ph ph-graduation-cap"></i>', label:'EVSU Burauen Campus',        latlng:[10.8797, 124.9428], color:'#1558CC', bg:'#EFF6FF', note:'Eastern Visayas State University' },
+  { cat:'schools', emoji:'<i class="ph ph-books"></i>', label:'Burauen Community College',  latlng:[10.8783, 124.9355], color:'#0B7A6A', bg:'#F0FDF4', note:'BCC · 2-yr & 4-yr programs' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen Nat\'l High School', latlng:[10.8778, 124.9375], color:'#1558CC', bg:'#EFF6FF', note:'BNHS · Dagami-Burauen Rd' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'BNHS Senior High Bldg',      latlng:[10.8772, 124.9382], color:'#3B91D4', bg:'#EFF6FF', note:'Senior High School Building' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen North Central Sch.', latlng:[10.8774, 124.9362], color:'#5B21B6', bg:'#EDE9FE', note:'Sta. Ana St · Elementary' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen South Central Sch.', latlng:[10.8712, 124.9360], color:'#5B21B6', bg:'#EDE9FE', note:'South Poblacion · Elementary' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen West Central Sch.',  latlng:[10.8758, 124.9330], color:'#5B21B6', bg:'#EDE9FE', note:'West Poblacion · Elementary' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen Comp. Nat\'l HS',    latlng:[10.8790, 124.9340], color:'#1A6B3C', bg:'#F0FDF4', note:'Comprehensive HS · Poblacion' },
 
   // ── FOOD & DRINKS ──
-  { cat:'food', emoji:'☕', label:'Brew & Bites Café',     latlng:[10.8768, 124.9395], color:'#B45309', bg:'#FEF3C7', note:'Coffee · snacks · study-friendly' },
-  { cat:'food', emoji:'☕', label:'Kape Burauen',          latlng:[10.8755, 124.9358], color:'#B45309', bg:'#FEF3C7', note:'Local coffee shop · near market' },
-  { cat:'food', emoji:'🍗', label:'Andok\'s Burauen',     latlng:[10.8748, 124.9388], color:'#DC2626', bg:'#FEF2F2', note:'Litson manok · fast food' },
-  { cat:'food', emoji:'🍚', label:'Carenderia Row',        latlng:[10.8742, 124.9380], color:'#D97706', bg:'#FFFBEB', note:'Local carinderia strip · budget meals' },
-  { cat:'food', emoji:'🍦', label:'Potato Corner',         latlng:[10.8751, 124.9392], color:'#F59E0B', bg:'#FFFBEB', note:'Near public market entrance' },
-  { cat:'food', emoji:'🥐', label:'Bakes & Co.',           latlng:[10.8762, 124.9342], color:'#B45309', bg:'#FEF3C7', note:'Bakeshop · near BNHS' },
+  { cat:'food', emoji:'<i class="ph ph-coffee"></i>', label:'Brew & Bites Café',     latlng:[10.8768, 124.9395], color:'#B45309', bg:'#FEF3C7', note:'Coffee · snacks · study-friendly' },
+  { cat:'food', emoji:'<i class="ph ph-coffee"></i>', label:'Kape Burauen',          latlng:[10.8755, 124.9358], color:'#B45309', bg:'#FEF3C7', note:'Local coffee shop · near market' },
+  { cat:'food', emoji:'', label:'Andok\'s Burauen',     latlng:[10.8748, 124.9388], color:'#DC2626', bg:'#FEF2F2', note:'Litson manok · fast food' },
+  { cat:'food', emoji:'', label:'Carenderia Row',        latlng:[10.8742, 124.9380], color:'#D97706', bg:'#FFFBEB', note:'Local carinderia strip · budget meals' },
+  { cat:'food', emoji:'', label:'Potato Corner',         latlng:[10.8751, 124.9392], color:'#F59E0B', bg:'#FFFBEB', note:'Near public market entrance' },
+  { cat:'food', emoji:'', label:'Bakes & Co.',           latlng:[10.8762, 124.9342], color:'#B45309', bg:'#FEF3C7', note:'Bakeshop · near BNHS' },
 
   // ── STORES & ESSENTIALS ──
-  { cat:'stores', emoji:'🏪', label:'Public Market',           latlng:[10.8748, 124.9395], color:'#7C3AED', bg:'#EDE9FE', note:'Main palengke · open daily' },
-  { cat:'stores', emoji:'🏪', label:'Burauen Supermarket',     latlng:[10.8744, 124.9385], color:'#7C3AED', bg:'#EDE9FE', note:'Groceries & daily needs' },
-  { cat:'stores', emoji:'📦', label:'LBC Express',             latlng:[10.8752, 124.9370], color:'#DC2626', bg:'#FEF2F2', note:'Padala & cargo · near plaza' },
-  { cat:'stores', emoji:'💊', label:'Mercury Drug',            latlng:[10.8756, 124.9378], color:'#7C3AED', bg:'#EDE9FE', note:'24-hr pharmacy' },
-  { cat:'stores', emoji:'🛒', label:'Puregold Burauen',        latlng:[10.8738, 124.9398], color:'#7C3AED', bg:'#EDE9FE', note:'Supermarket · south market area' },
-  { cat:'stores', emoji:'📱', label:'Smart / DITO Store',      latlng:[10.8760, 124.9365], color:'#2563EB', bg:'#EFF6FF', note:'Telco & load · near town hall' },
-  { cat:'stores', emoji:'🖨️', label:'Print & Copy Shop',      latlng:[10.8780, 124.9368], color:'#6B7280', bg:'#F9FAFB', note:'Near BNHS · printing & encoding' },
+  { cat:'stores', emoji:'<i class="ph ph-storefront"></i>', label:'Public Market',           latlng:[10.8748, 124.9395], color:'#7C3AED', bg:'#EDE9FE', note:'Main palengke · open daily' },
+  { cat:'stores', emoji:'<i class="ph ph-storefront"></i>', label:'Burauen Supermarket',     latlng:[10.8744, 124.9385], color:'#7C3AED', bg:'#EDE9FE', note:'Groceries & daily needs' },
+  { cat:'stores', emoji:'<i class="ph ph-package"></i>', label:'LBC Express',             latlng:[10.8752, 124.9370], color:'#DC2626', bg:'#FEF2F2', note:'Padala & cargo · near plaza' },
+  { cat:'stores', emoji:'<i class="ph ph-pill"></i>', label:'Mercury Drug',            latlng:[10.8756, 124.9378], color:'#7C3AED', bg:'#EDE9FE', note:'24-hr pharmacy' },
+  { cat:'stores', emoji:'<i class="ph ph-shopping-cart"></i>', label:'Puregold Burauen',        latlng:[10.8738, 124.9398], color:'#7C3AED', bg:'#EDE9FE', note:'Supermarket · south market area' },
+  { cat:'stores', emoji:'<i class="ph ph-device-mobile"></i>', label:'Smart / DITO Store',      latlng:[10.8760, 124.9365], color:'#2563EB', bg:'#EFF6FF', note:'Telco & load · near town hall' },
+  { cat:'stores', emoji:'<i class="ph ph-printer"></i>', label:'Print & Copy Shop',      latlng:[10.8780, 124.9368], color:'#6B7280', bg:'#F9FAFB', note:'Near BNHS · printing & encoding' },
 
   // ── HEALTH ──
-  { cat:'health', emoji:'🏥', label:'Burauen District Hospital', latlng:[10.8728, 124.9335], color:'#DC2626', bg:'#FEF2F2', note:'Provincial government hospital' },
-  { cat:'health', emoji:'🏥', label:'Rural Health Unit (RHU)',   latlng:[10.8755, 124.9400], color:'#EF4444', bg:'#FEF2F2', note:'Municipal health center' },
-  { cat:'health', emoji:'💊', label:'Generika Pharmacy',         latlng:[10.8745, 124.9373], color:'#DC2626', bg:'#FEF2F2', note:'Budget pharmacy · near market' },
+  { cat:'health', emoji:'<i class="ph ph-first-aid"></i>', label:'Burauen District Hospital', latlng:[10.8728, 124.9335], color:'#DC2626', bg:'#FEF2F2', note:'Provincial government hospital' },
+  { cat:'health', emoji:'<i class="ph ph-first-aid"></i>', label:'Rural Health Unit (RHU)',   latlng:[10.8755, 124.9400], color:'#EF4444', bg:'#FEF2F2', note:'Municipal health center' },
+  { cat:'health', emoji:'<i class="ph ph-pill"></i>', label:'Generika Pharmacy',         latlng:[10.8745, 124.9373], color:'#DC2626', bg:'#FEF2F2', note:'Budget pharmacy · near market' },
 
   // ── GOVERNMENT & LANDMARKS ──
-  { cat:'gov', emoji:'🏛️', label:'Municipal Hall',               latlng:[10.8760, 124.9378], color:'#0B7A6A', bg:'#F0FDF4', note:'LGU Burauen · Sto. Niño St.' },
-  { cat:'gov', emoji:'⛪',  label:'Our Lady of the Immaculate',  latlng:[10.8753, 124.9362], color:'#6B7280', bg:'#F9FAFB', note:'1600 Parish Church · Santa Ana St.' },
-  { cat:'gov', emoji:'🏦', label:'Land Bank of the Phils.',     latlng:[10.8764, 124.9372], color:'#166534', bg:'#DCFCE7', note:'LBP ATM & branch' },
-  { cat:'gov', emoji:'🏦', label:'Rural Bank of Burauen',       latlng:[10.8758, 124.9384], color:'#166534', bg:'#DCFCE7', note:'Est. 1962 · first rural bank in Leyte' },
-  { cat:'gov', emoji:'🌳', label:'Town Plaza',                  latlng:[10.8756, 124.9370], color:'#166534', bg:'#DCFCE7', note:'Romualdez Park · renovated 2024' },
-  { cat:'gov', emoji:'⛽', label:'Petron Station',              latlng:[10.8790, 124.9402], color:'#D97706', bg:'#FFFBEB', note:'Fuel · near EVSU junction' },
-  { cat:'gov', emoji:'🚌', label:'Burauen Terminal',            latlng:[10.8734, 124.9408], color:'#0B7A6A', bg:'#F0FDF4', note:'Jeepney & bus terminal · south' },
+  { cat:'gov', emoji:'<i class="ph ph-building-office"></i>', label:'Municipal Hall',               latlng:[10.8760, 124.9378], color:'#0B7A6A', bg:'#F0FDF4', note:'LGU Burauen · Sto. Niño St.' },
+  { cat:'gov', emoji:'<i class="ph ph-cross"></i>',  label:'Our Lady of the Immaculate',  latlng:[10.8753, 124.9362], color:'#6B7280', bg:'#F9FAFB', note:'1600 Parish Church · Santa Ana St.' },
+  { cat:'gov', emoji:'<i class="ph ph-bank"></i>', label:'Land Bank of the Phils.',     latlng:[10.8764, 124.9372], color:'#166534', bg:'#DCFCE7', note:'LBP ATM & branch' },
+  { cat:'gov', emoji:'<i class="ph ph-bank"></i>', label:'Rural Bank of Burauen',       latlng:[10.8758, 124.9384], color:'#166534', bg:'#DCFCE7', note:'Est. 1962 · first rural bank in Leyte' },
+  { cat:'gov', emoji:'<i class="ph ph-tree"></i>', label:'Town Plaza',                  latlng:[10.8756, 124.9370], color:'#166534', bg:'#DCFCE7', note:'Romualdez Park · renovated 2024' },
+  { cat:'gov', emoji:'<i class="ph ph-gas-pump"></i>', label:'Petron Station',              latlng:[10.8790, 124.9402], color:'#D97706', bg:'#FFFBEB', note:'Fuel · near EVSU junction' },
+  { cat:'gov', emoji:'<i class="ph ph-bus"></i>', label:'Burauen Terminal',            latlng:[10.8734, 124.9408], color:'#0B7A6A', bg:'#F0FDF4', note:'Jeepney & bus terminal · south' },
 ];
 
 // layer marker refs
@@ -6997,6 +7190,173 @@ function mapHighlight(school, btn) {
   });
 
   closeMapCard();
+}
+
+// ════════════════════════════════════════
+// TENANT — PROFILE SCREEN
+// ════════════════════════════════════════
+function renderTenantProfile() {
+  const profile = state.tenantProfile || { name:'', room:'R1', houseId:1, rent:1500, paymentStatus:'paid' };
+  const h  = state.houses.find(x => x.id === (profile.houseId || 1)) || state.houses[0];
+  const room = (h?.rooms || []).find(r => r.name === profile.room) || h?.rooms?.[0];
+  const tp = profiles.tenant || {};
+  const sp = profiles.seeker || {};
+
+  const el = (id,v) => { const e=document.getElementById(id); if(e) e.textContent = v||'—'; };
+  const displayName = tp.name || sp.name || profile.name || 'Tenant';
+
+  el('tp-disp-name',    displayName);
+  el('tp-disp-school',  tp.school || sp.school || '—');
+  el('tp-disp-room',    room?.name || 'R1');
+  el('tp-disp-rent',    '₱' + (room?.amount || profile.rent || 1500).toLocaleString());
+
+  const statusEl = document.getElementById('tp-disp-status');
+  if(statusEl) {
+    statusEl.textContent  = profile.paymentStatus === 'paid' ? 'Paid' : 'Pending';
+    statusEl.style.color  = profile.paymentStatus === 'paid' ? '#4ADE80' : '#FCD34D';
+  }
+
+  el('tp-disp-fullname', tp.name || sp.name || '—');
+  el('tp-disp-phone',    tp.phone || sp.phone || '—');
+  el('tp-disp-course',   tp.course || sp.course || '—');
+  el('tp-disp-gender',   tp.gender || sp.gender || '—');
+  el('tp-disp-emname',   tp.emergencyName  || '—');
+  el('tp-disp-emphone',  tp.emergencyPhone || '—');
+}
+
+// ════════════════════════════════════════
+// TENANT — PAYMENT HISTORY
+// ════════════════════════════════════════
+if (!state.paymentLog) {
+  state.paymentLog = [
+    { id:1,  month:'June 2025',      amount:1500, status:'paid',    method:'GCash', date:'Jun 1, 2025'  },
+    { id:2,  month:'July 2025',      amount:1500, status:'paid',    method:'GCash', date:'Jul 1, 2025'  },
+    { id:3,  month:'August 2025',    amount:1500, status:'paid',    method:'GCash', date:'Aug 2, 2025'  },
+    { id:4,  month:'September 2025', amount:1500, status:'paid',    method:'Cash',  date:'Sep 3, 2025'  },
+    { id:5,  month:'October 2025',   amount:1500, status:'paid',    method:'GCash', date:'Oct 1, 2025'  },
+    { id:6,  month:'November 2025',  amount:1500, status:'paid',    method:'GCash', date:'Nov 1, 2025'  },
+    { id:7,  month:'December 2025',  amount:1500, status:'paid',    method:'GCash', date:'Dec 2, 2025'  },
+    { id:8,  month:'January 2026',   amount:1500, status:'paid',    method:'GCash', date:'Jan 3, 2026'  },
+    { id:9,  month:'February 2026',  amount:1500, status:'paid',    method:'GCash', date:'Feb 1, 2026'  },
+    { id:10, month:'March 2026',     amount:1500, status:'pending', method:'—',     date:'Due Mar 1'     },
+  ];
+}
+
+function renderPaymentHistory() {
+  const list  = document.getElementById('tpay-list');
+  const empty = document.getElementById('tpay-empty');
+  const total = document.getElementById('tpay-total');
+  const sumEl = document.getElementById('tpay-summary');
+  if (!list) return;
+
+  const log  = state.paymentLog || [];
+  const paid = log.filter(p => p.status === 'paid');
+  const paidTotal = paid.reduce((s, p) => s + p.amount, 0);
+
+  if (total) total.textContent = '₱' + paidTotal.toLocaleString();
+  if (sumEl)  sumEl.textContent = paid.length + ' payment' + (paid.length !== 1 ? 's' : '') + ' on record';
+
+  if (!log.length) { list.innerHTML = ''; if(empty) empty.style.display = ''; return; }
+  if (empty) empty.style.display = 'none';
+
+  list.innerHTML = log.map(p => {
+    const isPaid = p.status === 'paid';
+    return `<div class="card card-p" style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);margin-bottom:2px;">${p.month}</div>
+        <div style="font-size:12px;color:var(--muted);">${p.date} · ${p.method}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:${isPaid ? 'var(--green)' : 'var(--amber)'};">₱${p.amount.toLocaleString()}</div>
+        <div style="font-size:11px;font-family:'Nunito',sans-serif;font-weight:700;color:${isPaid ? 'var(--green)' : 'var(--amber)'};">${isPaid ? 'Paid' : 'Pending'}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════
+// LANDLORD — WAITLIST MANAGER
+// ════════════════════════════════════════
+function renderWaitlistManager() {
+  const el    = document.getElementById('wl-manager-list');
+  const empty = document.getElementById('wl-manager-empty');
+  if (!el) return;
+
+  // Flatten all house waitlists
+  const allEntries = [];
+  state.houses.forEach(h => {
+    (h.waitlist || []).forEach((name, idx) => {
+      allEntries.push({ name, houseId: h.id, houseName: h.name, idx });
+    });
+  });
+
+  if (!allEntries.length) {
+    el.innerHTML = '';
+    if (empty) empty.style.display = '';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  el.innerHTML = allEntries.map((entry, pos) => `
+    <div class="card card-p" style="margin-bottom:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:40px;height:40px;background:var(--warm2);border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="ph ph-user" style="font-size:20px;color:var(--muted);"></i>
+          </div>
+          <div>
+            <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);">${entry.name}</div>
+            <div style="font-size:12px;color:var(--muted);">${entry.houseName} · #${pos + 1} in line</div>
+          </div>
+        </div>
+        <span class="tag ta2">Waiting</span>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="promoteWaitlist('${entry.name}', ${entry.houseId}, ${entry.idx})"
+          style="flex:2;background:var(--teal);color:#fff;border:none;border-radius:var(--r-sm);padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 3px 10px rgba(11,122,106,.25);">
+          <i class="ph ph-arrow-up-right"></i> Offer Room
+        </button>
+        <button onclick="removeWaitlist('${entry.name}', ${entry.houseId}, ${entry.idx})"
+          style="flex:1;background:var(--redBg);color:var(--red);border:none;border-radius:var(--r-sm);padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <i class="ph ph-x"></i> Remove
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+function promoteWaitlist(name, houseId, idx) {
+  const h = state.houses.find(x => x.id === houseId);
+  if (!h) return;
+  const emptyRoom = h.rooms.find(r => r.status === 'empty');
+  if (!emptyRoom) { showToast('No vacant rooms in this house'); return; }
+
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  state.pendingTenants.push({ id: state.nextId++, name, phone:'', room: emptyRoom.name, houseId, code, status:'pending' });
+  h.waitlist.splice(idx, 1);
+  save();
+
+  // Populate and show invite-code modal
+  const set = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
+  set('ic-code-display', code);
+  set('ic-room-display', emptyRoom.name + ' — ' + h.name);
+  set('ic-modal-sub', 'Share this code with ' + name + ' via text, Viber, or in person.');
+  const copyBtn = document.getElementById('ic-copy-btn');
+  if(copyBtn) copyBtn.onclick = () => {
+    navigator.clipboard?.writeText(code).catch(()=>{});
+    showToast('Code copied: ' + code);
+  };
+  document.getElementById('modal-invite-code').classList.remove('hidden');
+  renderWaitlistManager();
+}
+
+function removeWaitlist(name, houseId, idx) {
+  const h = state.houses.find(x => x.id === houseId);
+  if (h) {
+    h.waitlist.splice(idx, 1);
+    save();
+    renderWaitlistManager();
+    showToast(name + ' removed from waitlist');
+  }
 }
 
 </script>

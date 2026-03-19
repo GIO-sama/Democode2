@@ -2291,6 +2291,26 @@ body {
   transition: all .13s;
 }
 .btn-red-sm:active { transform: scale(.97); }
+
+/* ─── SAVED / HEART BUTTON ─────────────────── */
+.lcard-heart {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 34px; height: 34px;
+  background: rgba(255,255,255,.92);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  border: none;
+  font-size: 17px;
+  color: var(--muted2);
+  box-shadow: 0 2px 8px rgba(11,31,58,.18);
+  transition: all .18s;
+  z-index: 10;
+  flex-shrink: 0;
+}
+.lcard-heart.saved { color: #E11D48; background: #FFF1F2; }
+.lcard-heart:active { transform: scale(.9); }
 </style>
 </head>
 <body>
@@ -2384,10 +2404,10 @@ body {
       <div class="srch">
         <span class="srch-ic"><i class="ph ph-magnifying-glass"></i></span>
         <input type="text" placeholder="Search boarding houses..." oninput="filterHouses(this.value)" id="srch-inp">
-        <button class="fil-btn" onclick="toggleFilter()"><i class="ph ph-sliders" style="font-size:14px"></i></button>
+
       </div>
     </div>
-    <div class="filter-row" id="filter-row">
+    <div class="filter-row" id="filter-row" style="padding-bottom:10px;">
       <div class="chip on" onclick="setFilter('all',this)">All</div>
       <div class="chip" onclick="setFilter('available',this)">Available now</div>
       <div class="chip" onclick="setFilter('under2k',this)">Under ₱2k</div>
@@ -2401,8 +2421,39 @@ body {
     <div class="bnav">
       <div class="ni on"><span class="ni-ic"><i class="ph ph-house-line"></i></span><span class="ni-lb">Discover</span></div>
       <div class="ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="goTo('s-saved')"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
       <div class="ni" onclick="goTo('s-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
-      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic"><i class="ph ph-arrows-left-right"></i></span><span class="ni-lb">Switch</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       SEEKER — SAVED HOUSES
+  ═══════════════════════════════ -->
+  <div class="screen" id="s-saved">
+    <div class="shdr" style="padding-bottom:14px;">
+      <div class="shdr-top">
+        <div>
+          <div class="shdr-greet" style="font-size:12px;opacity:.7;">Your shortlist</div>
+          <div class="shdr-title">Saved <span>Houses</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll" style="padding:12px 14px 90px">
+      <div id="saved-empty" style="display:none;text-align:center;padding:52px 24px 32px;">
+        <div style="width:72px;height:72px;background:var(--warm2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+          <i class="ph ph-heart" style="font-size:32px;color:var(--muted2);"></i>
+        </div>
+        <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:var(--navy);margin-bottom:8px;">No saved houses yet</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;">Tap the heart icon on any listing to save it here for easy comparison.</div>
+        <button onclick="goTo('s-home')" style="background:var(--navy);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;"><i class="ph ph-house-line"></i> Browse Listings</button>
+      </div>
+      <div id="saved-list" class="cards-list"></div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('s-home')"><span class="ni-ic"><i class="ph ph-house-line"></i></span><span class="ni-lb">Discover</span></div>
+      <div class="ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni on"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
+      <div class="ni" onclick="goTo('s-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
   </div>
 
@@ -2413,6 +2464,9 @@ body {
     <div class="topbar">
       <div class="back" onclick="goTo('s-home')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title" id="d-topname">Boarding House</div>
+      <button id="d-save-btn" onclick="toggleSaved(state.currentHouseId);updateDetailSaveBtn()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:7px 10px;color:rgba(255,255,255,.75);font-size:18px;cursor:pointer;line-height:1;display:flex;align-items:center;">
+        <i class="ph ph-heart" id="d-save-icon"></i>
+      </button>
     </div>
     <div class="scroll" style="padding-bottom:90px">
       <div class="dhero" id="d-hero">
@@ -2588,8 +2642,8 @@ body {
     <div class="bnav">
       <div class="ni" onclick="goTo('s-home')"><span class="ni-ic"><i class="ph ph-house-line"></i></span><span class="ni-lb">Discover</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
-      <div class="ni" onclick="goTo('s-setup')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
-      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic"><i class="ph ph-arrows-left-right"></i></span><span class="ni-lb">Switch</span></div>
+      <div class="ni" onclick="goTo('s-saved')"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
+      <div class="ni" onclick="goTo('s-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
   </div>
 
@@ -3013,7 +3067,7 @@ body {
       <div class="ni" onclick="goTo('l-home')"><span class="ni-ic"><i class="ph ph-chart-bar"></i></span><span class="ni-lb">Overview</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
-      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic"><i class="ph ph-arrows-left-right"></i></span><span class="ni-lb">Switch</span></div>
+      <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
     </div>
   </div>
 
@@ -3030,7 +3084,7 @@ body {
       <div class="ni" onclick="goTo('l-home')"><span class="ni-ic"><i class="ph ph-chart-bar"></i></span><span class="ni-lb">Overview</span></div>
       <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
-      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic"><i class="ph ph-arrows-left-right"></i></span><span class="ni-lb">Switch</span></div>
+      <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
     </div>
   </div>
 
@@ -3528,13 +3582,23 @@ body {
           <div class="tog on" onclick="this.classList.toggle('on')"><div class="tog-dot"></div></div>
         </div>
       </div>
-      <button class="btn btn-ghost" onclick="goTo('s-role')" style="margin-top:4px;">Switch Role</button>
+      <div class="pcard" style="margin-top:0;">
+        <div class="pcard-title">More</div>
+        <div class="prow" style="cursor:pointer;" onclick="goTo('s-role')">
+          <span class="prow-lbl"><i class="ph ph-arrows-left-right" style="margin-right:6px;color:var(--muted)"></i>Switch Role</span>
+          <span style="color:var(--muted2);font-size:18px;"><i class="ph ph-caret-right"></i></span>
+        </div>
+        <div class="prow" style="cursor:pointer;padding-bottom:0;border-bottom:none;" onclick="goTo('s-saved')">
+          <span class="prow-lbl"><i class="ph ph-heart" style="margin-right:6px;color:var(--red)"></i>Saved Houses</span>
+          <span style="color:var(--muted2);font-size:18px;"><i class="ph ph-caret-right"></i></span>
+        </div>
+      </div>
     </div>
     <div class="bnav">
       <div class="ni" onclick="goTo('s-home')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Discover</span></div>
       <div class="ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-teardrop-dots"></i></span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="goTo('s-saved')"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
-      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic"><i class="ph ph-arrows-left-right"></i></span><span class="ni-lb">Switch</span></div>
     </div>
   </div>
 
@@ -3655,8 +3719,8 @@ body {
     <div class="bnav">
       <div class="ni" onclick="goTo('l-home')"><span class="ni-ic"><i class="ph ph-house-line"></i></span><span class="ni-lb">Overview</span></div>
       <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-dots"></i></span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
-      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic"><i class="ph ph-arrows-left-right"></i></span><span class="ni-lb">Switch</span></div>
     </div>
   </div>
 
@@ -4297,7 +4361,6 @@ body {
       <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
-      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic"><i class="ph ph-arrows-left-right"></i></span><span class="ni-lb">Switch</span></div>
     </div>
   </div>
 
@@ -4332,7 +4395,6 @@ body {
       <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
       <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
-      <div class="ni" onclick="goTo('s-role')"><span class="ni-ic"><i class="ph ph-arrows-left-right"></i></span><span class="ni-lb">Switch</span></div>
     </div>
   </div>
 
@@ -4541,7 +4603,12 @@ const state = {
     {id:6,date:'Thu Jul 3',time:'9:00 AM',taken:false},
   ],
 
-  myInquiries: [],
+  savedHouses: [],
+  myInquiries: [
+    { id:101, houseId:1, houseName:'TIAH Boarding House',  status:'replied',    reply:'Hi po! May bakante pa po kami sa R5 at R6. Single bed per room, malinis at maliwanag. Punta po kayo this week para mag-visit.', q:'May bakante pa po ba kayo para single room?',      time:'2h ago'  },
+    { id:102, houseId:3, houseName:'Caspe Boarding House',  status:'pending',    reply:null, q:'Kasama na ba ang kuryente sa ₱1,200?',                                    time:'5h ago'  },
+    { id:103, houseId:2, houseName:'LFH Boarding House',    status:'interested', reply:null, q:'Puwede po bang mag-visit this Saturday morning?',                   time:'1d ago'  },
+  ],
   myMaintenanceRequests: [],
   nextId: 10,
 
@@ -4574,6 +4641,7 @@ function save() {
       announcements:          state.announcements,
       maintenanceRequests:    state.maintenanceRequests,
       expenses:               state.expenses,
+      savedHouses:            state.savedHouses,
       myInquiries:            state.myInquiries,
       myMaintenanceRequests:  state.myMaintenanceRequests,
       nextId:                 state.nextId,
@@ -4595,6 +4663,7 @@ function load() {
       state.announcements = d.announcements || state.announcements;
       state.maintenanceRequests = d.maintenanceRequests || state.maintenanceRequests;
       state.expenses = d.expenses || state.expenses;
+      state.savedHouses = d.savedHouses || [];
       state.myInquiries = d.myInquiries || [];
       state.myMaintenanceRequests = d.myMaintenanceRequests || [];
       state.nextId = d.nextId || 10;
@@ -4607,7 +4676,6 @@ function load() {
     }
   } catch(e){}
 }
-// load() replaced by loadSafe() above
 
 // ════════════════════════════════════════
 // NAVIGATION  (with history stack)
@@ -4617,12 +4685,20 @@ const navStack = [];
 const ROOT_SCREENS = new Set(['s-role','s-home','l-home','t-home']);
 
 function goTo(id) {
-  // push current screen to history
   const cur = document.querySelector('.screen.active');
   if(cur && cur.id) navStack.push(cur.id);
   _activateScreen(id);
   updateBackBtn();
+  try { history.pushState({ screen: id }, ''); } catch(e) {}
 }
+
+window.addEventListener('popstate', () => {
+  if (navStack.length) {
+    const prev = navStack.pop();
+    _activateScreen(prev);
+    updateBackBtn();
+  }
+});
 
 function goBack() {
   if(!navStack.length) return;
@@ -4703,6 +4779,18 @@ function refreshScreen(id) {
       break;
     case 'l-onboard': if(typeof loStep!=='undefined'){showLoStep(1);} break;
     case 'l-listing': renderBhlListing(); break;
+    case 's-saved': renderSaved(); break;
+    case 's-detail': updateDetailSaveBtn(); break;
+    case 's-inquiry': {
+      const _sp = profiles.seeker;
+      const _ni = document.getElementById('inq-name');
+      const _si = document.getElementById('inq-school');
+      const _ci = document.getElementById('inq-course');
+      if (_ni && _sp.name  && !_ni.value) { _ni.value = _sp.name;   _ni.readOnly = true; _ni.style.background='var(--warm)'; _ni.style.color='var(--muted)'; }
+      if (_si && _sp.school && !_si.value) { _si.value = _sp.school; }
+      if (_ci && _sp.course && !_ci.value) { _ci.value = _sp.course; _ci.readOnly = true; _ci.style.background='var(--warm)'; _ci.style.color='var(--muted)'; }
+      break;
+    }
     case 's-map':
       // Init or refresh Leaflet when screen opens
       setTimeout(() => {
@@ -4744,17 +4832,16 @@ function updateClock() {
   updateGreetings();
 }
 
-// FIX 4: Dynamic time-based greeting in Filipino
 function updateGreetings() {
   const hr = new Date().getHours();
-  let greetFil, greetEn, emoji;
-  if (hr < 12)      { greetFil = 'Magandang umaga';    greetEn = 'Good morning';   emoji = ''; }
-  else if (hr < 18) { greetFil = 'Magandang hapon';    greetEn = 'Good afternoon'; emoji = ''; }
-  else              { greetFil = 'Magandang gabi';     greetEn = 'Good evening';   emoji = ''; }
+  let greetFil, greetEn, icon;
+  if (hr < 12)      { greetFil = 'Magandang umaga';  greetEn = 'Good morning';   icon = '<i class="ph ph-sun"></i>'; }
+  else if (hr < 18) { greetFil = 'Magandang hapon';  greetEn = 'Good afternoon'; icon = '<i class="ph ph-cloud-sun"></i>'; }
+  else              { greetFil = 'Magandang gabi';   greetEn = 'Good evening';   icon = '<i class="ph ph-moon"></i>'; }
   const sg = document.getElementById('seeker-greeting');
   const lg = document.getElementById('landlord-greeting');
-  if (sg) sg.textContent = greetFil + ' ' + emoji;
-  if (lg) lg.textContent = greetEn + ' ' + emoji;
+  if (sg) sg.innerHTML = greetFil + ' ' + icon;
+  if (lg) lg.innerHTML = greetEn  + ' ' + icon;
 }
 
 updateClock(); setInterval(updateClock,60000);
@@ -4784,6 +4871,87 @@ function closeInqModal() { document.getElementById('modal-inq-detail').classList
 function handleInqOverlayClick(e) {
   // Close only if clicking the backdrop, not the sheet panel
   if(e.target === document.getElementById('modal-inq-detail')) closeInqModal();
+}
+
+
+// ════════════════════════════════════════
+// SEEKER — SAVED HOUSES
+// ════════════════════════════════════════
+function toggleSaved(id) {
+  const idx = state.savedHouses.indexOf(id);
+  if (idx === -1) {
+    state.savedHouses.push(id);
+    showToast('<i class="ph ph-heart-fill" style="color:#E11D48"></i> Saved to your shortlist');
+  } else {
+    state.savedHouses.splice(idx, 1);
+    showToast('Removed from saved');
+  }
+  save();
+  // Update heart icon in place without full re-render
+  const btn = document.getElementById('heart-' + id);
+  if (btn) {
+    const saved = state.savedHouses.includes(id);
+    btn.classList.toggle('saved', saved);
+    btn.innerHTML = saved
+      ? '<i class="ph ph-heart-fill"></i>'
+      : '<i class="ph ph-heart"></i>';
+  }
+  // If we are on the saved screen, refresh it
+  const cur = document.querySelector('.screen.active');
+  if (cur && cur.id === 's-saved') renderSaved();
+}
+
+function renderSaved() {
+  const list  = document.getElementById('saved-list');
+  const empty = document.getElementById('saved-empty');
+  if (!list) return;
+
+  const saved = state.savedHouses.map(id => state.houses.find(h => h.id === id)).filter(Boolean);
+
+  if (!saved.length) {
+    list.innerHTML = '';
+    if (empty) empty.style.display = '';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  list.innerHTML = saved.map(h => {
+    const avail = availableRooms(h);
+    const isFull = avail === 0;
+    const dist   = state.school === 'evsu' ? h.distanceEVSU : h.distanceBCC;
+    const school = state.school === 'evsu' ? 'EVSU' : 'BCC';
+    const tagStr = h.amenities.map(a => `<span class="tag tg">${a}</span>`).join('');
+    const rooms  = isFull
+      ? `<span class="lcard-rooms" style="background:rgba(239,68,68,.85);">Full</span>`
+      : avail === 1
+        ? `<span class="lcard-rooms" style="background:rgba(217,119,6,.9);"><i class="ph ph-warning"></i> Last room!</span>`
+        : `<span class="lcard-rooms">${avail} room${avail !== 1 ? 's' : ''} left</span>`;
+    const badge  = isFull
+      ? '<span class="lcard-badge" style="background:var(--red)">Full</span>'
+      : `<span class="lcard-badge" style="background:var(--teal)">Verified ${h.verified}</span>`;
+    const cta    = isFull
+      ? `<button class="btn" style="background:var(--amberBg);color:var(--amber);font-size:12px;padding:8px 13px;border-radius:8px;border:none;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;">Join Waitlist</button>`
+      : `<button class="btn btn-blue" style="font-size:12px;padding:8px 13px;border-radius:8px">Inquire Now</button>`;
+    return `
+      <div class="lcard" onclick="openHouse(${h.id})">
+        <div class="lcard-img" style="background:${h.gradient}">
+          <span class="lcard-img-ph"><i class="ph ph-house"></i></span>
+          ${badge}${rooms}
+          <button class="lcard-heart saved" onclick="event.stopPropagation();toggleSaved(${h.id})" id="heart-saved-${h.id}">
+            <i class="ph ph-heart-fill"></i>
+          </button>
+        </div>
+        <div class="lcard-body">
+          <div class="lcard-name">${h.name}</div>
+          <div class="lcard-loc"><i class="ph ph-map-pin"></i> ${dist} min walk from ${school} gate</div>
+          <div class="lcard-tags">${tagStr}</div>
+          <div class="lcard-foot">
+            <div class="lcard-price">₱${h.price.toLocaleString()}<span>/mo</span></div>
+            ${cta}
+          </div>
+        </div>
+      </div>`;
+  }).join('');
 }
 
 // ════════════════════════════════════════
@@ -4858,6 +5026,7 @@ function renderHouses() {
     const cta = isFull
       ? `<button class="btn" style="background:var(--amberBg);color:var(--amber);font-size:12px;padding:8px 13px;border-radius:8px;border:none;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;"> Join Waitlist</button>`
       : `<button class="btn btn-blue" style="font-size:12px;padding:8px 13px;border-radius:8px">Inquire Now</button>`;
+    const isSaved = state.savedHouses.includes(h.id);
     return `
       <div class="lcard" onclick="openHouse(${h.id})">
         <div class="lcard-img" style="background:${h.gradient}">
@@ -4867,6 +5036,9 @@ function renderHouses() {
             <span style="font-size:10px;color:rgba(255,255,255,.7);font-family:'Nunito Sans',sans-serif;font-weight:600;">Photos during verification visit</span>
           </div>
           ${badge}${rooms}${firstPill}
+          <button class="lcard-heart ${isSaved?'saved':''}" onclick="event.stopPropagation();toggleSaved(${h.id})" id="heart-${h.id}">
+            <i class="ph ${isSaved?'ph-heart-fill':'ph-heart'}"></i>
+          </button>
         </div>
         <div class="lcard-body">
           <div class="lcard-name">${h.name}</div>
@@ -4880,6 +5052,15 @@ function renderHouses() {
         </div>
       </div>`;
   }).join('');
+}
+
+
+function updateDetailSaveBtn() {
+  const isSaved = state.savedHouses.includes(state.currentHouseId);
+  const icon = document.getElementById('d-save-icon');
+  const btn  = document.getElementById('d-save-btn');
+  if (icon) icon.className = isSaved ? 'ph ph-heart-fill' : 'ph ph-heart';
+  if (btn)  btn.style.color = isSaved ? '#F87171' : 'rgba(255,255,255,.75)';
 }
 
 function openHouse(id) {
@@ -5024,6 +5205,7 @@ function openHouse(id) {
   if (cn) cn.textContent = h.name;
   if (cm) cm.textContent = '₱' + h.price.toLocaleString() + '/mo · ' + dist2 + ' min from ' + school2 + ' gate';
 
+  updateDetailSaveBtn();
   goTo('s-detail');
 }
 
@@ -5108,9 +5290,9 @@ function submitInquiry() {
   state.myInquiries.unshift({id:inq.id, houseId:inq.houseId, houseName:h.name, status:'pending', q:inq.q, time:'Just now'});
   save();
 
-  // clear form
-  ['inq-name','inq-course','inq-date','inq-q'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('inq-school').value='';
+  // clear form - only clear the mutable fields, not profile-pre-filled ones
+  ['inq-date','inq-q'].forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
+  document.getElementById('cc').textContent='0/200';
 
   // show success
   document.getElementById('succ-ic').innerHTML='<i class="ph ph-check-circle"></i>';
@@ -5229,7 +5411,7 @@ function joinWaitlist() {
   h.waitlist.push(name);
   save();
 
-  document.getElementById('succ-ic').textContent='';
+  document.getElementById('succ-ic').innerHTML='<i class="ph ph-hourglass-medium" style="font-size:38px;color:var(--amber)"></i>';
   document.getElementById('succ-title').textContent='You\'re on the Waitlist!';
   document.getElementById('succ-body').textContent=`You are #${h.waitlist.length} on the waitlist for ${h.name}. You'll be notified when a room opens.`;
   document.getElementById('succ-card').innerHTML=`
@@ -5324,7 +5506,10 @@ function submitMaintRequest() {
   const desc = document.getElementById('mreq-desc').value.trim();
   const urgency = document.getElementById('mreq-urgency').value;
   if(!desc) { showToast('Please describe the problem'); return; }
-  const req = {id:state.nextId++,room:'Room 1',type,desc,urgency,status:'pending',tenantName:'Ana Reyes',time:'Just now'};
+  const _tp = state.tenantProfile;
+  const _tn = (_tp?.name) || profiles.tenant?.name || 'Tenant';
+  const _tr = (_tp?.room) || 'Room 1';
+  const req = {id:state.nextId++,room:_tr,type,desc,urgency,status:'pending',tenantName:_tn,time:'Just now'};
   state.maintenanceRequests.unshift(req);
   state.myMaintenanceRequests.unshift({...req});
   save();
@@ -5338,11 +5523,12 @@ function submitMaintRequest() {
 // LANDLORD — HOME
 // ════════════════════════════════════════
 function renderLandlordHome() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   // FIX 18: Update landlord name from profiles (not hardcoded)
   const lName = document.getElementById('lhdr-dyn-name');
   if (lName) {
-    const displayName = profiles.landlord.name || state.houses[0]?.name?.split(' ')[0] || 'Landlord';
+    const _lh = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
+    const displayName = profiles.landlord.name || _lh?.name?.split(' ')[0] || 'Landlord';
     lName.textContent = displayName;
   }
   const paid = h.rooms.filter(r=>r.status==='paid').length;
@@ -5409,7 +5595,7 @@ function renderLandlordHome() {
 }
 
 function openRoomModal(roomId) {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   const r = h.rooms.find(x=>x.id===roomId);
   if(!r) return;
   state.currentRoom = roomId;
@@ -5421,7 +5607,7 @@ function openRoomModal(roomId) {
 }
 
 function saveRoom() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   const r = h.rooms.find(x=>x.id===state.currentRoom);
   if(!r) return;
   r.status = document.getElementById('room-status-sel').value;
@@ -5599,7 +5785,7 @@ function sendInqReply() {
 // LANDLORD — ROOMS
 // ════════════════════════════════════════
 function renderRooms() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   const sMap = {paid:{bg:C.greenBg,tc:C.green,label:'Paid <i class="ph ph-check-circle"></i>'},pending:{bg:C.amberBg,tc:C.amber,label:'Pending '},empty:{bg:'var(--border)',tc:'var(--muted)',label:'Vacant'}};
   document.getElementById('l-rooms-list').innerHTML = h.rooms.map(r=>{
     const s = sMap[r.status]||sMap.empty;
@@ -5667,7 +5853,7 @@ function postAnnouncement() {
 // LANDLORD — REMINDERS
 // ════════════════════════════════════════
 function renderReminders() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   // Show pending tenant breakdown before send
   const pendingRooms = (h?.rooms||[]).filter(r=>r.status==='pending'&&r.tenant);
   const summaryEl = document.getElementById('reminder-pending-summary');
@@ -5709,7 +5895,7 @@ function sendSingleReminder(roomId) {
   showToast('Reminder sent! <i class="ph ph-bell"></i>');
 }
 function sendAllReminders() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   const count = h.rooms.filter(r=>r.status==='pending').length;
   if(!count) { showToast('No pending payments!'); return; }
   showToast(`Reminder sent to ${count} tenant${count>1?'s':''} <i class="ph ph-bell"></i>`);
@@ -6634,6 +6820,7 @@ function loadSafe() {
     if (d.seekerProfile)   state.seekerProfile   = d.seekerProfile;
     if (d.visitSlots)      state.visitSlots      = d.visitSlots;
     if (d.paymentLog)      state.paymentLog      = d.paymentLog;
+    if (d.savedHouses)    state.savedHouses     = d.savedHouses;
   } catch(e) {
     console.warn('[BB] localStorage parse failed — using defaults:', e.message);
     try { localStorage.setItem('bb_last_error', JSON.stringify({type:'parse', msg:e.message, ts:Date.now()})); } catch(_){}
@@ -6708,13 +6895,13 @@ function switchBhlTab(tab, btn) {
 }
 
 function updateBhlPreview() {
-  const name = document.getElementById('bhl-name')?.value || state.houses[0].name;
+  const name = document.getElementById('bhl-name')?.value || (state.houses.find(x=>x.id===state.currentHouseId)||state.houses[0]).name;
   const el = document.getElementById('bhl-strip-name');
   if(el) el.textContent = name;
 }
 
 function renderBhlListing() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
 
   // Fill info tab
   const sv = (id, v) => { const e = document.getElementById(id); if(e && v !== undefined) e.value = v || ''; };
@@ -6786,7 +6973,7 @@ function updateToggleVisual(key, checked) {
 }
 
 function saveBhlToggle() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   ['wifi','cooking','pets','laundry'].forEach(key => {
     const cb = document.getElementById('bhl-' + key);
     if(cb) {
@@ -6805,12 +6992,12 @@ function selectBhlGrad(g, el) {
   el.classList.add('on');
   const heroBg = document.getElementById('bhl-hero-bg');
   if(heroBg) heroBg.style.background = g;
-  state.houses[0].gradient = g;
+  (state.houses.find(x => x.id === state.currentHouseId) || state.houses[0]).gradient = g;
 }
 
 // Custom rules
 function renderBhlCustomRules() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   const list = document.getElementById('bhl-custom-rules-list');
   if(!list) return;
   list.innerHTML = (h.customRules || []).map((r, i) => `
@@ -6829,14 +7016,15 @@ function addCustomRule() {
   const text = textEl?.value.trim();
   if(!text) { showToast('Type a rule first'); return; }
   const sym = emojiEl?.value || '•';
-  if(!state.houses[0].customRules) state.houses[0].customRules = [];
-  state.houses[0].customRules.push({ emoji: sym, text });
+  const _hcr = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
+  if(!_hcr.customRules) _hcr.customRules = [];
+  _hcr.customRules.push({ emoji: sym, text });
   textEl.value = '';
   renderBhlCustomRules();
 }
 
 function deleteCustomRule(idx) {
-  state.houses[0].customRules.splice(idx, 1);
+  (state.houses.find(x => x.id === state.currentHouseId) || state.houses[0]).customRules.splice(idx, 1);
   renderBhlCustomRules();
 }
 
@@ -6855,7 +7043,7 @@ function snapIcon(label) {
 }
 
 function renderBhlSnapGrid() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   const grid = document.getElementById('bhl-snap-grid');
   if(!grid) return;
   const snaps = h.snapshots || [];
@@ -6869,7 +7057,7 @@ function renderBhlSnapGrid() {
 }
 
 function addSnapSlot() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   if(!h.snapshots) h.snapshots = [];
   if(h.snapshots.length >= 9) { showToast('Maximum 9 photo slots'); return; }
   h.snapshots.push({ label:'Photo' });
@@ -6877,7 +7065,7 @@ function addSnapSlot() {
 }
 
 function addPresetSnap(ic_unused, label) {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   if(!h.snapshots) h.snapshots = [];
   if(h.snapshots.length >= 9) { showToast('Maximum 9 photo slots'); return; }
   if(h.snapshots.find(s => s.label === label)) { showToast(label + ' already added'); return; }
@@ -6886,13 +7074,13 @@ function addPresetSnap(ic_unused, label) {
 }
 
 function deleteSnap(idx) {
-  state.houses[0].snapshots.splice(idx, 1);
+  (state.houses.find(x => x.id === state.currentHouseId) || state.houses[0]).snapshots.splice(idx, 1);
   renderBhlSnapGrid();
 }
 
 // Amenity chips
 function renderAmenityChips() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   const selectedSet = new Set(h.amenities || []);
   const renderGroup = (containerId, items) => {
     const el = document.getElementById(containerId);
@@ -6911,7 +7099,7 @@ function renderAmenityChips() {
 
 function toggleAmenity(el, label) {
   el.classList.toggle('on');
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   if(!h.amenities) h.amenities = [];
   if(el.classList.contains('on')) {
     if(!h.amenities.includes(label)) h.amenities.push(label);
@@ -6922,7 +7110,7 @@ function toggleAmenity(el, label) {
 
 // Save all changes back to state and re-render pins/cards
 function saveBhlListing() {
-  const h = state.houses[0];
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   const sv = id => document.getElementById(id)?.value;
 
   h.name        = sv('bhl-name')    || h.name;

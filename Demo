@@ -7,6 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 /* ─── DESIGN TOKENS ─────────────────────────────── */
 :root {
@@ -1373,29 +1375,511 @@ body {
   border-color: #fff;
 }
 
-/* SVG wrapper — scrollable */
+/* Map wrapper — Leaflet lives here */
 .map-svg-wrap {
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
   position: relative;
-  -webkit-overflow-scrolling: touch;
+  min-height: 0;
 }
-.map-svg-wrap::-webkit-scrollbar { display: none; }
-.map-svg-wrap svg {
-  display: block;
+#burauen-map {
   width: 100%;
-  height: auto;
-  min-width: 100%;
+  height: 100%;
+  min-height: 420px;
+  z-index: 1;
 }
 
-/* House pin button */
-.bh-pin-btn {
+/* ── LEAFLET CUSTOM MARKERS ── */
+.leaflet-div-icon { background: transparent !important; border: none !important; }
+
+.lf-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   cursor: pointer;
   transition: transform .15s;
   transform-origin: center bottom;
 }
-.bh-pin-btn:active { transform: scale(.93); }
-.bh-pin-btn.highlighted .pin-bubble { filter: drop-shadow(0 4px 10px rgba(11,31,58,.4)); }
+.lf-pin:active { transform: scale(.93); }
+.lf-pin.highlighted .lf-pill {
+  box-shadow: 0 6px 22px rgba(11,31,58,.55);
+  transform: scale(1.06);
+}
+.lf-pill {
+  background: #0B1F3A;
+  border-radius: 14px;
+  padding: 6px 10px 6px 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 3px 12px rgba(11,31,58,.38);
+  white-space: nowrap;
+  transition: box-shadow .2s, transform .15s;
+}
+.lf-price-badge {
+  border-radius: 10px;
+  padding: 3px 8px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+  color: #fff;
+}
+.lf-bname {
+  font-family: 'Nunito', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: .1px;
+}
+.lf-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.8);
+  flex-shrink: 0;
+}
+.lf-caret {
+  width: 0; height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid #0B1F3A;
+  margin-top: -1px;
+  filter: drop-shadow(0 2px 2px rgba(11,31,58,.18));
+}
+.lf-shadow {
+  width: 14px; height: 4px;
+  background: rgba(11,31,58,.18);
+  border-radius: 50%;
+  margin-top: 2px;
+}
+
+/* School landmark markers */
+.lf-school {
+  background: rgba(255,255,255,.96);
+  border-radius: 10px;
+  padding: 5px 9px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  white-space: nowrap;
+  border: 1.5px solid;
+}
+
+/* ── ANNOUNCE FIX: single scroll container ── */
+#l-announce .scroll { padding: 16px 16px 110px; }
+.ann-form-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 18px 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--sh-sm);
+}
+.ann-send-btn {
+  width: 100%;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: var(--r);
+  padding: 14px 20px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(11,122,106,.28);
+  transition: all .18s;
+}
+.ann-send-btn:active { transform: scale(.97); }
+
+/* ── BH LISTING EDITOR ── */
+.bhl-hero {
+  padding: 20px 18px 22px;
+  flex-shrink: 0;
+}
+.bhl-preview-strip {
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin-bottom: 4px;
+  position: relative;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bhl-preview-strip-label {
+  position: absolute;
+  bottom: 10px; left: 12px;
+  background: rgba(11,31,58,.6);
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: .3px;
+}
+.bhl-tabs {
+  display: flex;
+  background: rgba(255,255,255,.08);
+  border-radius: 12px;
+  padding: 3px;
+  gap: 2px;
+}
+.bhl-tab {
+  flex: 1;
+  padding: 8px 6px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,.55);
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: center;
+  letter-spacing: .1px;
+}
+.bhl-tab.on { background: #fff; color: var(--navy); }
+
+/* Editor panels */
+.bhl-panel { display: none; padding: 16px 16px 110px; overflow-y: auto; flex: 1; }
+.bhl-panel.active { display: block; }
+.bhl-panel::-webkit-scrollbar { display: none; }
+
+/* Snapshot grid (landlord editor) */
+.snap-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.snap-slot {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  border: 2px dashed var(--border2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all .18s;
+  background: var(--warm2);
+}
+.snap-slot:active { transform: scale(.97); }
+.snap-slot.filled {
+  border-style: solid;
+  border-color: transparent;
+}
+.snap-slot-emoji { font-size: 26px; }
+.snap-slot-label {
+  font-family: 'Nunito', sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  text-align: center;
+  line-height: 1.2;
+  padding: 0 4px;
+}
+.snap-slot-del {
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 18px; height: 18px;
+  background: rgba(11,31,58,.55);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.snap-slot-add {
+  border-style: dashed;
+  background: transparent;
+}
+
+/* Rules editor list */
+.rule-editor-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 11px 14px;
+  margin-bottom: 8px;
+  box-shadow: var(--sh-xs);
+}
+.rule-editor-emoji { font-size: 18px; flex-shrink: 0; width: 26px; text-align: center; }
+.rule-editor-text { flex: 1; font-size: 13px; color: var(--text); font-weight: 600; }
+.rule-editor-del {
+  width: 28px; height: 28px;
+  background: var(--redBg);
+  border: none;
+  border-radius: 8px;
+  color: var(--red);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.rule-add-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+.rule-add-emoji-pick {
+  width: 44px;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  font-size: 18px;
+  text-align: center;
+  cursor: pointer;
+  padding: 10px 4px;
+  flex-shrink: 0;
+}
+.rule-add-inp {
+  flex: 1;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 10px 13px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+}
+.rule-add-inp:focus { border-color: var(--blue); }
+.rule-add-btn {
+  width: 44px;
+  background: var(--navy);
+  border: none;
+  border-radius: var(--r);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Amenity toggle chips */
+.amenity-chip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.am-chip {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 7px 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all .18s;
+  user-select: none;
+}
+.am-chip.on {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+/* Gradient picker */
+.grad-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.grad-swatch {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 3px solid transparent;
+  transition: all .18s;
+  flex-shrink: 0;
+}
+.grad-swatch.on { border-color: var(--navy); transform: scale(1.12); }
+
+/* About textarea */
+.about-ta {
+  width: 100%;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 15px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  resize: none;
+  height: 100px;
+  line-height: 1.55;
+  transition: border-color .2s;
+  margin-bottom: 4px;
+}
+.about-ta:focus { border-color: var(--blue); }
+
+/* Section label inside editor */
+.editor-sec-lbl {
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+  letter-spacing: .7px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+.editor-sec-lbl:first-child { margin-top: 0; }
+
+/* Updated detail view: about section + custom snapshots */
+.d-about {
+  padding: 0 16px 12px;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.d-photo-strip {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.d-photo-strip::-webkit-scrollbar { display: none; }
+.d-photo-slot {
+  min-width: 96px;
+  height: 72px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+}
+.d-photo-slot-emoji { font-size: 22px; }
+.d-photo-slot-label {
+  font-family: 'Nunito', sans-serif;
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: rgba(255,255,255,.85);
+  background: rgba(0,0,0,.28);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Sticky save bar in editor */
+.bhl-save-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: var(--warm);
+  border-top: 1px solid var(--border);
+  padding: 12px 16px env(safe-area-inset-bottom, 14px);
+  z-index: 20;
+}
+
+.leaflet-control-attribution {
+  font-size: 9px !important;
+  opacity: .7;
+}
+/* Leaflet zoom control style */
+.leaflet-control-zoom a {
+  font-family: 'Nunito', sans-serif !important;
+  font-weight: 800 !important;
+}
+
+/* ── MAP LAYER LEGEND (floating) ── */
+.map-legend {
+  position: absolute;
+  bottom: 14px;
+  left: 12px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  pointer-events: none;
+}
+.map-legend-row {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.map-layer-btn {
+  background: rgba(255,255,255,.95);
+  border: 1.5px solid rgba(11,31,58,.12);
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 2px 8px rgba(11,31,58,.14);
+  transition: all .18s;
+  pointer-events: all;
+  color: var(--muted);
+  letter-spacing: .1px;
+}
+.map-layer-btn.on {
+  color: var(--navy);
+  border-color: var(--navy);
+  background: rgba(255,255,255,1);
+}
+.map-layer-btn .lb-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* landmark tooltip */
+.lm-tooltip {
+  background: rgba(11,31,58,.88) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+  font-family: 'Nunito', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 5px 10px !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,.2) !important;
+  white-space: nowrap !important;
+}
+.lm-tooltip::before { display: none !important; }
 
 /* ── MAP BOTTOM SHEET ── */
 .map-sheet-overlay {
@@ -1936,15 +2420,12 @@ body {
         <div class="dhero-vbadge" id="d-vbadge"><i class="ph ph-seal-check" style="font-size:11px"></i> Verified</div>
         <div class="dhero-photos"><i class="ph ph-camera" style="font-size:11px"></i> Photos added at verification</div>
       </div>
-      <!-- Photo gallery strip - shows the system is built for real photos -->
-      <div style="display:flex;gap:8px;padding:12px 16px 0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;">
-        <div style="min-width:88px;height:66px;background:var(--warm2);border-radius:10px;border:1.5px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex-shrink:0;"><i class="ph ph-camera" style="font-size:16px;color:var(--muted2);"></i><span style="font-size:9px;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;">Facade</span></div>
-        <div style="min-width:88px;height:66px;background:var(--warm2);border-radius:10px;border:1.5px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex-shrink:0;"><i class="ph ph-camera" style="font-size:16px;color:var(--muted2);"></i><span style="font-size:9px;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;">Room</span></div>
-        <div style="min-width:88px;height:66px;background:var(--warm2);border-radius:10px;border:1.5px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex-shrink:0;"><i class="ph ph-camera" style="font-size:16px;color:var(--muted2);"></i><span style="font-size:9px;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;">Bathroom</span></div>
-        <div style="min-width:88px;height:66px;background:var(--warm2);border-radius:10px;border:1.5px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex-shrink:0;"><i class="ph ph-camera" style="font-size:16px;color:var(--muted2);"></i><span style="font-size:9px;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;">Common Area</span></div>
-        <div style="min-width:88px;height:66px;background:var(--warm2);border-radius:10px;border:1.5px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex-shrink:0;"><i class="ph ph-camera" style="font-size:16px;color:var(--muted2);"></i><span style="font-size:9px;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;">Entrance</span></div>
-      </div>
-      <div style="padding:5px 16px 0;font-size:11px;color:var(--muted);font-style:italic;"><i class="ph ph-info" style="font-size:11px;"></i> Photos taken during in-person verification visit</div>
+      <!-- Dynamic photo strip — populated from house.snapshots -->
+      <div class="d-photo-strip" id="d-photo-strip"></div>
+      <div style="padding:0 16px 4px;font-size:11px;color:var(--muted);font-style:italic;" id="d-photo-note"><i class="ph ph-info" style="font-size:11px;"></i> Photos taken during in-person verification visit</div>
+
+      <!-- About section -->
+      <div class="d-about" id="d-about"></div>
       <div class="dbody">
         <div class="dname" id="d-name">—</div>
         <div class="dloc" id="d-loc"><i class="ph ph-map-pin" style="font-size:14px;color:var(--muted)"></i> —</div>
@@ -2352,6 +2833,7 @@ body {
       <div class="sec" style="margin-bottom:14px">
         <div class="slbl" style="margin-bottom:11px">Iba pang Tools</div>
         <div class="qa-grid">
+          <div class="qa-btn" onclick="goTo('l-listing')"><div class="qa-ic"><i class="ph ph-storefront"></i></div><div class="qa-lbl">My Listing</div></div>
           <div class="qa-btn" onclick="goTo('l-reminder')"><div class="qa-ic"><i class="ph ph-bell-ringing"></i></div><div class="qa-lbl">Reminder</div></div>
           <div class="qa-btn" onclick="goTo('l-expense')"><div class="qa-ic"><i class="ph ph-receipt"></i></div><div class="qa-lbl">Gastos</div></div>
           <div class="qa-btn" onclick="goTo('l-maint')" style="position:relative"><div class="qa-ic"><i class="ph ph-wrench"></i></div><div class="qa-lbl">Maintenance</div><div id="l-maint-badge" class="hidden" style="position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-family:'Nunito',sans-serif;font-size:9px;font-weight:800;border-radius:10px;padding:2px 5px;min-width:16px;text-align:center;"></div></div>
@@ -2425,38 +2907,41 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="l-announce">
     <div class="topbar">
-      <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Post Announcement</div>
     </div>
-    <div class="fscroll">
-      <div class="fintro">
-        <span class="fintro-ic"><i class="ph ph-megaphone" style="color:var(--teal)"></i></span>
-        <div class="fintro-txt">This goes to <strong>all current tenants</strong> as a push notification. Use for reminders, notices, and emergencies only.</div>
+    <div class="scroll" style="padding:16px 16px 100px">
+
+      <!-- Info callout -->
+      <div class="callout cl-info" style="margin-bottom:16px">
+        <span class="callout-ic"><i class="ph ph-megaphone"></i></span>
+        <div class="callout-txt">This goes to <strong>all current tenants</strong>. Use for reminders, notices, and emergencies.</div>
       </div>
-      <div class="fg">
-        <label class="lbl">Category</label>
-        <select class="sel" id="ann-cat">
-          <option value="reminder">Rent Reminder</option>
-          <option value="info">Info / Notice</option>
-          <option value="emergency">Emergency</option>
-          <option value="activity">Activity</option>
-        </select>
+
+      <!-- Compose form card -->
+      <div class="ann-form-card">
+        <div class="slbl" style="margin-bottom:12px">New Announcement</div>
+        <div class="fg">
+          <label class="lbl">Category</label>
+          <select class="sel" id="ann-cat">
+            <option value="reminder">Rent Reminder</option>
+            <option value="info">Info / Notice</option>
+            <option value="emergency">Emergency</option>
+            <option value="activity">Activity</option>
+          </select>
+        </div>
+        <div class="fg"><label class="lbl">Title</label><input class="inp" type="text" id="ann-title" placeholder="e.g. Rent due this Friday"></div>
+        <div class="fg" style="margin-bottom:0">
+          <label class="lbl">Message</label>
+          <textarea class="ta" style="height:100px" id="ann-body" placeholder="Write your announcement here..."></textarea>
+        </div>
       </div>
-      <div class="fg"><label class="lbl">Title</label><input class="inp" type="text" id="ann-title" placeholder="e.g. Rent due this Friday"></div>
-      <div class="fg">
-        <label class="lbl">Message</label>
-        <textarea class="ta" style="height:110px" id="ann-body" placeholder="Write your announcement here..."></textarea>
-      </div>
-      <div class="callout cl-info" style="margin-top:4px">
-        <span class="callout-ic"><i class="ph ph-info"></i></span>
-        <div class="callout-txt">Tenants receive this but <strong>cannot reply</strong>. Keep it short and clear.</div>
-      </div>
-    </div>
-    <div class="ffoot">
-      <button class="btn btn-primary" onclick="postAnnouncement()"><i class="ph ph-paper-plane-tilt"></i> Send to All Tenants</button>
-    </div>
-    <!-- Past announcements list (rendered below form) -->
-    <div style="padding:16px 16px 90px;">
+
+      <button class="ann-send-btn" onclick="postAnnouncement()">
+        <i class="ph ph-paper-plane-tilt"></i> Send to All Tenants
+      </button>
+
+      <!-- Past announcements -->
       <div class="slbl" style="margin-bottom:11px">Recent Announcements</div>
       <div id="ann-history-list"></div>
       <div id="ann-history-empty" style="text-align:center;padding:24px 0;color:var(--muted);font-size:13px;">No announcements yet. Post your first one above.</div>
@@ -3036,6 +3521,7 @@ body {
         <div class="prow"><span class="prow-lbl">Verified</span><span class="prow-val" style="color:var(--green);">✓ Verified</span></div>
         <div class="prow"><span class="prow-lbl">Member since</span><span class="prow-val">2025</span></div>
       </div>
+      <button class="btn btn-ghost" onclick="goTo('l-listing')" style="margin-bottom:8px;border-color:var(--teal);color:var(--teal);"><i class="ph ph-storefront"></i> Edit My Listing</button>
       <button class="btn btn-ghost" onclick="goTo('l-home')" style="margin-bottom:8px;">← Back to Dashboard</button>
       <button class="btn btn-ghost" onclick="goTo('s-role')" style="color:var(--red);border-color:var(--redBg);">Switch Role</button>
     </div>
@@ -3047,9 +3533,205 @@ body {
     </div>
   </div>
 
-  <!-- ═══════════════════════════════
-       NEW LANDLORD — ONBOARDING
-  ═══════════════════════════════ -->
+  <!-- ═══════════════════════════════════════════
+       LANDLORD — BH LISTING / PROFILE EDITOR
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="l-listing">
+
+    <!-- Header: live gradient preview + tab bar -->
+    <div id="bhl-hero-bg" class="bhl-hero" style="background:linear-gradient(135deg,#1462A8,#0D8A78);">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+        <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+        <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:#fff;flex:1;text-align:center;">My Listing</div>
+        <div style="width:28px"></div>
+      </div>
+      <!-- Live preview strip -->
+      <div class="bhl-preview-strip" id="bhl-strip-bg" style="background:inherit;">
+        <div style="font-size:40px;opacity:.15;"><i class="ph ph-house"></i></div>
+        <div class="bhl-preview-strip-label" id="bhl-strip-name">Dela Cruz Boarding House</div>
+        <div style="position:absolute;bottom:10px;right:12px;background:rgba(34,197,94,.35);border:1px solid rgba(34,197,94,.5);color:#fff;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;padding:3px 9px;border-radius:12px;" id="bhl-strip-avail">2 slots open</div>
+      </div>
+      <!-- Tabs -->
+      <div class="bhl-tabs" id="bhl-tabs">
+        <button class="bhl-tab on" onclick="switchBhlTab('info',this)">Info</button>
+        <button class="bhl-tab"    onclick="switchBhlTab('photos',this)">Photos</button>
+        <button class="bhl-tab"    onclick="switchBhlTab('rules',this)">Rules</button>
+        <button class="bhl-tab"    onclick="switchBhlTab('amenities',this)">Amenities</button>
+      </div>
+    </div>
+
+    <!-- ── INFO TAB ── -->
+    <div class="bhl-panel active" id="bhl-panel-info">
+      <div class="editor-sec-lbl">Listing Appearance</div>
+      <div class="fg">
+        <label class="lbl">Boarding House Name</label>
+        <input class="inp" id="bhl-name" type="text" placeholder="e.g. Dela Cruz Boarding House" oninput="updateBhlPreview()">
+      </div>
+      <div class="fg">
+        <label class="lbl">Address</label>
+        <input class="inp" id="bhl-address" type="text" placeholder="e.g. Poblacion VII, Burauen, Leyte">
+      </div>
+      <div class="fg">
+        <label class="lbl">Monthly Rent (₱)</label>
+        <input class="inp" id="bhl-price" type="number" placeholder="e.g. 1500">
+      </div>
+      <div class="fg">
+        <label class="lbl">Curfew</label>
+        <select class="sel" id="bhl-curfew">
+          <option value="No curfew">No curfew</option>
+          <option value="9:00 PM">9:00 PM</option>
+          <option value="9:30 PM">9:30 PM</option>
+          <option value="10:00 PM">10:00 PM</option>
+          <option value="10:30 PM">10:30 PM</option>
+          <option value="11:00 PM">11:00 PM</option>
+        </select>
+      </div>
+      <div class="editor-sec-lbl">About this place</div>
+      <textarea class="about-ta" id="bhl-about" placeholder="Tell seekers what makes your boarding house special. Safe neighborhood? Near market? Quiet environment? Write it here..."></textarea>
+      <div class="hint" style="margin-bottom:16px">This appears at the top of your listing detail page.</div>
+
+      <div class="editor-sec-lbl">Cover Gradient</div>
+      <div class="grad-grid" id="bhl-grad-grid">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="editor-sec-lbl">Nearest Schools</div>
+      <div class="fg">
+        <label class="lbl">Walking distance to EVSU (minutes)</label>
+        <input class="inp" id="bhl-devsu" type="number" min="1" max="60" placeholder="e.g. 8">
+      </div>
+      <div class="fg" style="margin-bottom:0">
+        <label class="lbl">Walking distance to BCC (minutes)</label>
+        <input class="inp" id="bhl-dbcc" type="number" min="1" max="60" placeholder="e.g. 5">
+      </div>
+    </div>
+
+    <!-- ── PHOTOS TAB ── -->
+    <div class="bhl-panel" id="bhl-panel-photos">
+      <div class="callout cl-info" style="margin-bottom:16px">
+        <span class="callout-ic"><i class="ph ph-camera"></i></span>
+        <div class="callout-txt">Add photo slots so seekers know what to expect. <strong>Real photos</strong> will be added during the verification visit.</div>
+      </div>
+      <div class="editor-sec-lbl">Room Snapshots <span style="color:var(--muted);font-size:10px;font-weight:600;text-transform:none;letter-spacing:0">(tap to customize, tap × to remove)</span></div>
+      <div class="snap-editor-grid" id="bhl-snap-grid">
+        <!-- Populated by JS -->
+      </div>
+      <div style="text-align:center;margin-bottom:20px;">
+        <button onclick="addSnapSlot()" style="background:var(--warm2);border:1.5px dashed var(--border2);border-radius:10px;padding:10px 20px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--navy);cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+          <i class="ph ph-plus-circle"></i> Add Photo Slot
+        </button>
+      </div>
+      <div class="editor-sec-lbl">Preset Photo Slots</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;">
+        <button onclick="addPresetSnap('🛏️','Bedroom')" class="btn-ghost-sm">🛏️ Bedroom</button>
+        <button onclick="addPresetSnap('🚿','Bathroom')" class="btn-ghost-sm">🚿 Bathroom</button>
+        <button onclick="addPresetSnap('🪟','Window View')" class="btn-ghost-sm">🪟 Window</button>
+        <button onclick="addPresetSnap('🍳','Kitchen')" class="btn-ghost-sm">🍳 Kitchen</button>
+        <button onclick="addPresetSnap('👕','Laundry')" class="btn-ghost-sm">👕 Laundry</button>
+        <button onclick="addPresetSnap('🚪','Entrance')" class="btn-ghost-sm">🚪 Entrance</button>
+        <button onclick="addPresetSnap('💡','Study Area')" class="btn-ghost-sm">💡 Study Area</button>
+        <button onclick="addPresetSnap('📶','WiFi Router')" class="btn-ghost-sm">📶 WiFi</button>
+        <button onclick="addPresetSnap('🌿','Garden')" class="btn-ghost-sm">🌿 Garden</button>
+      </div>
+    </div>
+
+    <!-- ── RULES TAB ── -->
+    <div class="bhl-panel" id="bhl-panel-rules">
+      <div class="editor-sec-lbl">Quick Toggles</div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px;box-shadow:var(--sh-xs);">
+        <div class="rule-editor-row" style="border-radius:0;margin-bottom:0;border:none;border-bottom:1px solid var(--border);">
+          <span class="rule-editor-emoji">📶</span>
+          <span class="rule-editor-text">WiFi Included</span>
+          <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;">
+            <input type="checkbox" id="bhl-wifi" style="opacity:0;width:0;height:0;" onchange="saveBhlToggle()">
+            <span id="bhl-wifi-track" style="position:absolute;inset:0;background:var(--border2);border-radius:11px;cursor:pointer;transition:.2s;"></span>
+            <span id="bhl-wifi-thumb" style="position:absolute;left:2px;top:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2);"></span>
+          </label>
+        </div>
+        <div class="rule-editor-row" style="border-radius:0;margin-bottom:0;border:none;border-bottom:1px solid var(--border);">
+          <span class="rule-editor-emoji">🍳</span>
+          <span class="rule-editor-text">Cooking Allowed</span>
+          <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;">
+            <input type="checkbox" id="bhl-cooking" style="opacity:0;width:0;height:0;" onchange="saveBhlToggle()">
+            <span id="bhl-cooking-track" style="position:absolute;inset:0;background:var(--border2);border-radius:11px;cursor:pointer;transition:.2s;"></span>
+            <span id="bhl-cooking-thumb" style="position:absolute;left:2px;top:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2);"></span>
+          </label>
+        </div>
+        <div class="rule-editor-row" style="border-radius:0;margin-bottom:0;border:none;border-bottom:1px solid var(--border);">
+          <span class="rule-editor-emoji">🐾</span>
+          <span class="rule-editor-text">Pets Allowed</span>
+          <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;">
+            <input type="checkbox" id="bhl-pets" style="opacity:0;width:0;height:0;" onchange="saveBhlToggle()">
+            <span id="bhl-pets-track" style="position:absolute;inset:0;background:var(--border2);border-radius:11px;cursor:pointer;transition:.2s;"></span>
+            <span id="bhl-pets-thumb" style="position:absolute;left:2px;top:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2);"></span>
+          </label>
+        </div>
+        <div class="rule-editor-row" style="border-radius:0;margin-bottom:0;border:none;">
+          <span class="rule-editor-emoji">👕</span>
+          <span class="rule-editor-text">Laundry Area</span>
+          <label style="position:relative;display:inline-block;width:40px;height:22px;flex-shrink:0;">
+            <input type="checkbox" id="bhl-laundry" style="opacity:0;width:0;height:0;" onchange="saveBhlToggle()">
+            <span id="bhl-laundry-track" style="position:absolute;inset:0;background:var(--border2);border-radius:11px;cursor:pointer;transition:.2s;"></span>
+            <span id="bhl-laundry-thumb" style="position:absolute;left:2px;top:2px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2);"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label class="lbl">Visitor Policy</label>
+        <select class="sel" id="bhl-visitors" onchange="saveBhlToggle()">
+          <option value="Not allowed">Not allowed</option>
+          <option value="Until 7PM">Until 7:00 PM</option>
+          <option value="Until 8PM">Until 8:00 PM</option>
+          <option value="Until 9PM">Until 9:00 PM</option>
+          <option value="Anytime">Anytime</option>
+        </select>
+      </div>
+
+      <div class="fg">
+        <label class="lbl">Advance Payment Required</label>
+        <select class="sel" id="bhl-advance" onchange="saveBhlToggle()">
+          <option value="1 month">1 month</option>
+          <option value="2 months">2 months</option>
+          <option value="No advance">No advance</option>
+        </select>
+      </div>
+
+      <div class="editor-sec-lbl">Custom Rules <span style="color:var(--muted);font-size:10px;font-weight:600;text-transform:none;letter-spacing:0">(your specific house rules)</span></div>
+      <div id="bhl-custom-rules-list"></div>
+      <div class="rule-add-row">
+        <input type="text" class="rule-add-inp" id="bhl-rule-emoji-inp" value="📌" style="width:44px;text-align:center;flex:none;padding:10px 4px;font-size:18px;" readonly onclick="cycleBhlEmoji()">
+        <input type="text" class="rule-add-inp" id="bhl-rule-text-inp" placeholder="e.g. No smoking inside rooms">
+        <button class="rule-add-btn" onclick="addCustomRule()"><i class="ph ph-plus"></i></button>
+      </div>
+      <div class="hint">Tap the emoji to cycle through options.</div>
+    </div>
+
+    <!-- ── AMENITIES TAB ── -->
+    <div class="bhl-panel" id="bhl-panel-amenities">
+      <div class="callout cl-info" style="margin-bottom:16px">
+        <span class="callout-ic"><i class="ph ph-star"></i></span>
+        <div class="callout-txt">Selected amenities appear as <strong>green tags</strong> on your listing. Tap to toggle.</div>
+      </div>
+      <div class="editor-sec-lbl">Included Utilities</div>
+      <div class="amenity-chip-grid" id="bhl-am-utilities"></div>
+      <div class="editor-sec-lbl">Room Features</div>
+      <div class="amenity-chip-grid" id="bhl-am-room"></div>
+      <div class="editor-sec-lbl">Location & Services</div>
+      <div class="amenity-chip-grid" id="bhl-am-location"></div>
+      <div class="editor-sec-lbl">Policies</div>
+      <div class="amenity-chip-grid" id="bhl-am-policy"></div>
+    </div>
+
+    <!-- Sticky save bar -->
+    <div class="bhl-save-bar">
+      <button class="btn btn-primary" onclick="saveBhlListing()" style="background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3);">
+        <i class="ph ph-floppy-disk"></i> Save & Update Listing
+      </button>
+    </div>
+  </div>
+
+
   <div class="screen" id="l-onboard">
     <div class="setup-wrap">
       <div class="setup-hero newlandlord-grad">
@@ -3306,262 +3988,29 @@ body {
     </div>
 
     <div class="map-svg-wrap" id="map-svg-wrap">
-      <svg viewBox="0 0 390 540" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">
-        <defs>
-          <filter id="pin-shadow" x="-40%" y="-40%" width="180%" height="180%">
-            <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0B1F3A" flood-opacity="0.32"/>
-          </filter>
-          <filter id="soft-shadow" x="-15%" y="-15%" width="130%" height="130%">
-            <feDropShadow dx="0" dy="1" stdDeviation="2.5" flood-color="#0B1F3A" flood-opacity="0.12"/>
-          </filter>
-          <pattern id="campus-stripe" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <line x1="0" y1="0" x2="0" y2="7" stroke="rgba(255,255,255,.3)" stroke-width="2"/>
-          </pattern>
-        </defs>
+      <div id="burauen-map"></div>
 
-        <!-- ══ BACKGROUND ══ -->
-        <rect width="390" height="540" fill="#EDE8E0"/>
+      <!-- Layer filter legend -->
+      <div class="map-legend" id="map-legend">
+        <div class="map-legend-row">
+          <button class="map-layer-btn on" id="lbtn-schools" onclick="toggleLayer('schools',this)">
+            <span class="lb-dot" style="background:#1558CC"></span>Schools
+          </button>
+          <button class="map-layer-btn on" id="lbtn-food" onclick="toggleLayer('food',this)">
+            <span class="lb-dot" style="background:#F59E0B"></span>Food
+          </button>
+          <button class="map-layer-btn on" id="lbtn-stores" onclick="toggleLayer('stores',this)">
+            <span class="lb-dot" style="background:#8B5CF6"></span>Stores
+          </button>
+          <button class="map-layer-btn on" id="lbtn-health" onclick="toggleLayer('health',this)">
+            <span class="lb-dot" style="background:#EF4444"></span>Health
+          </button>
+          <button class="map-layer-btn on" id="lbtn-gov" onclick="toggleLayer('gov',this)">
+            <span class="lb-dot" style="background:#0B7A6A"></span>Gov't
+          </button>
+        </div>
+      </div>
 
-        <!-- ══ TERRAIN FILLS (districts) ══ -->
-        <!-- West/Poblacion II & III -->
-        <path d="M0,0 L175,0 L155,180 L90,250 L0,220 Z" fill="#E8E3DB" opacity=".9"/>
-        <!-- East farmland / hills -->
-        <path d="M310,0 L390,0 L390,260 L330,200 L290,140 Z" fill="#E3DFD6" opacity=".8"/>
-        <!-- South areas -->
-        <path d="M0,320 L390,320 L390,540 L0,540 Z" fill="#EAE5DD" opacity=".9"/>
-        <!-- Central town area — slightly lighter -->
-        <rect x="110" y="160" width="220" height="200" rx="0" fill="#F0EBE3" opacity=".6"/>
-
-        <!-- ══ GREENERY ══ -->
-        <!-- Plaza / Town Park -->
-        <rect x="152" y="255" width="60" height="48" rx="8" fill="#C9E8C3" filter="url(#soft-shadow)"/>
-        <text x="182" y="283" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="8.5" font-weight="700" fill="#2D6A4F">🌳 Town Plaza</text>
-        <!-- Hill / greenery east -->
-        <ellipse cx="355" cy="420" rx="42" ry="55" fill="#D8EDCF" opacity=".7"/>
-        <ellipse cx="370" cy="480" rx="28" ry="36" fill="#D0E9C6" opacity=".6"/>
-        <!-- North greenery near EVSU -->
-        <ellipse cx="318" cy="62" rx="30" ry="22" fill="#D5EDD0" opacity=".75"/>
-
-        <!-- ══ ROAD NETWORK (based on real Burauen layout) ══ -->
-
-        <!-- Main diagonal: Dulag-Julita-Burauen Rd (enters NE, exits SW) -->
-        <!-- This is the most prominent road, runs roughly from upper-right to lower-left -->
-        <line x1="355" y1="0"   x2="140" y2="540" stroke="#C8C1B5" stroke-width="15"/>
-        <line x1="355" y1="0"   x2="140" y2="540" stroke="#F2EDE5" stroke-width="11"/>
-        <line x1="355" y1="0"   x2="140" y2="540" stroke="#FBF8F4" stroke-width="6" stroke-dasharray="22,15" opacity=".7"/>
-
-        <!-- Jaro-Dagami-Burauen road (goes south from town center junction) -->
-        <line x1="230" y1="220" x2="220" y2="540" stroke="#CCC7BF" stroke-width="12"/>
-        <line x1="230" y1="220" x2="220" y2="540" stroke="#F0EBE3" stroke-width="8"/>
-        <line x1="230" y1="220" x2="220" y2="540" stroke="#FAF7F3" stroke-width="4" stroke-dasharray="16,12" opacity=".6"/>
-
-        <!-- San Jose road (goes west from church) -->
-        <line x1="0"   y1="340" x2="225" y2="305" stroke="#D2CCC4" stroke-width="9"/>
-        <line x1="0"   y1="340" x2="225" y2="305" stroke="#EEE9E1" stroke-width="6"/>
-
-        <!-- ── Poblacion street grid (District VII area) ── -->
-        <!-- Horizontal grid streets -->
-        <line x1="110" y1="220" x2="230" y2="220" stroke="#D8D3CB" stroke-width="5"/>
-        <line x1="108" y1="245" x2="228" y2="245" stroke="#D8D3CB" stroke-width="4"/>
-        <line x1="106" y1="268" x2="226" y2="268" stroke="#D8D3CB" stroke-width="4"/>
-        <line x1="104" y1="292" x2="224" y2="292" stroke="#D8D3CB" stroke-width="4"/>
-        <line x1="102" y1="315" x2="222" y2="315" stroke="#D8D3CB" stroke-width="4"/>
-        <!-- Vertical grid streets -->
-        <line x1="118" y1="205" x2="118" y2="330" stroke="#D8D3CB" stroke-width="4"/>
-        <line x1="140" y1="202" x2="140" y2="330" stroke="#D8D3CB" stroke-width="4"/>
-        <line x1="162" y1="200" x2="162" y2="328" stroke="#D8D3CB" stroke-width="4"/>
-        <line x1="184" y1="198" x2="184" y2="325" stroke="#D8D3CB" stroke-width="4"/>
-        <line x1="206" y1="196" x2="206" y2="322" stroke="#D8D3CB" stroke-width="4"/>
-
-        <!-- Connecting road: west side (Poblacion II/III) -->
-        <line x1="0"   y1="180" x2="162" y2="222" stroke="#D0CBc3" stroke-width="7"/>
-        <line x1="0"   y1="180" x2="162" y2="222" stroke="#ECE7DF" stroke-width="4"/>
-
-        <!-- East side local road (near EVSU, toward boarding houses) -->
-        <line x1="295" y1="88"  x2="310" y2="380" stroke="#D0CBC3" stroke-width="6"/>
-        <line x1="295" y1="88"  x2="310" y2="380" stroke="#EDE8E0" stroke-width="3"/>
-
-        <!-- Cross roads east of highway -->
-        <line x1="230" y1="148" x2="310" y2="158" stroke="#D5D0C8" stroke-width="5"/>
-        <line x1="227" y1="195" x2="307" y2="205" stroke="#D5D0C8" stroke-width="4"/>
-        <line x1="225" y1="245" x2="305" y2="255" stroke="#D5D0C8" stroke-width="4"/>
-        <line x1="222" y1="300" x2="302" y2="308" stroke="#D5D0C8" stroke-width="4"/>
-
-        <!-- Road labels -->
-        <text font-family="Nunito Sans,sans-serif" font-size="8" font-weight="700" fill="#A8A09A">
-          <textPath href="#main-road-path">Dulag-Julita-Burauen Rd</textPath>
-        </text>
-        <defs>
-          <path id="main-road-path" d="M360,12 L148,520"/>
-        </defs>
-        <text x="232" y="400" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="7.5" font-weight="700" fill="#A8A09A" transform="rotate(-88,232,400)">Jaro-Dagami Rd</text>
-        <text x="80" y="333" font-family="Nunito Sans,sans-serif" font-size="7.5" font-weight="600" fill="#B0A89F">San Jose Rd</text>
-
-        <!-- ══ BUILDINGS & LANDMARKS ══ -->
-
-        <!-- Hospital (upper-left) -->
-        <rect x="28" y="118" width="52" height="38" rx="5" fill="#FEC9C5" filter="url(#soft-shadow)"/>
-        <rect x="28" y="118" width="52" height="38" rx="5" fill="none" stroke="#E87C78" stroke-width="1.2" opacity=".5"/>
-        <text x="54" y="135" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" font-weight="800" fill="#C0392B">🏥</text>
-        <text x="54" y="148" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="7.5" font-weight="700" fill="#C0392B">District Hospital</text>
-
-        <!-- Church (center) -->
-        <g filter="url(#soft-shadow)">
-          <rect x="162" y="295" width="28" height="24" rx="3" fill="#DDD8D0"/>
-          <polygon points="176,283 162,298 190,298" fill="#CFC9C0"/>
-          <rect x="173" y="278" width="6" height="10" rx="1" fill="#C4BEB5"/>
-        </g>
-        <text x="176" y="332" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="8" font-weight="600" fill="#7A7268">⛪ Our Lady of</text>
-        <text x="176" y="342" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="7.5" fill="#9A9189">the Immaculate</text>
-
-        <!-- Brew & Bites Cafe -->
-        <circle cx="168" cy="195" r="10" fill="#FFF3E0" stroke="#FB8C00" stroke-width="1.5" filter="url(#soft-shadow)"/>
-        <text x="168" y="199" text-anchor="middle" font-family="Nunito,sans-serif" font-size="9">☕</text>
-        <text x="168" y="214" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="7.5" font-weight="600" fill="#E65100">Brew&amp;Bites</text>
-
-        <!-- Generic building blocks — Poblacion II (west) -->
-        <rect x="18"  y="22"  width="30" height="22" rx="4" fill="#DDD8CF" filter="url(#soft-shadow)"/>
-        <rect x="54"  y="20"  width="22" height="26" rx="4" fill="#D8D3CB"/>
-        <rect x="16"  y="52"  width="26" height="20" rx="4" fill="#DBD6CE"/>
-        <rect x="48"  y="50"  width="28" height="22" rx="4" fill="#D6D1C9"/>
-        <rect x="14"  y="78"  width="34" height="18" rx="4" fill="#DAD5CC"/>
-
-        <!-- Poblacion District III blocks (mid-west) -->
-        <rect x="16"  y="230" width="36" height="26" rx="4" fill="#DAD5CD" filter="url(#soft-shadow)"/>
-        <rect x="58"  y="228" width="24" height="22" rx="4" fill="#D8D3CB"/>
-        <rect x="14"  y="262" width="30" height="20" rx="4" fill="#DDD8CF"/>
-        <rect x="50"  y="260" width="28" height="24" rx="4" fill="#D6D1C9"/>
-
-        <!-- South blocks (Poblacion IV/VI) -->
-        <rect x="16"  y="380" width="32" height="24" rx="4" fill="#DAD5CC" filter="url(#soft-shadow)"/>
-        <rect x="54"  y="378" width="26" height="28" rx="4" fill="#D8D3CB"/>
-        <rect x="14"  y="412" width="28" height="22" rx="4" fill="#DDD8CF"/>
-
-        <!-- ══ BCC CAMPUS ══ -->
-        <!-- From screenshots: BCC is upper-center area -->
-        <rect x="148" y="28" width="110" height="72" rx="10" fill="#CCFBF1" filter="url(#soft-shadow)"/>
-        <rect x="148" y="28" width="110" height="72" rx="10" fill="url(#campus-stripe)" opacity=".35"/>
-        <rect x="148" y="28" width="110" height="72" rx="10" fill="none" stroke="#0B7A6A" stroke-width="2" opacity=".45"/>
-        <!-- BCC buildings -->
-        <rect x="160" y="40"  width="22" height="16" rx="3" fill="#A7F3D0"/>
-        <rect x="188" y="40"  width="18" height="16" rx="3" fill="#A7F3D0"/>
-        <rect x="212" y="40"  width="20" height="16" rx="3" fill="#A7F3D0"/>
-        <rect x="164" y="62"  width="26" height="13" rx="3" fill="#A7F3D0"/>
-        <rect x="196" y="62"  width="22" height="13" rx="3" fill="#A7F3D0"/>
-        <text x="203" y="86"  text-anchor="middle" font-family="Nunito,sans-serif" font-size="12" font-weight="900" fill="#0B7A6A">BCC</text>
-        <text x="203" y="97"  text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="8.5" fill="#0D9480" opacity=".9">Burauen Community College</text>
-
-        <!-- ══ EVSU CAMPUS ══ -->
-        <!-- From screenshots: EVSU is to the right of BCC, slightly further east -->
-        <rect x="282" y="22" width="100" height="68" rx="10" fill="#DBEAFE" filter="url(#soft-shadow)"/>
-        <rect x="282" y="22" width="100" height="68" rx="10" fill="url(#campus-stripe)" opacity=".3"/>
-        <rect x="282" y="22" width="100" height="68" rx="10" fill="none" stroke="#1558CC" stroke-width="2" opacity=".4"/>
-        <!-- EVSU buildings -->
-        <rect x="294" y="34" width="20" height="15" rx="3" fill="#BFDBFE"/>
-        <rect x="320" y="34" width="18" height="15" rx="3" fill="#BFDBFE"/>
-        <rect x="344" y="34" width="20" height="15" rx="3" fill="#BFDBFE"/>
-        <rect x="298" y="55" width="24" height="13" rx="3" fill="#BFDBFE"/>
-        <rect x="328" y="55" width="20" height="13" rx="3" fill="#BFDBFE"/>
-        <text x="332" y="79"  text-anchor="middle" font-family="Nunito,sans-serif" font-size="10" font-weight="900" fill="#1558CC">EVSU</text>
-        <text x="332" y="90"  text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="7.5" fill="#3B82C4" opacity=".9">Eastern Visayas State Univ.</text>
-
-        <!-- Poblacion labels -->
-        <text x="58"  y="88"  font-family="Nunito Sans,sans-serif" font-size="8.5" font-weight="700" fill="#B5AFA7" text-anchor="middle">POBLACION</text>
-        <text x="58"  y="98"  font-family="Nunito Sans,sans-serif" font-size="8.5" font-weight="700" fill="#B5AFA7" text-anchor="middle">DISTRICT II</text>
-        <text x="50"  y="310" font-family="Nunito Sans,sans-serif" font-size="8" font-weight="700" fill="#B5AFA7" text-anchor="middle">POBLACION</text>
-        <text x="50"  y="320" font-family="Nunito Sans,sans-serif" font-size="8" font-weight="700" fill="#B5AFA7" text-anchor="middle">DIST. III</text>
-        <text x="158" y="380" font-family="Nunito Sans,sans-serif" font-size="8" font-weight="700" fill="#B5AFA7" text-anchor="middle">POBLACION</text>
-        <text x="158" y="390" font-family="Nunito Sans,sans-serif" font-size="8" font-weight="700" fill="#B5AFA7" text-anchor="middle">DIST. IV</text>
-        <text x="258" y="370" font-family="Nunito Sans,sans-serif" font-size="8" font-weight="700" fill="#B5AFA7" text-anchor="middle">POBLACION</text>
-        <text x="258" y="380" font-family="Nunito Sans,sans-serif" font-size="8" font-weight="700" fill="#B5AFA7" text-anchor="middle">DIST. VI</text>
-        <text x="160" y="242" font-family="Nunito Sans,sans-serif" font-size="8" font-weight="700" fill="#C5BFB7" text-anchor="middle">POBLACION</text>
-        <text x="160" y="252" font-family="Nunito Sans,sans-serif" font-size="8" font-weight="700" fill="#C5BFB7" text-anchor="middle">DIST. VII</text>
-
-        <!-- ══ COMPASS & SCALE ══ -->
-        <g transform="translate(26,488)">
-          <circle cx="0" cy="0" r="16" fill="rgba(255,255,255,.75)" stroke="#D5CEC5" stroke-width="1"/>
-          <polygon points="0,-11 -3.5,-4 3.5,-4" fill="#0B1F3A"/>
-          <polygon points="0,11 -3.5,4 3.5,4"   fill="#C8C2BA"/>
-          <polygon points="-11,0 -4,-3.5 -4,3.5" fill="#C8C2BA"/>
-          <polygon points="11,0 4,-3.5 4,3.5"    fill="#C8C2BA"/>
-          <text x="0" y="-14" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8" font-weight="900" fill="#0B1F3A">N</text>
-        </g>
-        <g transform="translate(72,492)">
-          <line x1="0" y1="0" x2="56" y2="0" stroke="#A39A8F" stroke-width="1.5"/>
-          <line x1="0" y1="-3" x2="0"  y2="3" stroke="#A39A8F" stroke-width="1.5"/>
-          <line x1="56" y1="-3" x2="56" y2="3" stroke="#A39A8F" stroke-width="1.5"/>
-          <text x="28" y="-5" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="7.5" fill="#A39A8F">~400m</text>
-        </g>
-
-        <!-- ══════════════════════════════════
-             BOARDING HOUSE PINS
-             Based on real Google Maps positions
-        ══════════════════════════════════ -->
-
-        <!-- ─ PIN 1: TIAH Boarding House ─
-             Real location: center-right of Poblacion VII, ON the main highway
-             Between BCC and church area, on Jaro-Dagami Rd junction -->
-        <g class="bh-pin-btn" id="map-pin-1" onclick="openMapCard(1)">
-          <ellipse cx="244" cy="213" rx="8" ry="3.5" fill="rgba(11,31,58,.2)"/>
-          <rect x="206" y="181" width="76" height="28" rx="14" fill="#0B1F3A" filter="url(#pin-shadow)"/>
-          <circle cx="221" cy="195" r="8" fill="#1558CC"/>
-          <text x="221" y="199" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8.5" font-weight="900" fill="#fff">₱1.5k</text>
-          <text x="255" y="200" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8.5" font-weight="800" fill="#fff">TIAH BH</text>
-          <polygon points="244,209 238,201 250,201" fill="#0B1F3A"/>
-          <circle cx="280" cy="187" r="5" fill="#22C55E" stroke="#fff" stroke-width="1.5" id="map-dot-1"/>
-        </g>
-
-        <!-- ─ PIN 2: LFH Boarding House ─
-             Real location: west side, Poblacion III area, left of main grid -->
-        <g class="bh-pin-btn" id="map-pin-2" onclick="openMapCard(2)">
-          <ellipse cx="92" cy="256" rx="8" ry="3.5" fill="rgba(11,31,58,.2)"/>
-          <rect x="54"  y="224" width="76" height="28" rx="14" fill="#0B1F3A" filter="url(#pin-shadow)"/>
-          <circle cx="69"  cy="238" r="8" fill="#1A6B3C"/>
-          <text x="69"  y="242" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8.5" font-weight="900" fill="#fff">₱2.0k</text>
-          <text x="103" y="243" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8.5" font-weight="800" fill="#fff">LFH BH</text>
-          <polygon points="92,252 86,244 98,244" fill="#0B1F3A"/>
-          <circle cx="128" cy="230" r="5" fill="#22C55E" stroke="#fff" stroke-width="1.5" id="map-dot-2"/>
-        </g>
-
-        <!-- ─ PIN 3: Caspe Boarding House ─
-             Real location: east of main highway, north — near EVSU side -->
-        <g class="bh-pin-btn" id="map-pin-3" onclick="openMapCard(3)">
-          <ellipse cx="296" cy="162" rx="8" ry="3.5" fill="rgba(11,31,58,.2)"/>
-          <rect x="258" y="130" width="76" height="28" rx="14" fill="#0B1F3A" filter="url(#pin-shadow)"/>
-          <circle cx="273" cy="144" r="8" fill="#5B21B6"/>
-          <text x="273" y="148" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8.5" font-weight="900" fill="#fff">₱1.2k</text>
-          <text x="308" y="149" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8.5" font-weight="800" fill="#fff">Caspe BH</text>
-          <polygon points="296,158 290,150 302,150" fill="#0B1F3A"/>
-          <circle cx="332" cy="136" r="5" fill="#EF4444" stroke="#fff" stroke-width="1.5" id="map-dot-3"/>
-        </g>
-
-        <!-- ─ PIN 4: Jayñamich Residence & BH ─
-             Real location: east of highway, south — near Jaro-Dagami road, east side -->
-        <g class="bh-pin-btn" id="map-pin-4" onclick="openMapCard(4)">
-          <ellipse cx="296" cy="318" rx="8" ry="3.5" fill="rgba(11,31,58,.2)"/>
-          <rect x="254" y="286" width="84" height="28" rx="14" fill="#0B1F3A" filter="url(#pin-shadow)"/>
-          <circle cx="270" cy="300" r="8" fill="#B45309"/>
-          <text x="270" y="304" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8.5" font-weight="900" fill="#fff">₱1.8k</text>
-          <text x="310" y="305" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8.5" font-weight="800" fill="#fff">Jayñamich</text>
-          <polygon points="296,314 290,306 302,306" fill="#0B1F3A"/>
-          <circle cx="336" cy="292" r="5" fill="#22C55E" stroke="#fff" stroke-width="1.5" id="map-dot-4"/>
-        </g>
-
-        <!-- ─ PIN 5: Sabai House ─
-             Real location: south on Jaro-Dagami Rd, center — south of District VII -->
-        <g class="bh-pin-btn" id="map-pin-5" onclick="openMapCard(5)">
-          <ellipse cx="224" cy="380" rx="8" ry="3.5" fill="rgba(11,31,58,.2)"/>
-          <rect x="182" y="348" width="84" height="28" rx="14" fill="#0B1F3A" filter="url(#pin-shadow)"/>
-          <circle cx="198" cy="362" r="8" fill="#0B7A6A"/>
-          <text x="198" y="366" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8.5" font-weight="900" fill="#fff">₱1.3k</text>
-          <text x="237" y="367" text-anchor="middle" font-family="Nunito,sans-serif" font-size="8.5" font-weight="800" fill="#fff">Sabai House</text>
-          <polygon points="224,376 218,368 230,368" fill="#0B1F3A"/>
-          <circle cx="264" cy="354" r="5" fill="#EF4444" stroke="#fff" stroke-width="1.5" id="map-dot-5"/>
-        </g>
-
-      </svg>
-
-      <!-- Sheet overlay -->
       <div class="map-sheet-overlay" id="map-overlay" onclick="handleOverlayClick(event)">
         <div class="map-sheet-backdrop"></div>
         <div class="map-sheet" id="map-sheet">
@@ -3813,10 +4262,25 @@ const state = {
   houses: [
     {
       id: 1, name: 'TIAH Boarding House',
+      latlng: [10.8763, 124.9388],
       gradient: 'linear-gradient(135deg,#1462A8,#0D8A78)',
       address: 'Poblacion VII, Burauen, Leyte', distanceEVSU: 8, distanceBCC: 5,
       price: 1500, curfew: '10:00 PM', verified: 'May 2025',
+      about: 'Safe, quiet boarding house for students. 5-min walk to BCC, 8-min to EVSU. Newly repainted rooms, clean common area, and reliable WiFi. Near carenderia row and the public market.',
       amenities: ['WiFi included','Study room','Laundry area'],
+      snapshots: [
+        {emoji:'🛏️',label:'Bedroom'},
+        {emoji:'🚿',label:'Bathroom'},
+        {emoji:'📶',label:'WiFi Router'},
+        {emoji:'💡',label:'Study Area'},
+        {emoji:'👕',label:'Laundry'},
+        {emoji:'🚪',label:'Entrance'},
+      ],
+      customRules: [
+        {emoji:'🚭',text:'No smoking anywhere in the premises'},
+        {emoji:'🔕',text:'Quiet hours: 10PM – 6AM'},
+        {emoji:'🗑️',text:'Dispose trash every morning before 7AM'},
+      ],
       rules: {wifi:true,cooking:false,visitors:'Until 8PM',pets:false,laundry:true,advance:'1 month'},
       rooms: [
         {id:1,name:'R1',status:'paid',tenant:'Ana Reyes',amount:1500},
@@ -3831,10 +4295,14 @@ const state = {
     },
     {
       id: 2, name: 'LFH Boarding House',
+      latlng: [10.8758, 124.9351],
       gradient: 'linear-gradient(135deg,#1A6B3C,#1462A8)',
       address: 'Poblacion III, Burauen, Leyte', distanceEVSU: 12, distanceBCC: 7,
       price: 2000, curfew: 'No curfew', verified: 'April 2025',
+      about: 'Spacious rooms with private CR option. No curfew — perfect for working students. Cooking allowed in the shared kitchen. 7-minute walk to BCC.',
       amenities: ['Private CR','Cooking allowed','No curfew'],
+      snapshots: [{emoji:'🛏️',label:'Bedroom'},{emoji:'🚿',label:'Private CR'},{emoji:'🍳',label:'Kitchen'},{emoji:'🚪',label:'Entrance'}],
+      customRules: [{emoji:'🧹',text:'Clean shared kitchen after use'},{emoji:'🔑',text:'Always lock your room when out'}],
       rules: {wifi:false,cooking:true,visitors:'Anytime',pets:false,laundry:true,advance:'2 months'},
       rooms: [
         {id:1,name:'R1',status:'paid',tenant:'Ben Torres',amount:2000},
@@ -3847,10 +4315,14 @@ const state = {
     },
     {
       id: 3, name: 'Caspe Boarding House',
+      latlng: [10.8792, 124.9421],
       gradient: 'linear-gradient(135deg,#5B21B6,#1462A8)',
       address: 'Near EVSU, Burauen, Leyte', distanceEVSU: 3, distanceBCC: 14,
       price: 1200, curfew: '9:00 PM', verified: 'May 2025',
+      about: 'Budget-friendly option just 3 minutes from the EVSU gate. Clean and well-maintained. Laundry area available. Strict 9PM curfew for a focused study environment.',
       amenities: ['Near EVSU','Laundry area','Budget-friendly'],
+      snapshots: [{emoji:'🛏️',label:'Bedroom'},{emoji:'👕',label:'Laundry'},{emoji:'🌿',label:'Garden'},{emoji:'🚪',label:'Entrance'}],
+      customRules: [{emoji:'📚',text:'Study hours: 7PM–9PM (quiet)'},{emoji:'🚭',text:'No smoking on the property'}],
       rules: {wifi:false,cooking:false,visitors:'Not allowed',pets:false,laundry:true,advance:'1 month'},
       rooms: [
         {id:1,name:'R1',status:'paid',tenant:'Diana M.',amount:1200},
@@ -3863,10 +4335,14 @@ const state = {
     },
     {
       id: 4, name: 'Jayñamich Residence',
+      latlng: [10.8731, 124.9418],
       gradient: 'linear-gradient(135deg,#B45309,#1462A8)',
       address: 'Jaro-Dagami Rd, Burauen, Leyte', distanceEVSU: 10, distanceBCC: 9,
       price: 1800, curfew: '10:30 PM', verified: 'June 2025',
+      about: 'Spacious rooms with WiFi. Both cooking and visitors allowed. Centrally located — roughly equal distance from EVSU and BCC. Great for students who want flexibility.',
       amenities: ['WiFi included','Affordable price','Spacious rooms'],
+      snapshots: [{emoji:'🛏️',label:'Bedroom'},{emoji:'📶',label:'WiFi'},{emoji:'🍳',label:'Kitchen'},{emoji:'🪟',label:'Window View'}],
+      customRules: [{emoji:'🎵',text:'No loud music after 10PM'},{emoji:'🧹',text:'Maintain cleanliness of common areas'}],
       rules: {wifi:true,cooking:true,visitors:'Until 9PM',pets:false,laundry:true,advance:'1 month'},
       rooms: [
         {id:1,name:'R1',status:'paid',tenant:'Hana L.',amount:1800},
@@ -3880,10 +4356,14 @@ const state = {
     },
     {
       id: 5, name: 'Sabai House',
+      latlng: [10.8695, 124.9370],
       gradient: 'linear-gradient(135deg,#0B7A6A,#112847)',
       address: 'Jaro-Dagami Rd South, Burauen, Leyte', distanceEVSU: 14, distanceBCC: 11,
       price: 1300, curfew: '9:30 PM', verified: 'June 2025',
+      about: 'Peaceful boarding house in a quiet residential area. Walking distance to the public market. Ideal for students who prefer a calm environment away from the busy town center.',
       amenities: ['Quiet area','Laundry area','Near market'],
+      snapshots: [{emoji:'🛏️',label:'Bedroom'},{emoji:'👕',label:'Laundry'},{emoji:'🌿',label:'Garden'},{emoji:'🚿',label:'Bathroom'}],
+      customRules: [{emoji:'🔇',text:'Quiet hours strictly observed after 9:30PM'},{emoji:'🚿',text:'30-minute bathroom limit during peak hours'}],
       rules: {wifi:false,cooking:false,visitors:'Until 7PM',pets:false,laundry:true,advance:'1 month'},
       rooms: [
         {id:1,name:'R1',status:'paid',tenant:'Jan P.',amount:1300},
@@ -4091,9 +4571,13 @@ function refreshScreen(id) {
       }
       break;
     case 'l-onboard': if(typeof loStep!=='undefined'){showLoStep(1);} break;
+    case 'l-listing': renderBhlListing(); break;
     case 's-map':
-      // Close any open card when re-entering map
-      setTimeout(() => { closeMapCard && closeMapCard(); }, 50);
+      // Init or refresh Leaflet when screen opens
+      setTimeout(() => {
+        initLeafletMap();
+        closeMapCard && closeMapCard();
+      }, 60);
       break;
     case 'l-setup':
       {
@@ -4282,6 +4766,25 @@ function openHouse(id) {
   document.getElementById('d-name').textContent = h.name;
   document.getElementById('d-loc').textContent = `📍 ${h.address} — ${dist} min walk from ${school} gate`;
 
+  // About section
+  const aboutEl = document.getElementById('d-about');
+  if(aboutEl) aboutEl.textContent = h.about || '';
+
+  // Photo strip (from snapshots)
+  const stripEl = document.getElementById('d-photo-strip');
+  if(stripEl) {
+    const snaps = h.snapshots && h.snapshots.length ? h.snapshots : [
+      {emoji:'📷',label:'Facade'},{emoji:'🛏️',label:'Room'},{emoji:'🚿',label:'Bathroom'},{emoji:'🚪',label:'Entrance'}
+    ];
+    // gradient-tinted bg for each slot
+    const gradStart = h.gradient.match(/#[0-9A-Fa-f]{6}/)?.[0] || '#1462A8';
+    stripEl.innerHTML = snaps.map(s=>`
+      <div class="d-photo-slot" style="background:${gradStart}22;border:1.5px solid ${gradStart}44;">
+        <div class="d-photo-slot-emoji">${s.emoji}</div>
+        <div class="d-photo-slot-label">${s.label}</div>
+      </div>`).join('');
+  }
+
   // Snapshot
   document.getElementById('d-snap').innerHTML = `
     <div class="snap-itm"><span class="snap-lbl">Monthly Rent</span><span class="snap-val">₱${h.price.toLocaleString()}</span></div>
@@ -4291,9 +4794,9 @@ function openHouse(id) {
     <div class="snap-itm"><span class="snap-lbl">Bathroom</span><span class="snap-val">Shared</span></div>
     <div class="snap-itm"><span class="snap-lbl">Advance</span><span class="snap-val">${h.rules.advance}</span></div>`;
 
-  // Rules
-  document.getElementById('d-rules').innerHTML = [
-    ['🌐','WiFi',h.rules.wifi,'Included','Not included'],
+  // Rules (standard toggles)
+  const standardRules = [
+    ['📶','WiFi',h.rules.wifi,'Included','Not included'],
     ['🍳','Cooking',h.rules.cooking,'Allowed','Not allowed'],
     ['👥','Visitors',true,h.rules.visitors,'Not allowed'],
     ['🐾','Pets',h.rules.pets,'Allowed','Not allowed'],
@@ -4303,6 +4806,17 @@ function openHouse(id) {
       <span class="rule-nm"><span>${ic}</span>${nm}</span>
       <span class="rstatus ${cond?'ryes':nm==='Visitors'?'rpartial':'rno'}">${cond?(nm==='Visitors'?h.rules.visitors:yes):no}</span>
     </div>`).join('');
+
+  // Custom rules from landlord
+  const customRulesHtml = (h.customRules||[]).length ? `
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+      ${(h.customRules).map(r=>`
+        <div class="rule-row">
+          <span class="rule-nm"><span>${r.emoji}</span>${r.text}</span>
+        </div>`).join('')}
+    </div>` : '';
+
+  document.getElementById('d-rules').innerHTML = standardRules + customRulesHtml;
 
   // Amenities tags (rendered below house name in detail)
   const amenEl = document.getElementById('d-amenities');
@@ -5950,10 +6464,453 @@ loadSafe();
 
 
 
+
 // ════════════════════════════════════════
-// ILLUSTRATED MAP
+// BH LISTING EDITOR (l-listing)
 // ════════════════════════════════════════
+const BHL_GRADIENTS = [
+  'linear-gradient(135deg,#1462A8,#0D8A78)',
+  'linear-gradient(135deg,#1A6B3C,#1462A8)',
+  'linear-gradient(135deg,#5B21B6,#1462A8)',
+  'linear-gradient(135deg,#B45309,#1462A8)',
+  'linear-gradient(135deg,#0B7A6A,#112847)',
+  'linear-gradient(135deg,#C0392B,#1462A8)',
+  'linear-gradient(135deg,#0B1F3A,#1558CC)',
+  'linear-gradient(135deg,#6D28D9,#0B7A6A)',
+  'linear-gradient(135deg,#1462A8,#B45309)',
+  'linear-gradient(135deg,#0B7A6A,#1558CC)',
+  'linear-gradient(135deg,#374151,#0B7A6A)',
+  'linear-gradient(135deg,#7C3AED,#DB2777)',
+];
+
+const AMENITY_GROUPS = {
+  utilities: [
+    {ic:'📶',label:'WiFi Included'},{ic:'💡',label:'Electricity included'},
+    {ic:'💧',label:'Water included'},{ic:'❄️',label:'Electric fan provided'},
+    {ic:'🔌',label:'Free charging outlets'},{ic:'📺',label:'Cable TV'},
+  ],
+  room: [
+    {ic:'🛏️',label:'With bed frame'},{ic:'🪑',label:'With study table'},
+    {ic:'🗄️',label:'Cabinet / closet'},{ic:'🔐',label:'Door with padlock'},
+    {ic:'🪟',label:'Window with view'},{ic:'🚿',label:'Private CR'},
+    {ic:'🛁',label:'Private bathroom'},{ic:'🏠',label:'Spacious rooms'},
+  ],
+  location: [
+    {ic:'🎓',label:'Near EVSU'},{ic:'📚',label:'Near BCC'},
+    {ic:'🏪',label:'Near market'},{ic:'🍚',label:'Near carenderia'},
+    {ic:'☕',label:'Near café'},{ic:'🏥',label:'Near hospital'},
+    {ic:'🚌',label:'Near terminal'},{ic:'🏧',label:'Near ATM'},
+  ],
+  policy: [
+    {ic:'🍳',label:'Cooking allowed'},{ic:'🐾',label:'Pets allowed'},
+    {ic:'👥',label:'Visitors allowed'},{ic:'🔕',label:'Quiet environment'},
+    {ic:'🌙',label:'No curfew'},{ic:'🔒',label:'24/7 security'},
+    {ic:'📷',label:'CCTV cameras'},{ic:'🧹',label:'Weekly cleaning service'},
+  ],
+};
+
+const EMOJI_OPTIONS = ['📌','🚫','✅','🔕','🚭','🧹','🔑','📋','⚠️','🌟','🔇','🔒','💧','🗑️','🎵'];
+let bhlEmojiIdx = 0;
+
+function cycleBhlEmoji() {
+  bhlEmojiIdx = (bhlEmojiIdx + 1) % EMOJI_OPTIONS.length;
+  const el = document.getElementById('bhl-rule-emoji-inp');
+  if(el) el.value = EMOJI_OPTIONS[bhlEmojiIdx];
+}
+
+function switchBhlTab(tab, btn) {
+  document.querySelectorAll('.bhl-tab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.bhl-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('on');
+  const panel = document.getElementById('bhl-panel-' + tab);
+  if(panel) panel.classList.add('active');
+}
+
+function updateBhlPreview() {
+  const name = document.getElementById('bhl-name')?.value || state.houses[0].name;
+  const el = document.getElementById('bhl-strip-name');
+  if(el) el.textContent = name;
+}
+
+function renderBhlListing() {
+  const h = state.houses[0];
+
+  // Fill info tab
+  const sv = (id, v) => { const e = document.getElementById(id); if(e && v !== undefined) e.value = v || ''; };
+  sv('bhl-name', h.name);
+  sv('bhl-address', h.address);
+  sv('bhl-price', h.price);
+  sv('bhl-about', h.about || '');
+  sv('bhl-devsu', h.distanceEVSU);
+  sv('bhl-dbcc', h.distanceBCC);
+  // curfew select
+  const curfewSel = document.getElementById('bhl-curfew');
+  if(curfewSel) {
+    [...curfewSel.options].forEach(o => o.selected = (o.value === h.curfew));
+  }
+
+  // Preview hero
+  const heroBg = document.getElementById('bhl-hero-bg');
+  const stripBg = document.getElementById('bhl-strip-bg');
+  if(heroBg) heroBg.style.background = h.gradient;
+  if(stripBg) stripBg.style.background = h.gradient;
+  updateBhlPreview();
+
+  // Availability strip
+  const avail = h.rooms.filter(r=>r.status==='empty').length;
+  const availEl = document.getElementById('bhl-strip-avail');
+  if(availEl) {
+    availEl.textContent = avail > 0 ? `${avail} slot${avail>1?'s':''} open` : 'Full · Waitlist';
+    availEl.style.background = avail > 0 ? 'rgba(34,197,94,.35)' : 'rgba(239,68,68,.35)';
+  }
+
+  // Gradient picker
+  const gradGrid = document.getElementById('bhl-grad-grid');
+  if(gradGrid) {
+    gradGrid.innerHTML = BHL_GRADIENTS.map((g, i) => `
+      <div class="grad-swatch ${g===h.gradient?'on':''}" style="background:${g};"
+        onclick="selectBhlGrad('${g}', this)"></div>`).join('');
+  }
+
+  // Rules toggles
+  ['wifi','cooking','pets','laundry'].forEach(key => {
+    const cb = document.getElementById('bhl-' + key);
+    if(cb) {
+      cb.checked = !!h.rules[key];
+      updateToggleVisual(key, cb.checked);
+    }
+  });
+  sv('bhl-visitors', h.rules.visitors);
+  sv('bhl-advance', h.rules.advance);
+  const vSel = document.getElementById('bhl-visitors');
+  if(vSel) [...vSel.options].forEach(o => o.selected = (o.value === h.rules.visitors));
+  const aSel = document.getElementById('bhl-advance');
+  if(aSel) [...aSel.options].forEach(o => o.selected = (o.value === h.rules.advance));
+
+  // Custom rules list
+  renderBhlCustomRules();
+
+  // Snapshots
+  renderBhlSnapGrid();
+
+  // Amenity chips
+  renderAmenityChips();
+}
+
+function updateToggleVisual(key, checked) {
+  const track = document.getElementById('bhl-' + key + '-track');
+  const thumb = document.getElementById('bhl-' + key + '-thumb');
+  if(track) track.style.background = checked ? 'var(--teal)' : 'var(--border2)';
+  if(thumb) thumb.style.left = checked ? '20px' : '2px';
+}
+
+function saveBhlToggle() {
+  const h = state.houses[0];
+  ['wifi','cooking','pets','laundry'].forEach(key => {
+    const cb = document.getElementById('bhl-' + key);
+    if(cb) {
+      h.rules[key] = cb.checked;
+      updateToggleVisual(key, cb.checked);
+    }
+  });
+  const vSel = document.getElementById('bhl-visitors');
+  if(vSel) h.rules.visitors = vSel.value;
+  const aSel = document.getElementById('bhl-advance');
+  if(aSel) h.rules.advance = aSel.value;
+}
+
+function selectBhlGrad(g, el) {
+  document.querySelectorAll('.grad-swatch').forEach(s => s.classList.remove('on'));
+  el.classList.add('on');
+  const heroBg = document.getElementById('bhl-hero-bg');
+  if(heroBg) heroBg.style.background = g;
+  state.houses[0].gradient = g;
+}
+
+// Custom rules
+function renderBhlCustomRules() {
+  const h = state.houses[0];
+  const list = document.getElementById('bhl-custom-rules-list');
+  if(!list) return;
+  list.innerHTML = (h.customRules || []).map((r, i) => `
+    <div class="rule-editor-row">
+      <span class="rule-editor-emoji">${r.emoji}</span>
+      <span class="rule-editor-text">${r.text}</span>
+      <button class="rule-editor-del" onclick="deleteCustomRule(${i})">
+        <i class="ph ph-x"></i>
+      </button>
+    </div>`).join('');
+}
+
+function addCustomRule() {
+  const emojiEl = document.getElementById('bhl-rule-emoji-inp');
+  const textEl  = document.getElementById('bhl-rule-text-inp');
+  const text = textEl?.value.trim();
+  if(!text) { showToast('Type a rule first'); return; }
+  const emoji = emojiEl?.value || '📌';
+  if(!state.houses[0].customRules) state.houses[0].customRules = [];
+  state.houses[0].customRules.push({ emoji, text });
+  textEl.value = '';
+  renderBhlCustomRules();
+}
+
+function deleteCustomRule(idx) {
+  state.houses[0].customRules.splice(idx, 1);
+  renderBhlCustomRules();
+}
+
+// Snapshots
+function renderBhlSnapGrid() {
+  const h = state.houses[0];
+  const grid = document.getElementById('bhl-snap-grid');
+  if(!grid) return;
+  const snaps = h.snapshots || [];
+  const gradStart = h.gradient.match(/#[0-9A-Fa-f]{6}/)?.[0] || '#1462A8';
+  grid.innerHTML = snaps.map((s, i) => `
+    <div class="snap-slot filled" style="background:${gradStart}18;border-color:${gradStart}44;">
+      <span class="snap-slot-del" onclick="deleteSnap(${i})">×</span>
+      <span class="snap-slot-emoji">${s.emoji}</span>
+      <span class="snap-slot-label">${s.label}</span>
+    </div>`).join('');
+}
+
+function addSnapSlot() {
+  const h = state.houses[0];
+  if(!h.snapshots) h.snapshots = [];
+  if(h.snapshots.length >= 9) { showToast('Maximum 9 photo slots'); return; }
+  h.snapshots.push({emoji:'📷', label:'Photo'});
+  renderBhlSnapGrid();
+}
+
+function addPresetSnap(emoji, label) {
+  const h = state.houses[0];
+  if(!h.snapshots) h.snapshots = [];
+  if(h.snapshots.length >= 9) { showToast('Maximum 9 photo slots'); return; }
+  // Don't duplicate
+  if(h.snapshots.find(s => s.label === label)) { showToast(label + ' already added'); return; }
+  h.snapshots.push({emoji, label});
+  renderBhlSnapGrid();
+}
+
+function deleteSnap(idx) {
+  state.houses[0].snapshots.splice(idx, 1);
+  renderBhlSnapGrid();
+}
+
+// Amenity chips
+function renderAmenityChips() {
+  const h = state.houses[0];
+  const selectedSet = new Set(h.amenities || []);
+  const renderGroup = (containerId, items) => {
+    const el = document.getElementById(containerId);
+    if(!el) return;
+    el.innerHTML = items.map(item => `
+      <div class="am-chip ${selectedSet.has(item.ic + ' ' + item.label) || selectedSet.has(item.label) ? 'on' : ''}"
+           onclick="toggleAmenity(this, '${item.label}')">
+        ${item.ic} ${item.label}
+      </div>`).join('');
+  };
+  renderGroup('bhl-am-utilities', AMENITY_GROUPS.utilities);
+  renderGroup('bhl-am-room',      AMENITY_GROUPS.room);
+  renderGroup('bhl-am-location',  AMENITY_GROUPS.location);
+  renderGroup('bhl-am-policy',    AMENITY_GROUPS.policy);
+}
+
+function toggleAmenity(el, label) {
+  el.classList.toggle('on');
+  const h = state.houses[0];
+  if(!h.amenities) h.amenities = [];
+  if(el.classList.contains('on')) {
+    if(!h.amenities.includes(label)) h.amenities.push(label);
+  } else {
+    h.amenities = h.amenities.filter(a => a !== label);
+  }
+}
+
+// Save all changes back to state and re-render pins/cards
+function saveBhlListing() {
+  const h = state.houses[0];
+  const sv = id => document.getElementById(id)?.value;
+
+  h.name        = sv('bhl-name')    || h.name;
+  h.address     = sv('bhl-address') || h.address;
+  h.price       = parseInt(sv('bhl-price')) || h.price;
+  h.curfew      = sv('bhl-curfew')  || h.curfew;
+  h.about       = sv('bhl-about')   || '';
+  h.distanceEVSU = parseInt(sv('bhl-devsu')) || h.distanceEVSU;
+  h.distanceBCC  = parseInt(sv('bhl-dbcc'))  || h.distanceBCC;
+
+  // Save rule toggles
+  saveBhlToggle();
+
+  // Rebuild BH pin label in map if already loaded
+  if(bbMap && bbMarkers[1]) {
+    const icon = L.divIcon({
+      className: '',
+      iconSize:   [1,1],
+      iconAnchor: [50,54],
+      html: buildPinHTML(h),
+    });
+    bbMarkers[1].setIcon(icon);
+  }
+
+  save();
+  showToast('Listing updated ✓');
+  setTimeout(() => goBack(), 600);
+}
+
+
+// ════════════════════════════════════════
+let bbMap = null;
+let bbMarkers = {};     // id → L.marker
 let activeMapHouseId = null;
+let currentSchoolFilter = 'evsu';
+
+// Pin accent colours per house id
+const PIN_COLORS = {
+  1: '#1558CC',   // blue
+  2: '#1A6B3C',   // green
+  3: '#5B21B6',   // purple
+  4: '#B45309',   // amber
+  5: '#0B7A6A',   // teal
+};
+
+function buildPinHTML(h) {
+  const avail = h.rooms.filter(r => r.status === 'empty').length;
+  const dotColor = avail > 0 ? '#22C55E' : '#EF4444';
+  const accent   = PIN_COLORS[h.id] || '#0B1F3A';
+  const shortName = h.name.replace(' Boarding House','').replace(' Residence','');
+  const priceK = (h.price / 1000).toFixed(1).replace('.0','') + 'k';
+  return `
+    <div class="lf-pin" id="lf-pin-${h.id}">
+      <div class="lf-pill">
+        <div class="lf-price-badge" style="background:${accent}">₱${priceK}</div>
+        <div class="lf-bname">${shortName}</div>
+        <div class="lf-dot" style="background:${dotColor}"></div>
+      </div>
+      <div class="lf-caret"></div>
+      <div class="lf-shadow"></div>
+    </div>`;
+}
+
+// ── LANDMARK DATA ─────────────────────────────────
+// Coordinates mapped to Burauen Poblacion OSM layout.
+// Schools confirmed via Mapcarta/OSM; food/stores are
+// known local establishments placed at approx. positions.
+const LANDMARKS = [
+  // ── SCHOOLS ──
+  { cat:'schools', emoji:'🎓', label:'EVSU Burauen Campus',        latlng:[10.8797, 124.9428], color:'#1558CC', bg:'#EFF6FF', note:'Eastern Visayas State University' },
+  { cat:'schools', emoji:'📚', label:'Burauen Community College',  latlng:[10.8783, 124.9355], color:'#0B7A6A', bg:'#F0FDF4', note:'BCC · 2-yr & 4-yr programs' },
+  { cat:'schools', emoji:'🏫', label:'Burauen Nat\'l High School', latlng:[10.8778, 124.9375], color:'#1558CC', bg:'#EFF6FF', note:'BNHS · Dagami-Burauen Rd' },
+  { cat:'schools', emoji:'🏫', label:'BNHS Senior High Bldg',      latlng:[10.8772, 124.9382], color:'#3B91D4', bg:'#EFF6FF', note:'Senior High School Building' },
+  { cat:'schools', emoji:'🏫', label:'Burauen North Central Sch.', latlng:[10.8774, 124.9362], color:'#5B21B6', bg:'#EDE9FE', note:'Sta. Ana St · Elementary' },
+  { cat:'schools', emoji:'🏫', label:'Burauen South Central Sch.', latlng:[10.8712, 124.9360], color:'#5B21B6', bg:'#EDE9FE', note:'South Poblacion · Elementary' },
+  { cat:'schools', emoji:'🏫', label:'Burauen West Central Sch.',  latlng:[10.8758, 124.9330], color:'#5B21B6', bg:'#EDE9FE', note:'West Poblacion · Elementary' },
+  { cat:'schools', emoji:'🏫', label:'Burauen Comp. Nat\'l HS',    latlng:[10.8790, 124.9340], color:'#1A6B3C', bg:'#F0FDF4', note:'Comprehensive HS · Poblacion' },
+
+  // ── FOOD & DRINKS ──
+  { cat:'food', emoji:'☕', label:'Brew & Bites Café',     latlng:[10.8768, 124.9395], color:'#B45309', bg:'#FEF3C7', note:'Coffee · snacks · study-friendly' },
+  { cat:'food', emoji:'☕', label:'Kape Burauen',          latlng:[10.8755, 124.9358], color:'#B45309', bg:'#FEF3C7', note:'Local coffee shop · near market' },
+  { cat:'food', emoji:'🍗', label:'Andok\'s Burauen',     latlng:[10.8748, 124.9388], color:'#DC2626', bg:'#FEF2F2', note:'Litson manok · fast food' },
+  { cat:'food', emoji:'🍚', label:'Carenderia Row',        latlng:[10.8742, 124.9380], color:'#D97706', bg:'#FFFBEB', note:'Local carinderia strip · budget meals' },
+  { cat:'food', emoji:'🍦', label:'Potato Corner',         latlng:[10.8751, 124.9392], color:'#F59E0B', bg:'#FFFBEB', note:'Near public market entrance' },
+  { cat:'food', emoji:'🥐', label:'Bakes & Co.',           latlng:[10.8762, 124.9342], color:'#B45309', bg:'#FEF3C7', note:'Bakeshop · near BNHS' },
+
+  // ── STORES & ESSENTIALS ──
+  { cat:'stores', emoji:'🏪', label:'Public Market',           latlng:[10.8748, 124.9395], color:'#7C3AED', bg:'#EDE9FE', note:'Main palengke · open daily' },
+  { cat:'stores', emoji:'🏪', label:'Burauen Supermarket',     latlng:[10.8744, 124.9385], color:'#7C3AED', bg:'#EDE9FE', note:'Groceries & daily needs' },
+  { cat:'stores', emoji:'📦', label:'LBC Express',             latlng:[10.8752, 124.9370], color:'#DC2626', bg:'#FEF2F2', note:'Padala & cargo · near plaza' },
+  { cat:'stores', emoji:'💊', label:'Mercury Drug',            latlng:[10.8756, 124.9378], color:'#7C3AED', bg:'#EDE9FE', note:'24-hr pharmacy' },
+  { cat:'stores', emoji:'🛒', label:'Puregold Burauen',        latlng:[10.8738, 124.9398], color:'#7C3AED', bg:'#EDE9FE', note:'Supermarket · south market area' },
+  { cat:'stores', emoji:'📱', label:'Smart / DITO Store',      latlng:[10.8760, 124.9365], color:'#2563EB', bg:'#EFF6FF', note:'Telco & load · near town hall' },
+  { cat:'stores', emoji:'🖨️', label:'Print & Copy Shop',      latlng:[10.8780, 124.9368], color:'#6B7280', bg:'#F9FAFB', note:'Near BNHS · printing & encoding' },
+
+  // ── HEALTH ──
+  { cat:'health', emoji:'🏥', label:'Burauen District Hospital', latlng:[10.8728, 124.9335], color:'#DC2626', bg:'#FEF2F2', note:'Provincial government hospital' },
+  { cat:'health', emoji:'🏥', label:'Rural Health Unit (RHU)',   latlng:[10.8755, 124.9400], color:'#EF4444', bg:'#FEF2F2', note:'Municipal health center' },
+  { cat:'health', emoji:'💊', label:'Generika Pharmacy',         latlng:[10.8745, 124.9373], color:'#DC2626', bg:'#FEF2F2', note:'Budget pharmacy · near market' },
+
+  // ── GOVERNMENT & LANDMARKS ──
+  { cat:'gov', emoji:'🏛️', label:'Municipal Hall',               latlng:[10.8760, 124.9378], color:'#0B7A6A', bg:'#F0FDF4', note:'LGU Burauen · Sto. Niño St.' },
+  { cat:'gov', emoji:'⛪',  label:'Our Lady of the Immaculate',  latlng:[10.8753, 124.9362], color:'#6B7280', bg:'#F9FAFB', note:'1600 Parish Church · Santa Ana St.' },
+  { cat:'gov', emoji:'🏦', label:'Land Bank of the Phils.',     latlng:[10.8764, 124.9372], color:'#166534', bg:'#DCFCE7', note:'LBP ATM & branch' },
+  { cat:'gov', emoji:'🏦', label:'Rural Bank of Burauen',       latlng:[10.8758, 124.9384], color:'#166534', bg:'#DCFCE7', note:'Est. 1962 · first rural bank in Leyte' },
+  { cat:'gov', emoji:'🌳', label:'Town Plaza',                  latlng:[10.8756, 124.9370], color:'#166534', bg:'#DCFCE7', note:'Romualdez Park · renovated 2024' },
+  { cat:'gov', emoji:'⛽', label:'Petron Station',              latlng:[10.8790, 124.9402], color:'#D97706', bg:'#FFFBEB', note:'Fuel · near EVSU junction' },
+  { cat:'gov', emoji:'🚌', label:'Burauen Terminal',            latlng:[10.8734, 124.9408], color:'#0B7A6A', bg:'#F0FDF4', note:'Jeepney & bus terminal · south' },
+];
+
+// layer marker refs
+const lmMarkers = {};   // cat → [L.marker, ...]
+const lmVisible = { schools: true, food: true, stores: true, health: true, gov: true };
+
+function makeLmIcon(lm) {
+  return L.divIcon({
+    className: '',
+    iconAnchor: [13, 13],
+    html: `<div style="
+      width:26px;height:26px;border-radius:50%;
+      background:${lm.bg};border:2px solid ${lm.color};
+      display:flex;align-items:center;justify-content:center;
+      font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,.18);
+      cursor:pointer;transition:transform .15s;
+    ">${lm.emoji}</div>`,
+  });
+}
+
+function toggleLayer(cat, btn) {
+  lmVisible[cat] = !lmVisible[cat];
+  btn.classList.toggle('on', lmVisible[cat]);
+  (lmMarkers[cat] || []).forEach(m => {
+    if (lmVisible[cat]) m.addTo(bbMap);
+    else bbMap.removeLayer(m);
+  });
+}
+
+function initLeafletMap() {
+  if (bbMap) { bbMap.invalidateSize(); return; }
+
+  bbMap = L.map('burauen-map', {
+    center: [10.8762, 124.9388],
+    zoom: 16,
+    zoomControl: true,
+    attributionControl: true,
+  });
+
+  // Warm CartoDB Voyager — shows street names + POIs without clutter
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap © CartoDB',
+    subdomains: 'abcd',
+    maxZoom: 19,
+  }).addTo(bbMap);
+
+  // ── Landmark markers ──
+  LANDMARKS.forEach(lm => {
+    if (!lmMarkers[lm.cat]) lmMarkers[lm.cat] = [];
+    const m = L.marker(lm.latlng, { icon: makeLmIcon(lm), riseOnHover: true })
+      .bindTooltip(`<b>${lm.label}</b><br><span style="font-weight:400;opacity:.85">${lm.note}</span>`, {
+        className: 'lm-tooltip',
+        direction: 'top',
+        offset: [0, -14],
+        permanent: false,
+      })
+      .addTo(bbMap);
+    lmMarkers[lm.cat].push(m);
+  });
+
+  // ── Boarding house pins (on top) ──
+  state.houses.forEach(h => {
+    const icon = L.divIcon({
+      className: '',
+      iconSize:   [1, 1],
+      iconAnchor: [50, 54],
+      html: buildPinHTML(h),
+    });
+    const marker = L.marker(h.latlng, { icon, riseOnHover: true, zIndexOffset: 500 }).addTo(bbMap);
+    marker.on('click', () => openMapCard(h.id));
+    bbMarkers[h.id] = marker;
+  });
+}
 
 function openMapCard(id) {
   const h = state.houses.find(x => x.id === id);
@@ -5963,7 +6920,6 @@ function openMapCard(id) {
   const avail = h.rooms.filter(r => r.status === 'empty').length;
   const set = (elId, v) => { const e = document.getElementById(elId); if (e) e.textContent = v; };
 
-  // Hero
   const hero = document.getElementById('msh-hero');
   if (hero) hero.style.background = h.gradient;
   set('msh-name',   h.name);
@@ -5987,23 +6943,24 @@ function openMapCard(id) {
     }
   }
 
-  // Highlight the active pin
-  document.querySelectorAll('.bh-pin-btn').forEach(el => el.classList.remove('highlighted'));
-  const pin = document.getElementById('map-pin-' + id);
-  if (pin) pin.classList.add('highlighted');
+  // Highlight active pin
+  document.querySelectorAll('.lf-pin').forEach(el => el.classList.remove('highlighted'));
+  const pinEl = document.getElementById('lf-pin-' + id);
+  if (pinEl) pinEl.classList.add('highlighted');
 
-  // Open overlay
+  // Pan map to pin
+  if (bbMap && h.latlng) bbMap.panTo(h.latlng, { animate: true, duration: .4 });
+
   document.getElementById('map-overlay').classList.add('active');
 }
 
 function closeMapCard() {
   document.getElementById('map-overlay').classList.remove('active');
-  document.querySelectorAll('.bh-pin-btn').forEach(el => el.classList.remove('highlighted'));
+  document.querySelectorAll('.lf-pin').forEach(el => el.classList.remove('highlighted'));
   activeMapHouseId = null;
 }
 
 function handleOverlayClick(e) {
-  // Close only if backdrop was clicked, not the sheet itself
   if (e.target === document.getElementById('map-overlay') ||
       e.target.classList.contains('map-sheet-backdrop')) {
     closeMapCard();
@@ -6027,21 +6984,20 @@ function mapGoInquiry() {
 function mapHighlight(school, btn) {
   document.querySelectorAll('.map-spill').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
+  currentSchoolFilter = school;
 
   state.houses.forEach(h => {
-    const pin = document.getElementById('map-pin-' + h.id);
-    if (!pin) return;
+    const marker = bbMarkers[h.id];
+    if (!marker) return;
     let show = true;
     if (school === 'evsu')     show = h.distanceEVSU <= 8;
     else if (school === 'bcc') show = h.distanceBCC  <= 8;
-    pin.style.opacity    = show ? '1' : '0.28';
-    pin.style.transition = 'opacity .25s';
+    const el = marker.getElement();
+    if (el) el.style.opacity = show ? '1' : '0.28';
   });
 
   closeMapCard();
 }
-
-// _activateScreen is used internally by goTo / goBack
 
 </script>
 </body>

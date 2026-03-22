@@ -2498,6 +2498,83 @@ body {
 .lcard-active-dot.recent { background:var(--teal2); }
 .lcard-active-dot.today  { background:var(--teal2); animation:pulse-dot 1.8s ease-in-out infinite; }
 .lcard-active-dot.old    { background:var(--muted2); }
+
+/* ═══════════════════════════════════════
+   ADMIN PANEL STYLES
+═══════════════════════════════════════ */
+.admin-topbar {
+  background:#1a1a2e; padding:13px 16px 14px;
+  display:flex; align-items:center; gap:12px; flex-shrink:0;
+}
+.admin-topbar-title { font-family:'Nunito',sans-serif; font-size:16px; font-weight:800; color:#fff; flex:1; }
+.admin-topbar-badge {
+  background:rgba(255,107,107,.2); border:1px solid rgba(255,107,107,.4);
+  color:#ff6b6b; font-family:'Nunito',sans-serif; font-size:10px; font-weight:800;
+  padding:3px 8px; border-radius:20px; letter-spacing:.3px;
+}
+.admin-bnav {
+  flex-shrink:0; width:100%; background:#1a1a2e;
+  border-top:1px solid rgba(255,255,255,.08);
+  display:flex; padding:6px 0 env(safe-area-inset-bottom,10px);
+}
+.admin-ni { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; padding:5px 0; cursor:pointer; transition:opacity .15s; position:relative; }
+.admin-ni:active { opacity:.6; }
+.admin-ni-ic { font-size:20px; line-height:1; color:rgba(255,255,255,.35); transition:color .2s; }
+.admin-ni-lb { font-family:'Nunito',sans-serif; font-size:9px; font-weight:700; color:rgba(255,255,255,.35); letter-spacing:.2px; transition:color .2s; }
+.admin-ni.on .admin-ni-ic,.admin-ni.on .admin-ni-lb { color:#ff6b6b; }
+.admin-ni.on::after { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:20px; height:2px; background:#ff6b6b; border-radius:0 0 2px 2px; }
+.a-stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+.a-stat { background:var(--card); border:1px solid var(--border); border-radius:var(--r-lg); padding:14px 15px; box-shadow:var(--sh-xs); }
+.a-stat-val { font-family:'Nunito',sans-serif; font-size:26px; font-weight:900; color:var(--text); margin-bottom:2px; }
+.a-stat-lbl { font-size:11px; color:var(--muted); font-weight:600; }
+.a-stat-sub { font-size:10px; color:var(--muted2); margin-top:2px; }
+.a-stat.accent-blue  { border-color:rgba(21,88,204,.25);  background:var(--blueLt); }
+.a-stat.accent-green { border-color:rgba(22,101,52,.2);   background:var(--greenBg); }
+.a-stat.accent-amber { border-color:rgba(180,83,9,.2);    background:var(--amberBg); }
+.a-stat.accent-red   { border-color:rgba(192,57,43,.2);   background:var(--redBg); }
+.a-activity-item { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); }
+.a-activity-item:last-child { border-bottom:none; }
+.a-activity-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:4px; }
+.a-activity-txt { font-size:12px; color:var(--text2); line-height:1.4; flex:1; }
+.a-activity-txt strong { font-family:'Nunito',sans-serif; font-weight:800; color:var(--text); }
+.a-activity-time { font-size:10px; color:var(--muted2); flex-shrink:0; }
+.a-row { background:var(--card); border:1px solid var(--border); border-radius:var(--r-lg); padding:13px 14px; margin-bottom:8px; box-shadow:var(--sh-xs); }
+.a-row-top { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom:6px; }
+.a-row-name { font-family:'Nunito',sans-serif; font-size:14px; font-weight:800; color:var(--text); }
+.a-row-sub  { font-size:12px; color:var(--muted); margin-top:1px; }
+.a-row-actions { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+.a-btn { font-family:'Nunito',sans-serif; font-size:11px; font-weight:800; padding:5px 11px; border-radius:6px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:4px; transition:all .15s; }
+.a-btn:active { transform:scale(.96); }
+.a-btn-verify  { background:var(--greenBg); color:var(--green); }
+.a-btn-suspend { background:var(--redBg);   color:var(--red);   }
+.a-btn-restore { background:var(--blueLt);  color:var(--blue);  }
+.a-btn-edit    { background:var(--warm2);   color:var(--navy);  border:1px solid var(--border); }
+.a-btn-view    { background:var(--warm2);   color:var(--navy);  border:1px solid var(--border); }
+.a-btn-flag    { background:var(--amberBg); color:var(--amber); }
+.a-btn-reset   { background:var(--purpleBg);color:var(--purple);}
+.a-pill { display:inline-flex; align-items:center; gap:4px; font-family:'Nunito',sans-serif; font-size:10px; font-weight:800; padding:3px 9px; border-radius:20px; letter-spacing:.2px; }
+.a-pill-active    { background:var(--greenBg); color:var(--green); }
+.a-pill-pending   { background:var(--amberBg); color:var(--amber); }
+.a-pill-suspended { background:var(--redBg);   color:var(--red);   }
+.a-pill-verified  { background:#EFF6FF; color:#1558CC; }
+.a-pill-self      { background:var(--warm2); color:var(--muted); border:1px solid var(--border); }
+.a-section { padding:14px 14px 0; }
+.a-section-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.a-bar-row { margin-bottom:10px; }
+.a-bar-label { display:flex; justify-content:space-between; font-size:12px; color:var(--text2); margin-bottom:4px; font-weight:600; }
+.a-bar-track { height:8px; background:var(--warm2); border-radius:4px; overflow:hidden; }
+.a-bar-fill  { height:100%; border-radius:4px; transition:width .5s ease; }
+.admin-login-wrap { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px 28px; background:#1a1a2e; }
+.admin-pin-row { display:flex; gap:10px; margin:20px 0; }
+.admin-pin-dot { width:14px; height:14px; border-radius:50%; background:rgba(255,255,255,.15); border:2px solid rgba(255,255,255,.25); transition:all .2s; }
+.admin-pin-dot.filled { background:#ff6b6b; border-color:#ff6b6b; }
+.admin-keypad { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; width:100%; max-width:260px; }
+.admin-key { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); border-radius:var(--r-lg); padding:16px 8px; text-align:center; font-family:'Nunito',sans-serif; font-size:20px; font-weight:800; color:#fff; cursor:pointer; transition:all .15s; user-select:none; }
+.admin-key:active { background:rgba(255,107,107,.25); border-color:#ff6b6b; transform:scale(.94); }
+.admin-key-sub { font-size:8px; color:rgba(255,255,255,.35); letter-spacing:.5px; display:block; margin-top:1px; }
+.admin-key.del { color:rgba(255,255,255,.5); font-size:22px; }
+.admin-key.empty { background:transparent; border:none; cursor:default; }
+.maintenance-overlay { position:absolute; inset:0; background:#1a1a2e; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9999; padding:32px; }
 </style>
 <body>
 <div class="phone">
@@ -2562,7 +2639,350 @@ body {
           </div>
           <div class="role-arrow" style="color:rgba(196,181,253,.5);"><i class="ph ph-caret-right"></i></div>
         </div>
+        <!-- Admin entry -->
+        <div class="role-card" onclick="goTo('a-login')" style="border-color:rgba(255,107,107,.3);background:rgba(255,107,107,.06);">
+          <div class="role-ic" style="background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.2);"><i class="ph ph-shield-check" style="font-size:22px;color:#ff6b6b"></i></div>
+          <div class="role-info">
+            <div class="role-name" style="color:#ff6b6b;">Platform Admin</div>
+            <div class="role-desc" style="color:rgba(255,107,107,.6);">Manage all listings, users, and platform settings</div>
+          </div>
+          <div class="role-arrow" style="color:rgba(255,107,107,.4);"><i class="ph ph-caret-right"></i></div>
+        </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Maintenance mode overlay — shown to all non-admin users when maintenance mode is on -->
+  <div class="maintenance-overlay hidden" id="maintenance-overlay">
+    <i class="ph ph-wrench" style="font-size:48px;color:#ff6b6b;margin-bottom:20px;"></i>
+    <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:10px;text-align:center;">Under Maintenance</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.55);text-align:center;line-height:1.6;max-width:280px;">Buhay Boarding is temporarily down for updates. We'll be back shortly.</div>
+    <div style="margin-top:24px;font-size:12px;color:rgba(255,107,107,.7);">Admin access only during maintenance.</div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       ADMIN — LOGIN
+  ═══════════════════════════════ -->
+  <div class="screen" id="a-login">
+    <div class="admin-login-wrap">
+      <div style="width:56px;height:56px;background:rgba(255,107,107,.15);border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;border:1px solid rgba(255,107,107,.25);">
+        <i class="ph ph-shield-check" style="font-size:28px;color:#ff6b6b;"></i>
+      </div>
+      <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:4px;">Admin Access</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.45);margin-bottom:4px;">Enter your PIN to continue</div>
+      <div class="admin-pin-row" id="admin-pin-dots">
+        <div class="admin-pin-dot" id="apd-0"></div>
+        <div class="admin-pin-dot" id="apd-1"></div>
+        <div class="admin-pin-dot" id="apd-2"></div>
+        <div class="admin-pin-dot" id="apd-3"></div>
+        <div class="admin-pin-dot" id="apd-4"></div>
+        <div class="admin-pin-dot" id="apd-5"></div>
+      </div>
+      <div id="admin-pin-error" style="font-size:12px;color:#ff6b6b;margin-bottom:12px;height:16px;"></div>
+      <div class="admin-keypad">
+        <div class="admin-key" onclick="adminPinKey('1')">1<span class="admin-key-sub"></span></div>
+        <div class="admin-key" onclick="adminPinKey('2')">2<span class="admin-key-sub">ABC</span></div>
+        <div class="admin-key" onclick="adminPinKey('3')">3<span class="admin-key-sub">DEF</span></div>
+        <div class="admin-key" onclick="adminPinKey('4')">4<span class="admin-key-sub">GHI</span></div>
+        <div class="admin-key" onclick="adminPinKey('5')">5<span class="admin-key-sub">JKL</span></div>
+        <div class="admin-key" onclick="adminPinKey('6')">6<span class="admin-key-sub">MNO</span></div>
+        <div class="admin-key" onclick="adminPinKey('7')">7<span class="admin-key-sub">PQRS</span></div>
+        <div class="admin-key" onclick="adminPinKey('8')">8<span class="admin-key-sub">TUV</span></div>
+        <div class="admin-key" onclick="adminPinKey('9')">9<span class="admin-key-sub">WXYZ</span></div>
+        <div class="admin-key empty"></div>
+        <div class="admin-key" onclick="adminPinKey('0')">0</div>
+        <div class="admin-key del" onclick="adminPinDel()"><i class="ph ph-backspace"></i></div>
+      </div>
+      <button onclick="goBack()" style="margin-top:20px;background:none;border:none;color:rgba(255,255,255,.35);font-family:'Nunito',sans-serif;font-size:13px;cursor:pointer;">← Back to role select</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       ADMIN — DASHBOARD
+  ═══════════════════════════════ -->
+  <div class="screen" id="a-home">
+    <div class="admin-topbar">
+      <i class="ph ph-shield-check" style="font-size:20px;color:#ff6b6b;"></i>
+      <div class="admin-topbar-title">Admin Dashboard</div>
+      <div class="admin-topbar-badge">ADMIN</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px;">
+      <!-- Stats grid -->
+      <div class="a-stat-grid" id="a-stats-grid"></div>
+      <!-- Health indicators -->
+      <div class="card card-p" style="margin-bottom:14px;" id="a-health-card"></div>
+      <!-- Revenue estimate -->
+      <div style="background:linear-gradient(135deg,#1a1a2e,#2d2d5e);border-radius:var(--r-lg);padding:16px 18px;margin-bottom:14px;">
+        <div style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;letter-spacing:.5px;margin-bottom:4px;">ESTIMATED MONTHLY PLATFORM REVENUE</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:28px;font-weight:900;color:#fff;" id="a-revenue">₱0</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:4px;" id="a-revenue-sub">across all active rooms</div>
+      </div>
+      <!-- Activity feed -->
+      <div class="a-section-hdr"><span class="slbl">Recent Activity</span></div>
+      <div class="card card-p" id="a-activity-feed"></div>
+    </div>
+    <div class="admin-bnav">
+      <div class="admin-ni on" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
+      <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
+      <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
+      <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       ADMIN — LISTINGS MANAGEMENT
+  ═══════════════════════════════ -->
+  <div class="screen" id="a-listings">
+    <div class="admin-topbar">
+      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="admin-topbar-title">Listings Management</div>
+      <div class="admin-topbar-badge" id="a-listings-badge">0</div>
+    </div>
+    <!-- Filter tabs -->
+    <div style="background:#1a1a2e;padding:0 14px 12px;display:flex;gap:8px;flex-shrink:0;">
+      <button class="a-btn a-btn-restore on" id="alf-all"    onclick="filterAdminListings('all',this)"   style="background:rgba(255,107,107,.2);color:#ff6b6b;border:1px solid rgba(255,107,107,.3);">All</button>
+      <button class="a-btn a-btn-edit"      id="alf-pending" onclick="filterAdminListings('pending',this)">Pending</button>
+      <button class="a-btn a-btn-verify"    id="alf-active"  onclick="filterAdminListings('active',this)">Active</button>
+      <button class="a-btn a-btn-suspend"   id="alf-suspended" onclick="filterAdminListings('suspended',this)">Suspended</button>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="a-listings-list"></div>
+    <div class="admin-bnav">
+      <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
+      <div class="admin-ni on" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
+      <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
+      <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       ADMIN — USER REGISTRY
+  ═══════════════════════════════ -->
+  <div class="screen" id="a-registry">
+    <div class="admin-topbar">
+      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="admin-topbar-title">User Registry</div>
+    </div>
+    <div style="background:#1a1a2e;padding:0 14px 12px;display:flex;gap:8px;flex-shrink:0;">
+      <button class="a-btn a-btn-restore" id="arf-landlords" onclick="filterAdminRegistry('landlords',this)" style="background:rgba(255,107,107,.2);color:#ff6b6b;border:1px solid rgba(255,107,107,.3);">Landlords</button>
+      <button class="a-btn a-btn-edit"    id="arf-tenants"   onclick="filterAdminRegistry('tenants',this)">Tenants</button>
+      <button class="a-btn a-btn-flag"    id="arf-pending"   onclick="filterAdminRegistry('pending',this)">Pending Codes</button>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="a-registry-list"></div>
+    <div class="admin-bnav">
+      <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
+      <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
+      <div class="admin-ni on" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
+      <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       ADMIN — INQUIRY MONITOR
+  ═══════════════════════════════ -->
+  <div class="screen" id="a-inquiries">
+    <div class="admin-topbar">
+      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="admin-topbar-title">Inquiry Monitor</div>
+      <div class="admin-topbar-badge" id="a-inq-badge">0</div>
+    </div>
+    <div style="background:#1a1a2e;padding:0 14px 12px;display:flex;gap:8px;flex-shrink:0;">
+      <button class="a-btn" id="aif-all"     onclick="filterAdminInq('all',this)"     style="background:rgba(255,107,107,.2);color:#ff6b6b;border:1px solid rgba(255,107,107,.3);">All</button>
+      <button class="a-btn a-btn-edit"        id="aif-pending" onclick="filterAdminInq('pending',this)">Pending</button>
+      <button class="a-btn a-btn-verify"      id="aif-replied" onclick="filterAdminInq('replied',this)">Replied</button>
+      <button class="a-btn a-btn-suspend"     id="aif-declined" onclick="filterAdminInq('declined',this)">Declined</button>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="a-inq-list"></div>
+    <div class="admin-bnav">
+      <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
+      <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
+      <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
+      <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       ADMIN — MAINTENANCE TRACKER
+  ═══════════════════════════════ -->
+  <div class="screen" id="a-maintenance">
+    <div class="admin-topbar">
+      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="admin-topbar-title">Maintenance Tracker</div>
+      <div class="admin-topbar-badge" id="a-maint-badge">0</div>
+    </div>
+    <div style="background:#1a1a2e;padding:0 14px 12px;display:flex;gap:8px;flex-shrink:0;">
+      <button class="a-btn" id="amf-all"       onclick="filterAdminMaint('all',this)"       style="background:rgba(255,107,107,.2);color:#ff6b6b;border:1px solid rgba(255,107,107,.3);">All</button>
+      <button class="a-btn a-btn-flag"          id="amf-urgent"   onclick="filterAdminMaint('urgent',this)">Urgent</button>
+      <button class="a-btn a-btn-edit"          id="amf-pending"  onclick="filterAdminMaint('pending',this)">Pending</button>
+      <button class="a-btn a-btn-verify"        id="amf-done"     onclick="filterAdminMaint('done',this)">Done</button>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="a-maint-list"></div>
+    <div class="admin-bnav">
+      <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
+      <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
+      <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
+      <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       ADMIN — FINANCIALS & REPORTS
+  ═══════════════════════════════ -->
+  <div class="screen" id="a-financials">
+    <div class="admin-topbar">
+      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="admin-topbar-title">Financials & Reports</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="a-financials-body"></div>
+    <div class="admin-bnav">
+      <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
+      <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
+      <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
+      <div class="admin-ni on" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       ADMIN — PLATFORM ANNOUNCEMENTS
+  ═══════════════════════════════ -->
+  <div class="screen" id="a-announcements">
+    <div class="admin-topbar">
+      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="admin-topbar-title">Platform Announcements</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px;">
+      <div class="callout cl-info" style="margin-bottom:16px;">
+        <span class="callout-ic"><i class="ph ph-megaphone"></i></span>
+        <div class="callout-txt"><strong>Platform-wide announcements</strong> appear as a banner to ALL users (seekers, tenants, landlords) on the role select screen.</div>
+      </div>
+      <div class="card card-p" style="margin-bottom:16px;">
+        <div class="slbl" style="margin-bottom:12px;">New Platform Announcement</div>
+        <div class="fg">
+          <label class="lbl">Type</label>
+          <select class="sel" id="ap-ann-type">
+            <option value="info">Info / Update</option>
+            <option value="warning">Warning</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="feature">New Feature</option>
+          </select>
+        </div>
+        <div class="fg"><label class="lbl">Title</label><input class="inp" id="ap-ann-title" type="text" placeholder="e.g. App maintenance scheduled"></div>
+        <div class="fg" style="margin-bottom:0"><label class="lbl">Message</label><textarea class="ta" id="ap-ann-body" style="height:80px;" placeholder="Write your platform announcement..."></textarea></div>
+        <button onclick="postPlatformAnn()" class="btn btn-primary" style="width:100%;margin-top:14px;background:#ff6b6b;box-shadow:0 4px 14px rgba(255,107,107,.3);">
+          <i class="ph ph-broadcast"></i> Broadcast to All Users
+        </button>
+      </div>
+      <div class="slbl" style="margin-bottom:11px;">Active Announcements</div>
+      <div id="ap-ann-list"></div>
+    </div>
+    <div class="admin-bnav">
+      <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
+      <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
+      <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
+      <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       ADMIN — SETTINGS
+  ═══════════════════════════════ -->
+  <div class="screen" id="a-settings">
+    <div class="admin-topbar">
+      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="admin-topbar-title">Settings & Controls</div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px;">
+
+      <!-- Maintenance mode -->
+      <div class="card card-p" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+          <div style="width:38px;height:38px;background:var(--redBg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="ph ph-wrench" style="font-size:20px;color:var(--red);"></i>
+          </div>
+          <div style="flex:1;">
+            <div class="title-md">Maintenance Mode</div>
+            <div style="font-size:12px;color:var(--muted);">Shows maintenance overlay to all non-admin users</div>
+          </div>
+          <label style="position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0;">
+            <input type="checkbox" id="admin-maint-toggle" style="opacity:0;width:0;height:0;" onchange="toggleMaintenanceMode()">
+            <span id="admin-maint-track" style="position:absolute;inset:0;background:var(--border2);border-radius:12px;cursor:pointer;transition:.2s;"></span>
+            <span id="admin-maint-thumb" style="position:absolute;left:3px;top:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2);"></span>
+          </label>
+        </div>
+        <div id="admin-maint-status" style="font-size:12px;color:var(--muted);padding:8px 10px;background:var(--warm2);border-radius:8px;">
+          Maintenance mode is <strong>off</strong> — app is live.
+        </div>
+      </div>
+
+      <!-- Change PIN -->
+      <div class="card card-p" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <div style="width:38px;height:38px;background:var(--purpleBg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="ph ph-password" style="font-size:20px;color:var(--purple);"></i>
+          </div>
+          <div>
+            <div class="title-md">Change Admin PIN</div>
+            <div style="font-size:12px;color:var(--muted);">Current PIN: ••••••</div>
+          </div>
+        </div>
+        <div class="fg"><label class="lbl">New 6-digit PIN</label>
+          <input class="inp" type="password" inputmode="numeric" maxlength="6" id="admin-new-pin" placeholder="Enter new PIN">
+        </div>
+        <div class="fg" style="margin-bottom:0"><label class="lbl">Confirm PIN</label>
+          <input class="inp" type="password" inputmode="numeric" maxlength="6" id="admin-confirm-pin" placeholder="Confirm new PIN">
+        </div>
+        <button onclick="changeAdminPin()" class="btn btn-primary" style="width:100%;margin-top:12px;">
+          <i class="ph ph-lock-key"></i> Update PIN
+        </button>
+      </div>
+
+      <!-- Data controls -->
+      <div class="card card-p" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+          <div style="width:38px;height:38px;background:var(--blueLt);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="ph ph-database" style="font-size:20px;color:var(--blue);"></i>
+          </div>
+          <div>
+            <div class="title-md">Data Controls</div>
+            <div style="font-size:12px;color:var(--muted);">Export or reset platform data</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <button onclick="exportAdminData()" class="btn btn-secondary" style="width:100%;">
+            <i class="ph ph-download-simple"></i> Export All Data (JSON)
+          </button>
+          <button onclick="confirmResetData()" class="btn btn-secondary" style="width:100%;color:var(--red);border-color:var(--redBg);">
+            <i class="ph ph-trash"></i> Reset Demo Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div class="card card-p" style="margin-bottom:12px;">
+        <div class="slbl" style="margin-bottom:12px;">Quick Access</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <button onclick="goTo('a-inquiries')" class="btn btn-secondary" style="width:100%;justify-content:flex-start;"><i class="ph ph-chat-circle"></i> Inquiry Monitor</button>
+          <button onclick="goTo('a-maintenance')" class="btn btn-secondary" style="width:100%;justify-content:flex-start;"><i class="ph ph-wrench"></i> Maintenance Tracker</button>
+          <button onclick="goTo('a-announcements')" class="btn btn-secondary" style="width:100%;justify-content:flex-start;"><i class="ph ph-broadcast"></i> Platform Announcements</button>
+        </div>
+      </div>
+
+      <button onclick="adminLogout()" class="btn btn-secondary" style="width:100%;color:var(--red);border-color:var(--redBg);">
+        <i class="ph ph-sign-out"></i> Logout Admin
+      </button>
+    </div>
+    <div class="admin-bnav">
+      <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
+      <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
+      <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
+      <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni on" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
     </div>
   </div>
 
@@ -5106,6 +5526,14 @@ function refreshScreen(id) {
     case 'l-waitlist': renderWaitlistManager(); break;
     case 'l-qr': renderQRCode(); break;
     case 'l-announce': renderAnnouncements(); break;
+    case 'a-home':          renderAdminHome();        break;
+    case 'a-listings':      renderAdminListings();    break;
+    case 'a-registry':      renderAdminRegistry();    break;
+    case 'a-inquiries':     renderAdminInquiries();   break;
+    case 'a-maintenance':   renderAdminMaintenance(); break;
+    case 'a-financials':    renderAdminFinancials();  break;
+    case 'a-announcements': renderPlatformAnns();     break;
+    case 'a-settings':      renderAdminSettings();    break;
     case 't-register': showRegStep(1); break;
     case 't-houseinfo': renderTenantHouseInfo(); break;
     case 's-profile': renderSeekerProfile(); break;
@@ -7227,6 +7655,16 @@ function dismissAnn(id) {
 // INIT
 // ════════════════════════════════════════
 renderHouses();
+// Show platform banner if any active announcements
+setTimeout(() => {
+  ensureAdminFields();
+  renderPlatformBanner();
+  // Restore maintenance mode overlay if it was on
+  if (state.maintenanceMode) {
+    const overlay = document.getElementById('maintenance-overlay');
+    if (overlay) overlay.classList.remove('hidden');
+  }
+}, 100);
 
 // ════════════════════════════════════════
 // PROFILE & ONBOARDING STATE
@@ -8162,6 +8600,483 @@ function cancelSuccessForward() {
   const msg = document.getElementById('succ-auto-msg');
   if (bar) bar.style.display = 'none';
   if (msg) msg.style.display = 'none';
+}
+
+// ════════════════════════════════════════
+// ADMIN — STATE & CONSTANTS
+// ════════════════════════════════════════
+const ADMIN_PIN_KEY  = 'bb_admin_pin';
+const DEFAULT_PIN    = '112233';
+function getAdminPin() { return localStorage.getItem(ADMIN_PIN_KEY) || DEFAULT_PIN; }
+
+function ensureAdminFields() {
+  state.houses.forEach(h => {
+    if (!h.adminStatus) h.adminStatus = 'active';
+    if (!h.adminNotes)  h.adminNotes  = '';
+  });
+  if (!state.platformAnnouncements) state.platformAnnouncements = [];
+  if (!state.adminActivityLog)      state.adminActivityLog = [];
+  if (!state.maintenanceMode)       state.maintenanceMode = false;
+}
+
+function adminLog(msg) {
+  if (!state.adminActivityLog) state.adminActivityLog = [];
+  state.adminActivityLog.unshift({ msg, ts: Date.now() });
+  if (state.adminActivityLog.length > 20) state.adminActivityLog.pop();
+}
+
+ROOT_SCREENS.add('a-home');
+
+// ════════════════════════════════════════
+// ADMIN — PIN LOGIN
+// ════════════════════════════════════════
+let _adminPin = '';
+function adminPinKey(k) {
+  if (_adminPin.length >= 6) return;
+  _adminPin += k;
+  updateAdminPinDots();
+  if (_adminPin.length === 6) setTimeout(checkAdminPin, 150);
+}
+function adminPinDel() {
+  _adminPin = _adminPin.slice(0, -1);
+  updateAdminPinDots();
+  document.getElementById('admin-pin-error').textContent = '';
+}
+function updateAdminPinDots() {
+  for (let i = 0; i < 6; i++) {
+    const dot = document.getElementById('apd-' + i);
+    if (dot) dot.classList.toggle('filled', i < _adminPin.length);
+  }
+}
+function checkAdminPin() {
+  if (_adminPin === getAdminPin()) {
+    _adminPin = ''; updateAdminPinDots();
+    document.getElementById('admin-pin-error').textContent = '';
+    ensureAdminFields();
+    adminLog('Admin logged in');
+    goTo('a-home');
+  } else {
+    document.getElementById('admin-pin-error').textContent = 'Wrong PIN. Try again.';
+    _adminPin = ''; updateAdminPinDots();
+    const dots = document.getElementById('admin-pin-dots');
+    if (dots) { dots.style.animation='shake .3s ease'; setTimeout(()=>dots.style.animation='',350); }
+  }
+}
+function adminLogout() {
+  _adminPin = '';
+  showToast('Logged out of admin');
+  goTo('s-role');
+}
+
+// ════════════════════════════════════════
+// ADMIN — DASHBOARD
+// ════════════════════════════════════════
+function renderAdminHome() {
+  ensureAdminFields();
+  const totalHouses   = state.houses.length;
+  const activeHouses  = state.houses.filter(h => h.adminStatus !== 'suspended').length;
+  const totalRooms    = state.houses.reduce((s,h) => s+h.rooms.length, 0);
+  const occupiedRooms = state.houses.reduce((s,h) => s+h.rooms.filter(r=>r.status!=='empty').length, 0);
+  const totalInq      = state.inquiries.length;
+  const pendingInq    = state.inquiries.filter(i=>i.status==='pending').length;
+  const totalTenants  = state.pendingTenants.filter(t=>t.status==='active').length;
+  const pendingVerif  = state.houses.filter(h=>h.adminStatus==='pending').length;
+  const revenue       = state.houses.reduce((s,h) => s+h.rooms.filter(r=>r.status!=='empty').reduce((rs,r)=>rs+r.amount,0), 0);
+
+  const grid = document.getElementById('a-stats-grid');
+  if (grid) grid.innerHTML = `
+    <div class="a-stat accent-blue"><div class="a-stat-val">${totalHouses}</div><div class="a-stat-lbl">Total Listings</div><div class="a-stat-sub">${activeHouses} active</div></div>
+    <div class="a-stat accent-green"><div class="a-stat-val">${occupiedRooms}</div><div class="a-stat-lbl">Rooms Occupied</div><div class="a-stat-sub">of ${totalRooms} total</div></div>
+    <div class="a-stat accent-amber"><div class="a-stat-val">${totalInq}</div><div class="a-stat-lbl">Total Inquiries</div><div class="a-stat-sub">${pendingInq} pending</div></div>
+    <div class="a-stat accent-red"><div class="a-stat-val">${totalTenants}</div><div class="a-stat-lbl">Active Tenants</div><div class="a-stat-sub">${state.pendingTenants.filter(t=>t.status==='pending').length} pending reg.</div></div>`;
+
+  const health = document.getElementById('a-health-card');
+  const urgentMaint = state.maintenanceRequests.filter(r=>r.urgency==='urgent'&&r.status!=='done').length;
+  const openMaint   = state.maintenanceRequests.filter(r=>r.status!=='done').length;
+  const fullHouses  = state.houses.filter(h=>h.rooms.every(r=>r.status!=='empty')).length;
+  if (health) health.innerHTML = `<div class="slbl" style="margin-bottom:12px;">Platform Health</div>
+    ${pendingVerif>0?`<div class="a-activity-item"><i class="ph ph-seal-question" style="font-size:16px;color:var(--amber);flex-shrink:0;margin-top:1px;"></i><div class="a-activity-txt" style="color:var(--amber);">${pendingVerif} listing${pendingVerif!==1?'s':''} awaiting verification</div></div>`:''}
+    ${urgentMaint>0?`<div class="a-activity-item"><i class="ph ph-siren" style="font-size:16px;color:var(--red);flex-shrink:0;margin-top:1px;"></i><div class="a-activity-txt" style="color:var(--red);">${urgentMaint} urgent maintenance request${urgentMaint!==1?'s':''}</div></div>`:''}
+    <div class="a-activity-item"><i class="ph ph-wrench" style="font-size:16px;color:var(--amber);flex-shrink:0;margin-top:1px;"></i><div class="a-activity-txt">${openMaint} open maintenance issue${openMaint!==1?'s':''}</div></div>
+    <div class="a-activity-item"><i class="ph ph-house" style="font-size:16px;color:var(--muted);flex-shrink:0;margin-top:1px;"></i><div class="a-activity-txt">${fullHouses} of ${totalHouses} houses full</div></div>`;
+
+  const revEl = document.getElementById('a-revenue');
+  const revSub = document.getElementById('a-revenue-sub');
+  if (revEl)  revEl.textContent  = '₱' + revenue.toLocaleString();
+  if (revSub) revSub.textContent = `across ${occupiedRooms} occupied rooms in ${activeHouses} active listings`;
+
+  const feed = document.getElementById('a-activity-feed');
+  const dotColors = {inquiry:'var(--blue)',tenant:'var(--teal)',maint:'var(--amber)'};
+  const activities = [
+    ...state.inquiries.slice(0,3).map(i=>({type:'inquiry',msg:`<strong>${i.name}</strong> inquired at ${state.houses.find(h=>h.id===i.houseId)?.name||'a house'}`,ts:Date.now()-7200000})),
+    ...state.pendingTenants.filter(t=>t.status==='active').slice(0,2).map(t=>({type:'tenant',msg:`<strong>${t.name}</strong> registered as tenant`,ts:Date.now()-10800000})),
+    ...state.maintenanceRequests.slice(0,2).map(r=>({type:'maint',msg:`<strong>${r.tenantName}</strong> reported: ${r.type.replace(/<[^>]+>/g,'')}`,ts:Date.now()-14400000})),
+  ].sort((a,b)=>b.ts-a.ts).slice(0,8);
+  if (feed) feed.innerHTML = activities.length
+    ? activities.map(a=>`<div class="a-activity-item"><div class="a-activity-dot" style="background:${dotColors[a.type]||'var(--muted2)'}"></div><div class="a-activity-txt">${a.msg}</div><div class="a-activity-time">${relTime(a.ts)}</div></div>`).join('')
+    : '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">No recent activity</div>';
+}
+
+// ════════════════════════════════════════
+// ADMIN — LISTINGS MANAGEMENT
+// ════════════════════════════════════════
+let _adminListingFilter = 'all';
+function filterAdminListings(f, btn) {
+  _adminListingFilter = f;
+  document.querySelectorAll('#a-listings .a-btn').forEach(b => { b.style.background='var(--warm2)'; b.style.color='var(--navy)'; b.style.border='1px solid var(--border)'; });
+  if (btn) { btn.style.background='rgba(255,107,107,.2)'; btn.style.color='#ff6b6b'; btn.style.border='1px solid rgba(255,107,107,.3)'; }
+  renderAdminListings();
+}
+function renderAdminListings() {
+  ensureAdminFields();
+  const list  = document.getElementById('a-listings-list');
+  const badge = document.getElementById('a-listings-badge');
+  if (!list) return;
+  let houses = state.houses;
+  if (_adminListingFilter==='pending')   houses = houses.filter(h=>h.adminStatus==='pending');
+  if (_adminListingFilter==='active')    houses = houses.filter(h=>h.adminStatus==='active');
+  if (_adminListingFilter==='suspended') houses = houses.filter(h=>h.adminStatus==='suspended');
+  if (badge) badge.textContent = state.houses.filter(h=>h.adminStatus==='pending').length || state.houses.length;
+  if (!houses.length) { list.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;">No listings match this filter.</div>'; return; }
+  list.innerHTML = houses.map(h => {
+    const occ = h.rooms.filter(r=>r.status!=='empty').length;
+    const inqCount = state.inquiries.filter(i=>i.houseId===h.id).length;
+    const statusPill = h.adminStatus==='suspended'
+      ? '<span class="a-pill a-pill-suspended">Suspended</span>'
+      : h.adminStatus==='pending'
+        ? '<span class="a-pill a-pill-pending">Pending Review</span>'
+        : h.adminVerified
+          ? '<span class="a-pill a-pill-verified"><i class="ph ph-seal-check"></i> Admin Verified</span>'
+          : '<span class="a-pill a-pill-active">Active</span>';
+    const actions = h.adminStatus==='suspended'
+      ? `<button class="a-btn a-btn-restore" onclick="adminListingAction(${h.id},'restore')"><i class="ph ph-arrow-counter-clockwise"></i> Restore</button>`
+      : `<button class="a-btn a-btn-verify"  onclick="adminListingAction(${h.id},'verify')"><i class="ph ph-seal-check"></i> Admin Verify</button>
+         <button class="a-btn a-btn-suspend" onclick="adminListingAction(${h.id},'suspend')"><i class="ph ph-prohibit"></i> Suspend</button>`;
+    return `<div class="a-row">
+      <div class="a-row-top"><div><div class="a-row-name">${h.name}</div><div class="a-row-sub">${h.address}</div></div>${statusPill}</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
+        <span style="font-size:11px;color:var(--muted);"><i class="ph ph-house"></i> ${occ}/${h.rooms.length} rooms</span>
+        <span style="font-size:11px;color:var(--muted);"><i class="ph ph-chat-circle"></i> ${inqCount} inquiries</span>
+        <span style="font-size:11px;color:var(--muted);"><i class="ph ph-money"></i> ₱${h.price.toLocaleString()}/mo</span>
+        <span style="font-size:11px;color:var(--muted);"><i class="ph ph-clock"></i> ${h.lastActive||'—'}</span>
+      </div>
+      <div class="a-row-actions">${actions}<button class="a-btn a-btn-edit" onclick="adminEditListingPrice(${h.id})"><i class="ph ph-pencil-simple"></i> Edit Price</button></div>
+    </div>`;
+  }).join('');
+}
+function adminListingAction(id, action) {
+  ensureAdminFields();
+  const h = state.houses.find(x=>x.id===id);
+  if (!h) return;
+  if (action==='verify') {
+    h.selfVerified=false; h.adminVerified=true;
+    h.verified=new Date().toLocaleString('en-PH',{month:'long',year:'numeric'});
+    h.adminStatus='active';
+    adminLog(`Admin verified: ${h.name}`);
+    showToast(`<i class="ph ph-seal-check"></i> ${h.name} — Admin Verified`);
+  } else if (action==='suspend') {
+    h.adminStatus='suspended'; adminLog(`Suspended: ${h.name}`);
+    showToast(`<i class="ph ph-prohibit"></i> ${h.name} suspended`);
+  } else if (action==='restore') {
+    h.adminStatus='active'; adminLog(`Restored: ${h.name}`);
+    showToast(`<i class="ph ph-arrow-counter-clockwise"></i> ${h.name} restored`);
+  }
+  save(); renderAdminListings();
+}
+function adminEditListingPrice(id) {
+  const h = state.houses.find(x=>x.id===id);
+  if (!h) return;
+  const np = prompt(`Edit price for ${h.name}\nCurrent: ₱${h.price.toLocaleString()}\nEnter new price:`);
+  if (np && !isNaN(parseInt(np))) { h.price=parseInt(np); save(); renderAdminListings(); showToast('Price updated to ₱'+h.price.toLocaleString()); }
+}
+
+// ════════════════════════════════════════
+// ADMIN — USER REGISTRY
+// ════════════════════════════════════════
+let _adminRegFilter = 'landlords';
+function filterAdminRegistry(f, btn) {
+  _adminRegFilter = f;
+  document.querySelectorAll('#a-registry .a-btn').forEach(b=>{ b.style.background='var(--warm2)'; b.style.color='var(--navy)'; b.style.border='1px solid var(--border)'; });
+  if (btn) { btn.style.background='rgba(255,107,107,.2)'; btn.style.color='#ff6b6b'; btn.style.border='1px solid rgba(255,107,107,.3)'; }
+  renderAdminRegistry();
+}
+function renderAdminRegistry() {
+  const list = document.getElementById('a-registry-list');
+  if (!list) return;
+  if (_adminRegFilter==='landlords') {
+    list.innerHTML = state.houses.map(h => {
+      const lp = h.id===1 ? profiles.landlord : {};
+      const occ = h.rooms.filter(r=>r.status!=='empty').length;
+      return `<div class="a-row">
+        <div class="a-row-top"><div><div class="a-row-name">${lp.name||h.name.split(' ')[0]}</div><div class="a-row-sub">${h.name} · ${lp.phone||'—'}</div></div>
+        <span class="a-pill ${h.adminStatus==='suspended'?'a-pill-suspended':'a-pill-active'}">${h.adminStatus==='suspended'?'Suspended':'Active'}</span></div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">GCash: ${lp.gcash||'—'} · ${occ}/${h.rooms.length} rooms occupied</div>
+        <div class="a-row-actions">
+          <button class="a-btn a-btn-flag"    onclick="adminFlagUser('landlord',${h.id})"><i class="ph ph-flag"></i> Flag</button>
+          <button class="a-btn a-btn-suspend" onclick="adminListingAction(${h.id},'suspend')"><i class="ph ph-prohibit"></i> Suspend</button>
+        </div></div>`;
+    }).join('');
+  } else if (_adminRegFilter==='tenants') {
+    const active = state.pendingTenants.filter(t=>t.status==='active');
+    if (!active.length) { list.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px;">No active tenants yet.</div>'; return; }
+    list.innerHTML = active.map(t => {
+      const h = state.houses.find(x=>x.id===t.houseId);
+      return `<div class="a-row">
+        <div class="a-row-top"><div><div class="a-row-name">${t.name}</div><div class="a-row-sub">${t.room} · ${h?.name||'—'}</div></div><span class="a-pill a-pill-active">Active</span></div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Phone: ${t.phone||'—'}</div>
+        <div class="a-row-actions">
+          <button class="a-btn a-btn-flag"  onclick="adminFlagUser('tenant',${t.id})"><i class="ph ph-flag"></i> Flag</button>
+          <button class="a-btn a-btn-reset" onclick="adminResetTenantCode(${t.id})"><i class="ph ph-arrow-counter-clockwise"></i> Reset Code</button>
+        </div></div>`;
+    }).join('');
+  } else {
+    const pending = state.pendingTenants.filter(t=>t.status==='pending');
+    if (!pending.length) { list.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px;">No pending codes.</div>'; return; }
+    list.innerHTML = pending.map(t => {
+      const h = state.houses.find(x=>x.id===t.houseId);
+      return `<div class="a-row">
+        <div class="a-row-top"><div><div class="a-row-name">${t.name}</div><div class="a-row-sub">${t.room} · ${h?.name||'—'}</div></div><span class="a-pill a-pill-pending">Pending</span></div>
+        <div style="font-size:12px;color:var(--blue);font-family:'Nunito',sans-serif;font-weight:800;letter-spacing:2px;margin-bottom:8px;">${t.code}</div>
+        <div class="a-row-actions">
+          <button class="a-btn a-btn-reset"   onclick="adminResetTenantCode(${t.id})"><i class="ph ph-arrow-counter-clockwise"></i> Regenerate</button>
+          <button class="a-btn a-btn-suspend" onclick="adminRevokeTenantCode(${t.id})"><i class="ph ph-x"></i> Revoke</button>
+        </div></div>`;
+    }).join('');
+  }
+}
+function adminFlagUser(type,id) { adminLog(`Flagged ${type} ID:${id}`); showToast('<i class="ph ph-flag"></i> Flagged for review'); }
+function adminResetTenantCode(id) {
+  const t = state.pendingTenants.find(x=>x.id===id);
+  if (!t) return;
+  t.code=String(Math.floor(100000+Math.random()*900000)); t.status='pending';
+  save(); renderAdminRegistry(); showToast(`New code for ${t.name}: ${t.code}`);
+}
+function adminRevokeTenantCode(id) {
+  state.pendingTenants = state.pendingTenants.filter(x=>x.id!==id);
+  save(); renderAdminRegistry(); showToast('Invite code revoked');
+}
+
+// ════════════════════════════════════════
+// ADMIN — INQUIRY MONITOR
+// ════════════════════════════════════════
+let _adminInqFilter = 'all';
+function filterAdminInq(f, btn) {
+  _adminInqFilter=f;
+  document.querySelectorAll('#a-inquiries .a-btn').forEach(b=>{ b.style.background='var(--warm2)'; b.style.color='var(--navy)'; b.style.border='1px solid var(--border)'; });
+  if (btn) { btn.style.background='rgba(255,107,107,.2)'; btn.style.color='#ff6b6b'; btn.style.border='1px solid rgba(255,107,107,.3)'; }
+  renderAdminInquiries();
+}
+function renderAdminInquiries() {
+  const list=document.getElementById('a-inq-list'), badge=document.getElementById('a-inq-badge');
+  if (!list) return;
+  let inqs = state.inquiries;
+  if (_adminInqFilter!=='all') inqs=inqs.filter(i=>i.status===_adminInqFilter);
+  if (badge) badge.textContent=state.inquiries.filter(i=>i.status==='pending').length;
+  if (!inqs.length) { list.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px;">No inquiries match.</div>'; return; }
+  const sMap={pending:'a-pill-pending',replied:'a-pill-active',interested:'a-pill-verified',offered:'a-pill-active',declined:'a-pill-suspended',not_a_fit:'a-pill-suspended'};
+  list.innerHTML=inqs.map(i=>{
+    const h=state.houses.find(x=>x.id===i.houseId);
+    return `<div class="a-row">
+      <div class="a-row-top"><div><div class="a-row-name">${i.name}</div><div class="a-row-sub">${i.school||'—'} · ${i.course||'—'}</div></div><span class="a-pill ${sMap[i.status]||'a-pill-pending'}">${i.status}</span></div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:6px;">"${i.q||'—'}"</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:8px;"><i class="ph ph-house"></i> ${h?.name||'—'} · ${relTime(Date.now()-3600000)}</div>
+      <div class="a-row-actions"><button class="a-btn a-btn-suspend" onclick="adminCloseInquiry(${i.id})"><i class="ph ph-x-circle"></i> Close</button></div>
+    </div>`;
+  }).join('');
+}
+function adminCloseInquiry(id) {
+  const i=state.inquiries.find(x=>x.id===id);
+  if (i) { i.status='declined'; save(); renderAdminInquiries(); showToast('Inquiry closed by admin'); }
+}
+
+// ════════════════════════════════════════
+// ADMIN — MAINTENANCE TRACKER
+// ════════════════════════════════════════
+let _adminMaintFilter = 'all';
+function filterAdminMaint(f, btn) {
+  _adminMaintFilter=f;
+  document.querySelectorAll('#a-maintenance .a-btn').forEach(b=>{ b.style.background='var(--warm2)'; b.style.color='var(--navy)'; b.style.border='1px solid var(--border)'; });
+  if (btn) { btn.style.background='rgba(255,107,107,.2)'; btn.style.color='#ff6b6b'; btn.style.border='1px solid rgba(255,107,107,.3)'; }
+  renderAdminMaintenance();
+}
+function renderAdminMaintenance() {
+  const list=document.getElementById('a-maint-list'), badge=document.getElementById('a-maint-badge');
+  if (!list) return;
+  let reqs=state.maintenanceRequests;
+  if (_adminMaintFilter==='urgent')  reqs=reqs.filter(r=>r.urgency!=='normal');
+  if (_adminMaintFilter==='pending') reqs=reqs.filter(r=>r.status==='pending');
+  if (_adminMaintFilter==='done')    reqs=reqs.filter(r=>r.status==='done');
+  if (badge) badge.textContent=reqs.filter(r=>r.status!=='done').length;
+  if (!reqs.length) { list.innerHTML='<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px;">No requests match.</div>'; return; }
+  const sMap={pending:{bg:C.amberBg,tc:C.amber,lbl:'Pending'},in_progress:{bg:C.tealBg,tc:C.teal,lbl:'In Progress'},done:{bg:C.greenBg,tc:C.green,lbl:'Done'}};
+  list.innerHTML=reqs.map(r=>{
+    const s=sMap[r.status]||sMap.pending;
+    return `<div class="a-row">
+      <div class="a-row-top"><div><div class="a-row-name">${r.type.replace(/<[^>]+>/g,'').trim()}</div><div class="a-row-sub">${r.room} · ${r.tenantName} · ${r.time}</div></div><span class="tag" style="background:${s.bg};color:${s.tc};font-size:10px;">${s.lbl}</span></div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">${r.desc}</div>
+      ${r.urgency!=='normal'?`<span class="tag tr" style="font-size:10px;margin-bottom:8px;display:inline-block;">${r.urgency==='emergency'?'Emergency':'Urgent'}</span>`:''}
+      <div class="a-row-actions">${r.status!=='done'?`<button class="a-btn a-btn-verify" onclick="adminResolveMaint(${r.id})"><i class="ph ph-check-circle"></i> Mark Resolved</button>`:''}</div>
+    </div>`;
+  }).join('');
+}
+function adminResolveMaint(id) {
+  const r=state.maintenanceRequests.find(x=>x.id===id);
+  if (r) {
+    r.status='done';
+    const mr=state.myMaintenanceRequests.find(x=>x.id===id);
+    if (mr) mr.status='done';
+    save(); renderAdminMaintenance(); showToast('<i class="ph ph-check-circle"></i> Marked resolved');
+  }
+}
+
+// ════════════════════════════════════════
+// ADMIN — FINANCIALS
+// ════════════════════════════════════════
+function renderAdminFinancials() {
+  const body=document.getElementById('a-financials-body');
+  if (!body) return;
+  const totalRev  = state.houses.reduce((s,h)=>s+h.rooms.filter(r=>r.status!=='empty').reduce((rs,r)=>rs+r.amount,0),0);
+  const totalExp  = state.expenses.reduce((s,e)=>s+Number(e.amount),0);
+  const net       = totalRev-totalExp;
+  const occ       = Math.round(state.houses.reduce((s,h)=>s+h.rooms.filter(r=>r.status!=='empty').length,0)/Math.max(1,state.houses.reduce((s,h)=>s+h.rooms.length,0))*100);
+  const houseRows = state.houses.map(h=>({ name:h.name, rev:h.rooms.filter(r=>r.status!=='empty').reduce((s,r)=>s+r.amount,0), occ:h.rooms.filter(r=>r.status!=='empty').length, total:h.rooms.length })).sort((a,b)=>b.rev-a.rev);
+  const maxRev    = houseRows[0]?.rev||1;
+  const inqByHouse= state.houses.map(h=>({ name:h.name, count:state.inquiries.filter(i=>i.houseId===h.id).length })).sort((a,b)=>b.count-a.count);
+  const maxInq    = inqByHouse[0]?.count||1;
+
+  body.innerHTML = `
+    <div class="a-stat-grid" style="margin-bottom:14px;">
+      <div class="a-stat accent-green"><div class="a-stat-val">₱${totalRev.toLocaleString()}</div><div class="a-stat-lbl">Est. Monthly Revenue</div></div>
+      <div class="a-stat accent-red"><div class="a-stat-val">₱${totalExp.toLocaleString()}</div><div class="a-stat-lbl">Total Expenses</div></div>
+      <div class="a-stat ${net>=0?'accent-green':'accent-red'}"><div class="a-stat-val" style="color:${net>=0?'var(--green)':'var(--red)'};">${net>=0?'+':''}₱${net.toLocaleString()}</div><div class="a-stat-lbl">Net (Rev − Exp)</div></div>
+      <div class="a-stat accent-blue"><div class="a-stat-val">${occ}%</div><div class="a-stat-lbl">Platform Occupancy</div></div>
+    </div>
+    <div class="card card-p" style="margin-bottom:14px;">
+      <div class="slbl" style="margin-bottom:14px;">Revenue by House</div>
+      ${houseRows.map(h=>`<div class="a-bar-row">
+        <div class="a-bar-label"><span>${h.name.replace(/ Boarding House| Residence/,'')}</span><span style="font-family:'Nunito',sans-serif;font-weight:800;">₱${h.rev.toLocaleString()} <span style="font-weight:600;color:var(--muted);font-size:11px;">(${h.occ}/${h.total})</span></span></div>
+        <div class="a-bar-track"><div class="a-bar-fill" style="width:${Math.round(h.rev/maxRev*100)}%;background:var(--teal);"></div></div>
+      </div>`).join('')}
+    </div>
+    <div class="card card-p" style="margin-bottom:14px;">
+      <div class="slbl" style="margin-bottom:14px;">Most Inquired</div>
+      ${inqByHouse.map(h=>`<div class="a-bar-row">
+        <div class="a-bar-label"><span>${h.name.replace(/ Boarding House| Residence/,'')}</span><span style="font-family:'Nunito',sans-serif;font-weight:800;">${h.count} inquiries</span></div>
+        <div class="a-bar-track"><div class="a-bar-fill" style="width:${Math.round(h.count/Math.max(1,maxInq)*100)}%;background:var(--blue);"></div></div>
+      </div>`).join('')}
+    </div>
+    <div class="card card-p">
+      <div class="slbl" style="margin-bottom:14px;">Occupancy Rate</div>
+      ${houseRows.map(h=>{ const r=Math.round(h.occ/Math.max(1,h.total)*100); return `<div class="a-bar-row">
+        <div class="a-bar-label"><span>${h.name.replace(/ Boarding House| Residence/,'')}</span><span style="font-family:'Nunito',sans-serif;font-weight:800;color:${r===100?'var(--red)':r>=75?'var(--amber)':'var(--green)'};">${r}%</span></div>
+        <div class="a-bar-track"><div class="a-bar-fill" style="width:${r}%;background:${r===100?'var(--red)':r>=75?'var(--amber)':'var(--teal)'};"></div></div>
+      </div>`; }).join('')}
+    </div>`;
+}
+
+// ════════════════════════════════════════
+// ADMIN — PLATFORM ANNOUNCEMENTS
+// ════════════════════════════════════════
+function postPlatformAnn() {
+  const type=document.getElementById('ap-ann-type').value;
+  const title=document.getElementById('ap-ann-title').value.trim();
+  const body=document.getElementById('ap-ann-body').value.trim();
+  if (!title||!body) { showToast('Fill in title and message'); return; }
+  if (!state.platformAnnouncements) state.platformAnnouncements=[];
+  state.platformAnnouncements.unshift({id:state.nextId++,type,title,body,ts:Date.now(),active:true});
+  save();
+  document.getElementById('ap-ann-title').value='';
+  document.getElementById('ap-ann-body').value='';
+  renderPlatformAnns();
+  renderPlatformBanner();
+  showToast('<i class="ph ph-broadcast"></i> Broadcast sent to all users');
+  adminLog(`Platform announcement: "${title}"`);
+}
+function renderPlatformAnns() {
+  const list=document.getElementById('ap-ann-list');
+  if (!list) return;
+  const anns=state.platformAnnouncements||[];
+  if (!anns.length) { list.innerHTML='<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">No platform announcements yet.</div>'; return; }
+  const typeColors={info:'var(--blue)',warning:'var(--amber)',maintenance:'var(--red)',feature:'var(--teal)'};
+  list.innerHTML=anns.map(a=>`<div class="a-row">
+    <div class="a-row-top"><div><div class="a-row-name">${a.title}</div><div class="a-row-sub" style="color:${typeColors[a.type]||'var(--blue)'};font-weight:700;text-transform:capitalize;">${a.type} · ${relTime(a.ts)}</div></div>
+    <span class="a-pill ${a.active?'a-pill-active':'a-pill-suspended'}">${a.active?'Live':'Hidden'}</span></div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:8px;">${a.body}</div>
+    <div class="a-row-actions">
+      <button class="a-btn ${a.active?'a-btn-suspend':'a-btn-restore'}" onclick="togglePlatformAnn(${a.id})">${a.active?'Hide':'Show'}</button>
+      <button class="a-btn a-btn-edit" onclick="deletePlatformAnn(${a.id})"><i class="ph ph-trash"></i> Delete</button>
+    </div>
+  </div>`).join('');
+}
+function togglePlatformAnn(id) {
+  const a=(state.platformAnnouncements||[]).find(x=>x.id===id);
+  if (a) { a.active=!a.active; save(); renderPlatformAnns(); renderPlatformBanner(); }
+}
+function deletePlatformAnn(id) {
+  state.platformAnnouncements=(state.platformAnnouncements||[]).filter(x=>x.id!==id);
+  save(); renderPlatformAnns(); renderPlatformBanner(); showToast('Deleted');
+}
+function renderPlatformBanner() {
+  const existing=document.getElementById('platform-ann-banner');
+  if (existing) existing.remove();
+  const active=(state.platformAnnouncements||[]).filter(a=>a.active);
+  if (!active.length) return;
+  const a=active[0];
+  const tc={info:'var(--blue)',warning:'var(--amber)',maintenance:'var(--red)',feature:'var(--teal)'};
+  const banner=document.createElement('div');
+  banner.id='platform-ann-banner';
+  banner.style.cssText=`background:${tc[a.type]||'var(--blue)'};padding:10px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;`;
+  banner.innerHTML=`<i class="ph ph-megaphone" style="font-size:16px;color:#fff;flex-shrink:0;"></i><div style="flex:1;font-size:12px;color:#fff;line-height:1.4;"><strong>${a.title}</strong> — ${a.body}</div><div onclick="this.closest('#platform-ann-banner').remove()" style="color:rgba(255,255,255,.7);font-size:18px;cursor:pointer;">×</div>`;
+  const roleWrap=document.querySelector('#s-role .role-wrap');
+  if (roleWrap) roleWrap.parentElement.insertBefore(banner,roleWrap);
+}
+
+// ════════════════════════════════════════
+// ADMIN — SETTINGS
+// ════════════════════════════════════════
+function renderAdminSettings() {
+  const on=state.maintenanceMode||false;
+  const toggle=document.getElementById('admin-maint-toggle');
+  const track=document.getElementById('admin-maint-track');
+  const thumb=document.getElementById('admin-maint-thumb');
+  const status=document.getElementById('admin-maint-status');
+  if (toggle) toggle.checked=on;
+  if (track)  track.style.background=on?'var(--red)':'var(--border2)';
+  if (thumb)  thumb.style.left=on?'23px':'3px';
+  if (status) status.innerHTML=on?'Maintenance mode is <strong style="color:var(--red)">ON</strong> — showing maintenance screen to all users.':'Maintenance mode is <strong>off</strong> — app is live for all users.';
+}
+function toggleMaintenanceMode() {
+  state.maintenanceMode=!state.maintenanceMode;
+  save(); renderAdminSettings();
+  const overlay=document.getElementById('maintenance-overlay');
+  if (overlay) overlay.classList.toggle('hidden',!state.maintenanceMode);
+  adminLog(`Maintenance mode ${state.maintenanceMode?'enabled':'disabled'}`);
+  showToast(state.maintenanceMode?'<i class="ph ph-wrench"></i> Maintenance mode ON':'Maintenance mode OFF — app is live');
+}
+function changeAdminPin() {
+  const np=document.getElementById('admin-new-pin').value;
+  const cp=document.getElementById('admin-confirm-pin').value;
+  if (np.length!==6||isNaN(Number(np))) { showToast('PIN must be exactly 6 digits'); return; }
+  if (np!==cp) { showToast('PINs do not match'); return; }
+  localStorage.setItem(ADMIN_PIN_KEY,np);
+  document.getElementById('admin-new-pin').value='';
+  document.getElementById('admin-confirm-pin').value='';
+  showToast('<i class="ph ph-lock-key"></i> Admin PIN updated');
+}
+function exportAdminData() {
+  const data={exportedAt:new Date().toISOString(),houses:state.houses,inquiries:state.inquiries,announcements:state.announcements,maintenanceRequests:state.maintenanceRequests,expenses:state.expenses,pendingTenants:state.pendingTenants,visits:state.visits,platformAnnouncements:state.platformAnnouncements||[]};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='buhay-boarding-export-'+Date.now()+'.json'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('<i class="ph ph-download-simple"></i> Data exported');
+}
+function confirmResetData() {
+  const card=document.createElement('div');
+  card.style.cssText='position:absolute;bottom:80px;left:14px;right:14px;background:var(--redBg);border:1.5px solid var(--red);border-radius:14px;padding:16px;z-index:500;box-shadow:var(--sh-lg);';
+  card.innerHTML=`<div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--red);margin-bottom:6px;"><i class="ph ph-warning"></i> Reset all demo data?</div><div style="font-size:12px;color:var(--text2);margin-bottom:14px;">Clears localStorage and reloads with default seed data. Cannot be undone.</div><div style="display:flex;gap:8px;"><button onclick="localStorage.clear();location.reload();" style="flex:2;background:var(--red);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Yes, Reset</button><button onclick="this.closest('div[style]').remove()" style="flex:1;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;cursor:pointer;">Cancel</button></div>`;
+  document.querySelector('.phone').appendChild(card);
 }
 function selfVerifyListing() {
   const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];

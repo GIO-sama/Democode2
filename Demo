@@ -130,14 +130,14 @@ body {
   flex-direction:column;
   align-items:center;
   gap:3px;
-  padding:5px 0;
+  padding:6px 0;
   cursor:pointer;
   transition:opacity .15s;
   position:relative;
 }
 .ni:active { opacity:.6; }
-.ni-ic { font-size:22px; line-height:1; color:var(--muted2); transition:color .2s; }
-.ni-lb { font-family:'Nunito', sans-serif; font-size:10px; font-weight:700; color:var(--muted2); letter-spacing:.2px; transition:color .2s; }
+.ni-ic { font-size:24px; line-height:1; color:var(--muted2); transition:color .2s; }
+.ni-lb { font-family:'Nunito', sans-serif; font-size:11px; font-weight:800; color:var(--muted2); letter-spacing:.2px; transition:color .2s; }
 .ni.on .ni-ic { color:var(--blue); }
 .ni.on .ni-lb { color:var(--blue); }
 .ni.on::after {
@@ -318,7 +318,6 @@ body {
 .ta2 { background:var(--amberBg); color:var(--amber); }
 .tn  { background:rgba(11,31,58,.07); color:var(--navy); }
 .tp  { background:var(--purpleBg); color:var(--purple); }
-.tgn { background:var(--greenBg); color:var(--green); }
 
 /* ─── TOP BAR ────────────────────────────────────── */
 .topbar {
@@ -652,15 +651,19 @@ body {
 .rpartial { background:var(--amberBg); color:var(--amber); }
 
 .dactions {
-  display:flex; gap:10px; padding:14px 16px;
-  flex-shrink:0; background:var(--warm);
-  border-top:1px solid var(--border);
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px 16px;
+  flex-shrink: 0;
+  background: var(--warm);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 20px rgba(11,31,58,.08);
 }
 
 /* ═══════════════════════════════════════════════════
    FORMS (Inquiry, Visit, Waitlist)
 ═══════════════════════════════════════════════════ */
-.fscroll { flex:1; overflow-y:auto; padding:18px 16px 100px; }
+.fscroll { flex:1; overflow-y:auto; padding:18px 16px 16px; }
 .fintro {
   background:var(--card);
   border-radius:var(--r-lg);
@@ -676,11 +679,13 @@ body {
 .fintro-txt { font-size:13px; color:var(--muted); line-height:1.55; }
 .fintro-txt strong { color:var(--text); font-weight:700; }
 .ffoot {
-  position:sticky; bottom:0;
-  background:var(--warm);
-  padding:12px 16px 80px;
-  border-top:1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--warm);
+  padding: 12px 16px 16px;
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 20px rgba(11,31,58,.07);
 }
+.ffoot .btn { font-size:15px; padding:14px 18px; border-radius:12px; width:100%; }
 
 /* Visit scheduler */
 .cal-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:18px; }
@@ -828,7 +833,7 @@ body {
 .rt {
   background:var(--card);
   border-radius:10px;
-  padding:9px 7px;
+  padding:11px 7px;
   text-align:center;
   border:1px solid var(--border);
   cursor:pointer;
@@ -836,8 +841,10 @@ body {
   box-shadow:var(--sh-xs);
 }
 .rt:active { transform:scale(.95); }
-.rt-num { font-family:'Nunito', sans-serif; font-size:11px; font-weight:800; color:var(--muted); margin-bottom:4px; }
-.rt-st { font-family:'Nunito', sans-serif; font-size:10px; font-weight:800; padding:2px 4px; border-radius:4px; }
+.rt-num { font-family:'Nunito', sans-serif; font-size:12px; font-weight:800; color:var(--muted); margin-bottom:5px; }
+.rt-st { font-family:'Nunito', sans-serif; font-size:11px; font-weight:800; padding:3px 5px; border-radius:4px; }
+.rt.rt-pulse { border:1.5px solid var(--amber); background:var(--amberBg); animation:pulse-border 2s ease-in-out infinite; }
+@keyframes pulse-border { 0%,100%{border-color:var(--amber)} 50%{border-color:rgba(245,158,11,.3)} }
 .st-paid  { color:var(--green); }
 .st-pend  { color:var(--amber); background:var(--amberBg); border-radius:4px; padding:2px 5px; }
 .st-empty { background:var(--warm2); color:var(--muted); border-radius:4px; padding:2px 5px; }
@@ -854,12 +861,12 @@ body {
   cursor:pointer;
   flex-shrink:0;
   transition:all .15s;
-  min-width:78px;
+  min-width:84px;
   box-shadow:var(--sh-xs);
 }
 .qa-btn:active { background:var(--warm2); }
-.qa-ic { font-size:20px; margin-bottom:4px; color:var(--navy); }
-.qa-lbl { font-family:'Nunito', sans-serif; font-size:10px; font-weight:800; color:var(--navy); line-height:1.2; }
+.qa-ic { font-size:22px; margin-bottom:5px; color:var(--navy); }
+.qa-lbl { font-family:'Nunito', sans-serif; font-size:11px; font-weight:800; color:var(--navy); line-height:1.2; }
 
 /* Vacancy alert */
 .vac-alert {
@@ -879,7 +886,7 @@ body {
   background:var(--card);
   border:1px solid var(--border);
   border-radius:14px;
-  padding:14px 14px 14px 16px;
+  padding:14px 14px 14px 14px;
   margin-bottom:9px;
   cursor:pointer;
   display:flex;
@@ -976,13 +983,13 @@ body {
 .pa-card.primary { background:var(--navy); border-color:var(--navy); box-shadow:var(--sh-sm); }
 .pa-card.primary .pa-title { color:#fff; }
 .pa-card.primary .pa-sub { color:rgba(255,255,255,.55); }
-.pa-ic-wrap { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+.pa-ic-wrap { width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:21px; flex-shrink:0; }
 .pa-ic-wrap.navy { background:rgba(255,255,255,.1); }
 .pa-ic-wrap.blue { background:var(--blueLt); }
 .pa-ic-wrap.teal { background:var(--greenBg); }
 .pa-ic-wrap.amber { background:var(--amberBg); }
-.pa-title { font-family:'Nunito', sans-serif; font-size:14px; font-weight:800; color:var(--text); }
-.pa-sub { font-size:12px; color:var(--muted); margin-top:2px; }
+.pa-title { font-family:'Nunito', sans-serif; font-size:15px; font-weight:800; color:var(--text); }
+.pa-sub { font-size:13px; color:var(--muted); margin-top:2px; }
 .pa-badge {
   margin-left:auto;
   background:var(--red);
@@ -1144,7 +1151,7 @@ body {
 .setup-hero-icon{width:52px;height:52px;background:rgba(255,255,255,.15);border-radius:15px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border:1px solid rgba(255,255,255,.2);}
 .setup-hero-title{font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:4px;}
 .setup-hero-sub{font-size:13px;color:rgba(255,255,255,.7);line-height:1.5;}
-.setup-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:22px 18px 100px;}
+.setup-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:22px 18px 90px;}
 .setup-body::-webkit-scrollbar{display:none;}
 .setup-section{background:var(--card);border-radius:var(--r-lg);border:1px solid var(--border);padding:18px;margin-bottom:14px;box-shadow:var(--sh-sm);}
 .setup-section-title{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:16px;}
@@ -1156,29 +1163,6 @@ body {
 .avatar-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:4px;}
 .avatar-opt{width:100%;aspect-ratio:1;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;border:2px solid var(--border);cursor:pointer;transition:all .2s;background:var(--warm);}
 .avatar-opt.selected{border-color:var(--blue);background:var(--blueLt);box-shadow:0 0 0 3px rgba(21,88,204,.15);}
-
-/* ─── UNIVERSAL BACK BUTTON ──────────────────── */
-#univ-back {
-  position:absolute;
-  bottom:80px;
-  left:16px;
-  z-index:999;
-  width:44px;
-  height:44px;
-  background:var(--card);
-  border:1.5px solid var(--border2);
-  border-radius:50%;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  box-shadow:var(--sh-md);
-  transition:all .18s;
-  color:var(--navy);
-  font-size:19px;
-}
-#univ-back:active { transform:scale(.93); background:var(--warm); }
-#univ-back.visible { display:flex; }
 
 /* ─── ID PHOTO UPLOAD ─────────────────────────── */
 .id-photo-upload-wrap {
@@ -1303,7 +1287,7 @@ body {
 .pstat:not(:last-child){border-right:1px solid rgba(255,255,255,.15);}
 .pstat-v{font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:#fff;}
 .pstat-l{font-size:10px;color:rgba(255,255,255,.55);margin-top:1px;}
-.sprofile-body{padding:16px 16px 100px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;}
+.sprofile-body{padding:16px 16px 90px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;}
 .sprofile-body::-webkit-scrollbar{display:none;}
 .pcard{background:var(--card);border-radius:var(--r-lg);border:1px solid var(--border);padding:16px;margin-bottom:12px;box-shadow:var(--sh-sm);}
 .pcard-title{font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px;}
@@ -1576,8 +1560,8 @@ body {
 .bhl-tab.on { background: #fff; color: var(--navy); }
 
 /* Editor panels */
-.bhl-panel { display: none; padding: 16px 16px 110px; overflow-y: auto; flex: 1; }
-.bhl-panel.active { display: block; }
+.bhl-panel { display: none; padding: 16px 16px 100px; overflow-y: auto; flex: 1; min-height: 0; }
+.bhl-panel.active { display: flex; flex-direction: column; }
 .bhl-panel::-webkit-scrollbar { display: none; }
 
 /* Snapshot grid (landlord editor) */
@@ -1891,7 +1875,14 @@ body {
   flex-shrink: 0;
 }
 
-/* landmark tooltip */
+/* Admin financials tabs */
+.a-fin-tab {
+  flex:1; padding:10px 6px; border:none; background:transparent;
+  color:rgba(255,255,255,.4); font-family:'Nunito',sans-serif;
+  font-size:12px; font-weight:700; cursor:pointer; letter-spacing:.2px;
+  border-bottom:2px solid transparent; transition:all .18s;
+}
+.a-fin-tab.on { color:#fff; border-bottom-color:#ff6b6b; background:rgba(255,107,107,.06); }
 .lm-tooltip {
   background: rgba(11,31,58,.88) !important;
   border: none !important;
@@ -2499,6 +2490,31 @@ body {
 .lcard-active-dot.today  { background:var(--teal2); animation:pulse-dot 1.8s ease-in-out infinite; }
 .lcard-active-dot.old    { background:var(--muted2); }
 
+/* ── PERSISTENT CTA BAR ─────────────────────────────
+   Sits between .scroll and .bnav (or at screen bottom).
+   Buttons never scroll away — always in thumb reach.
+──────────────────────────────────────────────────── */
+.cta-bar {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px 16px;
+  flex-shrink: 0;
+  background: var(--warm);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 20px rgba(11,31,58,.07);
+}
+.cta-bar .btn, .cta-bar button {
+  font-size: 15px;
+  padding: 14px 18px;
+  border-radius: 12px;
+}
+.cta-bar-solo { padding: 12px 16px 16px; flex-shrink:0; background:var(--warm); border-top:1px solid var(--border); box-shadow:0 -4px 20px rgba(11,31,58,.07); }
+.match-badge { display:inline-flex; align-items:center; gap:4px; font-family:'Nunito',sans-serif; font-size:11px; font-weight:800; padding:3px 9px; border-radius:20px; margin-top:5px; }
+.match-great   { background:var(--greenBg); color:var(--green); }
+.match-good    { background:var(--blueLt);  color:var(--blue);  }
+.match-partial { background:var(--amberBg); color:var(--amber); }
+.match-low     { background:var(--warm2);   color:var(--muted); border:1px solid var(--border); }
+
 /* ═══════════════════════════════════════
    ADMIN PANEL STYLES
 ═══════════════════════════════════════ */
@@ -2517,7 +2533,7 @@ body {
   border-top:1px solid rgba(255,255,255,.08);
   display:flex; padding:6px 0 env(safe-area-inset-bottom,10px);
 }
-.admin-ni { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; padding:5px 0; cursor:pointer; transition:opacity .15s; position:relative; }
+.admin-ni { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px 0; cursor:pointer; transition:opacity .15s; position:relative; }
 .admin-ni:active { opacity:.6; }
 .admin-ni-ic { font-size:20px; line-height:1; color:rgba(255,255,255,.35); transition:color .2s; }
 .admin-ni-lb { font-family:'Nunito',sans-serif; font-size:9px; font-weight:700; color:rgba(255,255,255,.35); letter-spacing:.2px; transition:color .2s; }
@@ -2575,6 +2591,151 @@ body {
 .admin-key.del { color:rgba(255,255,255,.5); font-size:22px; }
 .admin-key.empty { background:transparent; border:none; cursor:default; }
 .maintenance-overlay { position:absolute; inset:0; background:#1a1a2e; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9999; padding:32px; }
+
+/* ═══════════════════════════════════════════════════════════
+   ADMIN DARK THEME — applies to all screens with id="a-*"
+   Overrides light-mode vars with dark equivalents so every
+   admin screen is consistently dark without touching JS.
+═══════════════════════════════════════════════════════════ */
+#a-home, #a-listings, #a-registry, #a-inquiries,
+#a-maintenance, #a-financials, #a-announcements,
+#a-logs, #a-settings {
+  background: #0d0d1a;
+}
+
+/* Scroll containers */
+#a-home .scroll, #a-listings .scroll, #a-registry .scroll,
+#a-inquiries .scroll, #a-maintenance .scroll,
+#a-financials .scroll, #a-announcements .scroll,
+#a-logs .scroll, #a-settings .scroll {
+  background: #0d0d1a;
+}
+
+/* Cards, rows, stat boxes — override var(--card) */
+#a-home .card, #a-listings .card, #a-registry .card,
+#a-inquiries .card, #a-maintenance .card,
+#a-financials .card, #a-announcements .card,
+#a-settings .card,
+[id^="a-"] .a-stat,
+[id^="a-"] .a-row,
+[id^="a-"] .card-p,
+[id^="a-"] .callout {
+  background: #1a1a2e !important;
+  border-color: rgba(255,255,255,.08) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,.4) !important;
+}
+
+/* Text */
+[id^="a-"] .a-stat-val,
+[id^="a-"] .a-row-name,
+[id^="a-"] .title-md,
+[id^="a-"] .slbl,
+[id^="a-"] .lbl,
+[id^="a-"] .card-p strong {
+  color: #fff !important;
+}
+[id^="a-"] .a-stat-lbl,
+[id^="a-"] .a-stat-sub,
+[id^="a-"] .a-row-sub,
+[id^="a-"] .a-activity-txt,
+[id^="a-"] .callout-txt {
+  color: rgba(255,255,255,.55) !important;
+}
+
+/* Inputs, selects, textareas */
+[id^="a-"] .inp,
+[id^="a-"] .sel,
+[id^="a-"] .ta {
+  background: #12122a !important;
+  border-color: rgba(255,255,255,.12) !important;
+  color: #fff !important;
+}
+[id^="a-"] .inp::placeholder,
+[id^="a-"] .ta::placeholder { color: rgba(255,255,255,.3) !important; }
+[id^="a-"] .inp:focus,
+[id^="a-"] .sel:focus,
+[id^="a-"] .ta:focus {
+  border-color: #ff6b6b !important;
+  box-shadow: 0 0 0 3px rgba(255,107,107,.12) !important;
+}
+
+/* Action buttons — dark-friendly versions */
+[id^="a-"] .a-btn-edit,
+[id^="a-"] .a-btn-view {
+  background: rgba(255,255,255,.08) !important;
+  color: rgba(255,255,255,.8) !important;
+  border-color: rgba(255,255,255,.12) !important;
+}
+[id^="a-"] .a-btn-verify  { background: rgba(74,222,128,.15) !important; color: #4ade80 !important; }
+[id^="a-"] .a-btn-suspend { background: rgba(248,113,113,.15) !important; color: #f87171 !important; }
+[id^="a-"] .a-btn-restore { background: rgba(96,165,250,.15) !important; color: #60a5fa !important; }
+[id^="a-"] .a-btn-flag    { background: rgba(251,191,36,.15)  !important; color: #fbbf24 !important; }
+[id^="a-"] .a-btn-reset   { background: rgba(167,139,250,.15) !important; color: #a78bfa !important; }
+
+/* Pills */
+[id^="a-"] .a-pill-active    { background: rgba(74,222,128,.15) !important; color: #4ade80 !important; }
+[id^="a-"] .a-pill-pending   { background: rgba(251,191,36,.15) !important; color: #fbbf24 !important; }
+[id^="a-"] .a-pill-suspended { background: rgba(248,113,113,.15) !important; color: #f87171 !important; }
+[id^="a-"] .a-pill-verified  { background: rgba(96,165,250,.15) !important; color: #60a5fa !important; }
+[id^="a-"] .a-pill-self      { background: rgba(255,255,255,.08) !important; color: rgba(255,255,255,.5) !important; border-color: rgba(255,255,255,.1) !important; }
+
+/* Stat accents */
+[id^="a-"] .a-stat.accent-blue  { background: rgba(96,165,250,.1)  !important; border-color: rgba(96,165,250,.25)  !important; }
+[id^="a-"] .a-stat.accent-green { background: rgba(74,222,128,.1)  !important; border-color: rgba(74,222,128,.25)  !important; }
+[id^="a-"] .a-stat.accent-amber { background: rgba(251,191,36,.1)  !important; border-color: rgba(251,191,36,.25)  !important; }
+[id^="a-"] .a-stat.accent-red   { background: rgba(248,113,113,.1) !important; border-color: rgba(248,113,113,.25) !important; }
+
+/* Bar charts */
+[id^="a-"] .a-bar-track { background: rgba(255,255,255,.08) !important; }
+[id^="a-"] .a-bar-label { color: rgba(255,255,255,.55) !important; }
+
+/* Activity items */
+[id^="a-"] .a-activity-item { border-color: rgba(255,255,255,.07) !important; }
+[id^="a-"] .a-activity-txt strong { color: #fff !important; }
+[id^="a-"] .a-activity-time { color: rgba(255,255,255,.3) !important; }
+
+/* Section headers */
+[id^="a-"] .a-section-hdr .slbl,
+[id^="a-"] .a-section .slbl { color: rgba(255,255,255,.4) !important; }
+
+/* Horizontal rules and dividers */
+[id^="a-"] hr,
+[id^="a-"] [style*="border-top:1px solid var(--border)"],
+[id^="a-"] [style*="border-bottom:1px solid var(--border)"] {
+  border-color: rgba(255,255,255,.07) !important;
+}
+
+/* Filter row chips on admin screens */
+[id^="a-"] .chip {
+  background: rgba(255,255,255,.06) !important;
+  border-color: rgba(255,255,255,.12) !important;
+  color: rgba(255,255,255,.55) !important;
+}
+[id^="a-"] .chip.on {
+  background: rgba(255,107,107,.2) !important;
+  border-color: #ff6b6b !important;
+  color: #ff6b6b !important;
+}
+
+/* Settings-specific: maint status bar, warm2 backgrounds */
+[id^="a-"] [style*="background:var(--warm2)"],
+[id^="a-"] [style*="background:var(--warm)"] {
+  background: rgba(255,255,255,.05) !important;
+}
+[id^="a-"] [style*="color:var(--muted)"] { color: rgba(255,255,255,.45) !important; }
+[id^="a-"] [style*="color:var(--text)"]  { color: rgba(255,255,255,.9) !important; }
+[id^="a-"] [style*="color:var(--text2)"] { color: rgba(255,255,255,.65) !important; }
+
+/* Broadcast button stays red */
+[id^="a-"] .btn-primary { background: #ff6b6b !important; box-shadow: 0 4px 14px rgba(255,107,107,.3) !important; }
+
+/* Callout borders */
+[id^="a-"] .callout.cl-info   { background: rgba(96,165,250,.1) !important; border-color: rgba(96,165,250,.25) !important; }
+[id^="a-"] .callout.cl-warn   { background: rgba(251,191,36,.1) !important; border-color: rgba(251,191,36,.25) !important; }
+[id^="a-"] .callout.cl-green  { background: rgba(74,222,128,.1) !important; border-color: rgba(74,222,128,.25) !important; }
+
+/* fg labels */
+[id^="a-"] .fg .lbl { color: rgba(255,255,255,.5) !important; }
 </style>
 <body>
 <div class="phone">
@@ -2619,7 +2780,7 @@ body {
           <div class="role-ic" style="background:rgba(13,148,128,.15)"><i class="ph ph-key" style="font-size:22px;color:#0D9480"></i></div>
           <div class="role-info">
             <div class="role-name" style="color:#0D9480">New Tenant — First Time</div>
-            <div class="role-desc">May invite code ka? I-register ang iyong account dito</div>
+            <div class="role-desc">Have an invite code? Register your account here</div>
           </div>
           <div class="role-arrow" style="color:#0D9480"><i class="ph ph-caret-right"></i></div>
         </div>
@@ -2706,7 +2867,7 @@ body {
       <div class="admin-topbar-title">Admin Dashboard</div>
       <div class="admin-topbar-badge">ADMIN</div>
     </div>
-    <div class="scroll" style="padding:14px 14px 90px;">
+    <div class="scroll" style="padding:14px 14px 16px;">
       <!-- Stats grid -->
       <div class="a-stat-grid" id="a-stats-grid"></div>
       <!-- Health indicators -->
@@ -2726,6 +2887,7 @@ body {
       <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
       <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
       <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-logs')"><span class="admin-ni-ic"><i class="ph ph-scroll"></i></span><span class="admin-ni-lb">Log</span></div>
       <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
     </div>
   </div>
@@ -2746,12 +2908,13 @@ body {
       <button class="a-btn a-btn-verify"    id="alf-active"  onclick="filterAdminListings('active',this)">Active</button>
       <button class="a-btn a-btn-suspend"   id="alf-suspended" onclick="filterAdminListings('suspended',this)">Suspended</button>
     </div>
-    <div class="scroll" style="padding:14px 14px 90px;" id="a-listings-list"></div>
+    <div class="scroll" style="padding:14px 14px 16px;" id="a-listings-list"></div>
     <div class="admin-bnav">
       <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
       <div class="admin-ni on" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
       <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
       <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-logs')"><span class="admin-ni-ic"><i class="ph ph-scroll"></i></span><span class="admin-ni-lb">Log</span></div>
       <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
     </div>
   </div>
@@ -2769,12 +2932,13 @@ body {
       <button class="a-btn a-btn-edit"    id="arf-tenants"   onclick="filterAdminRegistry('tenants',this)">Tenants</button>
       <button class="a-btn a-btn-flag"    id="arf-pending"   onclick="filterAdminRegistry('pending',this)">Pending Codes</button>
     </div>
-    <div class="scroll" style="padding:14px 14px 90px;" id="a-registry-list"></div>
+    <div class="scroll" style="padding:14px 14px 16px;" id="a-registry-list"></div>
     <div class="admin-bnav">
       <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
       <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
       <div class="admin-ni on" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
       <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-logs')"><span class="admin-ni-ic"><i class="ph ph-scroll"></i></span><span class="admin-ni-lb">Log</span></div>
       <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
     </div>
   </div>
@@ -2794,12 +2958,13 @@ body {
       <button class="a-btn a-btn-verify"      id="aif-replied" onclick="filterAdminInq('replied',this)">Replied</button>
       <button class="a-btn a-btn-suspend"     id="aif-declined" onclick="filterAdminInq('declined',this)">Declined</button>
     </div>
-    <div class="scroll" style="padding:14px 14px 90px;" id="a-inq-list"></div>
+    <div class="scroll" style="padding:14px 14px 16px;" id="a-inq-list"></div>
     <div class="admin-bnav">
       <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
       <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
       <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
       <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-logs')"><span class="admin-ni-ic"><i class="ph ph-scroll"></i></span><span class="admin-ni-lb">Log</span></div>
       <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
     </div>
   </div>
@@ -2819,12 +2984,13 @@ body {
       <button class="a-btn a-btn-edit"          id="amf-pending"  onclick="filterAdminMaint('pending',this)">Pending</button>
       <button class="a-btn a-btn-verify"        id="amf-done"     onclick="filterAdminMaint('done',this)">Done</button>
     </div>
-    <div class="scroll" style="padding:14px 14px 90px;" id="a-maint-list"></div>
+    <div class="scroll" style="padding:14px 14px 16px;" id="a-maint-list"></div>
     <div class="admin-bnav">
       <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
       <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
       <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
       <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-logs')"><span class="admin-ni-ic"><i class="ph ph-scroll"></i></span><span class="admin-ni-lb">Log</span></div>
       <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
     </div>
   </div>
@@ -2837,12 +3003,19 @@ body {
       <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">Financials & Reports</div>
     </div>
-    <div class="scroll" style="padding:14px 14px 90px;" id="a-financials-body"></div>
+    <!-- Tab switcher -->
+    <div style="display:flex;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;">
+      <button class="a-fin-tab on" id="aft-overview" onclick="switchAdminFinTab('overview',this)">Overview</button>
+      <button class="a-fin-tab" id="aft-txns" onclick="switchAdminFinTab('txns',this)">Transactions</button>
+      <button class="a-fin-tab" id="aft-uploads" onclick="switchAdminFinTab('uploads',this)">Uploads</button>
+    </div>
+    <div class="scroll" style="padding:14px 14px 16px;" id="a-financials-body"></div>
     <div class="admin-bnav">
       <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
       <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
       <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
       <div class="admin-ni on" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-logs')"><span class="admin-ni-ic"><i class="ph ph-scroll"></i></span><span class="admin-ni-lb">Log</span></div>
       <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
     </div>
   </div>
@@ -2855,7 +3028,7 @@ body {
       <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">Platform Announcements</div>
     </div>
-    <div class="scroll" style="padding:14px 14px 90px;">
+    <div class="scroll" style="padding:14px 14px 16px;">
       <div class="callout cl-info" style="margin-bottom:16px;">
         <span class="callout-ic"><i class="ph ph-megaphone"></i></span>
         <div class="callout-txt"><strong>Platform-wide announcements</strong> appear as a banner to ALL users (seekers, tenants, landlords) on the role select screen.</div>
@@ -2885,6 +3058,28 @@ body {
       <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
       <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
       <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-logs')"><span class="admin-ni-ic"><i class="ph ph-scroll"></i></span><span class="admin-ni-lb">Log</span></div>
+      <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       ADMIN — AUDIT LOG
+  ═══════════════════════════════ -->
+  <div class="screen" id="a-logs">
+    <div class="admin-topbar">
+      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="admin-topbar-title">Audit Log</div>
+      <button onclick="clearAuditLog()" style="background:none;border:none;color:rgba(255,107,107,.7);font-size:12px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;padding:4px 8px;">Clear</button>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px;background:#12122a;" id="a-logs-list"></div>
+    <div class="admin-bnav">
+      <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
+      <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
+      <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
+      <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni on" onclick="goTo('a-logs')"><span class="admin-ni-ic"><i class="ph ph-scroll"></i></span><span class="admin-ni-lb">Log</span></div>
+
       <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
     </div>
   </div>
@@ -2897,7 +3092,7 @@ body {
       <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">Settings & Controls</div>
     </div>
-    <div class="scroll" style="padding:14px 14px 90px;">
+    <div class="scroll" style="padding:14px 14px 16px;">
 
       <!-- Maintenance mode -->
       <div class="card card-p" style="margin-bottom:12px;">
@@ -2982,6 +3177,7 @@ body {
       <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
       <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
       <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
+      <div class="admin-ni" onclick="goTo('a-logs')"><span class="admin-ni-ic"><i class="ph ph-scroll"></i></span><span class="admin-ni-lb">Log</span></div>
       <div class="admin-ni on" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
     </div>
   </div>
@@ -2993,7 +3189,7 @@ body {
     <div class="shdr">
       <div class="shdr-top">
         <div>
-          <div class="shdr-greet" id="seeker-greeting">Magandang umaga </div>
+          <div class="shdr-greet" id="seeker-greeting">Good morning </div>
           <div class="shdr-title">Buhay <span>Boarding</span></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
@@ -3010,12 +3206,21 @@ body {
 
       </div>
     </div>
-    <div class="filter-row" id="filter-row" style="padding-bottom:10px;">
+    <div class="filter-row" id="filter-row" style="padding-bottom:4px;">
       <div class="chip on" onclick="setFilter('all',this)">All</div>
       <div class="chip" onclick="setFilter('available',this)">Available now</div>
       <div class="chip" onclick="setFilter('under2k',this)">Under ₱2k</div>
       <div class="chip" onclick="setFilter('wifi',this)">WiFi included</div>
       <div class="chip" onclick="setFilter('nocurfew',this)">No curfew</div>
+    </div>
+    <!-- Sort row -->
+    <div style="display:flex;gap:6px;padding:4px 16px 10px;overflow-x:auto;" id="sort-row">
+      <span style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;align-self:center;white-space:nowrap;flex-shrink:0;">Sort:</span>
+      <div class="chip on" id="sort-dist"   onclick="setSort('distance',this)" style="font-size:11px;padding:4px 10px;">Nearest</div>
+      <div class="chip"    id="sort-match"  onclick="setSort('match',this)"   style="font-size:11px;padding:4px 10px;"><i class="ph ph-star-four"></i> Best Match</div>
+      <div class="chip"    id="sort-price"  onclick="setSort('price',this)"   style="font-size:11px;padding:4px 10px;">Price ↑</div>
+      <div class="chip"    id="sort-avail"  onclick="setSort('avail',this)"   style="font-size:11px;padding:4px 10px;">Most Rooms</div>
+      <div class="chip"    id="sort-active" onclick="setSort('active',this)"  style="font-size:11px;padding:4px 10px;">Recently Active</div>
     </div>
     <div class="scroll" style="padding:10px 0 90px">
       <div style="padding:0 14px 10px"><span class="slbl" id="houses-count">3 houses near EVSU</span></div>
@@ -3067,8 +3272,11 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="s-detail">
     <div class="topbar">
-      <div class="back" onclick="goTo('s-home')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title" id="d-topname">Boarding House</div>
+      <button onclick="shareHouse()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:7px 10px;color:rgba(255,255,255,.75);font-size:18px;cursor:pointer;line-height:1;display:flex;align-items:center;margin-right:4px;">
+        <i class="ph ph-share-network"></i>
+      </button>
       <button id="d-save-btn" onclick="toggleSaved(state.currentHouseId);updateDetailSaveBtn()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:7px 10px;color:rgba(255,255,255,.75);font-size:18px;cursor:pointer;line-height:1;display:flex;align-items:center;">
         <i class="ph ph-heart" id="d-save-icon"></i>
       </button>
@@ -3089,6 +3297,7 @@ body {
         <div class="dname" id="d-name">—</div>
         <div class="dloc" id="d-loc"><i class="ph ph-map-pin" style="font-size:14px;color:var(--muted)"></i> —</div>
         <div id="d-last-active" style="padding:0 16px 8px;"></div>
+        <div id="d-match-score" style="padding:0 16px 6px;"></div>
         <div id="d-amenities" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 4px;"></div>
         <div class="snap">
           <div class="snap-title">Room Snapshot</div>
@@ -3226,7 +3435,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="s-myinq">
     <div class="topbar">
-      <div class="back" onclick="goTo('s-home')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">My Inquiries</div>
     </div>
     <div class="scroll" style="padding:14px 14px 90px">
@@ -3331,7 +3540,7 @@ body {
         <div class="ric-left">
           <div class="ric-room" id="t-room-label">Room 1</div>
           <div class="ric-house" id="t-room-house">Dela Cruz BH</div>
-          <div class="ric-paid" id="t-payment-status"><i class="ph ph-check" style="font-size:11px"></i> Bayad na</div>
+          <div class="ric-paid" id="t-payment-status"><i class="ph ph-check" style="font-size:11px"></i> Paid</div>
         </div>
         <div class="ric-right">
           <div class="ric-rent" id="t-room-rent">₱1,500</div>
@@ -3339,34 +3548,34 @@ body {
         </div>
       </div>
       <!-- Pay acknowledge — shown when status is pending -->
-      <div id="t-pay-prompt" style="display:none;background:var(--amberBg);border:1.5px solid var(--amber);border-radius:var(--r-lg);padding:14px 15px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">
+      <div id="t-pay-prompt" style="background:var(--amberBg);border:1.5px solid var(--amber);border-radius:var(--r-lg);padding:14px 15px;margin-bottom:14px;display:none;align-items:center;gap:12px;">
         <i class="ph ph-warning-circle" style="font-size:22px;color:var(--amber);flex-shrink:0;"></i>
         <div style="flex:1;">
-          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--amber);margin-bottom:2px;">Renta hindi pa naipadala</div>
-          <div style="font-size:12px;color:var(--text2);">Bayaran na via GCash at i-report dito para malaman ng landlord.</div>
+          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--amber);margin-bottom:2px;">Rent not yet reported</div>
+          <div style="font-size:12px;color:var(--text2);">Pay via GCash then tap below so your landlord is notified.</div>
         </div>
-        <button onclick="acknowledgePayment()" style="background:var(--amber);color:#fff;border:none;border-radius:8px;padding:9px 13px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0;white-space:nowrap;">
-          Bayad Na
+        <button onclick="openPaymentReportModal()" style="background:var(--amber);color:#fff;border:none;border-radius:8px;padding:9px 13px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0;white-space:nowrap;">
+          I've Paid
         </button>
       </div>
       <div class="report-btn" onclick="goTo('t-maint');setTimeout(()=>openMaintModal(),200)">
         <div class="report-ic"><i class="ph ph-wrench" style="font-size:20px;color:var(--red)"></i></div>
         <div class="report-text">
-          <div class="report-title">May sira sa kwarto?</div>
-          <div class="report-sub">I-report agad — matatanggap ng landlord</div>
+          <div class="report-title">Something broken in your room?</div>
+          <div class="report-sub">Report it — your landlord gets notified instantly</div>
         </div>
         <div class="report-arrow"><i class="ph ph-caret-right"></i></div>
       </div>
       <div class="sec-hdr" style="margin-bottom:10px">
         <span class="slbl">Announcements</span>
-        <span style="font-size:12px;color:var(--blue);font-family:'Nunito',sans-serif;font-weight:700" id="t-ann-badge">2 bago</span>
+        <span style="font-size:12px;color:var(--blue);font-family:'Nunito',sans-serif;font-weight:700" id="t-ann-badge">2 new</span>
       </div>
       <div id="t-ann-list"></div>
       <div id="t-ann-empty" class="hidden">
         <div class="empty-fil">
           <div class="empty-fil-ic"><i class="ph ph-megaphone" style="font-size:40px;color:var(--muted2)"></i></div>
-          <div class="empty-fil-title">Wala pang announcements</div>
-          <div class="empty-fil-sub">Kapag may ipi-post ang landlord mo — lalabas dito agad.</div>
+          <div class="empty-fil-title">No announcements yet</div>
+          <div class="empty-fil-sub">When your landlord posts something, it will show up here.</div>
         </div>
       </div>
     </div>
@@ -3517,8 +3726,8 @@ body {
         </div>
 
         <button class="btn btn-ghost" onclick="goTo('t-profile-setup')" style="width:100%;margin-bottom:8px;"><i class="ph ph-pencil-simple"></i> Edit Profile</button>
-        <button class="btn btn-ghost" onclick="goTo('s-role')" style="width:100%;color:var(--red);border-color:var(--redBg);margin-bottom:20px;">Switch Role</button>
-      </div>
+        <button class="btn btn-ghost" onclick="requestMoveOut()" style="width:100%;color:var(--amber);border-color:var(--amberBg);margin-bottom:8px;"><i class="ph ph-sign-out"></i> Request Move-Out</button>
+        <button class="btn btn-ghost" onclick="goTo('s-role')" style="width:100%;color:var(--red);border-color:var(--redBg);">Switch Role</button>      </div>
     </div>
     <div class="bnav">
       <div class="ni" onclick="goTo('t-home')"><span class="ni-ic"><i class="ph ph-megaphone"></i></span><span class="ni-lb">Updates</span></div>
@@ -3583,6 +3792,7 @@ body {
       <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
       <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
+      <div class="ni" onclick="goTo('l-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
   </div>
 
@@ -3605,12 +3815,12 @@ body {
     </div>
     <div class="scroll" style="padding-bottom:90px">
       <div class="primary-actions">
-        <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Mga Pangunahing Aksyon</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Main Actions</div>
         <div class="pa-card primary" onclick="goTo('l-inbox')">
           <div class="pa-ic-wrap navy"><i class="ph ph-chat-circle-dots" style="font-size:22px;color:rgba(255,255,255,.85)"></i></div>
           <div style="flex:1">
-            <div class="pa-title">Mga Nagtatanong</div>
-            <div class="pa-sub">Tingnan ang mga inquiries ng seekers</div>
+            <div class="pa-title">Inquiries</div>
+            <div class="pa-sub">View inquiries from seekers</div>
           </div>
           <div id="l-inbox-badge" class="pa-badge hidden">0</div>
           <div style="color:rgba(255,255,255,.4);font-size:18px;display:flex;align-items:center"><i class="ph ph-caret-right"></i></div>
@@ -3618,8 +3828,8 @@ body {
         <div class="pa-card" onclick="goTo('l-announce')">
           <div class="pa-ic-wrap teal"><i class="ph ph-megaphone" style="font-size:22px;color:var(--teal)"></i></div>
           <div style="flex:1">
-            <div class="pa-title">Mag-announce sa Tenants</div>
-            <div class="pa-sub">Ipadala ng mensahe sa lahat ng tenant</div>
+            <div class="pa-title">Announce to Tenants</div>
+            <div class="pa-sub">Send a message to all tenants</div>
           </div>
           <div id="l-announce-badge" class="pa-badge hidden" style="background:var(--teal)">0</div>
           <div class="pa-arrow"><i class="ph ph-caret-right"></i></div>
@@ -3627,8 +3837,8 @@ body {
         <div class="pa-card" onclick="goTo('l-tenants')">
           <div class="pa-ic-wrap blue"><i class="ph ph-users-three" style="font-size:22px;color:var(--blue)"></i></div>
           <div style="flex:1">
-            <div class="pa-title">I-onboard ang Tenants</div>
-            <div class="pa-sub">Dagdag ng tenant, gumawa ng invite code</div>
+            <div class="pa-title">Onboard Tenants</div>
+            <div class="pa-sub">Add tenant, create invite code</div>
           </div>
           <div id="l-pending-badge" class="pa-badge hidden" style="background:var(--amber)">0</div>
           <div class="pa-arrow"><i class="ph ph-caret-right"></i></div>
@@ -3637,45 +3847,49 @@ body {
         <div class="pa-card" onclick="goTo('l-listing')" style="border:2px solid var(--teal);background:linear-gradient(135deg,rgba(11,122,106,.06),rgba(11,122,106,.02));">
           <div class="pa-ic-wrap teal"><i class="ph ph-storefront" style="font-size:22px;color:var(--teal)"></i></div>
           <div style="flex:1">
-            <div class="pa-title" style="color:var(--teal)">I-edit ang Aking Listing</div>
-            <div class="pa-sub">Baguhin ang impormasyon, larawan, at patakaran</div>
+            <div class="pa-title" style="color:var(--teal)">Edit My Listing</div>
+            <div class="pa-sub">Update your info, photos, and rules</div>
           </div>
           <div class="pa-arrow" style="color:var(--teal)"><i class="ph ph-caret-right"></i></div>
         </div>
       </div>
       <div class="sec" style="margin-top:14px">
-        <div class="sec-hdr"><span class="slbl">Status ng mga Kwarto</span><span style="font-size:12px;color:var(--blue);font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer" onclick="goTo('l-rooms')">I-manage →</span></div>
+        <div class="sec-hdr"><span class="slbl">Room Status</span><span style="font-size:12px;color:var(--blue);font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer" onclick="goTo('l-rooms')">Manage →</span></div>
         <div class="rg" id="l-room-grid"></div>
       </div>
       <div style="padding:0 14px;margin-bottom:14px" id="l-vac-alert"></div>
+      <!-- Move-out requests — shows when tenants request to leave -->
+      <div style="padding:0 14px;" id="l-moveout-requests"></div>
+      <!-- Pending payment confirmations -->
+      <div style="padding:0 14px;margin-bottom:4px;" id="l-pending-payments-wrap"></div>
 
       <!-- Promoted tools — QR and Reminder were buried, now visible cards -->
       <div style="padding:0 14px;margin-bottom:4px;">
-        <div class="slbl" style="margin-bottom:11px">Mga Mabibilis na Tool</div>
+        <div class="slbl" style="margin-bottom:11px">Quick Tools</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
           <div class="pa-card" onclick="goTo('l-qr')" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px;">
             <div style="width:36px;height:36px;background:var(--blueLt);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:2px;">
               <i class="ph ph-qr-code" style="font-size:20px;color:var(--blue);"></i>
             </div>
             <div class="pa-title" style="font-size:13px;">QR Code</div>
-            <div class="pa-sub" style="font-size:11px;">Para sa bagong tenant</div>
+            <div class="pa-sub" style="font-size:11px;">For new tenants</div>
           </div>
           <div class="pa-card" onclick="goTo('l-reminder')" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px;">
             <div style="width:36px;height:36px;background:var(--amberBg);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:2px;">
               <i class="ph ph-bell-ringing" style="font-size:20px;color:var(--amber);"></i>
             </div>
             <div class="pa-title" style="font-size:13px;">Reminders</div>
-            <div class="pa-sub" style="font-size:11px;">Paalala sa renta</div>
+            <div class="pa-sub" style="font-size:11px;">Rent reminders</div>
           </div>
         </div>
       </div>
 
       <div class="sec" style="margin-bottom:14px">
-        <div class="slbl" style="margin-bottom:11px">Iba pang Tools</div>
+        <div class="slbl" style="margin-bottom:11px">More Tools</div>
         <div class="qa-grid">
           <div class="qa-btn" onclick="goTo('l-listing')"><div class="qa-ic"><i class="ph ph-storefront"></i></div><div class="qa-lbl">My Listing</div></div>
           <div class="qa-btn" onclick="goTo('l-waitlist')"><div class="qa-ic"><i class="ph ph-queue"></i></div><div class="qa-lbl">Waitlist</div></div>
-          <div class="qa-btn" onclick="goTo('l-expense')"><div class="qa-ic"><i class="ph ph-receipt"></i></div><div class="qa-lbl">Gastos</div></div>
+          <div class="qa-btn" onclick="goTo('l-expense')"><div class="qa-ic"><i class="ph ph-receipt"></i></div><div class="qa-lbl">Expenses</div></div>
           <div class="qa-btn" onclick="goTo('l-maint')" style="position:relative"><div class="qa-ic"><i class="ph ph-wrench"></i></div><div class="qa-lbl">Maintenance</div><div id="l-maint-badge" class="hidden" style="position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-family:'Nunito',sans-serif;font-size:9px;font-weight:800;border-radius:10px;padding:2px 5px;min-width:16px;text-align:center;"></div></div>
           <div class="qa-btn" onclick="goTo('l-visits')"><div class="qa-ic"><i class="ph ph-calendar-check"></i></div><div class="qa-lbl">Visits</div></div>
         </div>
@@ -3721,6 +3935,7 @@ body {
       <div class="ni on"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
       <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
+      <div class="ni" onclick="goTo('l-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
   </div>
 
@@ -3741,6 +3956,7 @@ body {
       <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
       <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
+      <div class="ni" onclick="goTo('l-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
   </div>
 
@@ -3752,15 +3968,11 @@ body {
       <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Post Announcement</div>
     </div>
-    <div class="scroll" style="padding:16px 16px 100px">
-
-      <!-- Info callout -->
+    <div class="scroll" style="padding:16px 16px 90px">
       <div class="callout cl-info" style="margin-bottom:16px">
         <span class="callout-ic"><i class="ph ph-megaphone"></i></span>
         <div class="callout-txt">This goes to <strong>all current tenants</strong>. Use for reminders, notices, and emergencies.</div>
       </div>
-
-      <!-- Compose form card -->
       <div class="ann-form-card">
         <div class="slbl" style="margin-bottom:12px">New Announcement</div>
         <div class="fg">
@@ -3775,18 +3987,17 @@ body {
         <div class="fg"><label class="lbl">Title</label><input class="inp" type="text" id="ann-title" placeholder="e.g. Rent due this Friday"></div>
         <div class="fg" style="margin-bottom:0">
           <label class="lbl">Message</label>
-          <textarea class="ta" style="height:100px" id="ann-body" placeholder="Write your announcement here..."></textarea>
+          <textarea class="ta" style="height:90px" id="ann-body" placeholder="Write your announcement here..."></textarea>
         </div>
       </div>
-
-      <button class="ann-send-btn" onclick="postAnnouncement()">
-        <i class="ph ph-paper-plane-tilt"></i> Send to All Tenants
-      </button>
-
-      <!-- Past announcements -->
-      <div class="slbl" style="margin-bottom:11px">Recent Announcements</div>
+      <div class="slbl" style="margin:16px 0 11px">Recent Announcements</div>
       <div id="ann-history-list"></div>
       <div id="ann-history-empty" style="text-align:center;padding:24px 0;color:var(--muted);font-size:13px;">No announcements yet. Post your first one above.</div>
+    </div>
+    <div class="cta-bar">
+      <button class="btn btn-primary" style="flex:1;font-size:15px;padding:14px;" onclick="postAnnouncement()">
+        <i class="ph ph-paper-plane-tilt"></i> Send to All Tenants
+      </button>
     </div>
   </div>
 
@@ -3806,8 +4017,11 @@ body {
       <div id="reminder-pending-summary" style="background:var(--warm2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px;"></div>
       <div class="slbl" style="margin-bottom:11px">Pending Payments</div>
       <div id="l-reminder-list"></div>
-      <div style="height:16px"></div>
-      <button class="btn btn-primary" onclick="sendAllReminders()"><i class="ph ph-bell-ringing"></i> Send Reminder to All Pending</button>
+    </div>
+    <div class="cta-bar">
+      <button class="btn btn-primary" style="flex:1;font-size:15px;padding:14px;" onclick="sendAllReminders()">
+        <i class="ph ph-bell-ringing"></i> Send Reminder to All Pending
+      </button>
     </div>
   </div>
 
@@ -4031,7 +4245,8 @@ body {
       <div class="fg"><label class="lbl">Payment Status</label>
         <select class="sel" id="room-status-sel">
           <option value="paid">Paid</option>
-          <option value="pending">Pending</option>
+          <option value="pending">Pending payment</option>
+          <option value="self_reported">Awaiting confirmation (self-reported)</option>
           <option value="empty">Vacant</option>
         </select>
       </div>
@@ -4188,8 +4403,8 @@ body {
             <div class="photo-consent-row" id="ss-photo-consent-row" onclick="togglePhotoConsent()" style="margin-top:12px;">
               <i class="ph ph-eye"></i>
               <div class="photo-consent-txt">
-                <strong>Ipakita ang aking larawan sa landlord</strong>
-                Kapag nag-inquire ka, makikita ng landlord ang iyong mukha para mas mapagkakatiwalaan.
+                <strong>Show my photo to the landlord</strong>
+                When you inquire, the landlord can see your photo to help build trust.
               </div>
               <div class="tog" id="ss-show-photo"><div class="tog-dot"></div></div>
             </div>
@@ -4288,6 +4503,12 @@ body {
           <span class="prow-lbl"><i class="ph ph-heart" style="margin-right:6px;color:var(--red)"></i>Saved Houses</span>
           <span style="color:var(--muted2);font-size:18px;"><i class="ph ph-caret-right"></i></span>
         </div>
+      </div>
+      <!-- My Visits -->
+      <div class="pcard">
+        <div class="pcard-title">My Visits</div>
+        <div id="sp-visits-list"></div>
+        <div id="sp-visits-empty" style="text-align:center;padding:16px 0;color:var(--muted);font-size:13px;">No visits scheduled yet.</div>
       </div>
     </div>
     <div class="bnav">
@@ -4414,9 +4635,10 @@ body {
       <button class="btn btn-ghost" onclick="goTo('s-role')" style="color:var(--red);border-color:var(--redBg);">Switch Role</button>
     </div>
     <div class="bnav">
-      <div class="ni" onclick="goTo('l-home')"><span class="ni-ic"><i class="ph ph-house-line"></i></span><span class="ni-lb">Overview</span></div>
-      <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-dots"></i></span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="goTo('l-home')"><span class="ni-ic"><i class="ph ph-chart-bar"></i></span><span class="ni-lb">Overview</span></div>
+      <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
+      <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
   </div>
@@ -4442,8 +4664,8 @@ body {
       <!-- Tabs -->
       <div class="bhl-tabs" id="bhl-tabs">
         <button class="bhl-tab on" onclick="switchBhlTab('info',this)"><i class="ph ph-pencil-line"></i> Info</button>
-        <button class="bhl-tab"    onclick="switchBhlTab('photos',this)"><i class="ph ph-camera"></i> Larawan</button>
-        <button class="bhl-tab"    onclick="switchBhlTab('rules',this)"><i class="ph ph-list-checks"></i> Patakaran</button>
+        <button class="bhl-tab"    onclick="switchBhlTab('photos',this)"><i class="ph ph-camera"></i> Photos</button>
+        <button class="bhl-tab"    onclick="switchBhlTab('rules',this)"><i class="ph ph-list-checks"></i> Rules</button>
         <button class="bhl-tab"    onclick="switchBhlTab('amenities',this)"><i class="ph ph-star"></i> Amenities</button>
       </div>
     </div>
@@ -4457,41 +4679,41 @@ body {
           <i class="ph ph-seal-check" style="font-size:20px;color:var(--amber);"></i>
         </div>
         <div style="flex:1;">
-          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--amber);margin-bottom:3px;">I-verify ang Iyong Listing</div>
-          <div style="font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px;">Ang verified na listing ay mas mapagkakatiwalaan ng mga estudyante. Ikaw mismo ang mag-verify — siguruhing tama ang lahat ng impormasyon.</div>
+          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--amber);margin-bottom:3px;">Verify Your Listing</div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px;">A verified listing builds trust with students. Make sure all your information is accurate.</div>
           <button onclick="selfVerifyListing()" id="bhl-verify-btn" style="background:var(--amber);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;">
-            <i class="ph ph-seal-check"></i> I-verify Ngayon
+            <i class="ph ph-seal-check"></i> Verify Now
           </button>
         </div>
       </div>
 
       <div style="background:var(--blueLt);border-radius:var(--r);padding:11px 14px;margin-bottom:18px;display:flex;align-items:center;gap:10px;">
         <i class="ph ph-info" style="font-size:18px;color:var(--blue);flex-shrink:0;"></i>
-        <div style="font-size:12px;color:var(--blue);line-height:1.5;"><strong>Tip:</strong> Piliin ang tamang impormasyon. Ito ang makikita ng mga estudyante na naghahanap ng kwarto.</div>
+        <div style="font-size:12px;color:var(--blue);line-height:1.5;"><strong>Tip:</strong> Keep this accurate. Students see this when browsing for a room.</div>
       </div>
 
-      <div class="editor-sec-hdr"><i class="ph ph-map-pin"></i> Pangalan at Lokasyon</div>
+      <div class="editor-sec-hdr"><i class="ph ph-map-pin"></i> Name &amp; Location</div>
       <div class="fg">
-        <label class="lbl">Pangalan ng Boarding House</label>
-        <input class="inp" id="bhl-name" type="text" placeholder="hal. Dela Cruz Boarding House" oninput="updateBhlPreview()">
-        <div class="hint">Ito ang makikita ng mga estudyante sa listahan.</div>
+        <label class="lbl">Boarding House Name</label>
+        <input class="inp" id="bhl-name" type="text" placeholder="e.g. Dela Cruz Boarding House" oninput="updateBhlPreview()">
+        <div class="hint">This is what students see in the listing.</div>
       </div>
       <div class="fg">
         <label class="lbl">Address / Lokasyon</label>
-        <input class="inp" id="bhl-address" type="text" placeholder="hal. Purok 3, Poblacion, Burauen">
-        <div class="hint">Isulat nang malinaw para madaling mahanap.</div>
+        <input class="inp" id="bhl-address" type="text" placeholder="e.g. Purok 3, Poblacion, Burauen">
+        <div class="hint">Write clearly so students can find you.</div>
       </div>
 
-      <div class="editor-sec-hdr"><i class="ph ph-money"></i> Bayad at Oras</div>
+      <div class="editor-sec-hdr"><i class="ph ph-money"></i> Pricing &amp; Rules</div>
       <div class="fg">
-        <label class="lbl">Bayad Bawat Buwan (₱)</label>
-        <input class="inp" id="bhl-price" type="number" placeholder="hal. 1500">
-        <div class="hint">Halaga ng renta bawat buwan. Huwag isama ang deposito.</div>
+        <label class="lbl">Monthly Rent (₱)</label>
+        <input class="inp" id="bhl-price" type="number" placeholder="e.g. 1500">
+        <div class="hint">Monthly rent amount. Do not include the deposit.</div>
       </div>
       <div class="fg">
-        <label class="lbl">Curfew — Anong oras dapat nasa loob na?</label>
+        <label class="lbl">Curfew — What time must tenants be inside?</label>
         <select class="sel" id="bhl-curfew">
-          <option value="No curfew">Walang curfew</option>
+          <option value="No curfew">No curfew</option>
           <option value="9:00 PM">9:00 PM</option>
           <option value="9:30 PM">9:30 PM</option>
           <option value="10:00 PM">10:00 PM</option>
@@ -4500,23 +4722,23 @@ body {
         </select>
       </div>
 
-      <div class="editor-sec-hdr"><i class="ph ph-note-pencil"></i> Tungkol sa Iyong Boarding House</div>
-      <textarea class="about-ta" id="bhl-about" placeholder="Ilarawan ang iyong boarding house. Halimbawa: 'Malinis, maliwanag, malapit sa EVSU gate. May WiFi at laundry area. Safe ang neighborhood...'"></textarea>
-      <div class="hint" style="margin-bottom:16px">Ito ang unang mababasa ng estudyante bago mag-inquire. Maging totoo at malinaw.</div>
+      <div class="editor-sec-hdr"><i class="ph ph-note-pencil"></i> About Your Boarding House</div>
+      <textarea class="about-ta" id="bhl-about" placeholder="Describe your boarding house. e.g. Clean, bright room near EVSU gate. Has WiFi and laundry area. Safe neighborhood..."></textarea>
+      <div class="hint" style="margin-bottom:16px">This is the first thing students read before inquiring. Be honest and clear.</div>
 
-      <div class="editor-sec-hdr"><i class="ph ph-palette"></i> Hitsura ng Card sa Listahan</div>
-      <div class="hint" style="margin-bottom:10px">Piliin ang kulay na gusto mong makita ng mga estudyante sa iyong listing card.</div>
+      <div class="editor-sec-hdr"><i class="ph ph-palette"></i> Listing Card Appearance</div>
+      <div class="hint" style="margin-bottom:10px">Pick the color students see on your listing card.</div>
       <div class="grad-grid" id="bhl-grad-grid"></div>
 
-      <div class="editor-sec-hdr"><i class="ph ph-person-simple-walk"></i> Distansya sa Paaralan</div>
-      <div class="hint" style="margin-bottom:12px">Bilang minuto ng paglalakad mula sa gate ng paaralan patungo sa inyong boarding house.</div>
+      <div class="editor-sec-hdr"><i class="ph ph-person-simple-walk"></i> Distance to School</div>
+      <div class="hint" style="margin-bottom:12px">Walking minutes from the school gate to your boarding house.</div>
       <div class="fg">
-        <label class="lbl">Minuto mula EVSU Burauen Campus</label>
-        <input class="inp" id="bhl-devsu" type="number" min="1" max="60" placeholder="hal. 8">
+        <label class="lbl">Minutes from EVSU Burauen Campus</label>
+        <input class="inp" id="bhl-devsu" type="number" min="1" max="60" placeholder="e.g. 8">
       </div>
       <div class="fg" style="margin-bottom:0">
-        <label class="lbl">Minuto mula Burauen Community College</label>
-        <input class="inp" id="bhl-dbcc" type="number" min="1" max="60" placeholder="hal. 5">
+        <label class="lbl">Minutes from Burauen Community College</label>
+        <input class="inp" id="bhl-dbcc" type="number" min="1" max="60" placeholder="e.g. 5">
       </div>
     </div>
 
@@ -5013,9 +5235,6 @@ body {
   </div><!-- end s-map -->
 
   <div class="toast" id="toast"></div>
-  <div id="univ-back" onclick="goBack()" title="Go back">
-    <i class="ph ph-arrow-left"></i>
-  </div>
 
   <!-- ═══════════════════════════════
        TENANT — REGISTRATION
@@ -5026,14 +5245,14 @@ body {
         <div style="width:48px;height:48px;background:rgba(255,255,255,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
           <i class="ph ph-key" style="font-size:26px;color:#fff"></i>
         </div>
-        <div class="reg-hero-title">I-register ang iyong account</div>
-        <div class="reg-hero-sub">Humingi ng invite code sa iyong landlord.<br>Isang beses lang mag-register — tapos na.</div>
+        <div class="reg-hero-title">Register Your Account</div>
+        <div class="reg-hero-sub">Get your invite code from your landlord.<br>Register once — you're all set.</div>
       </div>
       <div class="reg-body">
         <div id="reg-step-1">
           <div class="reg-step">Hakbang 1 ng 3 — Impormasyon mo</div>
           <div class="fg" style="margin-bottom:14px">
-            <label class="lbl">Pangalan mo (buong pangalan)</label>
+            <label class="lbl">Your Full Name</label>
             <input class="inp" type="text" id="reg-name" placeholder="e.g. Ana Santos Reyes">
           </div>
           <div class="fg" style="margin-bottom:20px">
@@ -5049,7 +5268,7 @@ body {
         <div id="reg-step-2" class="hidden">
           <div class="reg-step">Hakbang 2 ng 3 — Invite Code</div>
           <div class="fg" style="margin-bottom:8px">
-            <label class="lbl">I-enter ang 6-digit invite code mula sa landlord</label>
+            <label class="lbl">Enter the 6-digit invite code from your landlord</label>
             <div class="otp-row">
               <input class="otp-inp" type="number" maxlength="1" id="otp0" oninput="otpNext(0)">
               <input class="otp-inp" type="number" maxlength="1" id="otp1" oninput="otpNext(1)">
@@ -5059,8 +5278,8 @@ body {
               <input class="otp-inp" type="number" maxlength="1" id="otp5" oninput="otpNext(5)">
             </div>
           </div>
-          <div class="hint" style="margin-bottom:20px">Ang invite code ay ibinibigay ng iyong landlord. Kung wala ka pang code — makiusap sa kanya.</div>
-          <button class="btn btn-primary" style="background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3);margin-bottom:10px" onclick="regStep2()">I-verify ang Code <i class="ph ph-arrow-right"></i></button>
+          <div class="hint" style="margin-bottom:20px">Your landlord gives you this code. If you don't have one yet — ask them for it.</div>
+          <button class="btn btn-primary" style="background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3);margin-bottom:10px" onclick="regStep2()">Verify Code <i class="ph ph-arrow-right"></i></button>
           <button class="btn btn-secondary" onclick="showRegStep(1)"><i class="ph ph-arrow-left"></i> Bumalik</button>
         </div>
         <div id="reg-step-3" class="hidden">
@@ -5084,15 +5303,15 @@ body {
   <div class="screen" id="l-tenants">
     <div class="topbar">
       <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
-      <div class="topbar-title">Mga Tenant</div>
-      <button class="btn btn-teal btn-sm" style="margin-left:auto" onclick="openAddTenantModal()"><i class="ph ph-plus"></i> Dagdag</button>
+      <div class="topbar-title">Tenants</div>
+      <button class="btn btn-teal btn-sm" style="margin-left:auto" onclick="openAddTenantModal()"><i class="ph ph-plus"></i> Add</button>
     </div>
     <div class="scroll" style="padding:14px 14px 30px">
       <div style="background:var(--blueLt);border-radius:var(--r-lg);padding:15px 16px;margin-bottom:16px;border:1px solid rgba(21,88,204,.1)">
-        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--navy);margin-bottom:11px">Paano i-onboard ang tenant?</div>
-        <div class="qr-step"><div class="qr-step-num">1</div><div>I-click ang <strong>+ Dagdag</strong> — i-enter ang pangalan, phone, at room ng tenant</div></div>
-        <div class="qr-step"><div class="qr-step-num">2</div><div>Makikita ang <strong>6-digit invite code</strong> — ibigay ito sa tenant mo sa text o personal</div></div>
-        <div class="qr-step"><div class="qr-step-num">3</div><div>I-enter ng tenant ang code sa app — <strong>active na agad</strong> ang kanyang account</div></div>
+        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--navy);margin-bottom:11px">How to onboard a tenant?</div>
+        <div class="qr-step"><div class="qr-step-num">1</div><div>Tap <strong>+ Add</strong> — enter the tenant's name, phone, and room</div></div>
+        <div class="qr-step"><div class="qr-step-num">2</div><div>You'll get a <strong>6-digit invite code</strong> — share it with your tenant via text or in person</div></div>
+        <div class="qr-step"><div class="qr-step-num">3</div><div>Tenant enters the code in the app — their account is <strong>instantly active</strong></div></div>
       </div>
       <div id="l-tenants-list"></div>
       <div id="l-tenants-empty" class="hidden">
@@ -5100,8 +5319,8 @@ body {
           <div style="width:64px;height:64px;background:var(--warm2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px">
             <i class="ph ph-users" style="font-size:28px;color:var(--muted2)"></i>
           </div>
-          <div class="empty-fil-title">Wala pang tenants</div>
-          <div class="empty-fil-sub">I-click ang "+ Dagdag" para mag-add ng tenant at makagawa ng invite code para sa kanila.</div>
+          <div class="empty-fil-title">No tenants yet</div>
+          <div class="empty-fil-sub">Tap "+ Add" to add a tenant and generate their invite code.</div>
         </div>
       </div>
     </div>
@@ -5119,23 +5338,23 @@ body {
   <div class="screen" id="l-qr">
     <div class="topbar">
       <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
-      <div class="topbar-title">QR Code ng Boarding House</div>
+      <div class="topbar-title">Boarding House QR Code</div>
     </div>
     <div class="scroll" style="padding:14px 14px 30px">
       <div class="qr-wrap">
         <div class="qr-house" id="qr-house-name">Dela Cruz Boarding House</div>
-        <div class="qr-title">I-scan para mag-register</div>
-        <div class="qr-sub">I-print ito at i-lagay sa common area o pintuan — i-scan ng tenant para mag-register.</div>
+        <div class="qr-title">Scan to Register</div>
+        <div class="qr-sub">Print this and post it in your common area or door — tenants scan it to register.</div>
         <div class="qr-box">
           <div id="qr-code-display"></div>
         </div>
-        <button class="btn btn-primary" style="width:100%;margin-bottom:12px" onclick="copyQRLink()"><i class="ph ph-copy"></i> Kopyahin ang Link</button>
+        <button class="btn btn-primary" style="width:100%;margin-bottom:12px" onclick="copyQRLink()"><i class="ph ph-copy"></i> Copy Link</button>
         <div class="qr-instruction">
-          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--navy);margin-bottom:11px">Paano gamitin ang QR code:</div>
-          <div class="qr-step"><div class="qr-step-num">1</div><div>I-print ang QR code — i-lagay sa common area, CR, o pintuan ng boarding house</div></div>
-          <div class="qr-step"><div class="qr-step-num">2</div><div>I-scan ng tenant gamit ang camera ng phone — awtomatikong bubukas ang registration</div></div>
-          <div class="qr-step"><div class="qr-step-num">3</div><div>Humingi ng invite code sa iyo ang tenant — ibigay ang code para sa kanilang room</div></div>
-          <div class="qr-step" style="margin-bottom:0"><div class="qr-step-num">4</div><div>Active na ang account nila — matanggap na nila ang announcements mo</div></div>
+          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--navy);margin-bottom:11px">How to use this QR code:</div>
+          <div class="qr-step"><div class="qr-step-num">1</div><div>Print the QR code — post it in the common area, CR, or front door</div></div>
+          <div class="qr-step"><div class="qr-step-num">2</div><div>Tenant scans it with their phone camera — registration opens automatically</div></div>
+          <div class="qr-step"><div class="qr-step-num">3</div><div>Tenant asks you for an invite code — give them the code for their room</div></div>
+          <div class="qr-step" style="margin-bottom:0"><div class="qr-step-num">4</div><div>Their account is now active — they'll receive your announcements</div></div>
         </div>
       </div>
     </div>
@@ -5151,9 +5370,9 @@ body {
   <div class="modal-bg hidden" id="modal-add-tenant">
     <div class="modal">
       <div class="modal-handle"></div>
-      <div class="modal-title">Dagdag ng Tenant</div>
-      <div class="modal-sub">I-enter ang impormasyon ng tenant — ikaw ang gagawa ng invite code para sa kanila.</div>
-      <div class="fg"><label class="lbl">Pangalan ng Tenant</label><input class="inp" type="text" id="at-name" placeholder="e.g. Ana Santos Reyes"></div>
+      <div class="modal-title">Add Tenant</div>
+      <div class="modal-sub">Enter the tenant's details — you'll generate their invite code.</div>
+      <div class="fg"><label class="lbl">Tenant Name</label><input class="inp" type="text" id="at-name" placeholder="e.g. Ana Santos Reyes"></div>
       <div class="fg"><label class="lbl">Phone Number</label><input class="inp" type="tel" id="at-phone" placeholder="e.g. 09171234567"></div>
       <div class="fg"><label class="lbl">Room</label>
         <select class="sel" id="at-room"></select>
@@ -5169,20 +5388,104 @@ body {
   <div class="modal-bg hidden" id="modal-invite-code">
     <div class="modal">
       <div class="modal-handle"></div>
-      <div class="modal-title">Invite Code Handa Na! </div>
-      <div class="modal-sub" id="ic-modal-sub">Ibigay ito sa tenant mo — sa text, personal, o Viber.</div>
+      <div class="modal-title">Invite Code Ready! 🎉</div>
+      <div class="modal-sub" id="ic-modal-sub">Share this with your tenant — via text, in person, or Viber.</div>
       <div class="invite-display">
         <div class="invite-lbl">6-digit Invite Code</div>
         <div class="invite-code" id="ic-code-display">000000</div>
         <div class="invite-room" id="ic-room-display">Room 1 — Dela Cruz BH</div>
       </div>
-      <div class="invite-hint">I-text o i-Viber ang code na ito sa tenant mo.<br>Gagamitin nila ito para mag-register sa app.</div>
+      <div class="invite-hint">Text or Viber this code to your tenant.<br>They'll use it to register their account in the app.</div>
       <div style="display:flex;gap:9px;margin-top:14px">
-        <button class="btn btn-secondary" style="flex:1" onclick="closeInviteModal()">Isara</button>
-        <button id="ic-copy-btn" class="btn btn-primary" style="flex:2;background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3)" onclick="copyInviteCode()"><i class="ph ph-copy"></i> Kopyahin ang Code</button>
+        <button class="btn btn-secondary" style="flex:1" onclick="closeInviteModal()">Close</button>
+        <button id="ic-copy-btn" class="btn btn-primary" style="flex:2;background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3)" onclick="copyInviteCode()"><i class="ph ph-copy"></i> Copy Code</button>
       </div>
     </div>
   </div>
+
+  <!-- ═══ MODAL — TENANT PAYMENT REPORT ═══ -->
+  <div class="modal-bg hidden" id="modal-payment-report">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Report Your Payment 💸</div>
+      <div class="modal-sub">Fill in your GCash transaction details so your landlord can confirm.</div>
+      <div class="fg">
+        <label class="lbl">GCash Reference Number</label>
+        <input class="inp" id="pr-ref" type="text" inputmode="numeric" placeholder="e.g. 1234567890" maxlength="13">
+        <div class="hint">Found in your GCash transaction history after sending.</div>
+      </div>
+      <div class="fg">
+        <label class="lbl">Amount Sent (₱)</label>
+        <input class="inp" id="pr-amount" type="number" inputmode="numeric" placeholder="e.g. 1500">
+      </div>
+      <div class="fg" style="margin-bottom:0">
+        <label class="lbl">Note (optional)</label>
+        <input class="inp" id="pr-note" type="text" placeholder="e.g. For March 2026 rent">
+      </div>
+      <!-- Receipt photo upload -->
+      <div style="margin-top:14px;margin-bottom:4px;">
+        <label class="lbl">GCash Screenshot (optional but recommended)</label>
+        <div id="pr-photo-preview" style="width:100%;height:120px;background:var(--warm2);border:2px dashed var(--border2);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;overflow:hidden;position:relative;" onclick="document.getElementById('pr-photo-file').click()">
+          <img id="pr-photo-img" style="display:none;width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+          <i class="ph ph-image" style="font-size:28px;color:var(--muted2);" id="pr-photo-ic"></i>
+          <span style="font-size:12px;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;" id="pr-photo-lbl">Tap to upload screenshot</span>
+        </div>
+        <input type="file" id="pr-photo-file" accept="image/*" style="display:none" onchange="handlePaymentScreenshot(event)">
+      </div>
+      <div style="display:flex;gap:9px;margin-top:16px">
+        <button class="btn btn-secondary" style="flex:1" onclick="closePaymentReportModal()">Cancel</button>
+        <button class="btn btn-primary" style="flex:2;background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3)" onclick="submitPaymentReport()"><i class="ph ph-paper-plane-tilt"></i> Submit Report</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL — LANDLORD PAYMENT CONFIRM ═══ -->
+  <div class="modal-bg hidden" id="modal-pay-confirm">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title" id="pconf-title">Confirm Payment</div>
+      <div class="modal-sub" id="pconf-sub">Review the tenant's GCash report before confirming.</div>
+      <!-- Summary card -->
+      <div style="background:var(--warm2);border-radius:var(--r);padding:14px;margin-bottom:16px;border:1px solid var(--border);">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:12px;color:var(--muted);">Tenant</span>
+          <span style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);" id="pconf-tenant">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:12px;color:var(--muted);">Room</span>
+          <span style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);" id="pconf-room">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:12px;color:var(--muted);">Amount Reported</span>
+          <span style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:var(--teal);" id="pconf-amount">₱0</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:12px;color:var(--muted);">GCash Ref #</span>
+          <span style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--navy);" id="pconf-ref">—</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;">
+          <span style="font-size:12px;color:var(--muted);">Note</span>
+          <span style="font-size:12px;color:var(--text2);text-align:right;max-width:180px;" id="pconf-note">—</span>
+        </div>
+      </div>
+      <!-- Screenshot preview -->
+      <div id="pconf-screenshot-wrap" style="display:none;margin-bottom:14px;">
+        <label class="lbl">GCash Screenshot</label>
+        <img id="pconf-screenshot" style="width:100%;border-radius:var(--r);border:1px solid var(--border);max-height:200px;object-fit:contain;background:var(--warm2);">
+      </div>
+      <!-- Reject reason -->
+      <div id="pconf-reject-wrap" style="display:none;margin-bottom:14px;">
+        <label class="lbl">Reason for Rejection (optional)</label>
+        <input class="inp" id="pconf-reject-reason" type="text" placeholder="e.g. Wrong amount, cannot verify ref number">
+      </div>
+      <div style="display:flex;gap:9px;margin-top:4px">
+        <button class="btn" id="pconf-reject-btn" style="flex:1;background:var(--redBg);color:var(--red);border:none;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;border-radius:var(--r);" onclick="toggleRejectReason()"><i class="ph ph-x-circle"></i> Reject</button>
+        <button class="btn btn-primary" style="flex:2;background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3)" onclick="confirmLandlordPayment()"><i class="ph ph-check-circle"></i> Confirm Payment</button>
+      </div>
+      <button class="btn btn-secondary" style="width:100%;margin-top:8px;" onclick="closePconfModal()">Cancel</button>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -5197,8 +5500,12 @@ const state = {
   currentInqId: null,
   filter: 'all',
   school: 'evsu',
+  sort: 'distance',
+  moveOutRequests: [],
   saved: [],
   paymentLog: [],
+  paymentTransactions: [],  // {id, tenantName, room, houseId, amount, ref, note, screenshot, status, submittedAt, resolvedAt, resolvedBy, rejectReason}
+  uploadLog: [],             // {id, type, landlord, house, filename, size, ts}
 
   houses: [
     {
@@ -5317,9 +5624,9 @@ const state = {
     }  ],
 
   inquiries: [
-    {id:1,houseId:1,name:'Ana Santos',school:'EVSU Burauen Campus',course:'BSED 1st Year',date:'2025-06-01',q:'May bakante pa po ba kayo para single room?',status:'pending',time:'2h ago',avatar:'<i class="ph ph-user-circle"></i>'},
-    {id:2,houseId:1,name:'Juan Cruz',school:'BCC',course:'BSIT 2nd Year',date:'2025-07-01',q:'Puwede po bang mag-visit this Saturday morning?',status:'pending',time:'5h ago',avatar:'<i class="ph ph-user-circle"></i>'},
-    {id:3,houseId:1,name:'Liza Tan',school:'EVSU Burauen Campus',course:'BSN 3rd Year',date:'2025-06-15',q:'Ilan po ang kasama sa CR? May hot shower?',status:'replied',time:'1d ago',avatar:'<i class="ph ph-user-circle"></i>'},
+    {id:1,houseId:1,name:'Ana Santos',school:'EVSU Burauen Campus',course:'BSED 1st Year',date:'2025-06-01',q:'Do you still have a vacancy for a single room?',status:'pending',time:'2h ago',avatar:'<i class="ph ph-user-circle"></i>'},
+    {id:2,houseId:1,name:'Juan Cruz',school:'BCC',course:'BSIT 2nd Year',date:'2025-07-01',q:'Can I visit this Saturday morning?',status:'pending',time:'5h ago',avatar:'<i class="ph ph-user-circle"></i>'},
+    {id:3,houseId:1,name:'Liza Tan',school:'EVSU Burauen Campus',course:'BSN 3rd Year',date:'2025-06-15',q:'How many share the CR? Is there a hot shower?',status:'replied',time:'1d ago',avatar:'<i class="ph ph-user-circle"></i>'},
   ],
 
   announcements: [
@@ -5356,9 +5663,9 @@ const state = {
 
   savedHouses: [],
   myInquiries: [
-    { id:101, houseId:1, houseName:'TIAH Boarding House',  status:'replied',    reply:'Hi po! May bakante pa po kami sa R5 at R6. Single bed per room, malinis at maliwanag. Punta po kayo this week para mag-visit.', q:'May bakante pa po ba kayo para single room?',      time:'2h ago'  },
+    { id:101, houseId:1, houseName:'TIAH Boarding House',  status:'replied',    reply:'Hi! We still have R5 and R6 available. Single bed per room, clean and bright. Come visit this week!', q:'Do you still have a vacancy for a single room?',      time:'2h ago'  },
     { id:102, houseId:3, houseName:'Caspe Boarding House',  status:'pending',    reply:null, q:'Kasama na ba ang kuryente sa ₱1,200?',                                    time:'5h ago'  },
-    { id:103, houseId:2, houseName:'LFH Boarding House',    status:'interested', reply:null, q:'Puwede po bang mag-visit this Saturday morning?',                   time:'1d ago'  },
+    { id:103, houseId:2, houseName:'LFH Boarding House',    status:'interested', reply:null, q:'Can I visit this Saturday morning?',                   time:'1d ago'  },
   ],
   myMaintenanceRequests: [],
   nextId: 10,
@@ -5411,6 +5718,13 @@ function _doSave() {
       seekerProfile:          state.seekerProfile,
       visitSlots:             state.visitSlots,
       paymentLog:             state.paymentLog,
+      paymentTransactions:    state.paymentTransactions,
+      uploadLog:              state.uploadLog,
+      moveOutRequests:        state.moveOutRequests || [],
+      platformAnnouncements:  state.platformAnnouncements || [],
+      adminActivityLog:       state.adminActivityLog || [],
+      maintenanceMode:        state.maintenanceMode || false,
+      sort:                   state.sort || 'distance',
     }));
   } catch(e){}
 }
@@ -5441,7 +5755,7 @@ function load() {
 // ════════════════════════════════════════
 const navStack = [];
 // Screens treated as "root" — back button hidden here
-const ROOT_SCREENS = new Set(['s-role','s-home','l-home','t-home']);
+const ROOT_SCREENS = new Set(['s-role','s-home','s-map','s-myinq','s-saved','s-profile','l-home','l-inbox','l-rooms','l-listing','l-tenants','l-qr','t-home','t-houseinfo','t-maint','t-profile','t-payments']);
 
 // Success screen destination — set before each goTo('s-success') call
 let _successDest  = 's-myinq';
@@ -5487,18 +5801,7 @@ function _activateScreen(id) {
   }
 }
 
-function updateBackBtn() {
-  const btn = document.getElementById('univ-back');
-  if(!btn) return;
-  const cur = document.querySelector('.screen.active');
-  const curId = cur ? cur.id : '';
-  // Show if there is history and we are not on a root screen with bottom nav
-  const show = navStack.length > 0 && !ROOT_SCREENS.has(curId);
-  btn.classList.toggle('visible', show);
-  // Adjust bottom position: if current screen has .bnav, push button up
-  const hasNav = cur && cur.querySelector('.bnav');
-  btn.style.bottom = hasNav ? '82px' : '20px';
-}
+function updateBackBtn() { /* removed - each screen has its own back button */ }
 
 function refreshScreen(id) {
   switch(id) {
@@ -5533,6 +5836,7 @@ function refreshScreen(id) {
     case 'a-maintenance':   renderAdminMaintenance(); break;
     case 'a-financials':    renderAdminFinancials();  break;
     case 'a-announcements': renderPlatformAnns();     break;
+    case 'a-logs':          renderAuditLog();         break;
     case 'a-settings':      renderAdminSettings();    break;
     case 't-register': showRegStep(1); break;
     case 't-houseinfo': renderTenantHouseInfo(); break;
@@ -5632,12 +5936,12 @@ function updateClock() {
 function updateGreetings() {
   const hr = new Date().getHours();
   let greetFil, greetEn, icon;
-  if (hr < 12)      { greetFil = 'Magandang umaga';  greetEn = 'Good morning';   icon = '<i class="ph ph-sun"></i>'; }
-  else if (hr < 18) { greetFil = 'Magandang hapon';  greetEn = 'Good afternoon'; icon = '<i class="ph ph-cloud-sun"></i>'; }
-  else              { greetFil = 'Magandang gabi';   greetEn = 'Good evening';   icon = '<i class="ph ph-moon"></i>'; }
+  if (hr < 12)      { greetFil = 'Good morning';  greetEn = 'Good morning';   icon = '<i class="ph ph-sun"></i>'; }
+  else if (hr < 18) { greetFil = 'Good afternoon';  greetEn = 'Good afternoon'; icon = '<i class="ph ph-cloud-sun"></i>'; }
+  else              { greetFil = 'Good evening';   greetEn = 'Good evening';   icon = '<i class="ph ph-moon"></i>'; }
   const sg = document.getElementById('seeker-greeting');
   const lg = document.getElementById('landlord-greeting');
-  if (sg) sg.innerHTML = greetFil + ' ' + icon;
+  if (sg) sg.innerHTML = greetEn + ' ' + icon;
   if (lg) lg.innerHTML = greetEn  + ' ' + icon;
 }
 
@@ -5670,6 +5974,25 @@ function handleInqOverlayClick(e) {
   if(e.target === document.getElementById('modal-inq-detail')) closeInqModal();
 }
 
+
+// ════════════════════════════════════════
+// SEEKER — SHARE LISTING
+// ════════════════════════════════════════
+function shareHouse() {
+  const h = state.houses.find(x => x.id === state.currentHouseId);
+  if (!h) return;
+  const base = window.location.origin + window.location.pathname;
+  const link = `${base}?house=${h.id}`;
+  const text = `${h.name} — ₱${h.price.toLocaleString()}/mo · ${h.address} · Buhay Boarding`;
+  navigator.clipboard.writeText(link)
+    .then(() => showToast('<i class="ph ph-copy"></i> Link copied! Share it with a classmate.'))
+    .catch(() => {
+      // Fallback: copy the text description
+      navigator.clipboard.writeText(text)
+        .then(() => showToast('<i class="ph ph-copy"></i> House details copied!'))
+        .catch(() => showToast('Share: ' + text));
+    });
+}
 
 // ════════════════════════════════════════
 // SEEKER — SAVED HOUSES
@@ -5725,9 +6048,11 @@ function renderSaved() {
         : `<span class="lcard-rooms">${avail} room${avail !== 1 ? 's' : ''} left</span>`;
     const badge  = isFull
       ? '<span class="lcard-badge" style="background:var(--red)">Full</span>'
-      : h.selfVerified
-        ? '<span class="lcard-badge" style="background:var(--teal)"><i class="ph ph-seal-check"></i> Owner Verified</span>'
-        : `<span class="lcard-badge" style="background:var(--teal)">Verified ${h.verified}</span>`;
+      : h.adminVerified
+        ? '<span class="lcard-badge" style="background:linear-gradient(135deg,#B45309,#D97706);"><i class="ph ph-seal-check"></i> BB Certified</span>'
+        : h.selfVerified
+          ? '<span class="lcard-badge" style="background:rgba(107,114,128,.75);"><i class="ph ph-seal-check"></i> Owner Verified</span>'
+          : `<span class="lcard-badge" style="background:var(--teal)">Verified ${h.verified}</span>`;
     const cta    = isFull
       ? `<button class="btn" style="background:var(--amberBg);color:var(--amber);font-size:12px;padding:8px 13px;border-radius:8px;border:none;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;">Join Waitlist</button>`
       : `<button class="btn btn-blue" style="font-size:12px;padding:8px 13px;border-radius:8px">Inquire Now</button>`;
@@ -5766,16 +6091,88 @@ function lastActiveHtml(val) {
 }
 
 // ════════════════════════════════════════
+// MATCH SCORE ENGINE
+// Algorithm: budget(30%) + proximity(30%) + amenity match(25%) + availability(15%)
+// Returns { score:0-100, label, cssClass }
+// ════════════════════════════════════════
+function computeMatchScore(h) {
+  const p = profiles.seeker;
+  // No profile = no score
+  if (!p || !p.budget) return null;
+
+  let score = 0;
+
+  // 1. Budget match (30 pts)
+  if (h.price <= p.budget) {
+    score += 30;
+  } else if (h.price <= p.budget * 1.1) {
+    score += 20; // within 10% over budget
+  } else if (h.price <= p.budget * 1.25) {
+    score += 10; // within 25% over
+  }
+
+  // 2. Proximity to preferred school (30 pts)
+  const dist = (p.school === 'bcc') ? h.distanceBCC : h.distanceEVSU;
+  if      (dist <= 5)  score += 30;
+  else if (dist <= 8)  score += 22;
+  else if (dist <= 12) score += 14;
+  else if (dist <= 18) score += 6;
+
+  // 3. Amenity/preference match (25 pts)
+  let amenPts = 0;
+  const maxAmen = 5;
+  if (p.wifi     && h.rules?.wifi)     amenPts++;
+  if (p.cooking  && h.rules?.cooking)  amenPts++;
+  if (p.visitors && h.rules?.visitors) amenPts++;
+  if (p.nocurfew && h.curfew === 'No curfew') amenPts++;
+  if (p.laundry  && h.rules?.laundry)  amenPts++;
+  score += Math.round((amenPts / maxAmen) * 25);
+
+  // 4. Availability (15 pts)
+  const avail = availableRooms(h);
+  if      (avail >= 3) score += 15;
+  else if (avail === 2) score += 10;
+  else if (avail === 1) score += 5;
+  // full = 0 pts
+
+  // Clamp to 100
+  score = Math.min(100, score);
+
+  let label, cssClass, icon;
+  if      (score >= 85) { label = `Great match ${score}%`;   cssClass = 'match-great';   icon = 'ph-star-four'; }
+  else if (score >= 65) { label = `Good match ${score}%`;    cssClass = 'match-good';    icon = 'ph-thumbs-up'; }
+  else if (score >= 45) { label = `Partial match ${score}%`; cssClass = 'match-partial'; icon = 'ph-equals'; }
+  else                  { label = `${score}% match`;         cssClass = 'match-low';     icon = 'ph-minus'; }
+
+  return { score, label, cssClass, icon };
+}
+
+function matchBadgeHtml(h) {
+  const m = computeMatchScore(h);
+  if (!m) return '';
+  return `<span class="match-badge ${m.cssClass}"><i class="ph ${m.icon}"></i>${m.label}</span>`;
+}
+
+// ════════════════════════════════════════
 // SEEKER — HOUSES
 // ════════════════════════════════════════
 function renderHouses() {
   const list = document.getElementById('houses-list');
   const countEl = document.getElementById('houses-count');
-  let houses = state.houses;
+  // Only show houses that are self-verified OR admin-verified, not suspended, not brand new pending
+  let houses = state.houses.filter(h =>
+    h.adminStatus !== 'suspended' &&
+    (h.selfVerified || h.adminVerified || h.verified)
+  );
 
-  // school filter
-  if(state.school==='evsu') houses = houses.sort((a,b)=>a.distanceEVSU-b.distanceEVSU);
-  else houses = houses.sort((a,b)=>a.distanceBCC-b.distanceBCC);
+  // Sort
+  const _distKey = state.school === 'evsu' ? 'distanceEVSU' : 'distanceBCC';
+  const _activeOrder = {'Just now':0,'2h ago':1,'5h ago':2,'Today':3,'3 days ago':4,'1 week ago':5};
+  if      (state.sort === 'match')  houses = [...houses].sort((a,b) => (computeMatchScore(b)?.score||0) - (computeMatchScore(a)?.score||0));
+  else if (state.sort === 'price')  houses = [...houses].sort((a,b) => a.price - b.price);
+  else if (state.sort === 'avail')  houses = [...houses].sort((a,b) => availableRooms(b) - availableRooms(a));
+  else if (state.sort === 'active') houses = [...houses].sort((a,b) => (_activeOrder[a.lastActive]??99) - (_activeOrder[b.lastActive]??99));
+  else                              houses = [...houses].sort((a,b) => a[_distKey] - b[_distKey]);
 
   // filter
   if(state.filter==='available') houses = houses.filter(h=>availableRooms(h)>0);
@@ -5783,9 +6180,26 @@ function renderHouses() {
   else if(state.filter==='wifi') houses = houses.filter(h=>h.rules.wifi);
   else if(state.filter==='nocurfew') houses = houses.filter(h=>h.curfew==='No curfew');
 
-  // search
-  const q = document.getElementById('srch-inp')?.value?.toLowerCase()||'';
-  if(q) houses = houses.filter(h=>h.name.toLowerCase().includes(q)||h.address.toLowerCase().includes(q));
+  // search — name, address, amenities, price range keywords, curfew
+  const q = document.getElementById('srch-inp')?.value?.toLowerCase() || '';
+  if (q) {
+    houses = houses.filter(h => {
+      if (h.name.toLowerCase().includes(q))    return true;
+      if (h.address.toLowerCase().includes(q)) return true;
+      if ((h.amenities||[]).some(a => a.toLowerCase().includes(q))) return true;
+      if (h.about && h.about.toLowerCase().includes(q)) return true;
+      if (h.curfew && h.curfew.toLowerCase().includes(q)) return true;
+      // Price keyword matching
+      if ((q === 'mura' || q === 'cheap' || q === 'budget') && h.price <= 1500) return true;
+      const priceMatch = q.match(/\d{3,5}/);
+      if (priceMatch && h.price <= parseInt(priceMatch[0])) return true;
+      // Rule keywords
+      if (q.includes('wifi') && h.rules?.wifi) return true;
+      if ((q.includes('no curfew') || q.includes('no curfew')) && h.curfew === 'No curfew') return true;
+      if ((q.includes('cooking') || q.includes('lutuin')) && h.rules?.cooking) return true;
+      return false;
+    });
+  }
 
   const school = state.school==='evsu'?'EVSU':'BCC';
 
@@ -5804,7 +6218,7 @@ function renderHouses() {
           ${isSearch ? 'No results for "'+isSearch+'"' : 'No houses match this filter'}
         </div>
         <div style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;">
-          ${isSearch ? 'Try a different search term, or browse all listings.' : 'Try a different filter — there are ${state.houses.length} verified houses in Burauen.'}
+          ${isSearch ? 'Try a different search term, or browse all listings.' : `Try a different filter — there are ${state.houses.filter(h=>h.selfVerified||h.adminVerified||h.verified).length} verified houses in Burauen.`}
         </div>
         <button onclick="setFilter('all',null);document.getElementById('srch-inp').value='';renderHouses();"
           class="btn-navy-cta">
@@ -5824,9 +6238,11 @@ function renderHouses() {
     const tagStr = h.amenities.map(a=>`<span class="tag tg">${a}</span>`).join('');
     const badge = isFull
       ? '<span class="lcard-badge" style="background:var(--red)">Full</span>'
-      : h.selfVerified
-        ? '<span class="lcard-badge" style="background:var(--teal)"><i class="ph ph-seal-check"></i> Owner Verified</span>'
-        : '<span class="lcard-badge" style="background:var(--teal)"> Verified ' + h.verified + '</span>';
+      : h.adminVerified
+        ? '<span class="lcard-badge" style="background:linear-gradient(135deg,#B45309,#D97706);"><i class="ph ph-seal-check"></i> BB Certified</span>'
+        : h.selfVerified
+          ? '<span class="lcard-badge" style="background:rgba(107,114,128,.75);"><i class="ph ph-seal-check"></i> Owner Verified</span>'
+          : '<span class="lcard-badge" style="background:var(--teal)"> Verified ' + h.verified + '</span>';
     // Misfire 1 fix: only show waitlist count when >= 3 (below that it signals low demand)
     const rooms = isFull
       ? `<span class="lcard-rooms" style="background:rgba(239,68,68,.85);">${h.waitlist.length >= 3 ? h.waitlist.length + ' on waitlist' : 'Full'}</span>`
@@ -5840,6 +6256,7 @@ function renderHouses() {
       ? `<button class="btn" style="background:var(--amberBg);color:var(--amber);font-size:12px;padding:8px 13px;border-radius:8px;border:none;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;"> Join Waitlist</button>`
       : `<button class="btn btn-blue" style="font-size:12px;padding:8px 13px;border-radius:8px">Inquire Now</button>`;
     const isSaved = state.savedHouses.includes(h.id);
+    const matchHtml = matchBadgeHtml(h);
     return `
       <div class="lcard" onclick="openHouse(${h.id})">
         <div class="lcard-img" style="background:${h.gradient}">
@@ -5857,6 +6274,7 @@ function renderHouses() {
           <div class="lcard-name">${h.name}</div>
           <div class="lcard-loc"><i class="ph ph-map-pin"></i> ${dist} min walk from ${school} gate</div>
           <div class="lcard-tags">${tagStr}</div>
+          ${matchHtml}
           <div class="lcard-foot">
             <div>
               <div class="lcard-price">₱${h.price.toLocaleString()}<span>/mo</span></div>
@@ -5889,7 +6307,19 @@ function openHouse(id) {
 
   document.getElementById('d-topname').textContent = h.name;
   document.getElementById('d-hero').style.background = h.gradient;
-  document.getElementById('d-vbadge').textContent = h.selfVerified ? `Owner Verified ${h.verified}` : ` Verified ${h.verified}`;
+  const vbadge = document.getElementById('d-vbadge');
+  if (vbadge) {
+    if (h.adminVerified) {
+      vbadge.textContent = 'BB Certified';
+      vbadge.style.background = 'linear-gradient(135deg,#B45309,#D97706)';
+    } else if (h.selfVerified) {
+      vbadge.textContent = 'Owner Verified';
+      vbadge.style.background = 'rgba(107,114,128,.7)';
+    } else {
+      vbadge.textContent = 'Verified ' + (h.verified||'');
+      vbadge.style.background = '';
+    }
+  }
   document.getElementById('d-name').textContent = h.name;
   document.getElementById('d-loc').innerHTML = `<i class="ph ph-map-pin"></i> ${h.address} — ${dist} min walk from ${school} gate`;
   const laEl = document.getElementById('d-last-active');
@@ -5961,6 +6391,10 @@ function openHouse(id) {
     ).join('');
   }
 
+  // Match score on detail
+  const matchEl = document.getElementById('d-match-score');
+  if (matchEl) matchEl.innerHTML = matchBadgeHtml(h);
+
   // Room availability grid
   const roomsEl = document.getElementById('d-rooms');
   if(roomsEl) {
@@ -6002,7 +6436,6 @@ function openHouse(id) {
   // Actions
   const actEl = document.getElementById('d-actions');
   if(isFull) {
-    // FIX 14: Loss aversion — show social proof + urgency before join CTA (Kahneman & Tversky)
     const waitCount = h.waitlist.length;
     actEl.innerHTML = `
       <div style="width:100%;">
@@ -6013,12 +6446,16 @@ function openHouse(id) {
             <div style="font-size:12px;color:var(--text);margin-top:2px;">${waitCount > 0 ? waitCount + ' student' + (waitCount>1?'s are':' is') + ' already on the waitlist.' : 'Be the first on the waitlist — get notified when a room opens.'}</div>
           </div>
         </div>
-        <button class="btn btn-navy" onclick="openWaitlist(${h.id})" style="width:100%;padding:13px;"> Join the Waitlist${waitCount > 0 ? ' — Get in Line' : ''}</button>
+        <button class="btn btn-navy" onclick="openWaitlist(${h.id})" style="width:100%;padding:15px;font-size:15px;"> Join the Waitlist${waitCount > 0 ? ' — Get in Line' : ''}</button>
       </div>`;
   } else {
     actEl.innerHTML = `
-      <button class="btn btn-navy" onclick="goTo('s-inquiry')" style="flex:2"><i class="ph ph-note-pencil"></i> Ask a Question</button>
-      <button class="btn btn-ghost" onclick="goTo('s-visit')" style="flex:1"><i class="ph ph-calendar-blank"></i> Visit</button>`;
+      <button onclick="goTo('s-inquiry')" style="flex:2;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:15px 18px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 14px rgba(11,31,58,.25);transition:all .18s;">
+        <i class="ph ph-note-pencil" style="font-size:18px;"></i> Ask a Question
+      </button>
+      <button onclick="goTo('s-visit')" style="flex:1;background:var(--card);color:var(--navy);border:1.5px solid var(--border);border-radius:12px;padding:15px 12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .18s;">
+        <i class="ph ph-calendar-blank" style="font-size:17px;"></i> Visit
+      </button>`;
   }
   // FIX 10: Populate inquiry confirm card with real house data (Commitment & Consistency)
   const school2 = state.school==='evsu'?'EVSU':'BCC';
@@ -6041,15 +6478,21 @@ function switchSchool(el,school) {
 
 function setFilter(f,el) {
   state.filter = f;
-  document.querySelectorAll('#s-home .chip').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('#filter-row .chip').forEach(c=>c.classList.remove('on'));
   if (el) el.classList.add('on');
-  // If called from filter sheet (null el), sync chip UI to match active filter
   else {
-    const chips = document.querySelectorAll('#s-home .chip');
+    const chips = document.querySelectorAll('#filter-row .chip');
     const filterOrder = ['all','available','under2k','wifi','nocurfew'];
     const idx = filterOrder.indexOf(f);
     if (idx > -1 && chips[idx]) chips[idx].classList.add('on');
   }
+  renderHouses();
+}
+
+function setSort(s, el) {
+  state.sort = s;
+  document.querySelectorAll('#sort-row .chip').forEach(c => c.classList.remove('on'));
+  if (el) el.classList.add('on');
   renderHouses();
 }
 
@@ -6224,7 +6667,7 @@ function confirmVisit() {
   const slot = state.visitSlots.find(s=>s.id===state.selectedSlot);
   if(slot) slot.taken = true;
   const h = state.houses.find(x=>x.id===state.currentHouseId);
-  state.visits.unshift({id:state.nextId++,name:'You',house:h.name,date:slot.date,time:slot.time,status:'pending'});
+  state.visits.unshift({id:state.nextId++, name:'You', house:h.name, houseId:h.id, date:slot.date, time:slot.time, status:'pending'});
   save();
 
   document.getElementById('succ-ic').innerHTML='<i class="ph ph-calendar-blank"></i>';
@@ -6312,6 +6755,7 @@ function renderMyInquiries() {
     not_a_fit:      {color:'var(--red)',   dot:'var(--red)',   label:'Not a Fit'},
     visit_scheduled:{color:'var(--teal)', dot:'var(--teal)', label:'Visit Scheduled'},
     offered:        {color:'var(--green)', dot:'var(--green)', label:'Room Offered'},
+    accepted:       {color:'var(--green)', dot:'var(--green)', label:'Offer Accepted ✓'},
     declined:       {color:'var(--muted)', dot:'var(--muted)',label:'Declined'},
   };
   el.innerHTML = state.myInquiries.map(mi=>{
@@ -6334,6 +6778,22 @@ function renderMyInquiries() {
           <i class="ph ph-chat-circle-dots"></i> Continue Conversation
         </button>
       </div>` : '';
+    // Offer banner — prominent accept/decline when landlord has offered a room
+    const offerBanner = mi.status === 'offered' ? `
+      <div style="margin-top:10px;background:linear-gradient(135deg,var(--greenBg),#F0FDF4);border:1.5px solid var(--green);border-radius:12px;padding:13px 14px;">
+        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--green);margin-bottom:4px;display:flex;align-items:center;gap:6px;">
+          <i class="ph ph-house-simple"></i> Room Offered!
+        </div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">The landlord has offered you a room at <strong>${mi.houseName}</strong>. Accept to begin the move-in process.</div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="event.stopPropagation();acceptOffer(${mi.id})" style="flex:2;background:var(--green);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+            <i class="ph ph-check-circle"></i> Accept Offer
+          </button>
+          <button onclick="event.stopPropagation();declineOffer(${mi.id})" style="flex:1;background:var(--redBg);color:var(--red);border:1.5px solid rgba(192,57,43,.2);border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">
+            Decline
+          </button>
+        </div>
+      </div>` : '';
     return `<div class="inq-item" onclick="openThread(${mi.id})" style="cursor:pointer;">
       <div class="inq-top">
         <span class="inq-house">${mi.houseName}</span>
@@ -6345,6 +6805,7 @@ function renderMyInquiries() {
       <div class="inq-status"><div class="sdot ${mi.status==='pending'?'sdot-pulse':''}" style="background:${s.dot}"></div><span style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:${s.color}">${s.label}</span></div>
       <div class="inq-q">${mi.q}</div>
       ${replyHtml}
+      ${offerBanner}
       ${continueCTA}
       ${withdrawHtml}
     </div>`;
@@ -6388,8 +6849,8 @@ function openThread(inqId) {
     offered:'Room Offered', declined:'Declined'
   };
   const statusTags = {
-    pending:'ta2', replied:'tgn', interested:'tg',
-    not_a_fit:'tr', offered:'tgn', declined:'tn'
+    pending:'ta2', replied:'tg', interested:'tg',
+    not_a_fit:'tr', offered:'tg', declined:'tn'
   };
 
   document.getElementById('thread-house-name').textContent = mi.houseName;
@@ -6461,9 +6922,9 @@ function sendThreadMessage() {
   setTimeout(() => {
     const autoReplies = [
       'Salamat sa iyong mensahe! Susubukan kong sagutin agad.',
-      'Noted po. Maaari ka bang mag-visit this week para makita ang kwarto?',
-      'Yes po, available pa ang kwarto. Kausapin na lang natin ang detalye.',
-      'Okay po, ipagpapaalam ko sa inyo kapag may update.',
+      'Noted! Can you visit this week to see the room?',
+      'Yes, the room is still available. Let\'s discuss the details.',
+      'Got it! I\'ll let you know once I have an update.',
     ];
     const reply = autoReplies[Math.floor(Math.random() * autoReplies.length)];
     const replyMsg = { from:'them', text: reply, time: 'Just now' };
@@ -6486,27 +6947,245 @@ function withdrawInquiry(id) {
   showToast('Inquiry withdrawn');
 }
 
+function acceptOffer(inqId) {
+  const mi  = state.myInquiries.find(i => i.id === inqId);
+  const inq = state.inquiries.find(i => i.id === inqId);
+  if (!mi) return;
+  mi.status = 'accepted';
+  if (inq) inq.status = 'accepted';
+  // Use name from full inquiry (mi doesn't carry name)
+  const seekerName = inq?.name || profiles.seeker.name || 'Seeker';
+  const existing = state.pendingTenants.find(t => t.name === seekerName && t.houseId === (inq?.houseId));
+  if (!existing && inq) {
+    const h = state.houses.find(x => x.id === inq.houseId);
+    const emptyRoom = (h?.rooms || []).find(r => r.status === 'empty');
+    const code = String(Math.floor(100000 + Math.random() * 900000));
+    state.pendingTenants.push({
+      id: state.nextId++,
+      name: seekerName,
+      phone: inq.phone || profiles.seeker.phone || '',
+      room: emptyRoom?.name || 'TBD',
+      houseId: inq.houseId,
+      code,
+      status: 'pending'
+    });
+    inq.acceptedCode = code;
+    mi.acceptedCode  = code;
+  }
+  save();
+  renderMyInquiries();
+  showToast('<i class="ph ph-check-circle"></i> Offer accepted! Landlord will send your invite code.');
+}
+
+function declineOffer(inqId) {
+  const mi  = state.myInquiries.find(i => i.id === inqId);
+  const inq = state.inquiries.find(i => i.id === inqId);
+  if (!mi) return;
+  mi.status  = 'declined';
+  if (inq) inq.status = 'declined';
+  save();
+  renderMyInquiries();
+  showToast('Offer declined.');
+}
+
 // ════════════════════════════════════════
 // TENANT — PAYMENT ACKNOWLEDGE
 // ════════════════════════════════════════
-function acknowledgePayment() {
-  if (!state.tenantProfile) return;
-  state.tenantProfile.paymentStatus = 'self_reported';
+// ════════════════════════════════════════
+// PAYMENT CONFIRMATION FLOW
+// ════════════════════════════════════════
 
-  // Update pending entry in paymentLog
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-PH', { month:'short', day:'numeric', year:'numeric' });
-  const log = state.paymentLog || [];
-  const pending = log.find(p => p.status === 'pending');
-  if (pending) {
-    pending.status = 'self_reported';
-    pending.method = 'GCash (self-reported)';
-    pending.date   = dateStr;
-  }
-  save();
-  renderTenantHome();
-  showToast('<i class="ph ph-check-circle"></i> Naka-report na! Hihintayin ang kumpirmasyon ng landlord.');
+function openPaymentReportModal() {
+  document.getElementById('pr-ref').value = '';
+  document.getElementById('pr-amount').value = '';
+  document.getElementById('pr-note').value = '';
+  const img = document.getElementById('pr-photo-img');
+  const ic  = document.getElementById('pr-photo-ic');
+  const lbl = document.getElementById('pr-photo-lbl');
+  if (img) { img.src=''; img.style.display='none'; }
+  if (ic)  ic.style.display='';
+  if (lbl) lbl.style.display='';
+  document.getElementById('modal-payment-report').classList.remove('hidden');
 }
+function closePaymentReportModal() {
+  document.getElementById('modal-payment-report').classList.add('hidden');
+}
+
+function handlePaymentScreenshot(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  // Log upload
+  if (!state.uploadLog) state.uploadLog = [];
+  const tp = state.tenantProfile || {};
+  state.uploadLog.unshift({
+    id: state.nextId++, type: 'payment_screenshot',
+    user: tp.name || 'Tenant', room: tp.room || '—',
+    houseId: tp.houseId || 1,
+    filename: file.name, size: (file.size/1024).toFixed(1)+'KB', ts: Date.now()
+  });
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById('pr-photo-img');
+    const ic  = document.getElementById('pr-photo-ic');
+    const lbl = document.getElementById('pr-photo-lbl');
+    if (img) { img.src = e.target.result; img.style.display='block'; }
+    if (ic)  ic.style.display='none';
+    if (lbl) lbl.style.display='none';
+    img._data = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function submitPaymentReport() {
+  const ref    = document.getElementById('pr-ref').value.trim();
+  const amount = parseFloat(document.getElementById('pr-amount').value);
+  const note   = document.getElementById('pr-note').value.trim();
+  const img    = document.getElementById('pr-photo-img');
+  const screenshot = (img && img.style.display !== 'none') ? img.src : null;
+
+  if (!ref)           { showToast('Please enter your GCash reference number'); return; }
+  if (!amount || isNaN(amount)) { showToast('Please enter the amount you sent'); return; }
+
+  if (!state.paymentTransactions) state.paymentTransactions = [];
+  const tp   = state.tenantProfile || {};
+  const now  = new Date();
+  const mon  = now.toLocaleString('en-PH', { month:'long', year:'numeric' });
+
+  const tx = {
+    id: state.nextId++,
+    tenantName: tp.name || 'Tenant',
+    room: tp.room || '—',
+    houseId: tp.houseId || 1,
+    amount, ref, note: note || '—',
+    screenshot,
+    status: 'pending_confirmation',
+    submittedAt: Date.now(),
+    month: mon,
+    resolvedAt: null, resolvedBy: null, rejectReason: null
+  };
+  state.paymentTransactions.push(tx);
+
+  // Mark tenant profile
+  state.tenantProfile.paymentStatus = 'self_reported';
+  state.tenantProfile.pendingTxId   = tx.id;
+
+  // Mark room
+  const h = state.houses.find(x => x.id === tp.houseId);
+  if (h) { const r = h.rooms.find(x => x.name === tp.room); if (r && r.status==='pending') r.status='self_reported'; }
+
+  // Update paymentLog
+  const log = state.paymentLog || [];
+  const pending = log.find(p => p.status==='pending');
+  if (pending) { pending.status='self_reported'; pending.method='GCash'; pending.date=now.toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'}); }
+
+  adminLog(`Payment reported: ${tp.name||'Tenant'} — ₱${amount.toLocaleString()} (Ref: ${ref})`);
+  save();
+  closePaymentReportModal();
+  renderTenantHome();
+  showToast('<i class="ph ph-check-circle"></i> Payment reported! Waiting for landlord confirmation.');
+}
+
+// ── LANDLORD SIDE ──
+let _pconfTxId = null;
+
+function openPconfModal(txId) {
+  const tx = (state.paymentTransactions||[]).find(t=>t.id===txId);
+  if (!tx) return;
+  _pconfTxId = txId;
+  const set = (id,v) => { const e=document.getElementById(id); if(e) e.textContent=v; };
+  set('pconf-title', 'Confirm Payment — ' + tx.tenantName);
+  set('pconf-sub',   'Submitted ' + relTime(tx.submittedAt));
+  set('pconf-tenant', tx.tenantName);
+  set('pconf-room',   tx.room);
+  set('pconf-amount', '₱' + tx.amount.toLocaleString());
+  set('pconf-ref',    tx.ref);
+  set('pconf-note',   tx.note || '—');
+  const ssWrap = document.getElementById('pconf-screenshot-wrap');
+  const ssImg  = document.getElementById('pconf-screenshot');
+  if (tx.screenshot && ssWrap && ssImg) { ssImg.src=tx.screenshot; ssWrap.style.display=''; }
+  else if (ssWrap) ssWrap.style.display='none';
+  const rw = document.getElementById('pconf-reject-wrap');
+  if (rw) rw.style.display='none';
+  const rb = document.getElementById('pconf-reject-btn');
+  if (rb) { rb.innerHTML='<i class="ph ph-x-circle"></i> Reject'; rb.style.background='var(--redBg)'; rb.style.color='var(--red)'; }
+  document.getElementById('modal-pay-confirm').classList.remove('hidden');
+}
+function closePconfModal() {
+  document.getElementById('modal-pay-confirm').classList.add('hidden');
+  _pconfTxId = null;
+}
+
+function toggleRejectReason() {
+  const rw = document.getElementById('pconf-reject-wrap');
+  const rb = document.getElementById('pconf-reject-btn');
+  if (!rw) return;
+  const showing = rw.style.display !== 'none';
+  if (showing) {
+    rw.style.display = 'none';
+    rb.innerHTML = '<i class="ph ph-x-circle"></i> Reject';
+  } else {
+    rw.style.display = '';
+    document.getElementById('pconf-reject-reason').value = '';
+    rb.innerHTML = '<i class="ph ph-arrow-u-up-left"></i> Cancel Rejection';
+    // If reject reason visible, clicking confirm-btn means reject
+    rb.onclick = () => rejectLandlordPayment();
+  }
+}
+
+function confirmLandlordPayment() {
+  const tx = (state.paymentTransactions||[]).find(t=>t.id===_pconfTxId);
+  if (!tx) return;
+  tx.status      = 'confirmed';
+  tx.resolvedAt  = Date.now();
+  tx.resolvedBy  = 'Landlord';
+
+  // Update tenant profile status
+  if (state.tenantProfile && state.tenantProfile.pendingTxId === tx.id) {
+    state.tenantProfile.paymentStatus = 'paid';
+    state.tenantProfile.pendingTxId   = null;
+  }
+  // Update room status
+  const h = state.houses.find(x=>x.id===tx.houseId);
+  if (h) { const r=h.rooms.find(x=>x.name===tx.room); if(r) r.status='paid'; }
+  // Update paymentLog
+  const log = state.paymentLog||[];
+  const sr  = log.find(p=>p.status==='self_reported');
+  if (sr) { sr.status='paid'; sr.method='GCash'; }
+
+  adminLog(`Payment confirmed: ${tx.tenantName} ₱${tx.amount.toLocaleString()} ref ${tx.ref}`);
+  save();
+  closePconfModal();
+  renderLandlordHome();
+  renderPaymentHistory();
+  showToast('<i class="ph ph-check-circle"></i> Payment confirmed for ' + tx.tenantName);
+}
+
+function rejectLandlordPayment() {
+  const tx = (state.paymentTransactions||[]).find(t=>t.id===_pconfTxId);
+  if (!tx) return;
+  const reason = document.getElementById('pconf-reject-reason')?.value.trim() || 'Could not verify';
+  tx.status       = 'rejected';
+  tx.resolvedAt   = Date.now();
+  tx.resolvedBy   = 'Landlord';
+  tx.rejectReason = reason;
+
+  // Revert tenant profile back to pending
+  if (state.tenantProfile && state.tenantProfile.pendingTxId === tx.id) {
+    state.tenantProfile.paymentStatus = 'pending';
+    state.tenantProfile.pendingTxId   = null;
+  }
+  const h = state.houses.find(x=>x.id===tx.houseId);
+  if (h) { const r=h.rooms.find(x=>x.name===tx.room); if(r&&r.status==='self_reported') r.status='pending'; }
+
+  adminLog(`Payment rejected: ${tx.tenantName} ₱${tx.amount.toLocaleString()} — ${reason}`);
+  save();
+  closePconfModal();
+  renderLandlordHome();
+  showToast('<i class="ph ph-x-circle"></i> Payment rejected. Tenant will be notified.');
+}
+
+// Legacy shim — keep for any old callers
+function acknowledgePayment() { openPaymentReportModal(); }
 function renderTenantAnnouncements() {
   renderTenantHome(); // delegate to new comprehensive render
 }
@@ -6602,7 +7281,7 @@ function renderLandlordHome() {
   const newInqCount = state.inquiries.filter(i=>i.status==='pending').length;
   const inboxBadge = document.getElementById('l-inbox-badge');
   if(inboxBadge) {
-    if(newInqCount > 0) { inboxBadge.textContent = newInqCount + ' bago'; inboxBadge.classList.remove('hidden'); }
+    if(newInqCount > 0) { inboxBadge.textContent = newInqCount + ' new'; inboxBadge.classList.remove('hidden'); }
     else inboxBadge.classList.add('hidden');
   }
 
@@ -6615,11 +7294,16 @@ function renderLandlordHome() {
   }
 
   // Room grid
-  document.getElementById('l-room-grid').innerHTML = h.rooms.map(r=>`
-    <div class="rt" onclick="openRoomModal(${r.id})">
+  document.getElementById('l-room-grid').innerHTML = h.rooms.map(r => {
+    const isSelfReported = r.status === 'self_reported';
+    const statusLabel = r.status === 'paid' ? 'Paid' : r.status === 'pending' ? 'Pending' : isSelfReported ? 'Confirm?' : 'Empty';
+    const statusClass = r.status === 'paid' ? 'paid' : r.status === 'pending' ? 'pend' : isSelfReported ? 'pend' : 'empty';
+    return `<div class="rt${isSelfReported ? ' rt-pulse' : ''}" onclick="${isSelfReported ? `confirmLandlordPayment(${r.id})` : `openRoomModal(${r.id})`}">
       <div class="rt-num">${r.name}</div>
-      <div class="rt-st st-${r.status==='paid'?'paid':r.status==='pending'?'pend':'empty'}">${r.status==='paid'?'Paid':r.status==='pending'?'Pending':'Empty'}</div>
-    </div>`).join('');
+      <div class="rt-st st-${statusClass}">${statusLabel}</div>
+      ${isSelfReported ? `<div style="font-size:8px;color:var(--amber);font-weight:700;margin-top:2px;">Tap to confirm</div>` : ''}
+    </div>`;
+  }).join('');
 
   // Announce badge: count unread/recent announcements
   const annBadge = document.getElementById('l-announce-badge');
@@ -6646,8 +7330,10 @@ function renderLandlordHome() {
       <div class="vac-txt"><strong>Vacancy cost this month: ₱${lost.toLocaleString()}</strong><br>${empty} room${empty>1?'s':''} empty — equal to ${Math.round(lost/70)} kilos of rice.</div>
     </div>`;
   } else {
-    vacEl.innerHTML = `<div class="callout cl-green"><span class="callout-ic"></span><div class="callout-txt"><strong>Lahat ng kwarto occupied!</strong> 0 vacancy cost this month.</div></div>`;
+    vacEl.innerHTML = `<div class="callout cl-green"><span class="callout-ic"></span><div class="callout-txt"><strong>All rooms occupied!</strong> 0 vacancy cost this month.</div></div>`;
   }
+  renderMoveOutRequests();
+  renderPendingPayments();
 }
 
 function openAddRoomModal() {
@@ -6705,14 +7391,35 @@ function saveRoom() {
   showToast('Room updated');
 }
 
+function confirmLandlordPayment(roomId) {
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
+  const r = h.rooms.find(x => x.id === roomId);
+  if (!r) return;
+  r.status = 'paid';
+  // Sync tenantProfile if the room matches — don't gate on pendingTenants status
+  const tp = state.tenantProfile;
+  if (tp && tp.room === r.name && tp.houseId === h.id) {
+    tp.paymentStatus = 'paid';
+  }
+  // Update paymentLog
+  const log = state.paymentLog || [];
+  const pending = log.find(p => p.status === 'self_reported' || p.status === 'pending');
+  if (pending) { pending.status = 'paid'; }
+  adminLog(`Payment confirmed for ${r.name} (${r.tenant || 'tenant'})`);
+  save();
+  renderLandlordHome();
+  showToast(`<i class="ph ph-check-circle"></i> Payment confirmed for ${r.name}`);
+}
+
 // ════════════════════════════════════════
 // LANDLORD — INBOX
 // ════════════════════════════════════════
 function inboxItem(inq, preview=false) {
   const statusMap = {
-    pending:{tag:'ta2',label:'Pending'},replied:{tag:'tgn',label:'Replied'},
+    pending:{tag:'ta2',label:'Pending'},replied:{tag:'tg',label:'Replied'},
     interested:{tag:'tg',label:'Interested'},not_a_fit:{tag:'tr',label:'Not a Fit'},
-    visit_scheduled:{tag:'tp',label:'Visit Set'},offered:{tag:'tgn',label:'Offered'},declined:{tag:'tn',label:'Declined'},
+    visit_scheduled:{tag:'tp',label:'Visit Set'},offered:{tag:'tg',label:'Offered'},
+    accepted:{tag:'tg',label:'✓ Accepted'},declined:{tag:'tn',label:'Declined'},
   };
   const s = statusMap[inq.status]||statusMap.pending;
   const h = state.houses.find(x=>x.id===inq.houseId);
@@ -6798,7 +7505,17 @@ function openInqDetail(id) {
       ? inq.messages
       : [{ from:'me', text: inq.q || '(No specific question)', time: inq.time }];
 
-    threadEl.innerHTML = msgs.map(m => {
+    const acceptedBanner = inq.status === 'accepted' && inq.acceptedCode ? `
+      <div style="background:linear-gradient(135deg,var(--greenBg),#F0FDF4);border:1.5px solid var(--green);border-radius:12px;padding:12px 13px;margin-bottom:6px;">
+        <div style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--green);margin-bottom:5px;"><i class="ph ph-check-circle"></i> ${inq.name} accepted your offer!</div>
+        <div style="font-size:11px;color:var(--text2);margin-bottom:7px;">Send this invite code to complete their registration:</div>
+        <div style="background:var(--card);border:1.5px solid var(--green);border-radius:8px;padding:9px 12px;display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;letter-spacing:3px;color:var(--navy);">${inq.acceptedCode}</span>
+          <button onclick="navigator.clipboard.writeText('${inq.acceptedCode}').then(()=>showToast('Code copied!'))" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:5px 10px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;cursor:pointer;">Copy</button>
+        </div>
+      </div>` : '';
+
+    threadEl.innerHTML = acceptedBanner + msgs.map(m => {
       const isSeeker = m.from === 'me';
       return `<div style="display:flex;flex-direction:column;align-items:${isSeeker ? 'flex-start' : 'flex-end'};">
         <div style="font-size:9px;font-family:'Nunito',sans-serif;font-weight:800;color:var(--muted);margin-bottom:3px;letter-spacing:.3px;text-transform:uppercase;">
@@ -6814,7 +7531,6 @@ function openInqDetail(id) {
       </div>`;
     }).join('');
 
-    // Scroll to bottom of thread
     setTimeout(() => { threadEl.scrollTop = threadEl.scrollHeight; }, 50);
   }
 
@@ -7302,7 +8018,7 @@ function renderVisits() {
           <div class="vc-name">${v.name}</div>
           <div class="vc-meta">${v.date} at ${v.time}</div>
         </div>
-        <span class="tag ${isPending?'ta2':'tgn'}">${isPending?'Pending':'Confirmed'}</span>
+        <span class="tag ${isPending?'ta2':'tg'}">${isPending?'Pending':'Confirmed'}</span>
       </div>
       ${isPending?`<div style="display:flex;gap:8px;margin-top:8px">
         <button class="btn-green-sm" style="flex:1" onclick="confirmVisitL(${v.id})"><i class="ph ph-check-circle"></i> Confirm</button>
@@ -7313,8 +8029,38 @@ function renderVisits() {
 }
 
 function confirmVisitL(id) {
-  const v = state.visits.find(x=>x.id===id);
-  if(v) { v.status='confirmed'; save(); renderVisits(); showToast('Visit confirmed '); }
+  const v = state.visits.find(x => x.id === id);
+  if (!v) return;
+  v.status = 'confirmed';
+  // Push visit confirmation message into the related inquiry thread
+  const relatedInq = state.inquiries.find(i => i.name === v.name && i.houseId === (state.houses.find(h=>h.name===v.house)?.id));
+  if (relatedInq) {
+    if (!relatedInq.messages) relatedInq.messages = [];
+    relatedInq.messages.push({ from:'them', text:`Visit confirmed for ${v.date} at ${v.time}. See you then!`, time:'Just now' });
+    relatedInq.status = 'visit_scheduled';
+    const mi = state.myInquiries.find(m => m.id === relatedInq.id);
+    if (mi) { mi.status = 'visit_scheduled'; mi.read = false; }
+  }
+  save();
+  renderVisits();
+  showToast('<i class="ph ph-check-circle"></i> Visit confirmed');
+}
+
+function cancelVisit(id) {
+  const v = state.visits.find(x => x.id === id);
+  if (!v) return;
+  v.status = 'cancelled';
+  // Notify seeker via inquiry thread
+  const relatedInq = state.inquiries.find(i => i.name === v.name && i.houseId === (state.houses.find(h=>h.name===v.house)?.id));
+  if (relatedInq) {
+    if (!relatedInq.messages) relatedInq.messages = [];
+    relatedInq.messages.push({ from:'them', text:`Sorry, we can't accommodate the visit on ${v.date}. Please request a new schedule.`, time:'Just now' });
+    const mi = state.myInquiries.find(m => m.id === relatedInq.id);
+    if (mi) { mi.read = false; }
+  }
+  save();
+  renderVisits();
+  showToast('Visit declined');
 }
 function cancelVisit(id) {
   state.visits = state.visits.filter(x=>x.id!==id);
@@ -7334,7 +8080,7 @@ function showRegStep(n) {
 function regStep1() {
   const name = document.getElementById('reg-name').value.trim();
   const phone = document.getElementById('reg-phone').value.trim();
-  if(!name) { showToast('<i class="ph ph-warning"></i> Ilagay ang iyong pangalan'); return; }
+  if(!name) { showToast('<i class="ph ph-warning"></i> Please enter your name'); return; }
   if(!phone || phone.length < 10) { showToast('<i class="ph ph-warning"></i> Mali ang phone number'); return; }
   state.regTempName = name;
   state.regTempPhone = phone;
@@ -7418,7 +8164,7 @@ function renderTenantManagement() {
       ${!isActive ? `<div class="tc-code">
         <span class="tc-code-lbl">Invite Code</span>
         <span class="tc-code-val">${t.code}</span>
-        <span class="tc-code-copy" onclick="copyCode('${t.code}','${t.name}')">Kopyahin</span>
+        <span class="tc-code-copy" onclick="copyCode('${t.code}','${t.name}')">Copy</span>
       </div>` : `<div class="tc-code"><span class="tc-code-lbl">Registered na — active ang account</span></div>`}
     </div>`;
   }).join('');
@@ -7435,7 +8181,7 @@ function openAddTenantModal() {
   const house = state.houses.find(h => h.id === state.currentHouseId);
   const sel = document.getElementById('at-room');
   sel.innerHTML = house.rooms.map(r =>
-    `<option value="${r.name}">${r.name}${r.tenant ? ' ('+r.tenant+')' : ' — Bakante'}</option>`
+    `<option value="${r.name}">${r.name}${r.tenant ? ' ('+r.tenant+')' : ' — Vacant'}</option>`
   ).join('');
   document.getElementById('at-name').value = '';
   document.getElementById('at-phone').value = '';
@@ -7450,7 +8196,7 @@ function addTenantAndGenerateCode() {
   const name = document.getElementById('at-name').value.trim();
   const phone = document.getElementById('at-phone').value.trim();
   const room = document.getElementById('at-room').value;
-  if(!name) { showToast('<i class="ph ph-warning"></i> Ilagay ang pangalan ng tenant'); return; }
+  if(!name) { showToast('<i class="ph ph-warning"></i> Please enter the tenant\'s name'); return; }
   if(!phone || phone.length < 10) { showToast('<i class="ph ph-warning"></i> Mali ang phone number'); return; }
   const code = String(Math.floor(100000 + Math.random() * 900000));
   const newTenant = {
@@ -7468,7 +8214,7 @@ function addTenantAndGenerateCode() {
   document.getElementById('ic-code-display').textContent = code;
   const house = state.houses.find(h => h.id === state.currentHouseId);
   document.getElementById('ic-room-display').textContent = `${room} — ${house?.name}`;
-  document.getElementById('ic-modal-sub').textContent = `Para kay ${name} — ibigay ito sa kanya sa text o personal.`;
+  document.getElementById('ic-modal-sub').textContent = `Share this code with ${name} — via text, Viber, or in person.`;
   document.getElementById('modal-invite-code').classList.remove('hidden');
   renderTenantManagement();
 }
@@ -7550,12 +8296,153 @@ function copyQRLink() {
 // ════════════════════════════════════════
 // TENANT HOME — ROOM INFO
 // ════════════════════════════════════════
+// ════════════════════════════════════════
+// MOVE-OUT REQUEST FLOW
+// ════════════════════════════════════════
+function requestMoveOut() {
+  if (!state.tenantProfile) { showToast('No active tenancy found'); return; }
+  if (!state.moveOutRequests) state.moveOutRequests = [];
+  const tp = state.tenantProfile;
+  const existing = state.moveOutRequests.find(r => r.tenantName === tp.name && r.status === 'pending');
+  if (existing) { showToast('Move-out request already submitted. Waiting for landlord.'); return; }
+  // Remove old card if any
+  const old = document.getElementById('moveout-confirm-card');
+  if (old) old.remove();
+  const card = document.createElement('div');
+  card.id = 'moveout-confirm-card';
+  card.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:390px;background:var(--amberBg);border:1.5px solid var(--amber);border-radius:14px;padding:16px;z-index:600;box-shadow:0 8px 32px rgba(0,0,0,.2);';
+  card.innerHTML = `
+    <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--amber);margin-bottom:6px;"><i class="ph ph-sign-out"></i> Request Move-Out?</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:14px;">This sends a move-out request to your landlord. Your room won't be vacated until they confirm it.</div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="submitMoveOutRequest()" style="flex:2;background:var(--amber);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Yes, Request Move-Out</button>
+      <button onclick="document.getElementById('moveout-confirm-card').remove()" style="flex:1;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>
+    </div>`;
+  document.body.appendChild(card);
+}
+
+function submitMoveOutRequest() {
+  const card = document.getElementById('moveout-confirm-card');
+  if (card) card.remove();
+  if (!state.moveOutRequests) state.moveOutRequests = [];
+  const tp = state.tenantProfile;
+  if (!tp) return;
+  state.moveOutRequests.push({
+    id: state.nextId++,
+    tenantName: tp.name,
+    room: tp.room,
+    houseId: tp.houseId,
+    houseName: tp.houseName || state.houses.find(h=>h.id===tp.houseId)?.name || '—',
+    requestedAt: Date.now(),
+    status: 'pending',
+  });
+  adminLog(`Move-out requested by ${tp.name} (${tp.room})`);
+  save();
+  showToast('<i class="ph ph-sign-out"></i> Move-out request sent to your landlord.');
+}
+
+function confirmMoveOut(requestId) {
+  if (!state.moveOutRequests) return;
+  const req = state.moveOutRequests.find(r => r.id === requestId);
+  if (!req) return;
+  req.status = 'confirmed';
+  // Vacate the room
+  const h = state.houses.find(x => x.id === req.houseId);
+  if (h) {
+    const r = h.rooms.find(rm => rm.name === req.room);
+    if (r) { r.status = 'empty'; r.tenant = null; }
+  }
+  // Remove from pendingTenants
+  state.pendingTenants = state.pendingTenants.filter(t =>
+    !(t.name === req.tenantName && t.houseId === req.houseId)
+  );
+  // Clear tenantProfile if it matches this tenant
+  if (state.tenantProfile && state.tenantProfile.room === req.room && state.tenantProfile.houseId === req.houseId) {
+    state.tenantProfile = null;
+  }
+  adminLog(`Move-out confirmed: ${req.tenantName} from ${req.room}`);
+  save();
+  renderLandlordHome();
+  showToast(`<i class="ph ph-check-circle"></i> ${req.tenantName} moved out — ${req.room} is now vacant`);
+}
+
+function declineMoveOut(requestId) {
+  if (!state.moveOutRequests) return;
+  const req = state.moveOutRequests.find(r => r.id === requestId);
+  if (req) { req.status = 'declined'; save(); renderLandlordHome(); showToast('Move-out request declined'); }
+}
+
+// ════════════════════════════════════════
+// LANDLORD — PENDING PAYMENT CONFIRMATIONS
+// ════════════════════════════════════════
+function renderPendingPayments() {
+  const wrap = document.getElementById('l-pending-payments-wrap');
+  if (!wrap) return;
+  const txs = (state.paymentTransactions||[]).filter(t => t.status==='pending_confirmation');
+  if (!txs.length) { wrap.innerHTML=''; return; }
+
+  wrap.innerHTML = `
+    <div class="slbl" style="margin-bottom:10px;margin-top:4px;">
+      <i class="ph ph-clock" style="color:var(--amber);"></i> Pending Payment Confirmation (${txs.length})
+    </div>
+    ${txs.map(tx => `
+    <div style="background:var(--amberBg);border:1.5px solid var(--amber);border-radius:var(--r-lg);padding:14px 15px;margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+        <div>
+          <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);">${tx.tenantName}</div>
+          <div style="font-size:12px;color:var(--muted);">${tx.room} · ${relTime(tx.submittedAt)}</div>
+        </div>
+        <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:var(--amber);">₱${tx.amount.toLocaleString()}</div>
+      </div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">
+        <span style="font-weight:700;">Ref #:</span> ${tx.ref}
+        ${tx.note && tx.note!=='—' ? ` &nbsp;·&nbsp; <span style="font-weight:700;">Note:</span> ${tx.note}` : ''}
+        ${tx.screenshot ? ` &nbsp;·&nbsp; <span style="color:var(--blue);font-weight:700;cursor:pointer;" onclick="previewPaymentScreenshot(${tx.id})"><i class="ph ph-image"></i> View Screenshot</span>` : ''}
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="openPconfModal(${tx.id})" style="flex:1;background:var(--teal);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <i class="ph ph-check-circle"></i> Review & Confirm
+        </button>
+      </div>
+    </div>`).join('')}`;
+}
+
+function previewPaymentScreenshot(txId) {
+  const tx = (state.paymentTransactions||[]).find(t=>t.id===txId);
+  if (!tx || !tx.screenshot) return;
+  // Open in a simple overlay
+  const ov = document.createElement('div');
+  ov.style.cssText='position:absolute;inset:0;background:rgba(0,0,0,.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  ov.onclick=()=>ov.remove();
+  ov.innerHTML=`<div style="position:relative;max-width:100%;"><img src="${tx.screenshot}" style="max-width:100%;max-height:70vh;border-radius:12px;display:block;"><div style="position:absolute;top:-12px;right:-12px;width:28px;height:28px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;cursor:pointer;">×</div><div style="text-align:center;color:rgba(255,255,255,.6);font-size:12px;margin-top:8px;">Tap anywhere to close</div></div>`;
+  document.querySelector('.phone').appendChild(ov);
+}
+
+function renderMoveOutRequests() {
+  if (!state.moveOutRequests) return;
+  const pending = state.moveOutRequests.filter(r =>
+    r.status === 'pending' && r.houseId === (state.currentHouseId || state.houses[0]?.id)
+  );
+  const el = document.getElementById('l-moveout-requests');
+  if (!el) return;
+  if (!pending.length) { el.innerHTML = ''; return; }
+  el.innerHTML = pending.map(r => `
+    <div style="background:var(--amberBg);border:1.5px solid var(--amber);border-radius:var(--r-lg);padding:13px 14px;margin-bottom:10px;">
+      <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--amber);margin-bottom:4px;"><i class="ph ph-sign-out"></i> Move-Out Request</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:10px;"><strong>${r.tenantName}</strong> (${r.room}) requested to move out. ${relTime(r.requestedAt)}</div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="confirmMoveOut(${r.id})" class="btn btn-primary btn-sm" style="flex:2;"><i class="ph ph-check-circle"></i> Confirm Move-Out</button>
+        <button onclick="declineMoveOut(${r.id})" class="btn btn-secondary btn-sm" style="flex:1;">Decline</button>
+      </div>
+    </div>`).join('');
+}
+
 function renderTenantHome() {
   // Get tenant profile — use registered profile or default
   const profile = state.tenantProfile || {
     name: 'Ana Reyes', room: 'R1', roomLabel: 'Room 1',
-    rent: 1500, houseId: 1, houseName: 'Dela Cruz Boarding House',
-    houseAddr: 'Purok 3, Burauen', paymentStatus: 'paid'
+    rent: 1500, houseId: 1, houseName: 'TIAH Boarding House',
+    houseAddr: 'Poblacion VII, Burauen', paymentStatus: 'paid'
   };
   // Update header
   const nameEl = document.getElementById('t-tenant-name');
@@ -7573,24 +8460,43 @@ function renderTenantHome() {
   if(roomRent) roomRent.textContent = '₱' + (profile.rent||0).toLocaleString();
   const payStatus = document.getElementById('t-payment-status');
   const payPrompt = document.getElementById('t-pay-prompt');
-  const isPaid = profile.paymentStatus === 'paid' || profile.paymentStatus === 'self_reported';
+  const isPaid = profile.paymentStatus === 'paid';
+  const isSelfReported = profile.paymentStatus === 'self_reported';
   if(payStatus) {
     if (profile.paymentStatus === 'paid') {
-      payStatus.innerHTML = '<i class="ph ph-check" style="font-size:11px"></i> Bayad na';
+      payStatus.innerHTML = '<i class="ph ph-check" style="font-size:11px"></i> Paid';
       payStatus.style.background = 'rgba(255,255,255,.2)';
     } else if (profile.paymentStatus === 'self_reported') {
-      payStatus.innerHTML = '<i class="ph ph-clock" style="font-size:11px"></i> Hinihintay ng kumpirmasyon';
+      payStatus.innerHTML = '<i class="ph ph-clock" style="font-size:11px"></i> Awaiting confirmation';
       payStatus.style.background = 'rgba(255,200,0,.25)';
     } else {
-      payStatus.innerHTML = '<i class="ph ph-warning" style="font-size:11px"></i> Hindi pa bayad';
+      payStatus.innerHTML = '<i class="ph ph-warning" style="font-size:11px"></i> Not yet paid';
       payStatus.style.background = 'rgba(255,200,0,.25)';
     }
   }
-  if (payPrompt) payPrompt.style.display = isPaid ? 'none' : 'flex';
+  if (payPrompt) {
+    if (isPaid) {
+      payPrompt.style.display = 'none';
+    } else if (isSelfReported) {
+      payPrompt.style.display = 'flex';
+      // Change prompt to waiting state
+      const promptBtn = payPrompt.querySelector('button');
+      if (promptBtn) {
+        promptBtn.textContent = 'Sent ✓';
+        promptBtn.disabled = true;
+        promptBtn.style.background = 'var(--muted2)';
+        promptBtn.style.cursor = 'default';
+      }
+      const promptTitle = payPrompt.querySelector('div div:first-child');
+      if (promptTitle) promptTitle.textContent = 'Naghihintay ng kumpirmasyon';
+    } else {
+      payPrompt.style.display = 'flex';
+    }
+  }
   // Announcements
   const newCount = state.announcements.filter(a => a.isNew && !a.dismissed).length;
   const badge = document.getElementById('t-ann-badge');
-  if(badge) badge.textContent = newCount > 0 ? newCount + ' bago' : 'Lahat';
+  if(badge) badge.textContent = newCount > 0 ? newCount + ' new' : 'All';
   const list = document.getElementById('t-ann-list');
   const emptyEl = document.getElementById('t-ann-empty');
   const visible = state.announcements.filter(a => !a.dismissed);
@@ -7652,26 +8558,14 @@ function dismissAnn(id) {
 }
 
 // ════════════════════════════════════════
-// INIT
+// INIT — moved after profiles declaration
 // ════════════════════════════════════════
-renderHouses();
-// Show platform banner if any active announcements
-setTimeout(() => {
-  ensureAdminFields();
-  renderPlatformBanner();
-  // Restore maintenance mode overlay if it was on
-  if (state.maintenanceMode) {
-    const overlay = document.getElementById('maintenance-overlay');
-    if (overlay) overlay.classList.remove('hidden');
-  }
-}, 100);
-
 // ════════════════════════════════════════
 // PROFILE & ONBOARDING STATE
 // ════════════════════════════════════════
 const profiles = {
   seeker: { name:'', phone:'', school:'', course:'', budget:1500, avatar:'<i class="ph ph-graduation-cap"></i>',
-            wifi:true, cooking:false, visitors:true, nocurfew:false, created:null },
+            wifi:true, cooking:false, visitors:true, nocurfew:false, laundry:false, created:null },
   landlord: { name:'', phone:'', bhName:'', address:'', gcash:'', avatar:'<i class="ph ph-house"></i>', created:null },
   newLandlord: { name:'', phone:'', gcash:'', bhName:'', address:'', school:'EVSU',
                  distance:5, price:1500, rooms:4, curfew:'10:00 PM',
@@ -7774,6 +8668,13 @@ function showSeekerSetupStep(n) {
 function handlePhotoUpload(event, type) {
   const file = event.target.files[0];
   if(!file) return;
+  // Track upload
+  if (!state.uploadLog) state.uploadLog = [];
+  const userName = type==='s' ? (profiles.seeker?.name||'Seeker')
+                 : type==='l' ? (profiles.landlord?.name||'Landlord')
+                 : (profiles.tenant?.name||'Tenant');
+  state.uploadLog.unshift({ id:state.nextId++, type:'profile_photo', user:userName, house:'—', houseId:null, filename:file.name, size:(file.size/1024).toFixed(1)+'KB', ts:Date.now() });
+  adminLog(`Profile photo uploaded by ${userName} (${(file.size/1024).toFixed(1)}KB)`);
   const reader = new FileReader();
   reader.onload = function(e) {
     const dataUrl = e.target.result;
@@ -7886,6 +8787,38 @@ function renderSeekerProfile() {
   }
   const bioRow = document.getElementById('sp-bio-row');
   if(bioRow) { bioRow.style.display = p.bio ? '' : 'none'; el('sp-bio', p.bio||''); }
+  renderSeekerVisits();
+}
+
+function renderSeekerVisits() {
+  const list  = document.getElementById('sp-visits-list');
+  const empty = document.getElementById('sp-visits-empty');
+  if (!list) return;
+  const myVisits = state.visits.filter(v => v.name === 'You');
+  if (!myVisits.length) {
+    list.innerHTML = '';
+    if (empty) empty.style.display = '';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  const sMap = {
+    pending:   { bg:'var(--amberBg)', tc:'var(--amber)',  ic:'ph-clock',          lbl:'Pending' },
+    confirmed: { bg:'var(--greenBg)', tc:'var(--green)',  ic:'ph-check-circle',   lbl:'Confirmed ✓' },
+    cancelled: { bg:'var(--redBg)',   tc:'var(--red)',    ic:'ph-x-circle',       lbl:'Declined' },
+  };
+  list.innerHTML = myVisits.map(v => {
+    const s = sMap[v.status] || sMap.pending;
+    return `<div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;background:${s.bg};border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="ph ${s.ic}" style="font-size:18px;color:${s.tc};"></i>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);">${v.house}</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:1px;">${v.date} at ${v.time}</div>
+      </div>
+      <span style="font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;color:${s.tc};background:${s.bg};padding:3px 8px;border-radius:20px;">${s.lbl}</span>
+    </div>`;
+  }).join('');
 }
 
 // ════════════════════════════════════════
@@ -8011,10 +8944,62 @@ function landlordOnboardNext() {
     el('lo-sum-rooms', profiles.newLandlord.rooms+' rooms');
     loStep = 4; showLoStep(4);
   } else if(loStep===4) {
+    const nl = profiles.newLandlord;
+    // Build a real house entry — not visible to seekers until self-verified
+    const gradients = [
+      'linear-gradient(135deg,#5B21B6,#7C3AED)',
+      'linear-gradient(135deg,#0B7A6A,#0D9480)',
+      'linear-gradient(135deg,#1462A8,#1558CC)',
+      'linear-gradient(135deg,#B45309,#D97706)',
+    ];
+    const newHouseId = Math.max(...state.houses.map(h=>h.id)) + 1;
+    const rooms = [];
+    for (let i = 1; i <= (nl.rooms||4); i++) {
+      rooms.push({ id: i, name: 'R'+i, status:'empty', tenant:null, amount: nl.price||1500 });
+    }
+    const newHouse = {
+      id:          newHouseId,
+      name:        nl.bhName,
+      address:     nl.address,
+      price:       nl.price || 1500,
+      curfew:      nl.curfew || '10:00 PM',
+      distanceEVSU: nl.school==='evsu' ? (nl.distance||8) : (nl.distance||15),
+      distanceBCC:  nl.school==='bcc'  ? (nl.distance||5) : (nl.distance||12),
+      gradient:    gradients[newHouseId % gradients.length],
+      latlng:      [10.8755, 124.9390], // default Burauen center
+      verified:    null,
+      selfVerified: false,
+      adminStatus: 'pending',
+      lastActive:  'Just now',
+      about:       '',
+      amenities:   [],
+      snapshots:   [],
+      waitlist:    [],
+      rooms,
+      rules: {
+        wifi:     nl.wifi     || false,
+        cooking:  nl.cooking  || false,
+        visitors: nl.visitors || false,
+        laundry:  nl.laundry  || false,
+        advance:  '1 month',
+        deposit:  '1 month',
+      },
+    };
+    state.houses.push(newHouse);
+    state.currentHouseId = newHouseId;
+    // Copy to landlord profile
+    profiles.landlord.name   = nl.name;
+    profiles.landlord.phone  = nl.phone;
+    profiles.landlord.gcash  = nl.gcash;
+    profiles.landlord.bhName = nl.bhName;
+    profiles.landlord.address= nl.address;
+    profiles.landlord.created= new Date().toLocaleDateString('en-PH',{month:'long',year:'numeric'});
     saveProfiles();
-    showToast('Listing submitted! We\'ll be in touch within 2-3 days ');
+    save();
+    adminLog(`New landlord registered: ${nl.bhName}`);
+    showToast('<i class="ph ph-house"></i> Listing created! Self-verify it to go live.');
     loStep = 1;
-    goTo('s-role');
+    goTo('l-home');
   }
 }
 function landlordOnboardBack() {
@@ -8197,13 +9182,31 @@ function loadSafe() {
         }
       });
     }
-    if (d.visits)          state.visits          = d.visits;
-    if (d.pendingTenants)  state.pendingTenants  = d.pendingTenants;
-    if (d.tenantProfile)   state.tenantProfile   = d.tenantProfile;
-    if (d.seekerProfile)   state.seekerProfile   = d.seekerProfile;
-    if (d.visitSlots)      state.visitSlots      = d.visitSlots;
-    if (d.paymentLog)      state.paymentLog      = d.paymentLog;
-    if (d.savedHouses)    state.savedHouses     = d.savedHouses;
+    if (d.visits)              state.visits              = d.visits;
+    if (d.pendingTenants)      state.pendingTenants      = d.pendingTenants;
+    if (d.tenantProfile)       state.tenantProfile       = d.tenantProfile;
+    if (d.seekerProfile)       state.seekerProfile       = d.seekerProfile;
+    if (d.visitSlots)          state.visitSlots          = d.visitSlots;
+    if (d.paymentLog)          state.paymentLog          = d.paymentLog;
+  if (d.paymentTransactions) state.paymentTransactions = d.paymentTransactions;
+  if (d.uploadLog)           state.uploadLog           = d.uploadLog;
+    if (d.savedHouses)         state.savedHouses         = d.savedHouses;
+    if (d.moveOutRequests)     state.moveOutRequests     = d.moveOutRequests;
+    if (d.platformAnnouncements) state.platformAnnouncements = d.platformAnnouncements;
+    if (d.adminActivityLog !== undefined) state.adminActivityLog = d.adminActivityLog;
+    if (d.maintenanceMode !== undefined) state.maintenanceMode = d.maintenanceMode;
+    if (d.sort)                state.sort                = d.sort;
+    // Restore adminStatus and adminVerified on houses from saved data
+    if (d.houses) {
+      d.houses.forEach(dh => {
+        const sh = state.houses.find(h => h.id === dh.id);
+        if (sh) {
+          if (dh.adminStatus  !== undefined) sh.adminStatus  = dh.adminStatus;
+          if (dh.adminVerified !== undefined) sh.adminVerified = dh.adminVerified;
+          if (dh.adminNotes   !== undefined) sh.adminNotes   = dh.adminNotes;
+        }
+      });
+    }
   } catch(e) {
     console.warn('[BB] localStorage parse failed — using defaults:', e.message);
     try { localStorage.setItem('bb_last_error', JSON.stringify({type:'parse', msg:e.message, ts:Date.now()})); } catch(_){}
@@ -8211,6 +9214,19 @@ function loadSafe() {
   }
 }
 loadSafe();
+
+// ════════════════════════════════════════
+// INIT — runs after profiles + loadSafe
+// ════════════════════════════════════════
+renderHouses();
+setTimeout(() => {
+  ensureAdminFields();
+  renderPlatformBanner();
+  if (state.maintenanceMode) {
+    const overlay = document.getElementById('maintenance-overlay');
+    if (overlay) overlay.classList.remove('hidden');
+  }
+}, 100);
 
 
 
@@ -8468,6 +9484,19 @@ function triggerSnapUpload(idx) {
 function handleSnapPhotoUpload(event) {
   const file = event.target.files[0];
   if (!file || _snapUploadIdx === null) return;
+  // Track upload
+  if (!state.uploadLog) state.uploadLog = [];
+  const h0 = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
+  state.uploadLog.unshift({
+    id: state.nextId++, type: 'listing_photo',
+    user: profiles.landlord?.name || 'Landlord',
+    house: h0?.name || '—',
+    houseId: h0?.id || 1,
+    filename: file.name,
+    size: (file.size/1024).toFixed(1)+'KB',
+    ts: Date.now()
+  });
+  adminLog(`Photo uploaded: ${file.name} (${(file.size/1024).toFixed(1)}KB) for ${h0?.name||'listing'}`);
   const reader = new FileReader();
   reader.onload = e => {
     const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
@@ -8615,8 +9644,21 @@ function ensureAdminFields() {
     if (!h.adminNotes)  h.adminNotes  = '';
   });
   if (!state.platformAnnouncements) state.platformAnnouncements = [];
-  if (!state.adminActivityLog)      state.adminActivityLog = [];
   if (!state.maintenanceMode)       state.maintenanceMode = false;
+  // Seed audit log with demo entries if empty
+  if (!state.adminActivityLog || state.adminActivityLog.length === 0) {
+    state.adminActivityLog = [
+      { msg: 'Admin verified listing: TIAH Boarding House',         ts: Date.now() - 3600000   },
+      { msg: 'Admin verified listing: Caspe Boarding House',        ts: Date.now() - 7200000   },
+      { msg: 'New landlord registered: LFH Boarding House',         ts: Date.now() - 86400000  },
+      { msg: 'Platform announcement: "App maintenance scheduled"',  ts: Date.now() - 172800000 },
+      { msg: 'Admin verified listing: LFH Boarding House',          ts: Date.now() - 259200000 },
+      { msg: 'Tenant code reset for Ana Reyes',                     ts: Date.now() - 345600000 },
+      { msg: 'Suspended listing: Jayñamich Residence (resolved)',   ts: Date.now() - 432000000 },
+      { msg: 'Restored listing: Jayñamich Residence',               ts: Date.now() - 430000000 },
+      { msg: 'Admin logged in',                                      ts: Date.now() - 518400000 },
+    ];
+  }
 }
 
 function adminLog(msg) {
@@ -8625,7 +9667,7 @@ function adminLog(msg) {
   if (state.adminActivityLog.length > 20) state.adminActivityLog.pop();
 }
 
-ROOT_SCREENS.add('a-home');
+// a-home already in ROOT_SCREENS
 
 // ════════════════════════════════════════
 // ADMIN — PIN LOGIN
@@ -8932,9 +9974,23 @@ function adminResolveMaint(id) {
 // ════════════════════════════════════════
 // ADMIN — FINANCIALS
 // ════════════════════════════════════════
+let _adminFinTab = 'overview';
+function switchAdminFinTab(tab, btn) {
+  _adminFinTab = tab;
+  document.querySelectorAll('.a-fin-tab').forEach(b=>b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  renderAdminFinancials();
+}
+
 function renderAdminFinancials() {
-  const body=document.getElementById('a-financials-body');
+  const body = document.getElementById('a-financials-body');
   if (!body) return;
+  if (_adminFinTab === 'overview')  renderAdminFinOverview(body);
+  else if (_adminFinTab === 'txns') renderAdminTransactions(body);
+  else if (_adminFinTab === 'uploads') renderAdminUploads(body);
+}
+
+function renderAdminFinOverview(body) {
   const totalRev  = state.houses.reduce((s,h)=>s+h.rooms.filter(r=>r.status!=='empty').reduce((rs,r)=>rs+r.amount,0),0);
   const totalExp  = state.expenses.reduce((s,e)=>s+Number(e.amount),0);
   const net       = totalRev-totalExp;
@@ -8943,6 +9999,9 @@ function renderAdminFinancials() {
   const maxRev    = houseRows[0]?.rev||1;
   const inqByHouse= state.houses.map(h=>({ name:h.name, count:state.inquiries.filter(i=>i.houseId===h.id).length })).sort((a,b)=>b.count-a.count);
   const maxInq    = inqByHouse[0]?.count||1;
+  const confirmedTxs = (state.paymentTransactions||[]).filter(t=>t.status==='confirmed');
+  const confirmedTotal = confirmedTxs.reduce((s,t)=>s+t.amount,0);
+  const pendingTxs = (state.paymentTransactions||[]).filter(t=>t.status==='pending_confirmation');
 
   body.innerHTML = `
     <div class="a-stat-grid" style="margin-bottom:14px;">
@@ -8950,6 +10009,16 @@ function renderAdminFinancials() {
       <div class="a-stat accent-red"><div class="a-stat-val">₱${totalExp.toLocaleString()}</div><div class="a-stat-lbl">Total Expenses</div></div>
       <div class="a-stat ${net>=0?'accent-green':'accent-red'}"><div class="a-stat-val" style="color:${net>=0?'var(--green)':'var(--red)'};">${net>=0?'+':''}₱${net.toLocaleString()}</div><div class="a-stat-lbl">Net (Rev − Exp)</div></div>
       <div class="a-stat accent-blue"><div class="a-stat-val">${occ}%</div><div class="a-stat-lbl">Platform Occupancy</div></div>
+    </div>
+    ${pendingTxs.length ? `<div style="background:rgba(180,83,9,.15);border:1px solid rgba(180,83,9,.3);border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
+      <i class="ph ph-clock" style="font-size:20px;color:#FCD34D;flex-shrink:0;"></i>
+      <div style="flex:1;font-size:13px;color:rgba(255,255,255,.8);">${pendingTxs.length} payment${pendingTxs.length>1?'s':''} awaiting landlord confirmation</div>
+      <button onclick="switchAdminFinTab('txns',document.getElementById('aft-txns'))" style="background:#ff6b6b;color:#fff;border:none;border-radius:8px;padding:6px 12px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;">View</button>
+    </div>` : ''}
+    <div class="card card-p" style="margin-bottom:14px;">
+      <div class="slbl" style="margin-bottom:8px;">Confirmed Payments This Session</div>
+      <div style="font-family:'Nunito',sans-serif;font-size:24px;font-weight:900;color:#fff;margin-bottom:4px;">₱${confirmedTotal.toLocaleString()}</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.4);">${confirmedTxs.length} transaction${confirmedTxs.length!==1?'s':''} confirmed</div>
     </div>
     <div class="card card-p" style="margin-bottom:14px;">
       <div class="slbl" style="margin-bottom:14px;">Revenue by House</div>
@@ -8972,6 +10041,89 @@ function renderAdminFinancials() {
         <div class="a-bar-track"><div class="a-bar-fill" style="width:${r}%;background:${r===100?'var(--red)':r>=75?'var(--amber)':'var(--teal)'};"></div></div>
       </div>`; }).join('')}
     </div>`;
+}
+
+function renderAdminTransactions(body) {
+  const txs = (state.paymentTransactions||[]).slice().reverse();
+  const statusColor = { confirmed:'var(--green)', rejected:'var(--red)', pending_confirmation:'var(--amber)' };
+  const statusLabel = { confirmed:'Confirmed ✓', rejected:'Rejected ✗', pending_confirmation:'Pending' };
+
+  if (!txs.length) {
+    body.innerHTML = `<div style="text-align:center;padding:60px 20px;color:rgba(255,255,255,.3);">
+      <i class="ph ph-receipt" style="font-size:40px;display:block;margin-bottom:12px;"></i>
+      <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;">No transactions yet</div>
+      <div style="font-size:12px;margin-top:4px;">Payment reports from tenants will appear here.</div>
+    </div>`; return;
+  }
+
+  const total = txs.filter(t=>t.status==='confirmed').reduce((s,t)=>s+t.amount,0);
+  const pending = txs.filter(t=>t.status==='pending_confirmation').length;
+
+  body.innerHTML = `
+    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;gap:0;">
+      <div style="flex:1;text-align:center;"><div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#4ADE80;">₱${total.toLocaleString()}</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;">Confirmed</div></div>
+      <div style="flex:1;text-align:center;border-left:1px solid rgba(255,255,255,.08);"><div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#FCD34D;">${pending}</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;">Pending</div></div>
+      <div style="flex:1;text-align:center;border-left:1px solid rgba(255,255,255,.08);"><div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#fff;">${txs.length}</div><div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;">Total</div></div>
+    </div>
+    ${txs.map(tx => {
+      const hName = state.houses.find(h=>h.id===tx.houseId)?.name||'—';
+      const sc = statusColor[tx.status]||'var(--muted)';
+      const sl = statusLabel[tx.status]||tx.status;
+      return `<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:13px 15px;margin-bottom:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+          <div>
+            <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#fff;">${tx.tenantName}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,.4);">${tx.room} · ${hName.replace(/ Boarding House| Residence/,'')} · ${relTime(tx.submittedAt)}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:#fff;">₱${tx.amount.toLocaleString()}</div>
+            <div style="font-size:11px;font-weight:700;color:${sc};">${sl}</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,.45);display:flex;gap:14px;flex-wrap:wrap;">
+          <span><i class="ph ph-hash"></i> Ref: ${tx.ref}</span>
+          ${tx.note&&tx.note!=='—'?`<span><i class="ph ph-note"></i> ${tx.note}</span>`:''}
+          ${tx.rejectReason?`<span style="color:#ff6b6b;"><i class="ph ph-x-circle"></i> ${tx.rejectReason}</span>`:''}
+          ${tx.screenshot?`<span style="color:#60a5fa;cursor:pointer;" onclick="previewPaymentScreenshot(${tx.id})"><i class="ph ph-image"></i> Screenshot</span>`:''}
+        </div>
+        ${tx.status==='pending_confirmation'?`<button onclick="openPconfModal(${tx.id})" style="margin-top:10px;width:100%;background:#ff6b6b;color:#fff;border:none;border-radius:8px;padding:9px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Review & Confirm</button>`:''}
+      </div>`;
+    }).join('')}`;
+}
+
+function renderAdminUploads(body) {
+  const uploads = (state.uploadLog||[]).slice().reverse();
+  if (!uploads.length) {
+    body.innerHTML = `<div style="text-align:center;padding:60px 20px;color:rgba(255,255,255,.3);">
+      <i class="ph ph-images" style="font-size:40px;display:block;margin-bottom:12px;"></i>
+      <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;">No uploads yet</div>
+      <div style="font-size:12px;margin-top:4px;">Photo uploads from landlords and tenants appear here.</div>
+    </div>`; return;
+  }
+
+  const typeLabel = { listing_photo:'Listing Photo', payment_screenshot:'Payment Screenshot', profile_photo:'Profile Photo' };
+  const typeColor = { listing_photo:'var(--teal)', payment_screenshot:'var(--amber)', profile_photo:'var(--blue)' };
+
+  body.innerHTML = `
+    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 16px;margin-bottom:14px;">
+      <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#fff;">${uploads.length} upload${uploads.length!==1?'s':''}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">${uploads.filter(u=>u.type==='listing_photo').length} listing · ${uploads.filter(u=>u.type==='payment_screenshot').length} payment screenshots</div>
+    </div>
+    ${uploads.map(u => {
+      const col = typeColor[u.type]||'var(--muted)';
+      const lbl = typeLabel[u.type]||u.type;
+      const hName = state.houses.find(h=>h.id===u.houseId)?.name||'—';
+      return `<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;">
+        <div style="width:38px;height:38px;background:rgba(255,255,255,.06);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="ph ph-image" style="font-size:18px;color:${col};"></i>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;color:#fff;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${u.filename}</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">${u.user} · ${u.house!=='—'?u.house.replace(/ Boarding House/,''):hName.replace(/ Boarding House/,'')} · ${u.size} · ${relTime(u.ts)}</div>
+        </div>
+        <span style="font-size:10px;font-weight:700;color:${col};background:${col}22;padding:3px 8px;border-radius:6px;white-space:nowrap;">${lbl}</span>
+      </div>`;
+    }).join('')}`;
 }
 
 // ════════════════════════════════════════
@@ -9045,6 +10197,59 @@ function renderAdminSettings() {
   if (thumb)  thumb.style.left=on?'23px':'3px';
   if (status) status.innerHTML=on?'Maintenance mode is <strong style="color:var(--red)">ON</strong> — showing maintenance screen to all users.':'Maintenance mode is <strong>off</strong> — app is live for all users.';
 }
+
+// ════════════════════════════════════════
+// ADMIN — AUDIT LOG
+// ════════════════════════════════════════
+function renderAuditLog() {
+  ensureAdminFields();
+  const list = document.getElementById('a-logs-list');
+  if (!list) return;
+  const logs = state.adminActivityLog || [];
+  if (!logs.length) {
+    list.innerHTML = `<div style="text-align:center;padding:60px 20px;color:rgba(255,255,255,.3);">
+      <i class="ph ph-scroll" style="font-size:40px;display:block;margin-bottom:12px;"></i>
+      <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;">No activity logged yet</div>
+      <div style="font-size:12px;margin-top:4px;">Actions you take as admin will appear here.</div>
+    </div>`;
+    return;
+  }
+  // Summary stats row
+  const todayLogs = logs.filter(l => Date.now() - l.ts < 86400000).length;
+  list.innerHTML = `
+    <div style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:14px 16px;margin-bottom:16px;display:flex;gap:0;">
+      <div style="flex:1;text-align:center;">
+        <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#fff;">${logs.length}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;">Total Actions</div>
+      </div>
+      <div style="flex:1;text-align:center;border-left:1px solid rgba(255,255,255,.08);">
+        <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#ff6b6b;">${todayLogs}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;">Today</div>
+      </div>
+      <div style="flex:1;text-align:center;border-left:1px solid rgba(255,255,255,.08);">
+        <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#fff;">${new Set(logs.map(l=>l.msg.split(':')[0])).size}</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;">Event Types</div>
+      </div>
+    </div>
+    <div style="font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;color:rgba(255,255,255,.3);letter-spacing:.5px;margin-bottom:10px;">RECENT ACTIVITY</div>
+    ${logs.map((l,i) => `
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);">
+        <div style="width:28px;height:28px;background:rgba(255,107,107,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+          <span style="font-size:12px;color:#ff6b6b;">${i+1}</span>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;color:rgba(255,255,255,.8);line-height:1.4;">${l.msg}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:3px;">${relTime(l.ts)}</div>
+        </div>
+      </div>`).join('')}`;
+}
+
+function clearAuditLog() {
+  state.adminActivityLog = [];
+  save();
+  renderAuditLog();
+  showToast('Audit log cleared');
+}
 function toggleMaintenanceMode() {
   state.maintenanceMode=!state.maintenanceMode;
   save(); renderAdminSettings();
@@ -9074,9 +10279,9 @@ function exportAdminData() {
 }
 function confirmResetData() {
   const card=document.createElement('div');
-  card.style.cssText='position:absolute;bottom:80px;left:14px;right:14px;background:var(--redBg);border:1.5px solid var(--red);border-radius:14px;padding:16px;z-index:500;box-shadow:var(--sh-lg);';
-  card.innerHTML=`<div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--red);margin-bottom:6px;"><i class="ph ph-warning"></i> Reset all demo data?</div><div style="font-size:12px;color:var(--text2);margin-bottom:14px;">Clears localStorage and reloads with default seed data. Cannot be undone.</div><div style="display:flex;gap:8px;"><button onclick="localStorage.clear();location.reload();" style="flex:2;background:var(--red);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Yes, Reset</button><button onclick="this.closest('div[style]').remove()" style="flex:1;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;cursor:pointer;">Cancel</button></div>`;
-  document.querySelector('.phone').appendChild(card);
+  card.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:390px;background:var(--redBg);border:1.5px solid var(--red);border-radius:14px;padding:16px;z-index:600;box-shadow:0 8px 32px rgba(0,0,0,.2);';
+  card.innerHTML=`<div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--red);margin-bottom:6px;"><i class="ph ph-warning"></i> Reset all demo data?</div><div style="font-size:12px;color:var(--text2);margin-bottom:14px;">Clears localStorage and reloads with default seed data. Cannot be undone.</div><div style="display:flex;gap:8px;"><button onclick="localStorage.clear();location.reload();" style="flex:2;background:var(--red);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Yes, Reset</button><button onclick="this.remove()" style="flex:1;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;cursor:pointer;">Cancel</button></div>`;
+  document.body.appendChild(card);
 }
 function selfVerifyListing() {
   const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
@@ -9097,10 +10302,10 @@ function selfVerifyListing() {
       </div>
       <div style="flex:1;">
         <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--green);margin-bottom:3px;"><i class="ph ph-check-circle"></i> Na-verify na ang Listing!</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.5;">Verified ${month} · Makikita ng mga estudyante ang verified badge sa iyong listing.</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.5;">Verified ${month} · Students will now see the verified badge on your listing.</div>
       </div>`;
   }
-  showToast('<i class="ph ph-seal-check"></i> Listing verified! Makikita na ng mga estudyante.');
+  showToast('<i class="ph ph-seal-check"></i> Listing verified! Students can now see your verified badge.');
 }
 
 function updateVerifyBanner(h) {
@@ -9115,7 +10320,7 @@ function updateVerifyBanner(h) {
       </div>
       <div style="flex:1;">
         <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--green);margin-bottom:3px;"><i class="ph ph-check-circle"></i> Na-verify na ang Listing!</div>
-        <div style="font-size:12px;color:var(--text2);line-height:1.5;">Verified ${h.verified} · Makikita ng mga estudyante ang verified badge sa iyong listing.</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.5;">Verified ${h.verified} · Students will see the verified badge on your listing.</div>
       </div>`;
   }
 }
@@ -9558,3 +10763,4 @@ function removeWaitlist(name, houseId, idx) {
 </script>
 </body>
 </html>
+

@@ -56,7 +56,7 @@
 
 /* ─── RESET & BASE ───────────────────────────────── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html, body { height:100%; }
+html { height:-webkit-fill-available; -webkit-text-size-adjust:100%; text-size-adjust:100%; } html, body { height:100%; overflow-x:hidden; }
 body {
   font-family:'Nunito Sans', sans-serif;
   font-size:15px;
@@ -64,7 +64,7 @@ body {
   display:flex;
   justify-content:center;
   align-items:center;
-  min-height:100vh;
+  min-height:100vh; min-height:-webkit-fill-available;
   background: #0B1F3A;
   background-image:
     radial-gradient(ellipse 80% 50% at 20% 0%, rgba(21,88,204,.35) 0%, transparent 60%),
@@ -75,7 +75,7 @@ body {
 .phone {
   width:100%;
   max-width:420px;
-  height:100vh;
+  height:100vh; height:-webkit-fill-available;
   max-height:860px;
   background:var(--warm);
   overflow:hidden;
@@ -131,7 +131,7 @@ body {
   align-items:center;
   gap:3px;
   padding:6px 0;
-  cursor:pointer;
+  touch-action:manipulation; cursor:pointer;
   transition:opacity .15s;
   position:relative;
 }
@@ -155,11 +155,11 @@ body {
 .title-xl { font-family:'Nunito', sans-serif; font-size:22px; font-weight:900; color:var(--text); line-height:1.2; }
 .title-lg { font-family:'Nunito', sans-serif; font-size:18px; font-weight:800; color:var(--text); }
 .title-md { font-family:'Nunito', sans-serif; font-size:15px; font-weight:800; color:var(--text); }
-.slbl { font-family:'Nunito', sans-serif; font-size:11px; font-weight:800; color:var(--muted); letter-spacing:.7px; text-transform:uppercase; }
+.slbl { font-family:'Nunito', sans-serif; font-size:12px; font-weight:800; color:var(--muted); letter-spacing:.7px; text-transform:uppercase; }
 .body-sm { font-size:13px; color:var(--muted); line-height:1.5; }
 
 /* ─── BUTTONS ────────────────────────────────────── */
-.btn { display:flex; align-items:center; justify-content:center; gap:7px; border:none; cursor:pointer; transition:all .18s; font-family:'Nunito', sans-serif; font-weight:800; border-radius:var(--r); }
+.btn { display:flex; align-items:center; justify-content:center; gap:7px; touch-action:manipulation; border:none; cursor:pointer; transition:all .18s; font-family:'Nunito', sans-serif; font-weight:800; border-radius:var(--r); }
 .btn:active { transform:scale(.97); }
 
 .btn-primary {
@@ -246,7 +246,7 @@ body {
 .lbl {
   display:block;
   font-family:'Nunito', sans-serif;
-  font-size:11px;
+  font-size:12px;
   font-weight:800;
   color:var(--navy);
   letter-spacing:.6px;
@@ -260,7 +260,7 @@ body {
   border-radius:var(--r);
   padding:12px 15px;
   font-family:'Nunito Sans', sans-serif;
-  font-size:15px;
+  font-size:16px;
   color:var(--text);
   outline:none;
   transition:border-color .2s, box-shadow .2s;
@@ -281,7 +281,7 @@ body {
   75%      { transform: translateX(6px); }
 }
 .ta { resize:none; height:88px; line-height:1.5; }
-.hint { font-size:11px; color:var(--muted); margin-top:5px; line-height:1.4; }
+.hint { font-size:12px; color:var(--muted); margin-top:5px; line-height:1.4; }
 .fg { margin-bottom:16px; }
 
 /* ─── CHIPS ──────────────────────────────────────── */
@@ -307,7 +307,7 @@ body {
   align-items:center;
   gap:4px;
   font-family:'Nunito', sans-serif;
-  font-size:11px;
+  font-size:12px;
   font-weight:700;
   padding:4px 9px;
   border-radius:6px;
@@ -423,8 +423,10 @@ body {
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
-  padding:32px 24px;
+  justify-content:flex-start;
+  padding:32px 24px 24px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
 }
 .role-logo {
   font-family:'Nunito', sans-serif;
@@ -449,7 +451,7 @@ body {
   border:1px solid rgba(255,255,255,.12);
   border-radius:var(--r-lg);
   padding:16px 18px;
-  cursor:pointer;
+  touch-action:manipulation; cursor:pointer;
   transition:all .2s;
   display:flex;
   align-items:center;
@@ -583,7 +585,7 @@ body {
   position:absolute; top:10px; left:10px;
   color:#fff;
   font-family:'Nunito', sans-serif;
-  font-size:10px; font-weight:800;
+  font-size:12px; font-weight:800;
   padding:4px 10px;
   border-radius:20px;
   letter-spacing:.3px;
@@ -617,7 +619,7 @@ body {
   position:absolute; bottom:14px; left:14px;
   background:var(--teal);
   color:#fff;
-  font-family:'Nunito', sans-serif; font-size:10px; font-weight:800;
+  font-family:'Nunito', sans-serif; font-size:12px; font-weight:800;
   padding:5px 11px; border-radius:20px;
   letter-spacing:.3px;
 }
@@ -625,7 +627,7 @@ body {
   position:absolute; bottom:14px; right:14px;
   background:rgba(0,0,0,.42);
   color:#fff;
-  font-family:'Nunito', sans-serif; font-size:11px; font-weight:700;
+  font-family:'Nunito', sans-serif; font-size:12px; font-weight:700;
   padding:5px 11px; border-radius:20px;
   backdrop-filter:blur(4px);
 }
@@ -634,10 +636,10 @@ body {
 .dloc { font-size:13px; color:var(--muted); margin-bottom:16px; display:flex; align-items:center; gap:5px; }
 
 .snap { background:var(--card); border-radius:var(--r-lg); border:1px solid var(--border); padding:16px; margin-bottom:12px; box-shadow:var(--sh-xs); }
-.snap-title { font-family:'Nunito', sans-serif; font-size:10px; font-weight:800; color:var(--muted); letter-spacing:.8px; text-transform:uppercase; margin-bottom:14px; }
+.snap-title { font-family:'Nunito', sans-serif; font-size:12px; font-weight:800; color:var(--muted); letter-spacing:.8px; text-transform:uppercase; margin-bottom:14px; }
 .snap-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .snap-itm { display:flex; flex-direction:column; gap:3px; }
-.snap-lbl { font-size:11px; color:var(--muted); font-weight:600; }
+.snap-lbl { font-size:12px; color:var(--muted); font-weight:600; }
 .snap-val { font-family:'Nunito', sans-serif; font-size:13px; font-weight:800; color:var(--text); }
 .snap-val.g { color:var(--green); } .snap-val.r { color:var(--red); } .snap-val.a { color:var(--amber); }
 
@@ -718,7 +720,7 @@ body {
 .inq-item:active { box-shadow:none; }
 .inq-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:7px; }
 .inq-house { font-family:'Nunito', sans-serif; font-size:14px; font-weight:800; color:var(--text); }
-.inq-time { font-size:11px; color:var(--muted2); }
+.inq-time { font-size:12px; color:var(--muted2); }
 .inq-status { display:flex; align-items:center; gap:6px; margin-bottom:5px; }
 .sdot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 @keyframes pulse-dot {
@@ -751,7 +753,7 @@ body {
 }
 .hp-ic { font-size:20px; }
 .hp-name { font-family:'Nunito', sans-serif; font-size:13px; font-weight:800; color:#fff; }
-.hp-addr { font-size:11px; color:rgba(255,255,255,.6); margin-top:1px; }
+.hp-addr { font-size:12px; color:rgba(255,255,255,.6); margin-top:1px; }
 
 .ann-card {
   background:var(--card);
@@ -769,7 +771,7 @@ body {
 .ann-ic { font-size:20px; flex-shrink:0; }
 .ann-title { font-family:'Nunito', sans-serif; font-size:14px; font-weight:800; color:var(--text); margin-bottom:3px; flex:1; }
 .ann-body { font-size:13px; color:var(--muted); line-height:1.45; }
-.ann-time { font-size:11px; color:var(--muted2); margin-top:6px; }
+.ann-time { font-size:12px; color:var(--muted2); margin-top:6px; }
 
 /* ═══════════════════════════════════════════════════
    TENANT — HOUSE INFO
@@ -820,13 +822,13 @@ body {
   padding:15px;
   border:1px solid rgba(255,255,255,.1);
 }
-.ic-lbl { font-family:'Nunito', sans-serif; font-size:10px; font-weight:800; color:rgba(255,255,255,.45); letter-spacing:.9px; text-transform:uppercase; margin-bottom:4px; }
+.ic-lbl { font-family:'Nunito', sans-serif; font-size:12px; font-weight:800; color:rgba(255,255,255,.45); letter-spacing:.9px; text-transform:uppercase; margin-bottom:4px; }
 .ic-amt { font-family:'Nunito', sans-serif; font-size:28px; font-weight:900; color:#fff; margin-bottom:12px; letter-spacing:-.5px; }
 .ic-amt span { font-size:16px; font-weight:600; opacity:.65; }
 .ic-row { display:flex; gap:8px; }
 .ic-pill { background:rgba(255,255,255,.08); border-radius:10px; padding:8px 10px; flex:1; text-align:center; border:1px solid rgba(255,255,255,.07); }
 .ic-pill-v { font-family:'Nunito', sans-serif; font-size:14px; font-weight:800; color:#fff; display:block; }
-.ic-pill-l { font-size:10px; color:rgba(255,255,255,.45); font-weight:600; }
+.ic-pill-l { font-size:12px; color:rgba(255,255,255,.45); font-weight:600; }
 
 /* Room grid */
 .rg { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin-bottom:14px; }
@@ -922,9 +924,9 @@ body {
 .iav img { width:100%; height:100%; object-fit:cover; display:block; }
 .icontent { flex:1; min-width:0; }
 .iname { font-family:'Nunito', sans-serif; font-size:14px; font-weight:800; color:var(--text); margin-bottom:2px; }
-.imeta { font-size:11px; color:var(--muted); margin-bottom:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.imeta { font-size:12px; color:var(--muted); margin-bottom:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .iq { font-size:12px; color:var(--text2); line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.itime { font-size:10px; color:var(--muted2); white-space:nowrap; flex-shrink:0; }
+.itime { font-size:12px; color:var(--muted2); white-space:nowrap; flex-shrink:0; }
 .ndot { width:8px; height:8px; background:var(--blue); border-radius:50%; flex-shrink:0; box-shadow:0 0 0 3px rgba(21,88,204,.18); }
 
 /* Expense */
@@ -942,9 +944,9 @@ body {
 .exp-left { display:flex; gap:10px; align-items:flex-start; }
 .exp-ic { font-size:20px; flex-shrink:0; }
 .exp-name { font-family:'Nunito', sans-serif; font-size:13px; font-weight:800; color:var(--text); margin-bottom:2px; }
-.exp-cat { font-size:11px; color:var(--muted); }
+.exp-cat { font-size:12px; color:var(--muted); }
 .exp-amt { font-family:'Nunito', sans-serif; font-size:15px; font-weight:900; color:var(--red); }
-.exp-date { font-size:11px; color:var(--muted2); text-align:right; }
+.exp-date { font-size:12px; color:var(--muted2); text-align:right; }
 
 /* Maintenance tracker landlord */
 .mt-item {
@@ -957,7 +959,7 @@ body {
 }
 .mt-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:5px; }
 .mt-title { font-family:'Nunito', sans-serif; font-size:13px; font-weight:800; color:var(--text); }
-.mt-room { font-size:11px; color:var(--muted); margin-bottom:5px; }
+.mt-room { font-size:12px; color:var(--muted); margin-bottom:5px; }
 .mt-desc { font-size:12px; color:var(--muted); line-height:1.4; margin-bottom:9px; }
 .mt-foot { display:flex; gap:7px; align-items:center; }
 
@@ -1023,12 +1025,12 @@ body {
   background:rgba(255,255,255,.18);
   border-radius:20px;
   padding:4px 11px;
-  font-size:11px;
+  font-size:12px;
   font-weight:700;
   margin-top:6px;
 }
 .ric-rent { font-family:'Nunito', sans-serif; font-size:22px; font-weight:900; }
-.ric-due { font-size:11px; opacity:.7; margin-top:2px; }
+.ric-due { font-size:12px; opacity:.7; margin-top:2px; }
 
 /* Report button */
 .report-btn {
@@ -1106,7 +1108,7 @@ body {
 }
 .tc-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
 .tc-name { font-family:'Nunito', sans-serif; font-size:14px; font-weight:800; color:var(--text); }
-.tc-room { font-size:11px; color:var(--muted); margin-top:2px; }
+.tc-room { font-size:12px; color:var(--muted); margin-top:2px; }
 .tc-status-active { display:inline-flex; align-items:center; gap:4px; background:var(--greenBg); color:var(--green); font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; }
 .tc-status-pending { display:inline-flex; align-items:center; gap:4px; background:var(--amberBg); color:var(--amber); font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; }
 .tc-code { display:flex; align-items:center; gap:9px; background:var(--warm); border-radius:9px; padding:9px 12px; margin-top:6px; border:1px solid var(--border); }
@@ -1286,7 +1288,7 @@ body {
 .pstat{flex:1;text-align:center;padding:11px 8px;}
 .pstat:not(:last-child){border-right:1px solid rgba(255,255,255,.15);}
 .pstat-v{font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:#fff;}
-.pstat-l{font-size:10px;color:rgba(255,255,255,.55);margin-top:1px;}
+.pstat-l{font-size:12px;color:rgba(255,255,255,.55);margin-top:1px;}
 .sprofile-body{padding:16px 16px 90px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;}
 .sprofile-body::-webkit-scrollbar{display:none;}
 .pcard{background:var(--card);border-radius:var(--r-lg);border:1px solid var(--border);padding:16px;margin-bottom:12px;box-shadow:var(--sh-sm);}
@@ -1671,7 +1673,7 @@ body {
   border-radius: var(--r);
   padding: 10px 13px;
   font-family: 'Nunito Sans', sans-serif;
-  font-size: 14px;
+  font-size:16px;
   color: var(--text);
   outline: none;
 }
@@ -1744,7 +1746,7 @@ body {
   border-radius: var(--r);
   padding: 12px 15px;
   font-family: 'Nunito Sans', sans-serif;
-  font-size: 14px;
+  font-size:16px;
   color: var(--text);
   outline: none;
   resize: none;
@@ -1758,7 +1760,7 @@ body {
 /* Section label inside editor */
 .editor-sec-lbl {
   font-family: 'Nunito', sans-serif;
-  font-size: 11px;
+  font-size:12px;
   font-weight: 800;
   color: var(--muted);
   letter-spacing: .7px;
@@ -1987,7 +1989,7 @@ body {
   color: var(--navy);
 }
 .map-sstat-l {
-  font-size: 10px;
+  font-size:12px;
   color: var(--muted);
   margin-top: 2px;
   font-weight: 600;
@@ -2022,7 +2024,7 @@ body {
   color: var(--navy);
 }
 .map-dist-l {
-  font-size: 10px;
+  font-size:12px;
   color: var(--muted);
   margin-top: 1px;
 }
@@ -2536,7 +2538,7 @@ body {
 .admin-ni { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; padding:6px 0; cursor:pointer; transition:opacity .15s; position:relative; }
 .admin-ni:active { opacity:.6; }
 .admin-ni-ic { font-size:20px; line-height:1; color:rgba(255,255,255,.35); transition:color .2s; }
-.admin-ni-lb { font-family:'Nunito',sans-serif; font-size:9px; font-weight:700; color:rgba(255,255,255,.35); letter-spacing:.2px; transition:color .2s; }
+.admin-ni-lb { font-family:'Nunito',sans-serif; font-size:11px; font-weight:700; color:rgba(255,255,255,.35); letter-spacing:.2px; transition:color .2s; }
 .admin-ni.on .admin-ni-ic,.admin-ni.on .admin-ni-lb { color:#ff6b6b; }
 .admin-ni.on::after { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:20px; height:2px; background:#ff6b6b; border-radius:0 0 2px 2px; }
 .a-stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
@@ -2736,6 +2738,34 @@ body {
 
 /* fg labels */
 [id^="a-"] .fg .lbl { color: rgba(255,255,255,.5) !important; }
+
+/* ─── SMALL SCREEN (320px — old iPhone SE, budget Androids) ────── */
+@media(max-width:360px) {
+  .ni-lb { font-size:10px; }
+  .ni-ic { font-size:22px; }
+  .role-card { padding:12px 14px; gap:10px; }
+  .role-name { font-size:14px; }
+  .role-ic { width:38px; height:38px; font-size:18px; }
+  .lcard-price { font-size:16px; }
+  .dbody { padding:14px 12px 0; }
+  .dname { font-size:20px; }
+  .ic-amt { font-size:24px; }
+  .rg { grid-template-columns:repeat(3,1fr); }
+  .snap-editor-grid { grid-template-columns:repeat(2,1fr); }
+  .bhl-tab { font-size:10px; padding:7px 4px; }
+  .thdr-title, .lhdr-name { font-size:18px; }
+  .shdr-title { font-size:20px; }
+  .ric-rent { font-size:20px; }
+  .pa-title { font-size:14px; }
+  .income-card { padding:12px; }
+  .ic-amt { font-size:22px; }
+}
+
+/* ─── LARGE SCREEN (428px+ — iPhone 14 Pro Max, large Androids) ── */
+@media(min-width:421px) and (max-width:439px) {
+  .phone { max-width:100%; border-radius:0; }
+}
+
 </style>
 <body>
 <div class="phone">
@@ -2819,6 +2849,9 @@ body {
     <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:10px;text-align:center;">Under Maintenance</div>
     <div style="font-size:14px;color:rgba(255,255,255,.55);text-align:center;line-height:1.6;max-width:280px;">Buhay Boarding is temporarily down for updates. We'll be back shortly.</div>
     <div style="margin-top:24px;font-size:12px;color:rgba(255,107,107,.7);">Admin access only during maintenance.</div>
+    <button onclick="document.getElementById('maintenance-overlay').classList.add('hidden');goTo('a-login');" style="margin-top:32px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 20px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,.4);cursor:pointer;letter-spacing:.3px;">
+      <i class="ph ph-shield-check"></i> Admin Login
+    </button>
   </div>
 
   <!-- ═══════════════════════════════
@@ -9694,6 +9727,8 @@ function checkAdminPin() {
   if (_adminPin === getAdminPin()) {
     _adminPin = ''; updateAdminPinDots();
     document.getElementById('admin-pin-error').textContent = '';
+    const overlay = document.getElementById('maintenance-overlay');
+    if (overlay) { overlay.classList.add('hidden'); overlay.style.zIndex = ''; }
     ensureAdminFields();
     adminLog('Admin logged in');
     goTo('a-home');
@@ -9707,6 +9742,10 @@ function checkAdminPin() {
 function adminLogout() {
   _adminPin = '';
   showToast('Logged out of admin');
+  if (state.maintenanceMode) {
+    const overlay = document.getElementById('maintenance-overlay');
+    if (overlay) { overlay.classList.remove('hidden'); overlay.style.zIndex = ''; }
+  }
   goTo('s-role');
 }
 

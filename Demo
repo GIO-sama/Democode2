@@ -4,11 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Buhay Boarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Nunito+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<!-- Phosphor deferred: was render-blocking; now defers until after HTML parse -->
+<script src="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1" crossorigin="anonymous" defer></script>
+<!-- Leaflet JS deferred; CSS lazy-loaded on first map open (see initLeafletMap) -->
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.js" crossorigin="anonymous" defer></script>
+<!-- QRCode lazy-loaded on first QR screen open (see renderQRCode) -->
 <style>
 /* ─── DESIGN TOKENS ─────────────────────────────── */
 :root {
@@ -19,6 +24,7 @@
   --sky:       #3B91D4;
   --teal:      #0B7A6A;
   --teal2:     #0D9480;
+  --tealBg:    #F0FDF4;
   --warm:      #F5F3EF;
   --warm2:     #EDE9E3;
   --card:      #FFFFFF;
@@ -109,8 +115,8 @@ body {
 
 /* ─── BOTTOM NAV ─────────────────────────────────── */
 .bnav {
-  position:absolute;
-  bottom:0; left:0; right:0;
+  flex-shrink: 0;
+  width: 100%;
   background:rgba(255,255,255,.97);
   backdrop-filter:blur(16px);
   border-top:1px solid var(--border);
@@ -263,6 +269,16 @@ body {
 .inp:focus, .sel:focus, .ta:focus {
   border-color:var(--blue);
   box-shadow:0 0 0 3px rgba(21,88,204,.1);
+}
+.inp.error, .sel.error, .ta.error {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(192,57,43,.1);
+  animation: shake .3s ease;
+}
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
 }
 .ta { resize:none; height:88px; line-height:1.5; }
 .hint { font-size:11px; color:var(--muted); margin-top:5px; line-height:1.4; }
@@ -505,23 +521,30 @@ body {
 .sc-btn.on { background:#fff; color:var(--navy); }
 
 .srch {
-  background:rgba(255,255,255,.97);
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  padding:9px 13px;
-  gap:9px;
-  box-shadow:0 2px 12px rgba(0,0,0,.15);
+  background: rgba(255,255,255,.13);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255,255,255,.18);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 9px 13px;
+  gap: 9px;
+  transition: background .2s, border-color .2s;
+}
+.srch:focus-within {
+  background: rgba(255,255,255,.2);
+  border-color: rgba(255,255,255,.35);
 }
 .srch input {
   flex:1; border:none; outline:none;
   font-family:'Nunito Sans', sans-serif;
   font-size:14px;
-  color:var(--text);
-  background:transparent;
+  color: #fff;
+  background: transparent;
 }
-.srch input::placeholder { color:var(--muted2); }
-.srch-ic { color:var(--muted); font-size:18px; display:flex; align-items:center; }
+.srch input::placeholder { color: rgba(255,255,255,.5); }
+.srch-ic { color: rgba(255,255,255,.6); font-size:18px; display:flex; align-items:center; }
 .fil-btn {
   background:var(--navy);
   color:#fff;
@@ -887,7 +910,9 @@ body {
   flex-shrink:0;
   background: linear-gradient(135deg, var(--blueLt), rgba(59,145,212,.15));
   border: 1.5px solid rgba(21,88,204,.12);
+  overflow: hidden;
 }
+.iav img { width:100%; height:100%; object-fit:cover; display:block; }
 .icontent { flex:1; min-width:0; }
 .iname { font-family:'Nunito', sans-serif; font-size:14px; font-weight:800; color:var(--text); margin-bottom:2px; }
 .imeta { font-size:11px; color:var(--muted); margin-bottom:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -1094,7 +1119,7 @@ body {
 .qr-step-num { background:var(--blue); color:#fff; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-family:'Nunito', sans-serif; font-size:11px; font-weight:800; flex-shrink:0; margin-top:1px; }
 
 /* Success screen */
-.success-wrap { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px 24px; text-align:center; background:var(--warm); }
+.success-wrap { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px 24px; text-align:center; background:var(--warm); position:relative; overflow:hidden; }
 .success-icon-wrap { width:80px; height:80px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:20px; font-size:36px; }
 
 /* Invite code display */
@@ -1385,7 +1410,7 @@ body {
 #burauen-map {
   width: 100%;
   height: 100%;
-  min-height: 420px;
+  min-height: 480px;
   z-index: 1;
 }
 
@@ -2311,8 +2336,169 @@ body {
 }
 .lcard-heart.saved { color: #E11D48; background: #FFF1F2; }
 .lcard-heart:active { transform: scale(.9); }
+
+/* ─── RENDER UTILITY CLASSES ─────────────────────────────────
+   Replaces high-frequency inline styles produced by JS render functions.
+   Browser caches computed styles for class selectors vs re-parsing
+   inline style strings on every innerHTML rebuild.
+──────────────────────────────────────────────────────────────── */
+.sum-row { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--border); font-size:13px; }
+.sum-row:last-child { border-bottom:none; }
+.sum-lbl { color:var(--muted); }
+.sum-val { font-weight:700; }
+.sum-hdr { font-family:'Nunito',sans-serif; font-size:11px; font-weight:800; color:var(--muted); letter-spacing:.8px; text-transform:uppercase; margin-bottom:10px; }
+/* ── ANNOUNCEMENT IMPROVEMENTS ────────────────────── */
+.ann-render-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 16px; margin-bottom:10px; box-shadow:0 1px 4px rgba(11,31,58,.06); position:relative; }
+.ann-render-card.pinned { border-color:var(--red); border-width:1.5px; }
+.ann-pin-badge { position:absolute; top:-8px; left:14px; background:var(--red); color:#fff; font-family:'Nunito',sans-serif; font-size:9px; font-weight:800; padding:2px 8px; border-radius:20px; letter-spacing:.4px; text-transform:uppercase; }
+.ann-render-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.ann-render-cat { font-family:'Nunito',sans-serif; font-size:10px; font-weight:800; padding:3px 9px; border-radius:20px; letter-spacing:.3px; }
+.ann-render-time { font-size:11px; color:var(--muted); }
+.ann-render-title { font-family:'Nunito',sans-serif; font-size:14px; font-weight:800; color:var(--text); margin-bottom:4px; }
+.ann-render-body { font-size:13px; color:var(--text2); line-height:1.5; }
+
+/* Edit mode */
+.ann-edit-area { display:none; margin-top:12px; padding-top:12px; border-top:1px solid var(--border); }
+.ann-edit-area.open { display:block; }
+.ann-edit-title { width:100%; background:var(--warm2); border:1.5px solid var(--border); border-radius:8px; padding:9px 12px; font-family:'Nunito',sans-serif; font-size:14px; font-weight:700; color:var(--text); outline:none; margin-bottom:8px; }
+.ann-edit-body  { width:100%; background:var(--warm2); border:1.5px solid var(--border); border-radius:8px; padding:9px 12px; font-family:'Nunito Sans',sans-serif; font-size:13px; color:var(--text); outline:none; resize:none; height:72px; line-height:1.5; }
+.ann-edit-title:focus, .ann-edit-body:focus { border-color:var(--blue); background:var(--card); }
+
+/* Tenant dismiss button */
+.ann-dismiss-btn { margin-top:8px; padding-top:8px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; }
+.ann-dismiss-btn button { background:none; border:none; font-family:'Nunito',sans-serif; font-size:11px; font-weight:700; color:var(--muted2); cursor:pointer; display:flex; align-items:center; gap:4px; padding:2px 0; }
+.rc-name { font-family:'Nunito',sans-serif; font-size:16px; font-weight:900; color:var(--text); margin-bottom:3px; }
+.rc-sub  { font-size:13px; color:var(--muted); }
+.rc-sub2 { font-size:12px; color:var(--muted); }
+.rc-right { display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+.vc-name { font-family:'Nunito',sans-serif; font-size:14px; font-weight:800; margin-bottom:2px; }
+.vc-meta { font-size:13px; color:var(--muted); margin-bottom:6px; }
+.reply-block { margin-top:10px; background:var(--blueLt); border-left:3px solid var(--blue); border-radius:0 8px 8px 0; padding:10px 12px; }
+.reply-block-lbl { font-family:'Nunito',sans-serif; font-size:10px; font-weight:800; color:var(--blue); letter-spacing:.5px; text-transform:uppercase; margin-bottom:4px; }
+.reply-block-txt { font-size:13px; color:var(--text2); line-height:1.5; }
+.mreq-body { flex:1; }
+.mreq-time { font-size:11px; color:var(--muted); margin-left:6px; }
+
+/* Static button patterns used across multiple screens */
+.btn-navy-cta { background:var(--navy);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer; display:inline-flex;align-items:center;gap:8px; }
+.btn-close-sheet { width:100%;margin-top:16px;padding:13px;background:#F5F3EF;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#6B7280;cursor:pointer; }
+
+/* Clean section header for listing editor — Phosphor icon + divider, no emoji */
+.editor-sec-hdr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  margin-top: 24px;
+  padding-bottom: 9px;
+  border-bottom: 1.5px solid var(--border);
+}
+.editor-sec-hdr:first-child { margin-top: 0; }
+.editor-sec-hdr i { font-size: 15px; color: var(--blue); flex-shrink: 0; }
+
+/* Inquiry detail hero avatar — photo version */
+.inq-hero-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
+
+/* Photo consent toggle row */
+.photo-consent-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--blueLt);
+  border: 1.5px solid rgba(21,88,204,.15);
+  border-radius: var(--r);
+  padding: 12px 14px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.photo-consent-row i { font-size: 18px; color: var(--blue); flex-shrink: 0; }
+.photo-consent-txt { flex: 1; font-size: 12px; color: var(--text2); line-height: 1.4; }
+.photo-consent-txt strong { font-family: 'Nunito', sans-serif; font-weight: 800; color: var(--text); display: block; margin-bottom: 1px; font-size: 13px; }
+/* ═══════════════════════════════════════
+   MESSAGING THREAD
+═══════════════════════════════════════ */
+.thread-wrap { display:flex; flex-direction:column; flex:1; overflow:hidden; }
+.thread-header {
+  background: var(--navy);
+  padding: 13px 16px 14px;
+  display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+}
+.thread-house-name { font-family:'Nunito',sans-serif; font-size:15px; font-weight:800; color:#fff; flex:1; }
+.thread-house-sub  { font-size:11px; color:rgba(255,255,255,.55); margin-top:1px; }
+.thread-scroll { flex:1; overflow-y:auto; padding:14px 14px 0; -webkit-overflow-scrolling:touch; }
+.thread-scroll::-webkit-scrollbar { display:none; }
+
+.msg-row { display:flex; margin-bottom:12px; gap:8px; }
+.msg-row.from-me  { flex-direction:row-reverse; }
+.msg-bubble {
+  max-width: 78%;
+  padding: 10px 13px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+}
+.msg-row.from-them .msg-bubble {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-top-left-radius: 4px;
+  box-shadow: var(--sh-xs);
+}
+.msg-row.from-me .msg-bubble {
+  background: var(--navy);
+  color: #fff;
+  border-top-right-radius: 4px;
+}
+.msg-time { font-size: 10px; color: var(--muted2); align-self: flex-end; margin-bottom: 2px; flex-shrink: 0; }
+.msg-sender { font-family:'Nunito',sans-serif; font-size:10px; font-weight:800; color:var(--muted); margin-bottom:3px; }
+
+.thread-input-bar {
+  background: var(--warm);
+  border-top: 1px solid var(--border);
+  padding: 10px 14px 14px;
+  display: flex; gap: 8px; align-items: flex-end; flex-shrink: 0;
+}
+.thread-inp {
+  flex: 1;
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 10px 14px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  resize: none;
+  max-height: 100px;
+  min-height: 42px;
+  transition: border-color .2s;
+}
+.thread-inp:focus { border-color: var(--blue); }
+.thread-send-btn {
+  width: 42px; height: 42px;
+  background: var(--blue);
+  border: none; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0;
+  color: #fff; font-size: 18px;
+  transition: background .15s, transform .12s;
+}
+.thread-send-btn:active { transform: scale(.92); background: var(--blue2); }
+.thread-send-btn:disabled { background: var(--muted2); cursor: default; }
+
+/* Last active indicator on listing cards */
+.lcard-active { display:inline-flex; align-items:center; gap:4px; font-size:11px; color:var(--muted); font-weight:600; }
+.lcard-active-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.lcard-active-dot.recent { background:var(--teal2); }
+.lcard-active-dot.today  { background:var(--teal2); animation:pulse-dot 1.8s ease-in-out infinite; }
+.lcard-active-dot.old    { background:var(--muted2); }
 </style>
-</head>
 <body>
 <div class="phone">
   <div class="sb">
@@ -2391,9 +2577,6 @@ body {
           <div class="shdr-title">Buhay <span>Boarding</span></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <div class="map-entry-pill" onclick="goTo('s-map')">
-            <i class="ph ph-map-pin-area"></i> Map
-          </div>
           <div class="av-btn" onclick="goTo('s-myinq')"><i class="ph ph-chat-circle" style="font-size:19px;color:rgba(255,255,255,.8)"></i></div>
         </div>
       </div>
@@ -2420,6 +2603,7 @@ body {
     </div>
     <div class="bnav">
       <div class="ni on"><span class="ni-ic"><i class="ph ph-house-line"></i></span><span class="ni-lb">Discover</span></div>
+      <div class="ni" onclick="goTo('s-map')"><span class="ni-ic"><i class="ph ph-map-trifold"></i></span><span class="ni-lb">Map</span></div>
       <div class="ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('s-saved')"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
       <div class="ni" onclick="goTo('s-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
@@ -2445,12 +2629,13 @@ body {
         </div>
         <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:var(--navy);margin-bottom:8px;">No saved houses yet</div>
         <div style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;">Tap the heart icon on any listing to save it here for easy comparison.</div>
-        <button onclick="goTo('s-home')" style="background:var(--navy);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;"><i class="ph ph-house-line"></i> Browse Listings</button>
+        <button onclick="goTo('s-home')" class="btn-navy-cta"><i class="ph ph-house-line"></i> Browse Listings</button>
       </div>
       <div id="saved-list" class="cards-list"></div>
     </div>
     <div class="bnav">
       <div class="ni" onclick="goTo('s-home')"><span class="ni-ic"><i class="ph ph-house-line"></i></span><span class="ni-lb">Discover</span></div>
+      <div class="ni" onclick="goTo('s-map')"><span class="ni-ic"><i class="ph ph-map-trifold"></i></span><span class="ni-lb">Map</span></div>
       <div class="ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
       <div class="ni" onclick="goTo('s-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
@@ -2483,6 +2668,7 @@ body {
       <div class="dbody">
         <div class="dname" id="d-name">—</div>
         <div class="dloc" id="d-loc"><i class="ph ph-map-pin" style="font-size:14px;color:var(--muted)"></i> —</div>
+        <div id="d-last-active" style="padding:0 16px 8px;"></div>
         <div id="d-amenities" style="display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 4px;"></div>
         <div class="snap">
           <div class="snap-title">Room Snapshot</div>
@@ -2633,7 +2819,7 @@ body {
           Find a boarding house and tap <strong>Inquire Now</strong>.<br>Your inquiries and their status appear here.
         </div>
         <button onclick="goTo('s-home')"
-          style="background:var(--navy);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">
+          class="btn-navy-cta">
           <i class="ph ph-house-line"></i> Browse Listings
         </button>
       </div>
@@ -2641,6 +2827,7 @@ body {
     </div>
     <div class="bnav">
       <div class="ni" onclick="goTo('s-home')"><span class="ni-ic"><i class="ph ph-house-line"></i></span><span class="ni-lb">Discover</span></div>
+      <div class="ni" onclick="goTo('s-map')"><span class="ni-ic"><i class="ph ph-map-trifold"></i></span><span class="ni-lb">Map</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('s-saved')"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
       <div class="ni" onclick="goTo('s-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
@@ -2652,6 +2839,10 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="s-success">
     <div class="success-wrap">
+      <!-- Auto-forward countdown bar -->
+      <div id="succ-countdown-bar" style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--border);overflow:hidden;display:none;">
+        <div id="succ-countdown-fill" style="height:100%;background:var(--blue);width:100%;transition:width 6s linear;"></div>
+      </div>
       <div class="success-icon-wrap" style="background:var(--greenBg)" id="succ-ic-wrap">
         <span id="succ-ic" style="font-size:38px;"><i class="ph ph-check-circle" style="font-size:38px;color:var(--green)"></i></span>
       </div>
@@ -2692,8 +2883,9 @@ body {
         </div>
       </div>
       <button id="succ-cal-btn" style="display:none;width:100%;margin-bottom:10px;padding:13px;background:linear-gradient(135deg,#0B7A6A,#0D9480);color:#fff;border:none;border-radius:var(--r);font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 14px rgba(11,122,106,.3);"><i class="ph ph-calendar-plus" style="font-size:18px;"></i> Add to Phone Calendar</button>
-      <button class="btn btn-navy" onclick="goTo('s-home')" style="width:100%;margin-bottom:10px;padding:13px;"><i class="ph ph-arrow-left"></i> Browse More Houses</button>
-      <button class="btn btn-ghost" onclick="goTo('s-myinq')" style="width:100%;padding:13px;">View My Inquiries</button>
+      <button class="btn btn-navy" onclick="cancelSuccessForward();goTo('s-home')" style="width:100%;margin-bottom:10px;padding:13px;"><i class="ph ph-arrow-left"></i> Browse More Houses</button>
+      <button class="btn btn-ghost" onclick="cancelSuccessForward();goTo('s-myinq')" style="width:100%;padding:13px;">View My Inquiries</button>
+      <div id="succ-auto-msg" style="font-size:12px;color:var(--muted2);margin-top:12px;display:none;">Auto-forwarding to My Inquiries… <button onclick="cancelSuccessForward()" style="background:none;border:none;color:var(--blue);font-size:12px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;padding:0;">Stay</button></div>
     </div>
   </div>
 
@@ -2725,6 +2917,17 @@ body {
           <div class="ric-rent" id="t-room-rent">₱1,500</div>
           <div class="ric-due">bawat buwan</div>
         </div>
+      </div>
+      <!-- Pay acknowledge — shown when status is pending -->
+      <div id="t-pay-prompt" style="display:none;background:var(--amberBg);border:1.5px solid var(--amber);border-radius:var(--r-lg);padding:14px 15px;margin-bottom:14px;display:flex;align-items:center;gap:12px;">
+        <i class="ph ph-warning-circle" style="font-size:22px;color:var(--amber);flex-shrink:0;"></i>
+        <div style="flex:1;">
+          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--amber);margin-bottom:2px;">Renta hindi pa naipadala</div>
+          <div style="font-size:12px;color:var(--text2);">Bayaran na via GCash at i-report dito para malaman ng landlord.</div>
+        </div>
+        <button onclick="acknowledgePayment()" style="background:var(--amber);color:#fff;border:none;border-radius:8px;padding:9px 13px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0;white-space:nowrap;">
+          Bayad Na
+        </button>
       </div>
       <div class="report-btn" onclick="goTo('t-maint');setTimeout(()=>openMaintModal(),200)">
         <div class="report-ic"><i class="ph ph-wrench" style="font-size:20px;color:var(--red)"></i></div>
@@ -2840,8 +3043,9 @@ body {
       <!-- Avatar + name header -->
       <div style="background:linear-gradient(160deg,var(--teal) 0%,#0B5E4A 100%);padding:20px 18px 24px;flex-shrink:0;">
         <div style="display:flex;align-items:center;gap:14px;">
-          <div style="width:58px;height:58px;background:rgba(255,255,255,.18);border-radius:50%;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;" id="tp-avatar-wrap">
-            <i class="ph ph-user-circle" style="font-size:32px;color:rgba(255,255,255,.8);"></i>
+          <div style="width:58px;height:58px;background:rgba(255,255,255,.18);border-radius:50%;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;overflow:hidden;" id="tp-avatar-wrap">
+            <img id="tp-avatar-img" src="" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%;">
+            <span id="tp-avatar-emoji"><i class="ph ph-user-circle" style="font-size:32px;color:rgba(255,255,255,.8);"></i></span>
           </div>
           <div>
             <div style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:#fff;" id="tp-disp-name">—</div>
@@ -3009,22 +3213,51 @@ body {
           <div id="l-pending-badge" class="pa-badge hidden" style="background:var(--amber)">0</div>
           <div class="pa-arrow"><i class="ph ph-caret-right"></i></div>
         </div>
+        <!-- EDIT LISTING — promoted from buried icon grid to primary action -->
+        <div class="pa-card" onclick="goTo('l-listing')" style="border:2px solid var(--teal);background:linear-gradient(135deg,rgba(11,122,106,.06),rgba(11,122,106,.02));">
+          <div class="pa-ic-wrap teal"><i class="ph ph-storefront" style="font-size:22px;color:var(--teal)"></i></div>
+          <div style="flex:1">
+            <div class="pa-title" style="color:var(--teal)">I-edit ang Aking Listing</div>
+            <div class="pa-sub">Baguhin ang impormasyon, larawan, at patakaran</div>
+          </div>
+          <div class="pa-arrow" style="color:var(--teal)"><i class="ph ph-caret-right"></i></div>
+        </div>
       </div>
       <div class="sec" style="margin-top:14px">
         <div class="sec-hdr"><span class="slbl">Status ng mga Kwarto</span><span style="font-size:12px;color:var(--blue);font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer" onclick="goTo('l-rooms')">I-manage →</span></div>
         <div class="rg" id="l-room-grid"></div>
       </div>
       <div style="padding:0 14px;margin-bottom:14px" id="l-vac-alert"></div>
+
+      <!-- Promoted tools — QR and Reminder were buried, now visible cards -->
+      <div style="padding:0 14px;margin-bottom:4px;">
+        <div class="slbl" style="margin-bottom:11px">Mga Mabibilis na Tool</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          <div class="pa-card" onclick="goTo('l-qr')" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px;">
+            <div style="width:36px;height:36px;background:var(--blueLt);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:2px;">
+              <i class="ph ph-qr-code" style="font-size:20px;color:var(--blue);"></i>
+            </div>
+            <div class="pa-title" style="font-size:13px;">QR Code</div>
+            <div class="pa-sub" style="font-size:11px;">Para sa bagong tenant</div>
+          </div>
+          <div class="pa-card" onclick="goTo('l-reminder')" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px;">
+            <div style="width:36px;height:36px;background:var(--amberBg);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:2px;">
+              <i class="ph ph-bell-ringing" style="font-size:20px;color:var(--amber);"></i>
+            </div>
+            <div class="pa-title" style="font-size:13px;">Reminders</div>
+            <div class="pa-sub" style="font-size:11px;">Paalala sa renta</div>
+          </div>
+        </div>
+      </div>
+
       <div class="sec" style="margin-bottom:14px">
         <div class="slbl" style="margin-bottom:11px">Iba pang Tools</div>
         <div class="qa-grid">
           <div class="qa-btn" onclick="goTo('l-listing')"><div class="qa-ic"><i class="ph ph-storefront"></i></div><div class="qa-lbl">My Listing</div></div>
           <div class="qa-btn" onclick="goTo('l-waitlist')"><div class="qa-ic"><i class="ph ph-queue"></i></div><div class="qa-lbl">Waitlist</div></div>
-          <div class="qa-btn" onclick="goTo('l-reminder')"><div class="qa-ic"><i class="ph ph-bell-ringing"></i></div><div class="qa-lbl">Reminder</div></div>
           <div class="qa-btn" onclick="goTo('l-expense')"><div class="qa-ic"><i class="ph ph-receipt"></i></div><div class="qa-lbl">Gastos</div></div>
           <div class="qa-btn" onclick="goTo('l-maint')" style="position:relative"><div class="qa-ic"><i class="ph ph-wrench"></i></div><div class="qa-lbl">Maintenance</div><div id="l-maint-badge" class="hidden" style="position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-family:'Nunito',sans-serif;font-size:9px;font-weight:800;border-radius:10px;padding:2px 5px;min-width:16px;text-align:center;"></div></div>
           <div class="qa-btn" onclick="goTo('l-visits')"><div class="qa-ic"><i class="ph ph-calendar-check"></i></div><div class="qa-lbl">Visits</div></div>
-          <div class="qa-btn" onclick="goTo('l-qr')"><div class="qa-ic"><i class="ph ph-qr-code"></i></div><div class="qa-lbl">QR Code</div></div>
         </div>
       </div>
     </div>
@@ -3058,7 +3291,7 @@ body {
           Share your QR code so students can find your listing.<br>Inquiries from seekers will appear here.
         </div>
         <button onclick="goTo('l-qr')"
-          style="background:var(--navy);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">
+          class="btn-navy-cta">
           <i class="ph ph-qr-code"></i> Go to QR Code
         </button>
       </div>
@@ -3078,6 +3311,9 @@ body {
     <div class="topbar">
       <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Room & Tenant Manager</div>
+      <button class="btn btn-teal btn-sm" style="margin-left:auto;" onclick="openAddRoomModal()">
+        <i class="ph ph-plus"></i> Add Room
+      </button>
     </div>
     <div class="scroll" style="padding:14px 14px 90px" id="l-rooms-list"></div>
     <div class="bnav">
@@ -3145,7 +3381,7 @@ body {
     <div class="scroll" style="padding:14px 14px 90px">
       <div class="callout cl-warn" style="margin-bottom:16px">
         <span class="callout-ic"><i class="ph ph-lightning"></i></span>
-        <div class="callout-txt"><strong>One tap sends to all pending tenants.</strong> They receive: "Rent due — GCash: 0917xxxxxx | Amount: ₱1,500"</div>
+        <div class="callout-txt" id="reminder-callout-txt"><strong>One tap sends to all pending tenants.</strong> They receive: "Rent due — GCash: 0917xxxxxx | Amount: ₱1,500"</div>
       </div>
       <div id="reminder-pending-summary" style="background:var(--warm2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px;"></div>
       <div class="slbl" style="margin-bottom:11px">Pending Payments</div>
@@ -3165,10 +3401,12 @@ body {
       <button class="btn btn-teal btn-sm" style="margin-left:auto" onclick="openExpenseModal()"><i class="ph ph-plus"></i> Add</button>
     </div>
     <div class="scroll" style="padding:14px 14px 90px">
-      <div style="background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--r-xl);padding:18px 20px;margin-bottom:18px;box-shadow:var(--sh-md)">
+      <div style="background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--r-xl);padding:18px 20px;margin-bottom:14px;box-shadow:var(--sh-md)">
         <div class="ic-lbl" style="margin-bottom:6px">Total Expenses This Month</div>
         <div class="ic-amt" id="l-exp-total">₱<span>0</span></div>
       </div>
+      <!-- Category breakdown -->
+      <div id="l-exp-breakdown" style="display:none;margin-bottom:18px;"></div>
       <div class="slbl" style="margin-bottom:11px">Expense Log</div>
       <div id="l-exp-list"></div>
       <div id="l-exp-empty" class="hidden" style="text-align:center;padding:32px 0;color:var(--muted)">
@@ -3319,16 +3557,15 @@ body {
         </div>
       </div>
 
-      <!-- Question bubble -->
+      <!-- Question bubble / Thread history -->
       <div class="inq-q-wrap">
-        <div class="inq-q-label">Their question</div>
-        <div class="inq-q-bubble" id="inq-h-question">—</div>
+        <div class="inq-q-label">Conversation</div>
+        <div id="inq-thread-history" style="max-height:180px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px;padding-right:2px;"></div>
       </div>
 
       <!-- Reply box -->
-      <div class="inq-q-wrap" style="margin-top:10px">
-        <div class="inq-q-label">Your reply</div>
-        <textarea id="inq-reply-txt" class="ta" style="height:80px;font-size:13px;" placeholder="Type your reply here — the seeker will see this in their inquiry thread..."></textarea>
+      <div class="inq-q-wrap" style="margin-top:4px">
+        <textarea id="inq-reply-txt" class="ta" style="height:72px;font-size:13px;" placeholder="Type your reply — seeker will see this in their thread..."></textarea>
         <button onclick="sendInqReply()" style="width:100%;margin-top:8px;background:var(--navy);color:#fff;border:none;border-radius:var(--r);padding:11px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;">
           <i class="ph ph-paper-plane-tilt"></i> Send Reply
         </button>
@@ -3379,9 +3616,39 @@ body {
         </select>
       </div>
       <div class="fg"><label class="lbl">Tenant Name</label><input class="inp" type="text" id="room-tenant-name" placeholder="Full name"></div>
+      <div class="fg"><label class="lbl">Monthly Rent (₱)</label><input class="inp" type="number" id="room-rent-amt" placeholder="e.g. 1500"><div class="hint">Leave as-is to keep current price.</div></div>
       <div style="display:flex;gap:9px;margin-top:6px">
         <button class="btn btn-secondary" style="flex:1" onclick="closeRoomModal()">Cancel</button>
         <button class="btn btn-primary" style="flex:2" onclick="saveRoom()"><i class="ph ph-floppy-disk"></i> Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Room Modal -->
+  <div class="modal-bg hidden" id="modal-add-room">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Add New Room</div>
+      <div class="modal-sub">New room will appear in your room list immediately.</div>
+      <div class="fg">
+        <label class="lbl">Room Name / Number</label>
+        <input class="inp" type="text" id="new-room-name" placeholder="e.g. R6, Room 6, Attic Room">
+      </div>
+      <div class="fg">
+        <label class="lbl">Monthly Rent (₱)</label>
+        <input class="inp" type="number" id="new-room-rent" placeholder="e.g. 1500">
+      </div>
+      <div class="fg" style="margin-bottom:0">
+        <label class="lbl">Status</label>
+        <select class="sel" id="new-room-status">
+          <option value="empty">Vacant (empty)</option>
+          <option value="pending">Pending payment</option>
+          <option value="paid">Paid / Occupied</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:9px;margin-top:18px">
+        <button class="btn btn-secondary" style="flex:1" onclick="closeAddRoomModal()">Cancel</button>
+        <button class="btn btn-primary" style="flex:2" onclick="saveNewRoom()"><i class="ph ph-plus-circle"></i> Add Room</button>
       </div>
     </div>
   </div>
@@ -3497,6 +3764,15 @@ body {
               <input type="file" id="ss-photo-file" accept="image/*" style="display:none" onchange="handlePhotoUpload(event,'s')">
               <div style="font-size:11px;color:var(--muted);text-align:center;">Your photo is only visible to landlords when you send an inquiry.</div>
             </div>
+            <!-- Photo consent toggle -->
+            <div class="photo-consent-row" id="ss-photo-consent-row" onclick="togglePhotoConsent()" style="margin-top:12px;">
+              <i class="ph ph-eye"></i>
+              <div class="photo-consent-txt">
+                <strong>Ipakita ang aking larawan sa landlord</strong>
+                Kapag nag-inquire ka, makikita ng landlord ang iyong mukha para mas mapagkakatiwalaan.
+              </div>
+              <div class="tog" id="ss-show-photo"><div class="tog-dot"></div></div>
+            </div>
           </div>
           <div class="setup-section">
             <div class="setup-section-title">Gender <span class="opt-badge">Optional</span></div>
@@ -3596,6 +3872,7 @@ body {
     </div>
     <div class="bnav">
       <div class="ni" onclick="goTo('s-home')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Discover</span></div>
+      <div class="ni" onclick="goTo('s-map')"><span class="ni-ic"><i class="ph ph-map-trifold"></i></span><span class="ni-lb">Map</span></div>
       <div class="ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-teardrop-dots"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('s-saved')"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
@@ -3744,32 +4021,57 @@ body {
       </div>
       <!-- Tabs -->
       <div class="bhl-tabs" id="bhl-tabs">
-        <button class="bhl-tab on" onclick="switchBhlTab('info',this)">Info</button>
-        <button class="bhl-tab"    onclick="switchBhlTab('photos',this)">Photos</button>
-        <button class="bhl-tab"    onclick="switchBhlTab('rules',this)">Rules</button>
-        <button class="bhl-tab"    onclick="switchBhlTab('amenities',this)">Amenities</button>
+        <button class="bhl-tab on" onclick="switchBhlTab('info',this)"><i class="ph ph-pencil-line"></i> Info</button>
+        <button class="bhl-tab"    onclick="switchBhlTab('photos',this)"><i class="ph ph-camera"></i> Larawan</button>
+        <button class="bhl-tab"    onclick="switchBhlTab('rules',this)"><i class="ph ph-list-checks"></i> Patakaran</button>
+        <button class="bhl-tab"    onclick="switchBhlTab('amenities',this)"><i class="ph ph-star"></i> Amenities</button>
       </div>
     </div>
 
     <!-- ── INFO TAB ── -->
     <div class="bhl-panel active" id="bhl-panel-info">
-      <div class="editor-sec-lbl">Listing Appearance</div>
+
+      <!-- SELF-VERIFY BANNER -->
+      <div id="bhl-verify-banner" style="background:linear-gradient(135deg,#FEF3DC,#FEF9EE);border:1.5px solid var(--amber);border-radius:var(--r-lg);padding:14px 15px;margin-bottom:18px;display:flex;align-items:flex-start;gap:12px;">
+        <div style="width:38px;height:38px;background:var(--amberBg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="ph ph-seal-check" style="font-size:20px;color:var(--amber);"></i>
+        </div>
+        <div style="flex:1;">
+          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--amber);margin-bottom:3px;">I-verify ang Iyong Listing</div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:10px;">Ang verified na listing ay mas mapagkakatiwalaan ng mga estudyante. Ikaw mismo ang mag-verify — siguruhing tama ang lahat ng impormasyon.</div>
+          <button onclick="selfVerifyListing()" id="bhl-verify-btn" style="background:var(--amber);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;">
+            <i class="ph ph-seal-check"></i> I-verify Ngayon
+          </button>
+        </div>
+      </div>
+
+      <div style="background:var(--blueLt);border-radius:var(--r);padding:11px 14px;margin-bottom:18px;display:flex;align-items:center;gap:10px;">
+        <i class="ph ph-info" style="font-size:18px;color:var(--blue);flex-shrink:0;"></i>
+        <div style="font-size:12px;color:var(--blue);line-height:1.5;"><strong>Tip:</strong> Piliin ang tamang impormasyon. Ito ang makikita ng mga estudyante na naghahanap ng kwarto.</div>
+      </div>
+
+      <div class="editor-sec-hdr"><i class="ph ph-map-pin"></i> Pangalan at Lokasyon</div>
       <div class="fg">
-        <label class="lbl">Boarding House Name</label>
-        <input class="inp" id="bhl-name" type="text" placeholder="e.g. Dela Cruz Boarding House" oninput="updateBhlPreview()">
+        <label class="lbl">Pangalan ng Boarding House</label>
+        <input class="inp" id="bhl-name" type="text" placeholder="hal. Dela Cruz Boarding House" oninput="updateBhlPreview()">
+        <div class="hint">Ito ang makikita ng mga estudyante sa listahan.</div>
       </div>
       <div class="fg">
-        <label class="lbl">Address</label>
-        <input class="inp" id="bhl-address" type="text" placeholder="e.g. Poblacion VII, Burauen, Leyte">
+        <label class="lbl">Address / Lokasyon</label>
+        <input class="inp" id="bhl-address" type="text" placeholder="hal. Purok 3, Poblacion, Burauen">
+        <div class="hint">Isulat nang malinaw para madaling mahanap.</div>
+      </div>
+
+      <div class="editor-sec-hdr"><i class="ph ph-money"></i> Bayad at Oras</div>
+      <div class="fg">
+        <label class="lbl">Bayad Bawat Buwan (₱)</label>
+        <input class="inp" id="bhl-price" type="number" placeholder="hal. 1500">
+        <div class="hint">Halaga ng renta bawat buwan. Huwag isama ang deposito.</div>
       </div>
       <div class="fg">
-        <label class="lbl">Monthly Rent (₱)</label>
-        <input class="inp" id="bhl-price" type="number" placeholder="e.g. 1500">
-      </div>
-      <div class="fg">
-        <label class="lbl">Curfew</label>
+        <label class="lbl">Curfew — Anong oras dapat nasa loob na?</label>
         <select class="sel" id="bhl-curfew">
-          <option value="No curfew">No curfew</option>
+          <option value="No curfew">Walang curfew</option>
           <option value="9:00 PM">9:00 PM</option>
           <option value="9:30 PM">9:30 PM</option>
           <option value="10:00 PM">10:00 PM</option>
@@ -3777,23 +4079,24 @@ body {
           <option value="11:00 PM">11:00 PM</option>
         </select>
       </div>
-      <div class="editor-sec-lbl">About this place</div>
-      <textarea class="about-ta" id="bhl-about" placeholder="Tell seekers what makes your boarding house special. Safe neighborhood? Near market? Quiet environment? Write it here..."></textarea>
-      <div class="hint" style="margin-bottom:16px">This appears at the top of your listing detail page.</div>
 
-      <div class="editor-sec-lbl">Cover Gradient</div>
-      <div class="grad-grid" id="bhl-grad-grid">
-        <!-- Populated by JS -->
-      </div>
+      <div class="editor-sec-hdr"><i class="ph ph-note-pencil"></i> Tungkol sa Iyong Boarding House</div>
+      <textarea class="about-ta" id="bhl-about" placeholder="Ilarawan ang iyong boarding house. Halimbawa: 'Malinis, maliwanag, malapit sa EVSU gate. May WiFi at laundry area. Safe ang neighborhood...'"></textarea>
+      <div class="hint" style="margin-bottom:16px">Ito ang unang mababasa ng estudyante bago mag-inquire. Maging totoo at malinaw.</div>
 
-      <div class="editor-sec-lbl">Nearest Schools</div>
+      <div class="editor-sec-hdr"><i class="ph ph-palette"></i> Hitsura ng Card sa Listahan</div>
+      <div class="hint" style="margin-bottom:10px">Piliin ang kulay na gusto mong makita ng mga estudyante sa iyong listing card.</div>
+      <div class="grad-grid" id="bhl-grad-grid"></div>
+
+      <div class="editor-sec-hdr"><i class="ph ph-person-simple-walk"></i> Distansya sa Paaralan</div>
+      <div class="hint" style="margin-bottom:12px">Bilang minuto ng paglalakad mula sa gate ng paaralan patungo sa inyong boarding house.</div>
       <div class="fg">
-        <label class="lbl">Walking distance to EVSU (minutes)</label>
-        <input class="inp" id="bhl-devsu" type="number" min="1" max="60" placeholder="e.g. 8">
+        <label class="lbl">Minuto mula EVSU Burauen Campus</label>
+        <input class="inp" id="bhl-devsu" type="number" min="1" max="60" placeholder="hal. 8">
       </div>
       <div class="fg" style="margin-bottom:0">
-        <label class="lbl">Walking distance to BCC (minutes)</label>
-        <input class="inp" id="bhl-dbcc" type="number" min="1" max="60" placeholder="e.g. 5">
+        <label class="lbl">Minuto mula Burauen Community College</label>
+        <input class="inp" id="bhl-dbcc" type="number" min="1" max="60" placeholder="hal. 5">
       </div>
     </div>
 
@@ -3801,9 +4104,11 @@ body {
     <div class="bhl-panel" id="bhl-panel-photos">
       <div class="callout cl-info" style="margin-bottom:16px">
         <span class="callout-ic"><i class="ph ph-camera"></i></span>
-        <div class="callout-txt">Add photo slots so seekers know what to expect. <strong>Real photos</strong> will be added during the verification visit.</div>
+        <div class="callout-txt">Upload actual photos of your boarding house. <strong>Tap any slot</strong> to upload from your gallery. Seekers will see these on your listing.</div>
       </div>
-      <div class="editor-sec-lbl">Room Snapshots <span style="color:var(--muted);font-size:10px;font-weight:600;text-transform:none;letter-spacing:0">(tap to customize, tap × to remove)</span></div>
+      <div class="editor-sec-hdr"><i class="ph ph-camera"></i> Room Photos <span style="font-size:10px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--muted);margin-left:4px;">(tap slot to upload, tap × to remove)</span></div>
+      <!-- Hidden file input — triggered by tapping any snap slot -->
+      <input type="file" id="bhl-photo-file" accept="image/*" style="display:none" onchange="handleSnapPhotoUpload(event)">
       <div class="snap-editor-grid" id="bhl-snap-grid">
         <!-- Populated by JS -->
       </div>
@@ -3812,7 +4117,7 @@ body {
           <i class="ph ph-plus-circle"></i> Add Photo Slot
         </button>
       </div>
-      <div class="editor-sec-lbl">Preset Photo Slots</div>
+      <div class="editor-sec-hdr"><i class="ph ph-plus-square"></i> Preset Photo Slots</div>
       <div style="display:flex;flex-wrap:wrap;gap:7px;">
         <button onclick="addPresetSnap('','Bedroom')"    class="btn-ghost-sm"><i class="ph ph-bed"></i> Bedroom</button>
         <button onclick="addPresetSnap('','Bathroom')"   class="btn-ghost-sm"><i class="ph ph-shower"></i> Bathroom</button>
@@ -3829,7 +4134,7 @@ body {
 
     <!-- ── RULES TAB ── -->
     <div class="bhl-panel" id="bhl-panel-rules">
-      <div class="editor-sec-lbl">Quick Toggles</div>
+      <div class="editor-sec-hdr"><i class="ph ph-toggle-right"></i> Quick Toggles</div>
       <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px;box-shadow:var(--sh-xs);">
         <div class="rule-editor-row" style="border-radius:0;margin-bottom:0;border:none;border-bottom:1px solid var(--border);">
           <span class="rule-editor-emoji"><i class="ph ph-wifi"></i></span>
@@ -3889,7 +4194,7 @@ body {
         </select>
       </div>
 
-      <div class="editor-sec-lbl">Custom Rules <span style="color:var(--muted);font-size:10px;font-weight:600;text-transform:none;letter-spacing:0">(your specific house rules)</span></div>
+      <div class="editor-sec-hdr"><i class="ph ph-list-checks"></i> Custom Rules <span style="font-size:10px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--muted);margin-left:4px;">(your specific house rules)</span></div>
       <div id="bhl-custom-rules-list"></div>
       <div class="rule-add-row">
         <input type="text" class="rule-add-inp" id="bhl-rule-emoji-inp" value="•" style="width:44px;text-align:center;flex:none;padding:10px 4px;font-size:18px;" readonly onclick="cycleBhlEmoji()">
@@ -3905,13 +4210,13 @@ body {
         <span class="callout-ic"><i class="ph ph-star"></i></span>
         <div class="callout-txt">Selected amenities appear as <strong>green tags</strong> on your listing. Tap to toggle.</div>
       </div>
-      <div class="editor-sec-lbl">Included Utilities</div>
+      <div class="editor-sec-hdr"><i class="ph ph-lightning"></i> Included Utilities</div>
       <div class="amenity-chip-grid" id="bhl-am-utilities"></div>
-      <div class="editor-sec-lbl">Room Features</div>
+      <div class="editor-sec-hdr"><i class="ph ph-bed"></i> Room Features</div>
       <div class="amenity-chip-grid" id="bhl-am-room"></div>
-      <div class="editor-sec-lbl">Location & Services</div>
+      <div class="editor-sec-hdr"><i class="ph ph-map-pin"></i> Location &amp; Services</div>
       <div class="amenity-chip-grid" id="bhl-am-location"></div>
-      <div class="editor-sec-lbl">Policies</div>
+      <div class="editor-sec-hdr"><i class="ph ph-shield-check"></i> Policies</div>
       <div class="amenity-chip-grid" id="bhl-am-policy"></div>
     </div>
 
@@ -4163,6 +4468,30 @@ body {
 
 
 
+
+  <!-- ═══════════════════════════════
+       SEEKER — MESSAGE THREAD
+  ═══════════════════════════════ -->
+  <div class="screen" id="s-thread">
+    <div class="thread-wrap">
+      <div class="thread-header">
+        <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+        <div style="flex:1;min-width:0;">
+          <div class="thread-house-name" id="thread-house-name">Boarding House</div>
+          <div class="thread-house-sub" id="thread-house-sub">Inquiry thread</div>
+        </div>
+        <div id="thread-status-badge" class="tag ta2" style="font-size:10px;flex-shrink:0;">Pending</div>
+      </div>
+      <div class="thread-scroll" id="thread-scroll"></div>
+      <div class="thread-input-bar">
+        <textarea class="thread-inp" id="thread-inp" placeholder="Type a message..." rows="1"
+          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'"></textarea>
+        <button class="thread-send-btn" id="thread-send-btn" onclick="sendThreadMessage()">
+          <i class="ph ph-paper-plane-tilt"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══════════════════════════════
        SEEKER — ILLUSTRATED MAP
@@ -4448,6 +4777,8 @@ const state = {
   currentInqId: null,
   filter: 'all',
   school: 'evsu',
+  saved: [],
+  paymentLog: [],
 
   houses: [
     {
@@ -4455,7 +4786,7 @@ const state = {
       latlng: [10.8763, 124.9388],
       gradient: 'linear-gradient(135deg,#1462A8,#0D8A78)',
       address: 'Poblacion VII, Burauen, Leyte', distanceEVSU: 8, distanceBCC: 5,
-      price: 1500, curfew: '10:00 PM', verified: 'May 2025',
+      price: 1500, curfew: '10:00 PM', verified: 'May 2025', lastActive: '2h ago',
       about: 'Safe, quiet boarding house for students. 5-min walk to BCC, 8-min to EVSU. Newly repainted rooms, clean common area, and reliable WiFi. Near carenderia row and the public market.',
       amenities: ['WiFi included','Study room','Laundry area'],
       snapshots: [
@@ -4485,10 +4816,10 @@ const state = {
     },
     {
       id: 2, name: 'LFH Boarding House',
-      latlng: [10.8758, 124.9351],
+      latlng: [10.8768, 124.9352],
       gradient: 'linear-gradient(135deg,#1A6B3C,#1462A8)',
       address: 'Poblacion III, Burauen, Leyte', distanceEVSU: 12, distanceBCC: 7,
-      price: 2000, curfew: 'No curfew', verified: 'April 2025',
+      price: 2000, curfew: 'No curfew', verified: 'April 2025', lastActive: 'Today',
       about: 'Spacious rooms with private CR option. No curfew — perfect for working students. Cooking allowed in the shared kitchen. 7-minute walk to BCC.',
       amenities: ['Private CR','Cooking allowed','No curfew'],
       snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-shower"></i>',label:'Private CR'},{emoji:'<i class="ph ph-cooking-pot"></i>',label:'Kitchen'},{emoji:'<i class="ph ph-door"></i>',label:'Entrance'}],
@@ -4505,10 +4836,10 @@ const state = {
     },
     {
       id: 3, name: 'Caspe Boarding House',
-      latlng: [10.8792, 124.9421],
+      latlng: [10.8790, 124.9418],
       gradient: 'linear-gradient(135deg,#5B21B6,#1462A8)',
       address: 'Near EVSU, Burauen, Leyte', distanceEVSU: 3, distanceBCC: 14,
-      price: 1200, curfew: '9:00 PM', verified: 'May 2025',
+      price: 1200, curfew: '9:00 PM', verified: 'May 2025', lastActive: '3 days ago',
       about: 'Budget-friendly option just 3 minutes from the EVSU gate. Clean and well-maintained. Laundry area available. Strict 9PM curfew for a focused study environment.',
       amenities: ['Near EVSU','Laundry area','Budget-friendly'],
       snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-t-shirt"></i>',label:'Laundry'},{emoji:'',label:'Garden'},{emoji:'<i class="ph ph-door"></i>',label:'Entrance'}],
@@ -4525,10 +4856,10 @@ const state = {
     },
     {
       id: 4, name: 'Jayñamich Residence',
-      latlng: [10.8731, 124.9418],
+      latlng: [10.8740, 124.9408],
       gradient: 'linear-gradient(135deg,#B45309,#1462A8)',
       address: 'Jaro-Dagami Rd, Burauen, Leyte', distanceEVSU: 10, distanceBCC: 9,
-      price: 1800, curfew: '10:30 PM', verified: 'June 2025',
+      price: 1800, curfew: '10:30 PM', verified: 'June 2025', lastActive: '5h ago',
       about: 'Spacious rooms with WiFi. Both cooking and visitors allowed. Centrally located — roughly equal distance from EVSU and BCC. Great for students who want flexibility.',
       amenities: ['WiFi included','Affordable price','Spacious rooms'],
       snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-wifi"></i>',label:'WiFi'},{emoji:'<i class="ph ph-cooking-pot"></i>',label:'Kitchen'},{emoji:'<i class="ph ph-frame-corners"></i>',label:'Window View'}],
@@ -4546,10 +4877,10 @@ const state = {
     },
     {
       id: 5, name: 'Sabai House',
-      latlng: [10.8695, 124.9370],
+      latlng: [10.8710, 124.9362],
       gradient: 'linear-gradient(135deg,#0B7A6A,#112847)',
       address: 'Jaro-Dagami Rd South, Burauen, Leyte', distanceEVSU: 14, distanceBCC: 11,
-      price: 1300, curfew: '9:30 PM', verified: 'June 2025',
+      price: 1300, curfew: '9:30 PM', verified: 'June 2025', lastActive: '1 week ago',
       about: 'Peaceful boarding house in a quiet residential area. Walking distance to the public market. Ideal for students who prefer a calm environment away from the busy town center.',
       amenities: ['Quiet area','Laundry area','Near market'],
       snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-t-shirt"></i>',label:'Laundry'},{emoji:'',label:'Garden'},{emoji:'<i class="ph ph-shower"></i>',label:'Bathroom'}],
@@ -4572,10 +4903,10 @@ const state = {
   ],
 
   announcements: [
-    {id:1,cat:'reminder',title:'Rent Due This Friday',body:'Reminder: Rent for July is due this Friday, July 5. Please pay via GCash 0917xxxxxx. Late fee of ₱50/day applies after the 3-day grace period.',time:'2 hours ago',isNew:true},
-    {id:2,cat:'info',title:'Water Interruption Tomorrow',body:'LEYTE WATER DISTRICT: Water supply will be interrupted tomorrow July 3, 8AM–2PM. Please store water in advance. Sorry for the inconvenience.',time:'Yesterday',isNew:true},
-    {id:3,cat:'info',title:'WiFi Password Updated',body:'The WiFi password has been changed to: buhayboarding25. The old password has been deactivated. Please update your devices.',time:'3 days ago',isNew:false},
-    {id:4,cat:'activity',title:'House Cleaning Saturday',body:'Let\'s keep our house clean! Scheduled general cleaning this Saturday 8AM. Please clean your rooms and assigned common areas. Participation required.',time:'5 days ago',isNew:false},
+    {id:1,cat:'reminder',title:'Rent Due This Friday',body:'Reminder: Rent for July is due this Friday, July 5. Please pay via GCash 0917xxxxxx. Late fee of ₱50/day applies after the 3-day grace period.',ts:Date.now()-7200000,isNew:true,pinned:false},
+    {id:2,cat:'info',title:'Water Interruption Tomorrow',body:'LEYTE WATER DISTRICT: Water supply will be interrupted tomorrow July 3, 8AM–2PM. Please store water in advance. Sorry for the inconvenience.',ts:Date.now()-86400000,isNew:true,pinned:false},
+    {id:3,cat:'info',title:'WiFi Password Updated',body:'The WiFi password has been changed to: buhayboarding25. The old password has been deactivated. Please update your devices.',ts:Date.now()-259200000,isNew:false,pinned:false},
+    {id:4,cat:'activity',title:'House Cleaning Saturday',body:'Let\'s keep our house clean! Scheduled general cleaning this Saturday 8AM. Please clean your rooms and assigned common areas. Participation required.',ts:Date.now()-432000000,isNew:false,pinned:false},
   ],
 
   maintenanceRequests: [
@@ -4633,7 +4964,15 @@ function availableRooms(h) {
   return (h.rooms || []).filter(r => r.status === 'empty').length;
 }
 
+// Debounced save — batches rapid consecutive calls (e.g. toggle + render chains)
+// into a single write 300ms after the last call. Prevents serializing the entire
+// state tree multiple times per user action.
+let _saveTimer = null;
 function save() {
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(_doSave, 300);
+}
+function _doSave() {
   try {
     const housesClean = state.houses.map(({available, ...rest}) => rest);
     localStorage.setItem('bb_state', JSON.stringify({
@@ -4684,6 +5023,10 @@ const navStack = [];
 // Screens treated as "root" — back button hidden here
 const ROOT_SCREENS = new Set(['s-role','s-home','l-home','t-home']);
 
+// Success screen destination — set before each goTo('s-success') call
+let _successDest  = 's-myinq';
+let _successTimer = null;
+
 function goTo(id) {
   const cur = document.querySelector('.screen.active');
   if(cur && cur.id) navStack.push(cur.id);
@@ -4707,12 +5050,19 @@ function goBack() {
   updateBackBtn();
 }
 
+// Cached reference to the currently active screen element.
+// Avoids querySelectorAll('.screen') → forEach classList.remove on every nav,
+// which scans all ~25 screen elements just to remove one class.
+// Initialized to the screen that has .active set directly in HTML (s-role).
+let _currentScreenEl = document.querySelector('.screen.active');
+
 function _activateScreen(id) {
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  if (_currentScreenEl) _currentScreenEl.classList.remove('active');
   const el = document.getElementById(id);
-  if(el) {
+  if (el) {
+    _currentScreenEl = el;
     el.classList.add('active');
-    el.querySelectorAll('.scroll').forEach(s=>s.scrollTop=0);
+    el.querySelectorAll('.scroll').forEach(s => s.scrollTop = 0);
     refreshScreen(id);
   }
 }
@@ -4734,7 +5084,13 @@ function refreshScreen(id) {
   switch(id) {
     case 's-home': renderHouses(); break;
     case 's-myinq': renderMyInquiries(); break;
+    case 's-thread': {
+      const mi = _currentThreadId ? state.myInquiries.find(i => i.id === _currentThreadId) : null;
+      if (mi) renderThread(mi);
+      break;
+    }
     case 's-visit': renderSlots(); break;
+    case 's-success': startSuccessCountdown(); break;
     case 't-home': renderTenantHome(); break;
     case 't-maint': renderTenantMaint(); break;
     case 't-profile': renderTenantProfile(); break;
@@ -4769,6 +5125,9 @@ function refreshScreen(id) {
           const img=document.getElementById('ss-photo-img');
           if(prev&&img){img.src=sp.photo;prev.classList.add('has-photo');}
         }
+        // restore photo consent toggle
+        const consentTog = document.getElementById('ss-show-photo');
+        if(consentTog) consentTog.classList.toggle('on', !!sp.showPhoto);
         // restore gender pill
         if(sp.gender) {
           document.querySelectorAll('#ss-gender-pills .gender-pill').forEach(p=>{
@@ -4792,11 +5151,21 @@ function refreshScreen(id) {
       break;
     }
     case 's-map':
-      // Init or refresh Leaflet when screen opens
-      setTimeout(() => {
-        initLeafletMap();
-        closeMapCard && closeMapCard();
-      }, 60);
+      // Wait for Leaflet JS (deferred) to finish loading, then init.
+      // Uses a poll loop — fires once L is confirmed defined.
+      (function tryInitMap(attempts) {
+        if (typeof L === 'undefined') {
+          if (attempts < 40) setTimeout(() => tryInitMap(attempts + 1), 100);
+          return;
+        }
+        // Give the browser 200ms after screen becomes visible to finish layout.
+        // requestAnimationFrame alone isn't enough — flex layout takes >1 frame
+        // to resolve when transitioning from display:none to display:flex.
+        setTimeout(() => {
+          initLeafletMap();
+          closeMapCard && closeMapCard();
+        }, 200);
+      })(0);
       break;
     case 'l-setup':
       {
@@ -4928,7 +5297,9 @@ function renderSaved() {
         : `<span class="lcard-rooms">${avail} room${avail !== 1 ? 's' : ''} left</span>`;
     const badge  = isFull
       ? '<span class="lcard-badge" style="background:var(--red)">Full</span>'
-      : `<span class="lcard-badge" style="background:var(--teal)">Verified ${h.verified}</span>`;
+      : h.selfVerified
+        ? '<span class="lcard-badge" style="background:var(--teal)"><i class="ph ph-seal-check"></i> Owner Verified</span>'
+        : `<span class="lcard-badge" style="background:var(--teal)">Verified ${h.verified}</span>`;
     const cta    = isFull
       ? `<button class="btn" style="background:var(--amberBg);color:var(--amber);font-size:12px;padding:8px 13px;border-radius:8px;border:none;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;">Join Waitlist</button>`
       : `<button class="btn btn-blue" style="font-size:12px;padding:8px 13px;border-radius:8px">Inquire Now</button>`;
@@ -4946,12 +5317,24 @@ function renderSaved() {
           <div class="lcard-loc"><i class="ph ph-map-pin"></i> ${dist} min walk from ${school} gate</div>
           <div class="lcard-tags">${tagStr}</div>
           <div class="lcard-foot">
-            <div class="lcard-price">₱${h.price.toLocaleString()}<span>/mo</span></div>
+            <div>
+              <div class="lcard-price">₱${h.price.toLocaleString()}<span>/mo</span></div>
+              ${lastActiveHtml(h.lastActive)}
+            </div>
             ${cta}
           </div>
         </div>
       </div>`;
   }).join('');
+}
+
+// Returns dot + text HTML for last active indicator
+function lastActiveHtml(val) {
+  if (!val) return '';
+  const isToday  = val === 'Today' || val.includes('h ago') || val.includes('min ago');
+  const isRecent = val.includes('day') && parseInt(val) <= 3;
+  const dotClass = isToday ? 'today' : isRecent ? 'recent' : 'old';
+  return `<span class="lcard-active"><span class="lcard-active-dot ${dotClass}"></span>Active ${val}</span>`;
 }
 
 // ════════════════════════════════════════
@@ -4996,7 +5379,7 @@ function renderHouses() {
           ${isSearch ? 'Try a different search term, or browse all listings.' : 'Try a different filter — there are ${state.houses.length} verified houses in Burauen.'}
         </div>
         <button onclick="setFilter('all',null);document.getElementById('srch-inp').value='';renderHouses();"
-          style="background:var(--navy);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">
+          class="btn-navy-cta">
           <i class="ph ph-x"></i> Clear Filter — Show All
         </button>
       </div>`;
@@ -5013,7 +5396,9 @@ function renderHouses() {
     const tagStr = h.amenities.map(a=>`<span class="tag tg">${a}</span>`).join('');
     const badge = isFull
       ? '<span class="lcard-badge" style="background:var(--red)">Full</span>'
-      : '<span class="lcard-badge" style="background:var(--teal)"> Verified ' + h.verified + '</span>';
+      : h.selfVerified
+        ? '<span class="lcard-badge" style="background:var(--teal)"><i class="ph ph-seal-check"></i> Owner Verified</span>'
+        : '<span class="lcard-badge" style="background:var(--teal)"> Verified ' + h.verified + '</span>';
     // Misfire 1 fix: only show waitlist count when >= 3 (below that it signals low demand)
     const rooms = isFull
       ? `<span class="lcard-rooms" style="background:rgba(239,68,68,.85);">${h.waitlist.length >= 3 ? h.waitlist.length + ' on waitlist' : 'Full'}</span>`
@@ -5045,9 +5430,11 @@ function renderHouses() {
           <div class="lcard-loc"><i class="ph ph-map-pin"></i> ${dist} min walk from ${school} gate</div>
           <div class="lcard-tags">${tagStr}</div>
           <div class="lcard-foot">
-            <div class="lcard-price">₱${h.price.toLocaleString()}<span>/mo</span></div>
-            ${cta}
+            <div>
+              <div class="lcard-price">₱${h.price.toLocaleString()}<span>/mo</span></div>
+              ${lastActiveHtml(h.lastActive)}
             </div>
+            ${cta}
           </div>
         </div>
       </div>`;
@@ -5074,9 +5461,11 @@ function openHouse(id) {
 
   document.getElementById('d-topname').textContent = h.name;
   document.getElementById('d-hero').style.background = h.gradient;
-  document.getElementById('d-vbadge').textContent = ` Verified ${h.verified}`;
+  document.getElementById('d-vbadge').textContent = h.selfVerified ? `Owner Verified ${h.verified}` : ` Verified ${h.verified}`;
   document.getElementById('d-name').textContent = h.name;
   document.getElementById('d-loc').innerHTML = `<i class="ph ph-map-pin"></i> ${h.address} — ${dist} min walk from ${school} gate`;
+  const laEl = document.getElementById('d-last-active');
+  if (laEl) laEl.innerHTML = lastActiveHtml(h.lastActive);
 
   // About section
   const aboutEl = document.getElementById('d-about');
@@ -5086,15 +5475,21 @@ function openHouse(id) {
   const stripEl = document.getElementById('d-photo-strip');
   if(stripEl) {
     const snaps = h.snapshots && h.snapshots.length ? h.snapshots : [
-      {emoji:'<i class="ph ph-camera"></i>',label:'Facade'},{emoji:'<i class="ph ph-bed"></i>',label:'Room'},{emoji:'<i class="ph ph-shower"></i>',label:'Bathroom'},{emoji:'<i class="ph ph-door"></i>',label:'Entrance'}
+      {label:'Facade'},{label:'Room'},{label:'Bathroom'},{label:'Entrance'}
     ];
-    // gradient-tinted bg for each slot
     const gradStart = h.gradient.match(/#[0-9A-Fa-f]{6}/)?.[0] || '#1462A8';
-    stripEl.innerHTML = snaps.map(s=>`
-      <div class="d-photo-slot" style="background:${gradStart}22;border:1.5px solid ${gradStart}44;">
-        <div class="d-photo-slot-emoji">${snapIcon(s.label)}</div>
-        <div class="d-photo-slot-label">${s.label}</div>
-      </div>`).join('');
+    stripEl.innerHTML = snaps.map(s => s.img
+      ? `<div class="d-photo-slot" style="padding:0;overflow:hidden;border:none;">
+           <img src="${s.img}" alt="${s.label}" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:10px;">
+           <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.45);padding:2px 6px;border-radius:0 0 10px 10px;">
+             <div class="d-photo-slot-label">${s.label}</div>
+           </div>
+         </div>`
+      : `<div class="d-photo-slot" style="background:${gradStart}22;border:1.5px solid ${gradStart}44;">
+           <div class="d-photo-slot-emoji">${snapIcon(s.label)}</div>
+           <div class="d-photo-slot-label">${s.label}</div>
+         </div>`
+    ).join('');
   }
 
   // Snapshot
@@ -5230,87 +5625,134 @@ function setFilter(f,el) {
   renderHouses();
 }
 
-function filterHouses(q) { renderHouses(); }
+// Debounced search — prevents renderHouses() from firing on every keystroke.
+// 200ms is imperceptible to users but eliminates 5-10x redundant renders during fast typing.
+let _searchTimer = null;
+function filterHouses(q) {
+  clearTimeout(_searchTimer);
+  _searchTimer = setTimeout(renderHouses, 200);
+}
 
 // FIX: toggleFilter was called but never defined — ReferenceError on every tap
 function toggleFilter() {
-  const sheet = document.getElementById('filter-sheet');
-  if (sheet) { sheet.classList.toggle('hidden'); return; }
-  // Build filter sheet on first call
+  const existing = document.getElementById('filter-sheet');
+  if (existing) {
+    existing.classList.toggle('hidden');
+    return;
+  }
+  // Build sheet once using CSS classes
   const el = document.createElement('div');
   el.id = 'filter-sheet';
-  el.style.cssText = 'position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-radius:20px 20px 0 0;padding:20px 18px 36px;z-index:200;box-shadow:0 -8px 32px rgba(11,31,58,.15);';
+  el.className = 'modal-bg';
+  el.style.cssText = 'align-items:flex-end;';
   el.innerHTML = `
-    <div style="width:36px;height:4px;background:#E4DDD5;border-radius:2px;margin:0 auto 18px;"></div>
-    <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:#0B1F3A;margin-bottom:16px;">Filter Listings</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
-      ${[
-        ['all','All listings','<i class="ph ph-house"></i>'],
-        ['available','Available now','<i class="ph ph-check-circle"></i>'],
-        ['under2k','Under ₱2,000','<i class="ph ph-money"></i>'],
-        ['wifi','WiFi included','<i class="ph ph-wifi"></i>'],
-        ['nocurfew','No curfew',''],
-      ].map(([f,lbl,ic])=>`
-        <button onclick="setFilter('${f}',null);document.getElementById('filter-sheet').classList.add('hidden');"
-          style="display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:12px;border:2px solid ${state.filter===f?'#1558CC':'#E4DDD5'};background:${state.filter===f?'#EFF6FF':'#fff'};font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:700;color:${state.filter===f?'#1558CC':'#374151'};cursor:pointer;text-align:left;">
-          <span style="font-size:16px;">${ic}</span>${lbl}
-        </button>`).join('')}
-    </div>
-    <button onclick="document.getElementById('filter-sheet').classList.add('hidden');" style="width:100%;margin-top:16px;padding:13px;background:#F5F3EF;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#6B7280;cursor:pointer;">Close</button>
-  `;
-  // dark overlay
-  const overlay = document.createElement('div');
-  overlay.id = 'filter-overlay';
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:199;';
-  overlay.onclick = () => { el.classList.add('hidden'); overlay.remove(); };
-  document.body.appendChild(overlay);
-  document.body.appendChild(el);
+    <div class="modal" style="border-radius:20px 20px 0 0;">
+      <div class="modal-handle"></div>
+      <div class="modal-title" style="margin-bottom:16px;">Filter Listings</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px;" id="filter-btns"></div>
+      <button onclick="document.getElementById('filter-sheet').classList.add('hidden')" class="btn btn-secondary" style="width:100%;">
+        <i class="ph ph-x"></i> Close
+      </button>
+    </div>`;
+  document.querySelector('.phone').appendChild(el);
+
+  // Render filter buttons
+  const renderFilterBtns = () => {
+    const btns = document.getElementById('filter-btns');
+    if (!btns) return;
+    btns.innerHTML = [
+      ['all',      'All listings',   'ph-house'],
+      ['available','Available now',  'ph-check-circle'],
+      ['under2k',  'Under ₱2,000',  'ph-money'],
+      ['wifi',     'WiFi included',  'ph-wifi'],
+      ['nocurfew', 'No curfew',      'ph-moon'],
+    ].map(([f, lbl, ic]) => {
+      const isOn = state.filter === f;
+      return `<button onclick="setFilter('${f}',null);document.getElementById('filter-sheet').classList.add('hidden');"
+        style="display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:12px;
+          border:2px solid ${isOn?'var(--blue)':'var(--border)'};
+          background:${isOn?'var(--blueLt)':'var(--card)'};
+          font-family:'Nunito Sans',sans-serif;font-size:13px;font-weight:700;
+          color:${isOn?'var(--blue)':'var(--text2)'};cursor:pointer;text-align:left;">
+        <i class="ph ${ic}" style="font-size:16px;flex-shrink:0;"></i>${lbl}
+      </button>`;
+    }).join('');
+  };
+  renderFilterBtns();
+
+  // Close on backdrop click
+  el.addEventListener('click', e => {
+    if (e.target === el) el.classList.add('hidden');
+  });
 }
 
 // ════════════════════════════════════════
 // SEEKER — INQUIRY
 // ════════════════════════════════════════
 function submitInquiry() {
-  const name = document.getElementById('inq-name').value.trim();
-  const school = document.getElementById('inq-school').value;
-  const course = document.getElementById('inq-course').value.trim();
-  const date = document.getElementById('inq-date').value;
-  const q = document.getElementById('inq-q').value.trim();
-  if(!name||!school||!course||!date) { showToast('Please fill in all required fields'); return; }
+  const name   = document.getElementById('inq-name');
+  const school = document.getElementById('inq-school');
+  const course = document.getElementById('inq-course');
+  const date   = document.getElementById('inq-date');
+
+  // Clear previous errors
+  [name, school, course, date].forEach(el => el.classList.remove('error'));
+
+  // Validate — highlight specific failing fields
+  let hasError = false;
+  if (!name.value.trim())   { name.classList.add('error');   hasError = true; }
+  if (!school.value)        { school.classList.add('error'); hasError = true; }
+  if (!course.value.trim()) { course.classList.add('error'); hasError = true; }
+  if (!date.value)          { date.classList.add('error');   hasError = true; }
+
+  if (hasError) {
+    showToast('<i class="ph ph-warning"></i> Fill in all required fields');
+    // Scroll to first error
+    const first = document.querySelector('#s-inquiry .error');
+    if (first) first.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+
+  // Clear errors on submit
+  [name, school, course, date].forEach(el => el.classList.remove('error'));
+  // Remove error on user fix
+  [name, school, course, date].forEach(el => {
+    el.addEventListener('input', () => el.classList.remove('error'), { once: true });
+    el.addEventListener('change', () => el.classList.remove('error'), { once: true });
+  });
 
   const h = state.houses.find(x=>x.id===state.currentHouseId);
+  const q = document.getElementById('inq-q').value.trim();
   const inq = {
     id: state.nextId++,
     houseId: state.currentHouseId,
-    name, school, course, date, q: q||'(No specific question)',
+    name: name.value.trim(), school: school.value,
+    course: course.value.trim(), date: date.value,
+    q: q||'(No specific question)',
     status:'pending', time:'Just now',
-    avatar:['<i class="ph ph-user-circle"></i>','<i class="ph ph-user-circle"></i>','<i class="ph ph-user-circle"></i>','<i class="ph ph-user-circle"></i>','<i class="ph ph-user-circle"></i>','<i class="ph ph-user-circle"></i>'][Math.floor(Math.random()*6)]
+    photo: (profiles.seeker.showPhoto && profiles.seeker.photo) ? profiles.seeker.photo : null,
+    avatar: '<i class="ph ph-user-circle"></i>'
   };
   state.inquiries.unshift(inq);
   state.myInquiries.unshift({id:inq.id, houseId:inq.houseId, houseName:h.name, status:'pending', q:inq.q, time:'Just now'});
   save();
 
-  // clear form - only clear the mutable fields, not profile-pre-filled ones
   ['inq-date','inq-q'].forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
   document.getElementById('cc').textContent='0/200';
 
-  // show success
   document.getElementById('succ-ic').innerHTML='<i class="ph ph-check-circle"></i>';
   document.getElementById('succ-title').textContent='Inquiry Sent!';
   document.getElementById('succ-body').textContent=`Your inquiry was sent to ${h.name}. Landlords typically respond within 24 hours.`;
   document.getElementById('succ-card').innerHTML=`
     <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px">Inquiry Summary</div>
-    ${[['House',h.name],['Status',' Awaiting Reply'],['School',school],['Move-in',date||'—']].map(([l,v])=>`
+    ${[['House',h.name],['Status',' Awaiting Reply'],['School',inq.school],['Move-in',inq.date||'—']].map(([l,v])=>`
     <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">
       <span style="color:var(--muted)">${l}</span>
       <span style="font-weight:700">${v}</span>
     </div>`).join('')}`;
-  // Hide calendar button (only relevant for visit bookings)
   const calBtnInq = document.getElementById('succ-cal-btn');
   if(calBtnInq) calBtnInq.style.display = 'none';
-  goTo('s-success');
-  // FIX 9: Foot-in-the-Door — nudge profile setup after first commitment action
-  // Fires 2.5s after success screen loads, only if seeker has no profile yet
+  _successDest = 's-myinq'; goTo('s-success');
   if (state.myInquiries.length === 1) {
     setTimeout(() => showProfileNudge('seeker'), 2500);
   }
@@ -5391,7 +5833,7 @@ function confirmVisit() {
       };
     }
   } catch(e) {}
-  goTo('s-success');
+  _successDest = 's-home'; goTo('s-success');
 }
 
 // ════════════════════════════════════════
@@ -5420,7 +5862,7 @@ function joinWaitlist() {
     <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">
       <span style="color:var(--muted)">${l}</span><span style="font-weight:700">${v}</span>
     </div>`).join('')}`;
-  goTo('s-success');
+  _successDest = 's-home'; goTo('s-success');
 }
 
 // ════════════════════════════════════════
@@ -5446,16 +5888,37 @@ function renderMyInquiries() {
   };
   el.innerHTML = state.myInquiries.map(mi=>{
     const s = statusMap[mi.status] || statusMap.pending;
+    const hasUnread = mi.status === 'replied' && !mi.read;
     const replyHtml = mi.reply ? `
-      <div style="margin-top:10px;background:var(--blueLt);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:10px 12px;">
-        <div style="font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;color:var(--blue);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px;">Landlord replied</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.5;">${mi.reply}</div>
+      <div class="reply-block">
+        <div class="reply-block-lbl">Landlord replied</div>
+        <div class="reply-block-txt">${mi.reply}</div>
       </div>` : '';
-    return `<div class="inq-item">
-      <div class="inq-top"><span class="inq-house">${mi.houseName}</span><span class="inq-time">${mi.time}</span></div>
+    const withdrawHtml = mi.status === 'pending' ? `
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;">
+        <button onclick="event.stopPropagation();withdrawInquiry(${mi.id})" style="background:none;border:none;font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:4px;padding:4px 0;">
+          <i class="ph ph-x-circle"></i> Withdraw inquiry
+        </button>
+      </div>` : '';
+    const continueCTA = (mi.status === 'replied' || mi.status === 'interested') ? `
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+        <button onclick="event.stopPropagation();openThread(${mi.id})" style="background:var(--blueLt);border:1.5px solid rgba(21,88,204,.2);color:var(--blue);border-radius:8px;padding:8px 14px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:6px;width:100%;justify-content:center;">
+          <i class="ph ph-chat-circle-dots"></i> Continue Conversation
+        </button>
+      </div>` : '';
+    return `<div class="inq-item" onclick="openThread(${mi.id})" style="cursor:pointer;">
+      <div class="inq-top">
+        <span class="inq-house">${mi.houseName}</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          ${hasUnread ? '<div style="width:8px;height:8px;background:var(--blue);border-radius:50%;flex-shrink:0;"></div>' : ''}
+          <span class="inq-time">${mi.time}</span>
+        </div>
+      </div>
       <div class="inq-status"><div class="sdot ${mi.status==='pending'?'sdot-pulse':''}" style="background:${s.dot}"></div><span style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;color:${s.color}">${s.label}</span></div>
       <div class="inq-q">${mi.q}</div>
       ${replyHtml}
+      ${continueCTA}
+      ${withdrawHtml}
     </div>`;
   }).join('');
 }
@@ -5463,6 +5926,159 @@ function renderMyInquiries() {
 // ════════════════════════════════════════
 // TENANT — ANNOUNCEMENTS
 // ════════════════════════════════════════
+// ════════════════════════════════════════
+// MESSAGING THREAD (Seeker ↔ Landlord)
+// ════════════════════════════════════════
+let _currentThreadId = null;
+
+function openThread(inqId) {
+  const mi  = state.myInquiries.find(i => i.id === inqId);
+  const inq = state.inquiries.find(i => i.id === inqId);
+  if (!mi) return;
+
+  // Mark as read
+  mi.read = true;
+
+  // Seed messages array from existing inquiry data if not yet threaded
+  if (!mi.messages) {
+    mi.messages = [
+      { from:'me', text: mi.q || '(No specific question)', time: mi.time }
+    ];
+    if (mi.reply) {
+      mi.messages.push({ from:'them', text: mi.reply, time: 'Earlier' });
+    }
+    // Sync back to source inquiry too
+    if (inq && !inq.messages) inq.messages = [...mi.messages];
+  }
+
+  _currentThreadId = inqId;
+
+  const h = state.houses.find(x => x.id === mi.houseId);
+  const statusLabels = {
+    pending:'Awaiting Reply', replied:'Replied', interested:'Interested',
+    not_a_fit:'Not a Fit', visit_scheduled:'Visit Scheduled',
+    offered:'Room Offered', declined:'Declined'
+  };
+  const statusTags = {
+    pending:'ta2', replied:'tgn', interested:'tg',
+    not_a_fit:'tr', offered:'tgn', declined:'tn'
+  };
+
+  document.getElementById('thread-house-name').textContent = mi.houseName;
+  document.getElementById('thread-house-sub').textContent  = h ? h.address : 'Burauen, Leyte';
+  const badge = document.getElementById('thread-status-badge');
+  badge.textContent  = statusLabels[mi.status] || mi.status;
+  badge.className    = `tag ${statusTags[mi.status] || 'ta2'}`;
+  badge.style.fontSize = '10px';
+
+  renderThread(mi);
+  goTo('s-thread');
+}
+
+function renderThread(mi) {
+  const scroll = document.getElementById('thread-scroll');
+  if (!scroll) return;
+  const msgs = mi.messages || [];
+
+  if (!msgs.length) {
+    scroll.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;">
+      <i class="ph ph-chat-circle-dots" style="font-size:32px;display:block;margin-bottom:10px;color:var(--muted2);"></i>
+      No messages yet
+    </div>`;
+    return;
+  }
+
+  scroll.innerHTML = msgs.map((m, i) => {
+    const isMe = m.from === 'me';
+    const showSender = i === 0 || msgs[i-1].from !== m.from;
+    return `<div class="msg-row ${isMe ? 'from-me' : 'from-them'}">
+      ${!isMe ? `<div style="width:32px;height:32px;background:var(--warm2);border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;align-self:flex-end;"><i class="ph ph-user-circle" style="color:var(--muted);"></i></div>` : ''}
+      <div>
+        ${showSender && !isMe ? `<div class="msg-sender">Landlord</div>` : ''}
+        <div class="msg-bubble">${m.text}</div>
+        <div class="msg-time" style="text-align:${isMe?'right':'left'}">${m.time}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Scroll to bottom
+  setTimeout(() => { scroll.scrollTop = scroll.scrollHeight; }, 60);
+}
+
+function sendThreadMessage() {
+  const inp = document.getElementById('thread-inp');
+  const txt = inp?.value.trim();
+  if (!txt || !_currentThreadId) return;
+
+  const mi  = state.myInquiries.find(i => i.id === _currentThreadId);
+  const inq = state.inquiries.find(i => i.id === _currentThreadId);
+  if (!mi) return;
+
+  if (!mi.messages) mi.messages = [];
+  const msg = { from:'me', text: txt, time: 'Just now' };
+  mi.messages.push(msg);
+  if (inq) {
+    if (!inq.messages) inq.messages = [...mi.messages];
+    else inq.messages.push(msg);
+    // Adding a follow-up moves status back to pending if it was replied
+    if (inq.status === 'replied') { inq.status = 'pending'; mi.status = 'pending'; mi.read = true; }
+  }
+  save();
+
+  inp.value = '';
+  inp.style.height = 'auto';
+  renderThread(mi);
+
+  // Simulate landlord auto-reply after 2.5s (demo only)
+  setTimeout(() => {
+    const autoReplies = [
+      'Salamat sa iyong mensahe! Susubukan kong sagutin agad.',
+      'Noted po. Maaari ka bang mag-visit this week para makita ang kwarto?',
+      'Yes po, available pa ang kwarto. Kausapin na lang natin ang detalye.',
+      'Okay po, ipagpapaalam ko sa inyo kapag may update.',
+    ];
+    const reply = autoReplies[Math.floor(Math.random() * autoReplies.length)];
+    const replyMsg = { from:'them', text: reply, time: 'Just now' };
+    mi.messages.push(replyMsg);
+    if (inq) { inq.messages = inq.messages || []; inq.messages.push(replyMsg); inq.reply = reply; }
+    mi.reply = reply;
+    mi.status = 'replied';
+    if (inq) inq.status = 'replied';
+    save();
+    // Only re-render if thread is still open
+    if (_currentThreadId === (mi.id)) renderThread(mi);
+  }, 2500);
+}
+function withdrawInquiry(id) {
+  // Remove from both inquiry lists
+  state.inquiries    = state.inquiries.filter(i => i.id !== id);
+  state.myInquiries  = state.myInquiries.filter(i => i.id !== id);
+  save();
+  renderMyInquiries();
+  showToast('Inquiry withdrawn');
+}
+
+// ════════════════════════════════════════
+// TENANT — PAYMENT ACKNOWLEDGE
+// ════════════════════════════════════════
+function acknowledgePayment() {
+  if (!state.tenantProfile) return;
+  state.tenantProfile.paymentStatus = 'self_reported';
+
+  // Update pending entry in paymentLog
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-PH', { month:'short', day:'numeric', year:'numeric' });
+  const log = state.paymentLog || [];
+  const pending = log.find(p => p.status === 'pending');
+  if (pending) {
+    pending.status = 'self_reported';
+    pending.method = 'GCash (self-reported)';
+    pending.date   = dateStr;
+  }
+  save();
+  renderTenantHome();
+  showToast('<i class="ph ph-check-circle"></i> Naka-report na! Hihintayin ang kumpirmasyon ng landlord.');
+}
 function renderTenantAnnouncements() {
   renderTenantHome(); // delegate to new comprehensive render
 }
@@ -5481,20 +6097,32 @@ const C = {
 function renderTenantMaint() {
   const el = document.getElementById('t-maint-list');
   const empty = document.getElementById('t-maint-empty');
+
+  // Sync status from authoritative list — landlord updates state.maintenanceRequests,
+  // so we must pull the latest status from there rather than the stale local copy
+  state.myMaintenanceRequests.forEach(myR => {
+    const source = state.maintenanceRequests.find(r => r.id === myR.id);
+    if (source) myR.status = source.status;
+  });
+
   const myReqs = state.myMaintenanceRequests;
   if(!myReqs.length) { el.innerHTML=''; empty.classList.remove('hidden'); return; }
   empty.classList.add('hidden');
-  const sMap = {pending:{bg:C.amberBg,tc:C.amber,label:'Pending'},in_progress:{bg:C.tealBg,tc:C.teal,label:'In Progress'},done:{bg:C.greenBg,tc:C.green,label:'Done '}};
+  const sMap = {
+    pending:    {bg:C.amberBg, tc:C.amber, label:'Pending'},
+    in_progress:{bg:C.tealBg,  tc:C.teal,  label:'In Progress'},
+    done:       {bg:C.greenBg, tc:C.green,  label:'Done ✓'}
+  };
   el.innerHTML = myReqs.map(r=>{
     const s = sMap[r.status]||sMap.pending;
     return `<div class="mreq-item">
       <span class="mreq-ic">${r.type.split(' ')[0]}</span>
-      <div style="flex:1">
+      <div class="mreq-body">
         <div class="mreq-title">${r.type.replace(/^\S+\s/,'')}</div>
         <div class="mreq-desc">${r.desc}</div>
         <div class="mreq-foot">
           <span class="tag" style="background:${s.bg};color:${s.tc}">${s.label}</span>
-          <span style="font-size:11px;color:var(--muted);margin-left:6px">${r.time}</span>
+          <span class="mreq-time">${r.time}</span>
         </div>
       </div>
     </div>`;
@@ -5594,6 +6222,32 @@ function renderLandlordHome() {
   }
 }
 
+function openAddRoomModal() {
+  document.getElementById('new-room-name').value   = '';
+  document.getElementById('new-room-rent').value   = '';
+  document.getElementById('new-room-status').value = 'empty';
+  document.getElementById('modal-add-room').classList.remove('hidden');
+}
+function closeAddRoomModal() {
+  document.getElementById('modal-add-room').classList.add('hidden');
+}
+function saveNewRoom() {
+  const name   = document.getElementById('new-room-name').value.trim();
+  const rent   = parseInt(document.getElementById('new-room-rent').value);
+  const status = document.getElementById('new-room-status').value;
+  if (!name)       { showToast('<i class="ph ph-warning"></i> Enter a room name'); return; }
+  if (!rent || rent < 1) { showToast('<i class="ph ph-warning"></i> Enter a valid rent amount'); return; }
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
+  // Auto-increment room ID
+  const maxId = h.rooms.reduce((m, r) => Math.max(m, r.id), 0);
+  h.rooms.push({ id: maxId + 1, name, status, tenant: null, amount: rent });
+  save();
+  closeAddRoomModal();
+  renderRooms();
+  renderLandlordHome();
+  showToast(`<i class="ph ph-check-circle"></i> ${name} added`);
+}
+
 function openRoomModal(roomId) {
   const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   const r = h.rooms.find(x=>x.id===roomId);
@@ -5603,6 +6257,7 @@ function openRoomModal(roomId) {
   document.getElementById('room-modal-sub').textContent = r.tenant ? 'Tenant: '+r.tenant : 'Vacant room';
   document.getElementById('room-status-sel').value = r.status;
   document.getElementById('room-tenant-name').value = r.tenant||'';
+  document.getElementById('room-rent-amt').value = r.amount||'';
   document.getElementById('modal-room').classList.remove('hidden');
 }
 
@@ -5612,11 +6267,14 @@ function saveRoom() {
   if(!r) return;
   r.status = document.getElementById('room-status-sel').value;
   r.tenant = document.getElementById('room-tenant-name').value.trim()||null;
+  const newAmt = parseInt(document.getElementById('room-rent-amt').value);
+  if (newAmt && newAmt > 0) r.amount = newAmt;
   if(r.status==='empty') r.tenant=null;
   save();
   closeRoomModal();
+  renderRooms();
   renderLandlordHome();
-  showToast('Room updated ');
+  showToast('Room updated');
 }
 
 // ════════════════════════════════════════
@@ -5630,8 +6288,11 @@ function inboxItem(inq, preview=false) {
   };
   const s = statusMap[inq.status]||statusMap.pending;
   const h = state.houses.find(x=>x.id===inq.houseId);
+  const avatarHtml = inq.photo
+    ? `<img src="${inq.photo}" alt="${inq.name}">`
+    : `<i class="ph ph-user-circle" style="font-size:22px;"></i>`;
   return `<div class="inbox-item" data-pending="${inq.status==='pending'}" onclick="openInqDetail(${inq.id})">
-    <div class="iav">${inq.avatar}</div>
+    <div class="iav">${avatarHtml}</div>
     <div class="icontent">
       <div class="iname">${inq.name}</div>
       <div class="imeta">${inq.school} · ${inq.course}</div>
@@ -5690,18 +6351,48 @@ function openInqDetail(id) {
   const set    = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
   const setHTML= (id, v) => { const e = document.getElementById(id); if(e) e.innerHTML  = v; };
 
-  // Avatar — always a person icon
-  setHTML('inq-h-avatar', '<i class="ph ph-user-circle" style="font-size:28px;color:rgba(255,255,255,.8);"></i>');
+  // Avatar — show real photo if seeker shared it, otherwise person icon
+  if (inq.photo) {
+    setHTML('inq-h-avatar', `<img src="${inq.photo}" alt="${inq.name}">`);
+  } else {
+    setHTML('inq-h-avatar', '<i class="ph ph-user-circle" style="font-size:28px;color:rgba(255,255,255,.8);"></i>');
+  }
   set('inq-h-name',    inq.name);
   set('inq-h-school',  (inq.school||'') + (inq.course ? ' · ' + inq.course : ''));
   set('inq-h-badge',   statusLabels[inq.status] || inq.status);
   set('inq-h-house',   h?.name || '—');
   set('inq-h-date',    inq.date ? 'Move-in ' + inq.date : 'Date TBD');
-  set('inq-h-question', inq.q || '—');
 
-  // Pre-fill reply field with existing reply if present
+  // Render thread history — shows full conversation including first question
+  const threadEl = document.getElementById('inq-thread-history');
+  if (threadEl) {
+    const msgs = inq.messages && inq.messages.length
+      ? inq.messages
+      : [{ from:'me', text: inq.q || '(No specific question)', time: inq.time }];
+
+    threadEl.innerHTML = msgs.map(m => {
+      const isSeeker = m.from === 'me';
+      return `<div style="display:flex;flex-direction:column;align-items:${isSeeker ? 'flex-start' : 'flex-end'};">
+        <div style="font-size:9px;font-family:'Nunito',sans-serif;font-weight:800;color:var(--muted);margin-bottom:3px;letter-spacing:.3px;text-transform:uppercase;">
+          ${isSeeker ? inq.name : 'You'}
+        </div>
+        <div style="max-width:85%;padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.5;
+          ${isSeeker
+            ? 'background:var(--warm2);border:1px solid var(--border);border-top-left-radius:3px;color:var(--text);'
+            : 'background:var(--navy);color:#fff;border-top-right-radius:3px;'}">
+          ${m.text}
+        </div>
+        <div style="font-size:10px;color:var(--muted2);margin-top:2px;">${m.time}</div>
+      </div>`;
+    }).join('');
+
+    // Scroll to bottom of thread
+    setTimeout(() => { threadEl.scrollTop = threadEl.scrollHeight; }, 50);
+  }
+
+  // Clear reply field for new reply
   const replyTxt = document.getElementById('inq-reply-txt');
-  if(replyTxt) replyTxt.value = inq.reply || '';
+  if(replyTxt) replyTxt.value = '';
 
   // Badge bg
   const badge = document.getElementById('inq-h-badge');
@@ -5769,16 +6460,42 @@ function sendInqReply() {
   if(!txt) { showToast('Type a reply first'); return; }
   const inq = state.inquiries.find(i=>i.id===state.currentInqId);
   if(!inq) return;
-  inq.reply = txt;
+
+  // Append to messages thread
+  if (!inq.messages) inq.messages = [{ from:'me', text: inq.q||'(No question)', time: inq.time||'Earlier' }];
+  const msg = { from:'them', text: txt, time: 'Just now' };
+  inq.messages.push(msg);
+
+  inq.reply  = txt;
   inq.status = 'replied';
+
   // Sync to seeker's myInquiries
   const mi = state.myInquiries.find(m=>m.id===inq.id);
-  if(mi) { mi.reply = txt; mi.status = 'replied'; }
+  if(mi) {
+    mi.reply  = txt;
+    mi.status = 'replied';
+    mi.read   = false; // unread for seeker
+    if (!mi.messages) mi.messages = [...inq.messages];
+    else mi.messages.push(msg);
+  }
   save();
+
+  // Re-render thread inside modal so landlord sees their own reply immediately
+  const threadEl = document.getElementById('inq-thread-history');
+  if (threadEl) {
+    const newBubble = document.createElement('div');
+    newBubble.style.cssText = 'display:flex;flex-direction:column;align-items:flex-end;';
+    newBubble.innerHTML = `
+      <div style="font-size:9px;font-family:'Nunito',sans-serif;font-weight:800;color:var(--muted);margin-bottom:3px;letter-spacing:.3px;text-transform:uppercase;">You</div>
+      <div style="max-width:85%;padding:9px 12px;border-radius:12px;border-top-right-radius:3px;font-size:13px;line-height:1.5;background:var(--navy);color:#fff;">${txt}</div>
+      <div style="font-size:10px;color:var(--muted2);margin-top:2px;">Just now</div>`;
+    threadEl.appendChild(newBubble);
+    threadEl.scrollTop = threadEl.scrollHeight;
+  }
+
   document.getElementById('inq-reply-txt').value = '';
-  closeInqModal();
   renderLandlordInbox();
-  showToast('Reply sent');
+  showToast('<i class="ph ph-paper-plane-tilt"></i> Reply sent');
 }
 
 // ════════════════════════════════════════
@@ -5791,11 +6508,11 @@ function renderRooms() {
     const s = sMap[r.status]||sMap.empty;
     return `<div class="card card-p" style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
       <div>
-        <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:var(--text);margin-bottom:3px">${r.name}</div>
-        <div style="font-size:13px;color:var(--muted)">${r.tenant||'No tenant'}</div>
-        <div style="font-size:12px;color:var(--muted)">₱${r.amount.toLocaleString()}/mo</div>
+        <div class="rc-name">${r.name}</div>
+        <div class="rc-sub">${r.tenant||'No tenant'}</div>
+        <div class="rc-sub2">₱${r.amount.toLocaleString()}/mo</div>
       </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+      <div class="rc-right">
         <span class="tag" style="background:${s.bg};color:${s.tc}">${s.label}</span>
         <button class="btn-ghost-sm f-nun" style="font-size:12px" onclick="openRoomModal(${r.id})">Edit</button>
       </div>
@@ -5806,6 +6523,22 @@ function renderRooms() {
 // ════════════════════════════════════════
 // LANDLORD — ANNOUNCEMENTS
 // ════════════════════════════════════════
+// Relative time from timestamp
+function relTime(ts) {
+  if (!ts) return '—';
+  const diff = Date.now() - ts;
+  const m = Math.floor(diff / 60000);
+  if (m < 1)   return 'Just now';
+  if (m < 60)  return m + 'm ago';
+  const h = Math.floor(m / 60);
+  if (h < 24)  return h + 'h ago';
+  const d = Math.floor(h / 24);
+  if (d === 1) return 'Yesterday';
+  if (d < 7)   return d + ' days ago';
+  const w = Math.floor(d / 7);
+  return w + ' week' + (w > 1 ? 's' : '') + ' ago';
+}
+
 function renderAnnouncements() {
   const list  = document.getElementById('ann-history-list');
   const empty = document.getElementById('ann-history-empty');
@@ -5816,37 +6549,140 @@ function renderAnnouncements() {
     emergency: { bg:'#FEF2F2', tc:'#B91C1C', label:'Emergency' },
     activity:  { bg:'#F0FDFA', tc:'#0F766E', label:'Activity' },
   };
-  if(!state.announcements.length) {
+
+  // Pinned first (emergency auto-pins), then by newest
+  const sorted = [...state.announcements].sort((a, b) => {
+    const aPin = a.pinned || a.cat === 'emergency';
+    const bPin = b.pinned || b.cat === 'emergency';
+    if (aPin !== bPin) return aPin ? -1 : 1;
+    return (b.ts || 0) - (a.ts || 0);
+  });
+
+  if(!sorted.length) {
     list.innerHTML = ''; empty.style.display='';
     return;
   }
   empty.style.display = 'none';
-  list.innerHTML = state.announcements.map(a => {
-    const c = catColors[a.cat] || catColors.info;
-    return `<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 4px rgba(11,31,58,.06);">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-        <span style="background:${c.bg};color:${c.tc};font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.3px;">${c.label}</span>
-        <span style="font-size:11px;color:var(--muted);">${a.time}</span>
+
+  list.innerHTML = sorted.map(a => {
+    const c    = catColors[a.cat] || catColors.info;
+    const isPinned = a.pinned || a.cat === 'emergency';
+    return `<div class="ann-render-card${isPinned ? ' pinned' : ''}" id="ann-card-${a.id}">
+      ${isPinned ? '<div class="ann-pin-badge"><i class="ph ph-push-pin"></i> Pinned</div>' : ''}
+      <div class="ann-render-hdr">
+        <span class="ann-render-cat" style="background:${c.bg};color:${c.tc}">${c.label}</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span class="ann-render-time" id="ann-time-${a.id}">${relTime(a.ts)}</span>
+          <button onclick="toggleAnnPin(${a.id})" title="${isPinned?'Unpin':'Pin'}"
+            style="background:none;border:none;cursor:pointer;color:${isPinned?'var(--red)':'var(--muted2)'};font-size:15px;padding:2px;display:flex;align-items:center;">
+            <i class="ph ph-push-pin${isPinned?'-slash':''}"></i>
+          </button>
+          <button onclick="toggleAnnEdit(${a.id})" title="Edit"
+            style="background:none;border:none;cursor:pointer;color:var(--muted2);font-size:15px;padding:2px;display:flex;align-items:center;">
+            <i class="ph ph-pencil-simple"></i>
+          </button>
+          <button onclick="confirmDeleteAnn(${a.id})" title="Delete"
+            style="background:none;border:none;cursor:pointer;color:var(--muted2);font-size:15px;padding:2px;display:flex;align-items:center;">
+            <i class="ph ph-trash"></i>
+          </button>
+        </div>
       </div>
-      <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px;">${a.title}</div>
-      <div style="font-size:13px;color:var(--text2);line-height:1.5;">${a.body}</div>
+      <div class="ann-render-title" id="ann-title-${a.id}">${a.title}</div>
+      <div class="ann-render-body" id="ann-body-${a.id}">${a.body}</div>
+      <!-- Inline edit area -->
+      <div class="ann-edit-area" id="ann-edit-${a.id}">
+        <input class="ann-edit-title" id="ann-edit-t-${a.id}" value="${a.title.replace(/"/g,'&quot;')}" placeholder="Title">
+        <textarea class="ann-edit-body" id="ann-edit-b-${a.id}">${a.body}</textarea>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button onclick="saveAnnEdit(${a.id})" class="btn btn-primary btn-sm" style="flex:2;"><i class="ph ph-floppy-disk"></i> Save</button>
+          <button onclick="toggleAnnEdit(${a.id})" class="btn btn-secondary btn-sm" style="flex:1;">Cancel</button>
+        </div>
+      </div>
     </div>`;
   }).join('');
 }
 
 function postAnnouncement() {
-  const cat = document.getElementById('ann-cat').value;
+  const cat   = document.getElementById('ann-cat').value;
   const title = document.getElementById('ann-title').value.trim();
-  const body = document.getElementById('ann-body').value.trim();
+  const body  = document.getElementById('ann-body').value.trim();
   if(!title||!body) { showToast('Please fill in title and message'); return; }
-  state.announcements.unshift({id:state.nextId++,cat,title,body,time:'Just now',isNew:true});
+  state.announcements.unshift({
+    id: state.nextId++, cat, title, body,
+    ts: Date.now(), isNew: true, pinned: cat === 'emergency'
+  });
   save();
   document.getElementById('ann-title').value='';
   document.getElementById('ann-body').value='';
   showToast('Announcement sent to all tenants <i class="ph ph-megaphone"></i>');
   renderAnnouncements();
-  // Scroll to history to show the newly posted announcement
   setTimeout(()=>{ const h=document.getElementById('ann-history-list'); if(h) h.scrollIntoView({behavior:'smooth',block:'start'}); }, 200);
+}
+
+function toggleAnnEdit(id) {
+  const area = document.getElementById('ann-edit-' + id);
+  if (!area) return;
+  area.classList.toggle('open');
+  // Focus title field when opening
+  if (area.classList.contains('open')) {
+    setTimeout(() => document.getElementById('ann-edit-t-' + id)?.focus(), 50);
+  }
+}
+
+function saveAnnEdit(id) {
+  const a = state.announcements.find(x => x.id === id);
+  if (!a) return;
+  const newTitle = document.getElementById('ann-edit-t-' + id)?.value.trim();
+  const newBody  = document.getElementById('ann-edit-b-' + id)?.value.trim();
+  if (!newTitle || !newBody) { showToast('Title and message cannot be empty'); return; }
+  a.title = newTitle;
+  a.body  = newBody;
+  a.ts    = Date.now(); // refresh timestamp on edit
+  a.isNew = true;       // re-notify tenants of the update
+  save();
+  renderAnnouncements();
+  renderTenantHome();   // sync tenant view
+  showToast('<i class="ph ph-pencil-simple"></i> Announcement updated');
+}
+
+function toggleAnnPin(id) {
+  const a = state.announcements.find(x => x.id === id);
+  if (!a) return;
+  a.pinned = !a.pinned;
+  save();
+  renderAnnouncements();
+  showToast(a.pinned ? '<i class="ph ph-push-pin"></i> Pinned' : 'Unpinned');
+}
+
+function confirmDeleteAnn(id) {
+  const a = state.announcements.find(x => x.id === id);
+  if (!a) return;
+  // Replace card content with an inline confirm prompt instead of window.confirm
+  const card = document.getElementById('ann-card-' + id);
+  if (!card) return;
+  const prev = card.innerHTML;
+  card.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px;">
+      <i class="ph ph-warning-circle" style="font-size:22px;color:var(--red);flex-shrink:0;"></i>
+      <div style="flex:1;">
+        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);margin-bottom:2px;">Delete this announcement?</div>
+        <div style="font-size:12px;color:var(--muted);">Tenants will no longer see it.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button onclick="deleteAnnouncement(${id})" class="btn btn-primary btn-sm" style="flex:2;background:var(--red);">
+        <i class="ph ph-trash"></i> Yes, Delete
+      </button>
+      <button onclick="renderAnnouncements()" class="btn btn-secondary btn-sm" style="flex:1;">Cancel</button>
+    </div>`;
+}
+
+function deleteAnnouncement(id) {
+  state.announcements = state.announcements.filter(a => a.id !== id);
+  save();
+  renderAnnouncements();
+  renderTenantHome();
+  showToast('Announcement deleted');
 }
 
 // ════════════════════════════════════════
@@ -5854,6 +6690,11 @@ function postAnnouncement() {
 // ════════════════════════════════════════
 function renderReminders() {
   const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
+  const gcash = profiles.landlord.gcash || '—';
+  const calloutTxt = document.getElementById('reminder-callout-txt');
+  if (calloutTxt) {
+    calloutTxt.innerHTML = `<strong>One tap sends to all pending tenants.</strong> They receive: "Rent due — GCash: <strong>${gcash}</strong> | Amount: ₱${h.price.toLocaleString()}"`;
+  }
   // Show pending tenant breakdown before send
   const pendingRooms = (h?.rooms||[]).filter(r=>r.status==='pending'&&r.tenant);
   const summaryEl = document.getElementById('reminder-pending-summary');
@@ -5884,8 +6725,8 @@ function renderReminders() {
   el.innerHTML = pending.map(r=>`
     <div class="card card-p" style="margin-bottom:9px;display:flex;justify-content:space-between;align-items:center">
       <div>
-        <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text)">${r.tenant||'Unknown'}</div>
-        <div style="font-size:12px;color:var(--muted)">${r.name} • ₱${r.amount.toLocaleString()} due</div>
+        <div class="vc-name">${r.tenant||'Unknown'}</div>
+        <div class="rc-sub2">${r.name} • ₱${r.amount.toLocaleString()} due</div>
       </div>
       <button class="btn btn-blue" style="padding:8px 12px;font-size:12px" onclick="sendSingleReminder(${r.id})">Send <i class="ph ph-bell"></i></button>
     </div>`).join('');
@@ -5905,12 +6746,47 @@ function sendAllReminders() {
 // LANDLORD — EXPENSES
 // ════════════════════════════════════════
 function renderExpenses() {
-  const el = document.getElementById('l-exp-list');
+  const el    = document.getElementById('l-exp-list');
   const empty = document.getElementById('l-exp-empty');
+  const breakdown = document.getElementById('l-exp-breakdown');
   const total = state.expenses.reduce((s,e)=>s+Number(e.amount),0);
   document.getElementById('l-exp-total').innerHTML = `₱<span>${total.toLocaleString()}</span>`;
-  if(!state.expenses.length) { el.innerHTML=''; empty.classList.remove('hidden'); return; }
+
+  if(!state.expenses.length) {
+    el.innerHTML='';
+    empty.classList.remove('hidden');
+    if(breakdown) breakdown.style.display='none';
+    return;
+  }
   empty.classList.add('hidden');
+
+  // Build category totals
+  if(breakdown) {
+    const cats = {};
+    state.expenses.forEach(e => {
+      // Strip icon HTML to get clean category label
+      const label = e.cat.replace(/<[^>]+>/g,'').trim();
+      cats[label] = (cats[label]||0) + Number(e.amount);
+    });
+    const catEntries = Object.entries(cats).sort((a,b)=>b[1]-a[1]);
+    const barMax = catEntries[0]?.[1] || 1;
+    breakdown.style.display = '';
+    breakdown.innerHTML = `
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:15px 16px;box-shadow:var(--sh-xs);">
+        <div class="slbl" style="margin-bottom:12px">By Category</div>
+        ${catEntries.map(([label, amt]) => `
+          <div style="margin-bottom:10px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <span style="font-size:12px;font-weight:700;color:var(--text2);">${label}</span>
+              <span style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--text);">₱${amt.toLocaleString()}</span>
+            </div>
+            <div style="height:6px;background:var(--warm2);border-radius:3px;overflow:hidden;">
+              <div style="height:100%;width:${Math.round(amt/barMax*100)}%;background:var(--blue);border-radius:3px;transition:width .4s ease;"></div>
+            </div>
+          </div>`).join('')}
+      </div>`;
+  }
+
   el.innerHTML = state.expenses.map(e=>`
     <div class="exp-item" style="align-items:center">
       <div class="exp-left" style="flex:1">
@@ -5995,8 +6871,8 @@ function renderVisits() {
     return `<div class="card card-p" style="margin-bottom:9px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
         <div>
-          <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;margin-bottom:2px">${v.name}</div>
-          <div style="font-size:13px;color:var(--muted);margin-bottom:6px">${v.date} at ${v.time}</div>
+          <div class="vc-name">${v.name}</div>
+          <div class="vc-meta">${v.date} at ${v.time}</div>
         </div>
         <span class="tag ${isPending?'ta2':'tgn'}">${isPending?'Pending':'Confirmed'}</span>
       </div>
@@ -6201,20 +7077,35 @@ function copyCode(code, name) {
 // ════════════════════════════════════════
 function renderQRCode() {
   const container = document.getElementById('qr-code-display');
-  if(!container) return;
-  container.innerHTML = '';
-  const house = state.houses.find(h => h.id === state.currentHouseId);
-  if(document.getElementById('qr-house-name'))
-    document.getElementById('qr-house-name').textContent = house?.name || 'Boarding House';
-  try {
-    new QRCode(container, {
-      text: `buhayboarding://register?house=${state.currentHouseId}&name=${encodeURIComponent(house?.name||'')}`,
-      width: 200, height: 200,
-      colorDark: '#0D2B45', colorLight: '#ffffff',
-      correctLevel: QRCode.CorrectLevel.H
-    });
-  } catch(e) {
-    container.innerHTML = `<div style="width:200px;height:200px;background:var(--warm);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);text-align:center;padding:16px">QR Code para sa<br><strong>${house?.name}</strong></div>`;
+  if (!container) return;
+
+  const doRender = () => {
+    container.innerHTML = '';
+    const house = state.houses.find(h => h.id === state.currentHouseId);
+    if (document.getElementById('qr-house-name'))
+      document.getElementById('qr-house-name').textContent = house?.name || 'Boarding House';
+    try {
+      new QRCode(container, {
+        text: `buhayboarding://register?house=${state.currentHouseId}&name=${encodeURIComponent(house?.name||'')}`,
+        width: 200, height: 200,
+        colorDark: '#0D2B45', colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    } catch(e) {
+      container.innerHTML = `<div style="width:200px;height:200px;background:var(--warm);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--muted);text-align:center;padding:16px">QR Code para sa<br><strong>${house?.name}</strong></div>`;
+    }
+  };
+
+  // Lazy-load QRCode.js — only downloaded when landlord actually opens QR screen.
+  if (window.QRCode) {
+    doRender();
+  } else {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+    s.crossOrigin = 'anonymous';
+    s.onload = doRender;
+    s.onerror = () => { container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px">QR load failed. Check connection.</div>'; };
+    document.head.appendChild(s);
   }
 }
 
@@ -6253,38 +7144,71 @@ function renderTenantHome() {
   const roomRent = document.getElementById('t-room-rent');
   if(roomRent) roomRent.textContent = '₱' + (profile.rent||0).toLocaleString();
   const payStatus = document.getElementById('t-payment-status');
+  const payPrompt = document.getElementById('t-pay-prompt');
+  const isPaid = profile.paymentStatus === 'paid' || profile.paymentStatus === 'self_reported';
   if(payStatus) {
-    if(profile.paymentStatus === 'paid') {
-      payStatus.textContent = ' Bayad na';
+    if (profile.paymentStatus === 'paid') {
+      payStatus.innerHTML = '<i class="ph ph-check" style="font-size:11px"></i> Bayad na';
       payStatus.style.background = 'rgba(255,255,255,.2)';
+    } else if (profile.paymentStatus === 'self_reported') {
+      payStatus.innerHTML = '<i class="ph ph-clock" style="font-size:11px"></i> Hinihintay ng kumpirmasyon';
+      payStatus.style.background = 'rgba(255,200,0,.25)';
     } else {
-      payStatus.textContent = ' Hindi pa bayad';
+      payStatus.innerHTML = '<i class="ph ph-warning" style="font-size:11px"></i> Hindi pa bayad';
       payStatus.style.background = 'rgba(255,200,0,.25)';
     }
   }
+  if (payPrompt) payPrompt.style.display = isPaid ? 'none' : 'flex';
   // Announcements
-  const newCount = state.announcements.filter(a=>a.isNew).length;
+  const newCount = state.announcements.filter(a => a.isNew && !a.dismissed).length;
   const badge = document.getElementById('t-ann-badge');
   if(badge) badge.textContent = newCount > 0 ? newCount + ' bago' : 'Lahat';
   const list = document.getElementById('t-ann-list');
   const emptyEl = document.getElementById('t-ann-empty');
-  if(!state.announcements.length) {
+  const visible = state.announcements.filter(a => !a.dismissed);
+  if(!visible.length) {
     if(list) list.innerHTML = '';
     if(emptyEl) emptyEl.classList.remove('hidden');
     return;
   }
   if(emptyEl) emptyEl.classList.add('hidden');
-  const catMap = {reminder:{ic:'<i class="ph ph-money"></i>',bg:'var(--amberBg)',c:'var(--amber)'},info:{ic:'ℹ️',bg:'var(--blueLt,#EDF4FC)',c:'var(--blue)'},emergency:{ic:'<i class="ph ph-siren"></i>',bg:'var(--redBg)',c:'var(--red)'},activity:{ic:'',bg:'var(--greenBg)',c:'var(--green)'}};
-  if(list) list.innerHTML = state.announcements.map(a => {
+  const catMap = {
+    reminder:  {ic:'<i class="ph ph-money"></i>',       bg:'var(--amberBg)', c:'var(--amber)', label:'Reminder'},
+    info:      {ic:'<i class="ph ph-info"></i>',        bg:'var(--blueLt)',  c:'var(--blue)',  label:'Info'},
+    emergency: {ic:'<i class="ph ph-siren"></i>',       bg:'var(--redBg)',   c:'var(--red)',   label:'Emergency'},
+    activity:  {ic:'<i class="ph ph-calendar-check"></i>', bg:'var(--greenBg)', c:'var(--green)', label:'Activity'},
+  };
+
+  // Sort: pinned/emergency first, then newest
+  const sorted = [...state.announcements]
+    .filter(a => !a.dismissed)
+    .sort((a, b) => {
+      const aPin = a.pinned || a.cat === 'emergency';
+      const bPin = b.pinned || b.cat === 'emergency';
+      if (aPin !== bPin) return aPin ? -1 : 1;
+      return (b.ts || 0) - (a.ts || 0);
+    });
+
+  if(list) list.innerHTML = sorted.map(a => {
     const cat = catMap[a.cat]||catMap.info;
-    return `<div class="ann-card" onclick="markAnnRead(${a.id})">
+    const isPinned = a.pinned || a.cat === 'emergency';
+    return `<div class="ann-card${isPinned ? '" style="border:1.5px solid var(--red);' : '"'} onclick="markAnnRead(${a.id})">
       <div class="ann-hdr">
-        <div class="ann-ic" style="background:${cat.bg};">${cat.ic}</div>
-        <div class="ann-title">${a.title}</div>
+        <div class="ann-ic" style="background:${cat.bg};color:${cat.c};">${cat.ic}</div>
+        <div style="flex:1;min-width:0;">
+          <div class="ann-title">${isPinned?'<i class="ph ph-push-pin" style="font-size:11px;color:var(--red);margin-right:4px;"></i>':''}${a.title}</div>
+          <div style="font-size:10px;font-family:'Nunito',sans-serif;font-weight:700;color:${cat.c};margin-top:2px;">${cat.label}</div>
+        </div>
         ${a.isNew ? '<div class="new-dot"></div>' : ''}
       </div>
       <div class="ann-body">${a.body}</div>
-      <div class="ann-time">${a.time}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+        <div class="ann-time">${relTime(a.ts)}</div>
+        <button onclick="event.stopPropagation();dismissAnn(${a.id})"
+          style="background:none;border:none;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:var(--muted2);cursor:pointer;display:flex;align-items:center;gap:3px;padding:2px 0;">
+          <i class="ph ph-x"></i> Dismiss
+        </button>
+      </div>
     </div>`;
   }).join('');
 }
@@ -6292,6 +7216,11 @@ function renderTenantHome() {
 function markAnnRead(id) {
   const ann = state.announcements.find(a=>a.id===id);
   if(ann) { ann.isNew = false; save(); renderTenantHome(); }
+}
+
+function dismissAnn(id) {
+  const ann = state.announcements.find(a=>a.id===id);
+  if(ann) { ann.dismissed = true; ann.isNew = false; save(); renderTenantHome(); }
 }
 
 // ════════════════════════════════════════
@@ -6312,7 +7241,14 @@ const profiles = {
 };
 try {
   const saved = localStorage.getItem('bb_profiles');
-  if(saved) Object.assign(profiles, JSON.parse(saved));
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    // Deep merge per sub-profile so newly added keys (e.g. showPhoto) survive
+    // even when an older saved version doesn't have them
+    ['seeker','landlord','newLandlord','tenant'].forEach(k => {
+      if (parsed[k]) Object.assign(profiles[k] = profiles[k] || {}, parsed[k]);
+    });
+  }
 } catch(e){}
 function saveProfiles(){ try{ localStorage.setItem('bb_profiles', JSON.stringify(profiles)); }catch(e){} }
 
@@ -6427,9 +7363,13 @@ function handlePhotoUpload(event, type) {
   reader.readAsDataURL(file);
 }
 
-// ════════════════════════════════════════
-// GENDER PICKER
-// ════════════════════════════════════════
+function togglePhotoConsent() {
+  const tog = document.getElementById('ss-show-photo');
+  if (!tog) return;
+  const on = tog.classList.toggle('on');
+  profiles.seeker.showPhoto = on;
+  saveProfiles();
+}
 function pickGender(el, type) {
   const pills = el.closest('.gender-pills');
   pills.querySelectorAll('.gender-pill').forEach(p=>p.classList.remove('selected'));
@@ -6485,9 +7425,14 @@ function renderSeekerProfile() {
   el('sp-phone',    p.phone||'—');
   el('sp-course',   p.course||'—');
   el('sp-since',    p.created||'2025');
-  el('sp-inq-count',  state.myInquiries ? state.myInquiries.length : 0);
-  el('sp-visit-count', 0);
-  el('sp-wl-count',    0);
+  el('sp-inq-count',   state.myInquiries ? state.myInquiries.length : 0);
+  el('sp-visit-count', state.visits ? state.visits.filter(v => v.name === 'You').length : 0);
+  // Count houses where seeker is on waitlist (check waitlist arrays for seeker's name)
+  const seekerName = (p.name||'').toLowerCase();
+  const wlCount = seekerName
+    ? state.houses.reduce((n, h) => n + (h.waitlist||[]).filter(w => w.toLowerCase()===seekerName).length, 0)
+    : 0;
+  el('sp-wl-count', wlCount);
   // Photo or emoji
   setAvatarEl('sp-avatar-img','sp-avatar-emoji', p.photo, p.avatar||'<i class="ph ph-graduation-cap"></i>');
   // Optional fields
@@ -6692,7 +7637,7 @@ function showProfileNudge(role) {
   el.style.cssText = 'position:absolute;bottom:80px;left:12px;right:12px;background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 8px 32px rgba(11,31,58,.18);z-index:500;border:1px solid var(--border);animation:fadeIn .3s ease;';
   el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
     <div style="flex:1;">
-      <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);margin-bottom:3px;">${m.title}</div>
+      <div class="vc-name" style="margin-bottom:3px">${m.title}</div>
       <div style="font-size:12px;color:var(--muted);line-height:1.4;">${m.sub}</div>
     </div>
     <div onclick="document.getElementById('profile-nudge').remove()" style="color:var(--muted);font-size:18px;cursor:pointer;flex-shrink:0;padding:0 2px;">×</div>
@@ -6963,6 +7908,9 @@ function renderBhlListing() {
 
   // Amenity chips
   renderAmenityChips();
+
+  // Reflect current verification state in banner
+  updateVerifyBanner(h);
 }
 
 function updateToggleVisual(key, checked) {
@@ -7042,18 +7990,57 @@ function snapIcon(label) {
   return `<i class="ph ${cls}" style="font-size:24px;color:var(--muted);"></i>`;
 }
 
+let _snapUploadIdx = null; // which slot is being uploaded to
+
 function renderBhlSnapGrid() {
   const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   const grid = document.getElementById('bhl-snap-grid');
   if(!grid) return;
   const snaps = h.snapshots || [];
   const gradStart = h.gradient.match(/#[0-9A-Fa-f]{6}/)?.[0] || '#1462A8';
-  grid.innerHTML = snaps.map((s, i) => `
-    <div class="snap-slot filled" style="background:${gradStart}18;border-color:${gradStart}44;">
-      <span class="snap-slot-del" onclick="deleteSnap(${i})">×</span>
+  grid.innerHTML = snaps.map((s, i) => {
+    if (s.img) {
+      // Real uploaded photo
+      return `<div class="snap-slot filled" style="padding:0;overflow:hidden;cursor:pointer;" onclick="triggerSnapUpload(${i})">
+        <span class="snap-slot-del" onclick="event.stopPropagation();deleteSnap(${i})">×</span>
+        <img src="${s.img}" alt="${s.label}" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.45);padding:3px 6px;">
+          <span class="snap-slot-label" style="color:#fff;">${s.label}</span>
+        </div>
+      </div>`;
+    }
+    // Icon placeholder — tap to upload
+    return `<div class="snap-slot filled" style="background:${gradStart}18;border-color:${gradStart}44;cursor:pointer;" onclick="triggerSnapUpload(${i})">
+      <span class="snap-slot-del" onclick="event.stopPropagation();deleteSnap(${i})">×</span>
       <span class="snap-slot-emoji">${snapIcon(s.label)}</span>
       <span class="snap-slot-label">${s.label}</span>
-    </div>`).join('');
+      <div style="position:absolute;bottom:4px;left:0;right:0;text-align:center;">
+        <i class="ph ph-camera-plus" style="font-size:12px;color:var(--muted2);"></i>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function triggerSnapUpload(idx) {
+  _snapUploadIdx = idx;
+  const inp = document.getElementById('bhl-photo-file');
+  if (inp) { inp.value = ''; inp.click(); }
+}
+
+function handleSnapPhotoUpload(event) {
+  const file = event.target.files[0];
+  if (!file || _snapUploadIdx === null) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
+    if (h.snapshots && h.snapshots[_snapUploadIdx]) {
+      h.snapshots[_snapUploadIdx].img = e.target.result;
+      renderBhlSnapGrid();
+      showToast('<i class="ph ph-check-circle"></i> Photo uploaded');
+    }
+    _snapUploadIdx = null;
+  };
+  reader.readAsDataURL(file);
 }
 
 function addSnapSlot() {
@@ -7120,6 +8107,7 @@ function saveBhlListing() {
   h.about       = sv('bhl-about')   || '';
   h.distanceEVSU = parseInt(sv('bhl-devsu')) || h.distanceEVSU;
   h.distanceBCC  = parseInt(sv('bhl-dbcc'))  || h.distanceBCC;
+  h.lastActive   = 'Just now'; // landlord is active whenever they edit the listing
 
   // Save rule toggles
   saveBhlToggle();
@@ -7142,7 +8130,80 @@ function saveBhlListing() {
 
 
 // ════════════════════════════════════════
-let bbMap = null;
+// SUCCESS SCREEN AUTO-FORWARD
+// ════════════════════════════════════════
+function startSuccessCountdown() {
+  cancelSuccessForward();
+  const bar  = document.getElementById('succ-countdown-bar');
+  const fill = document.getElementById('succ-countdown-fill');
+  const msg  = document.getElementById('succ-auto-msg');
+  if (!bar || !fill) return;
+
+  bar.style.display  = '';
+  if (msg) msg.style.display = '';
+  fill.style.transition = 'none';
+  fill.style.width = '100%';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      fill.style.transition = 'width 6s linear';
+      fill.style.width = '0%';
+    });
+  });
+
+  _successTimer = setTimeout(() => {
+    goTo(_successDest);
+  }, 6000);
+}
+
+function cancelSuccessForward() {
+  clearTimeout(_successTimer);
+  _successTimer = null;
+  const bar = document.getElementById('succ-countdown-bar');
+  const msg = document.getElementById('succ-auto-msg');
+  if (bar) bar.style.display = 'none';
+  if (msg) msg.style.display = 'none';
+}
+function selfVerifyListing() {
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
+  const now = new Date();
+  const month = now.toLocaleString('en-PH', { month: 'long', year: 'numeric' });
+  h.verified     = month;
+  h.selfVerified = true;
+  save();
+
+  // Update verify banner to confirmed state
+  const banner = document.getElementById('bhl-verify-banner');
+  if (banner) {
+    banner.style.background = 'linear-gradient(135deg,#DCFCE7,#F0FDF4)';
+    banner.style.borderColor = 'var(--green)';
+    banner.innerHTML = `
+      <div style="width:38px;height:38px;background:var(--greenBg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="ph ph-seal-check" style="font-size:20px;color:var(--green);"></i>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--green);margin-bottom:3px;"><i class="ph ph-check-circle"></i> Na-verify na ang Listing!</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.5;">Verified ${month} · Makikita ng mga estudyante ang verified badge sa iyong listing.</div>
+      </div>`;
+  }
+  showToast('<i class="ph ph-seal-check"></i> Listing verified! Makikita na ng mga estudyante.');
+}
+
+function updateVerifyBanner(h) {
+  const banner = document.getElementById('bhl-verify-banner');
+  if (!banner) return;
+  if (h.selfVerified || h.verified) {
+    banner.style.background = 'linear-gradient(135deg,#DCFCE7,#F0FDF4)';
+    banner.style.borderColor = 'var(--green)';
+    banner.innerHTML = `
+      <div style="width:38px;height:38px;background:var(--greenBg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="ph ph-seal-check" style="font-size:20px;color:var(--green);"></i>
+      </div>
+      <div style="flex:1;">
+        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--green);margin-bottom:3px;"><i class="ph ph-check-circle"></i> Na-verify na ang Listing!</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.5;">Verified ${h.verified} · Makikita ng mga estudyante ang verified badge sa iyong listing.</div>
+      </div>`;
+  }
+}
 let bbMarkers = {};     // id → L.marker
 let activeMapHouseId = null;
 let currentSchoolFilter = 'evsu';
@@ -7181,7 +8242,7 @@ function buildPinHTML(h) {
 const LANDMARKS = [
   // ── SCHOOLS ──
   { cat:'schools', emoji:'<i class="ph ph-graduation-cap"></i>', label:'EVSU Burauen Campus',        latlng:[10.8797, 124.9428], color:'#1558CC', bg:'#EFF6FF', note:'Eastern Visayas State University' },
-  { cat:'schools', emoji:'<i class="ph ph-books"></i>', label:'Burauen Community College',  latlng:[10.8783, 124.9355], color:'#0B7A6A', bg:'#F0FDF4', note:'BCC · 2-yr & 4-yr programs' },
+  { cat:'schools', emoji:'<i class="ph ph-books"></i>', label:'Burauen Community College',  latlng:[10.8785, 124.9350], color:'#0B7A6A', bg:'#F0FDF4', note:'BCC · 2-yr & 4-yr programs' },
   { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen Nat\'l High School', latlng:[10.8778, 124.9375], color:'#1558CC', bg:'#EFF6FF', note:'BNHS · Dagami-Burauen Rd' },
   { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'BNHS Senior High Bldg',      latlng:[10.8772, 124.9382], color:'#3B91D4', bg:'#EFF6FF', note:'Senior High School Building' },
   { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen North Central Sch.', latlng:[10.8774, 124.9362], color:'#5B21B6', bg:'#EDE9FE', note:'Sta. Ana St · Elementary' },
@@ -7198,7 +8259,7 @@ const LANDMARKS = [
   { cat:'food', emoji:'', label:'Bakes & Co.',           latlng:[10.8762, 124.9342], color:'#B45309', bg:'#FEF3C7', note:'Bakeshop · near BNHS' },
 
   // ── STORES & ESSENTIALS ──
-  { cat:'stores', emoji:'<i class="ph ph-storefront"></i>', label:'Public Market',           latlng:[10.8748, 124.9395], color:'#7C3AED', bg:'#EDE9FE', note:'Main palengke · open daily' },
+  { cat:'stores', emoji:'<i class="ph ph-storefront"></i>', label:'Public Market',           latlng:[10.8748, 124.9383], color:'#7C3AED', bg:'#EDE9FE', note:'Main palengke · open daily' },
   { cat:'stores', emoji:'<i class="ph ph-storefront"></i>', label:'Burauen Supermarket',     latlng:[10.8744, 124.9385], color:'#7C3AED', bg:'#EDE9FE', note:'Groceries & daily needs' },
   { cat:'stores', emoji:'<i class="ph ph-package"></i>', label:'LBC Express',             latlng:[10.8752, 124.9370], color:'#DC2626', bg:'#FEF2F2', note:'Padala & cargo · near plaza' },
   { cat:'stores', emoji:'<i class="ph ph-pill"></i>', label:'Mercury Drug',            latlng:[10.8756, 124.9378], color:'#7C3AED', bg:'#EDE9FE', note:'24-hr pharmacy' },
@@ -7212,13 +8273,13 @@ const LANDMARKS = [
   { cat:'health', emoji:'<i class="ph ph-pill"></i>', label:'Generika Pharmacy',         latlng:[10.8745, 124.9373], color:'#DC2626', bg:'#FEF2F2', note:'Budget pharmacy · near market' },
 
   // ── GOVERNMENT & LANDMARKS ──
-  { cat:'gov', emoji:'<i class="ph ph-building-office"></i>', label:'Municipal Hall',               latlng:[10.8760, 124.9378], color:'#0B7A6A', bg:'#F0FDF4', note:'LGU Burauen · Sto. Niño St.' },
+  { cat:'gov', emoji:'<i class="ph ph-building-office"></i>', label:'Municipal Hall',               latlng:[10.8756, 124.9371], color:'#0B7A6A', bg:'#F0FDF4', note:'LGU Burauen · Sto. Niño St.' },
   { cat:'gov', emoji:'<i class="ph ph-cross"></i>',  label:'Our Lady of the Immaculate',  latlng:[10.8753, 124.9362], color:'#6B7280', bg:'#F9FAFB', note:'1600 Parish Church · Santa Ana St.' },
   { cat:'gov', emoji:'<i class="ph ph-bank"></i>', label:'Land Bank of the Phils.',     latlng:[10.8764, 124.9372], color:'#166534', bg:'#DCFCE7', note:'LBP ATM & branch' },
   { cat:'gov', emoji:'<i class="ph ph-bank"></i>', label:'Rural Bank of Burauen',       latlng:[10.8758, 124.9384], color:'#166534', bg:'#DCFCE7', note:'Est. 1962 · first rural bank in Leyte' },
-  { cat:'gov', emoji:'<i class="ph ph-tree"></i>', label:'Town Plaza',                  latlng:[10.8756, 124.9370], color:'#166534', bg:'#DCFCE7', note:'Romualdez Park · renovated 2024' },
+  { cat:'gov', emoji:'<i class="ph ph-tree"></i>', label:'Town Plaza',                  latlng:[10.8754, 124.9368], color:'#166534', bg:'#DCFCE7', note:'Romualdez Park · renovated 2024' },
   { cat:'gov', emoji:'<i class="ph ph-gas-pump"></i>', label:'Petron Station',              latlng:[10.8790, 124.9402], color:'#D97706', bg:'#FFFBEB', note:'Fuel · near EVSU junction' },
-  { cat:'gov', emoji:'<i class="ph ph-bus"></i>', label:'Burauen Terminal',            latlng:[10.8734, 124.9408], color:'#0B7A6A', bg:'#F0FDF4', note:'Jeepney & bus terminal · south' },
+  { cat:'gov', emoji:'<i class="ph ph-bus"></i>', label:'Burauen Terminal',            latlng:[10.8738, 124.9400], color:'#0B7A6A', bg:'#F0FDF4', note:'Jeepney & bus terminal · south' },
 ];
 
 // layer marker refs
@@ -7249,16 +8310,33 @@ function toggleLayer(cat, btn) {
 }
 
 function initLeafletMap() {
-  if (bbMap) { bbMap.invalidateSize(); return; }
+  if (bbMap) {
+    // Already initialized — just recalculate size in case container shifted
+    bbMap.invalidateSize();
+    return;
+  }
 
+  // Lazy-inject Leaflet CSS only when map is first opened.
+  if (!document.getElementById('leaflet-css')) {
+    const lnk = document.createElement('link');
+    lnk.id   = 'leaflet-css';
+    lnk.rel  = 'stylesheet';
+    lnk.href = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.min.css';
+    lnk.crossOrigin = 'anonymous';
+    document.head.appendChild(lnk);
+  }
+
+  // Center: Burauen Poblacion town center (between plaza & market).
+  // Zoom 15 fits both EVSU (NE) and BCC (NW) plus all boarding house pins
+  // without clipping. Zoom 16 cut off EVSU at the northeast edge.
   bbMap = L.map('burauen-map', {
-    center: [10.8762, 124.9388],
-    zoom: 16,
+    center: [10.8755, 124.9390],
+    zoom: 15,
     zoomControl: true,
     attributionControl: true,
   });
 
-  // Warm CartoDB Voyager — shows street names + POIs without clutter
+  // CartoDB Voyager — clean streets, readable labels, no noise
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     attribution: '© OpenStreetMap © CartoDB',
     subdomains: 'abcd',
@@ -7291,6 +8369,12 @@ function initLeafletMap() {
     marker.on('click', () => openMapCard(h.id));
     bbMarkers[h.id] = marker;
   });
+
+  // Critical: container was display:none when Leaflet first measured it.
+  // Two calls — first at 150ms catches most cases, second at 600ms
+  // catches slow devices or cases where flex layout settles late.
+  setTimeout(() => bbMap.invalidateSize(), 150);
+  setTimeout(() => bbMap.invalidateSize(), 600);
 }
 
 function openMapCard(id) {
@@ -7410,12 +8494,20 @@ function renderTenantProfile() {
   el('tp-disp-gender',   tp.gender || sp.gender || '—');
   el('tp-disp-emname',   tp.emergencyName  || '—');
   el('tp-disp-emphone',  tp.emergencyPhone || '—');
+
+  // Show uploaded photo if available
+  const tPhoto = tp.photo || sp.photo || null;
+  setAvatarEl('tp-avatar-img', 'tp-avatar-emoji', tPhoto, '<i class="ph ph-user-circle" style="font-size:32px;color:rgba(255,255,255,.8);"></i>');
 }
 
 // ════════════════════════════════════════
 // TENANT — PAYMENT HISTORY
 // ════════════════════════════════════════
 if (!state.paymentLog) {
+  // Generate the pending entry for the actual current month so the demo never shows stale dates
+  const _now    = new Date();
+  const _curMon = _now.toLocaleString('en-PH', { month: 'long', year: 'numeric' });
+  const _dueStr = 'Due ' + _now.toLocaleString('en-PH', { month: 'short' }) + ' 1';
   state.paymentLog = [
     { id:1,  month:'June 2025',      amount:1500, status:'paid',    method:'GCash', date:'Jun 1, 2025'  },
     { id:2,  month:'July 2025',      amount:1500, status:'paid',    method:'GCash', date:'Jul 1, 2025'  },
@@ -7426,7 +8518,7 @@ if (!state.paymentLog) {
     { id:7,  month:'December 2025',  amount:1500, status:'paid',    method:'GCash', date:'Dec 2, 2025'  },
     { id:8,  month:'January 2026',   amount:1500, status:'paid',    method:'GCash', date:'Jan 3, 2026'  },
     { id:9,  month:'February 2026',  amount:1500, status:'paid',    method:'GCash', date:'Feb 1, 2026'  },
-    { id:10, month:'March 2026',     amount:1500, status:'pending', method:'—',     date:'Due Mar 1'     },
+    { id:10, month:_curMon,          amount:1500, status:'pending', method:'—',     date:_dueStr        },
   ];
 }
 
@@ -7448,15 +8540,18 @@ function renderPaymentHistory() {
   if (empty) empty.style.display = 'none';
 
   list.innerHTML = log.map(p => {
-    const isPaid = p.status === 'paid';
+    const isSelfReported = p.status === 'self_reported';
+    const isPaid  = p.status === 'paid';
+    const amtColor  = isPaid ? 'var(--green)' : isSelfReported ? 'var(--blue)' : 'var(--amber)';
+    const statusLbl = isPaid ? 'Paid' : isSelfReported ? 'Awaiting confirmation' : 'Pending';
     return `<div class="card card-p" style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
       <div>
-        <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);margin-bottom:2px;">${p.month}</div>
-        <div style="font-size:12px;color:var(--muted);">${p.date} · ${p.method}</div>
+        <div class="vc-name">${p.month}</div>
+        <div class="rc-sub2">${p.date} · ${p.method}</div>
       </div>
       <div style="text-align:right;">
-        <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:${isPaid ? 'var(--green)' : 'var(--amber)'};">₱${p.amount.toLocaleString()}</div>
-        <div style="font-size:11px;font-family:'Nunito',sans-serif;font-weight:700;color:${isPaid ? 'var(--green)' : 'var(--amber)'};">${isPaid ? 'Paid' : 'Pending'}</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:${amtColor};">₱${p.amount.toLocaleString()}</div>
+        <div style="font-size:11px;font-family:'Nunito',sans-serif;font-weight:700;color:${amtColor};">${statusLbl}</div>
       </div>
     </div>`;
   }).join('');
@@ -7493,19 +8588,17 @@ function renderWaitlistManager() {
             <i class="ph ph-user" style="font-size:20px;color:var(--muted);"></i>
           </div>
           <div>
-            <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);">${entry.name}</div>
-            <div style="font-size:12px;color:var(--muted);">${entry.houseName} · #${pos + 1} in line</div>
+            <div class="vc-name">${entry.name}</div>
+            <div class="rc-sub2">${entry.houseName} · #${pos + 1} in line</div>
           </div>
         </div>
         <span class="tag ta2">Waiting</span>
       </div>
       <div style="display:flex;gap:8px;">
-        <button onclick="promoteWaitlist('${entry.name}', ${entry.houseId}, ${entry.idx})"
-          style="flex:2;background:var(--teal);color:#fff;border:none;border-radius:var(--r-sm);padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 3px 10px rgba(11,122,106,.25);">
+        <button onclick="promoteWaitlist('${entry.name}', ${entry.houseId}, ${entry.idx})" class="btn btn-teal" style="flex:2;justify-content:center;">
           <i class="ph ph-arrow-up-right"></i> Offer Room
         </button>
-        <button onclick="removeWaitlist('${entry.name}', ${entry.houseId}, ${entry.idx})"
-          style="flex:1;background:var(--redBg);color:var(--red);border:none;border-radius:var(--r-sm);padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+        <button onclick="removeWaitlist('${entry.name}', ${entry.houseId}, ${entry.idx})" class="btn-danger-sm" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;">
           <i class="ph ph-x"></i> Remove
         </button>
       </div>

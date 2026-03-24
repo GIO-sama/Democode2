@@ -5326,7 +5326,7 @@ body {
       </div>
       <div class="reg-body">
         <div id="reg-step-1">
-          <div class="reg-step">Hakbang 1 ng 3 — Impormasyon mo</div>
+          <div class="reg-step">Step 1 of 3 — Your Information</div>
           <div class="fg" style="margin-bottom:14px">
             <label class="lbl">Your Full Name</label>
             <input class="inp" type="text" id="reg-name" placeholder="e.g. Ana Santos Reyes">
@@ -5335,14 +5335,14 @@ body {
             <label class="lbl">Phone number</label>
             <input class="inp" type="tel" id="reg-phone" placeholder="e.g. 09171234567">
           </div>
-          <button class="btn btn-primary" style="background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3)" onclick="regStep1()">Susunod <i class="ph ph-arrow-right"></i></button>
+          <button class="btn btn-primary" style="background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3)" onclick="regStep1()">Next <i class="ph ph-arrow-right"></i></button>
           <div style="text-align:center;margin-top:14px">
             <span style="font-size:12px;color:var(--muted)">There are account na? </span>
             <span style="font-size:12px;color:var(--blue);font-weight:700;cursor:pointer" onclick="setRole('tenant')">Mag-login</span>
           </div>
         </div>
         <div id="reg-step-2" class="hidden">
-          <div class="reg-step">Hakbang 2 ng 3 — Invite Code</div>
+          <div class="reg-step">Step 2 of 3 — Invite Code</div>
           <div class="fg" style="margin-bottom:8px">
             <label class="lbl">Enter the 6-digit invite code from your landlord</label>
             <div class="otp-row">
@@ -5356,18 +5356,18 @@ body {
           </div>
           <div class="hint" style="margin-bottom:20px">Your landlord gives you this code. If you don't have one yet — ask them for it.</div>
           <button class="btn btn-primary" style="background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3);margin-bottom:10px" onclick="regStep2()">Verify Code <i class="ph ph-arrow-right"></i></button>
-          <button class="btn btn-secondary" onclick="showRegStep(1)"><i class="ph ph-arrow-left"></i> Bumalik</button>
+          <button class="btn btn-secondary" onclick="showRegStep(1)"><i class="ph ph-arrow-left"></i> Back</button>
         </div>
         <div id="reg-step-3" class="hidden">
-          <div class="reg-step">Hakbang 3 ng 3 — Kumpirmasyon</div>
+          <div class="reg-step">Step 3 of 3 — Confirmation</div>
           <div class="invite-display" id="reg-confirm-display">
-            <div class="invite-lbl">Nahanap ka namin! </div>
+            <div class="invite-lbl">We found your account! </div>
             <div style="font-family:'Nunito',sans-serif;font-size:20px;font-weight:900;color:#fff" id="reg-confirm-name">Ana Reyes</div>
             <div style="font-size:13px;color:rgba(255,255,255,.7);margin-top:6px" id="reg-confirm-room">Room 1 — Dela Cruz BH</div>
           </div>
-          <div class="hint" style="margin-bottom:20px;text-align:center">Tama ba ito? Kapag nag-confirm ka — maa-access mo na ang iyong tenant dashboard.</div>
-          <button class="btn btn-primary" style="background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3);margin-bottom:10px" onclick="completeRegistration()"><i class="ph ph-check"></i> Oo, ito ako — I-confirm</button>
-          <button class="btn btn-secondary" onclick="showRegStep(2)"><i class="ph ph-arrow-left"></i> Hindi, bumalik</button>
+          <div class="hint" style="margin-bottom:20px;text-align:center">Is this correct? Once confirmed, you can access your tenant dashboard.</div>
+          <button class="btn btn-primary" style="background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3);margin-bottom:10px" onclick="completeRegistration()"><i class="ph ph-check"></i> Yes, that's me — Confirm</button>
+          <button class="btn btn-secondary" onclick="showRegStep(2)"><i class="ph ph-arrow-left"></i> No, go back</button>
         </div>
       </div>
     </div>
@@ -5454,8 +5454,8 @@ body {
         <select class="sel" id="at-room"></select>
       </div>
       <div style="display:flex;gap:9px;margin-top:6px">
-        <button class="btn btn-secondary" style="flex:1" onclick="closeAddTenantModal()">Kanselahin</button>
-        <button class="btn btn-primary" style="flex:2" onclick="addTenantAndGenerateCode()"><i class="ph ph-key"></i> Gumawa ng Invite Code</button>
+        <button class="btn btn-secondary" style="flex:1" onclick="closeAddTenantModal()">Cancel</button>
+        <button class="btn btn-primary" style="flex:2" onclick="addTenantAndGenerateCode()"><i class="ph ph-key"></i> Generate Invite Code</button>
       </div>
     </div>
   </div>
@@ -5570,32 +5570,30 @@ body {
 // ════════════════════════════════════════
 // ── Demo photo placeholders (SVG data URIs)
 const DEMO_PHOTOS = {
-  bed:      'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop&q=80',
-  cr:       'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&h=300&fit=crop&q=80',
-  window:   'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=400&h=300&fit=crop&q=80',
-  closet:   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&q=80',
-  desk:     'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=400&h=300&fit=crop&q=80',
-  fan:      'https://images.unsplash.com/photo-1565688534245-05d6b5be184a?w=400&h=300&fit=crop&q=80',
-  kitchen:  'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop&q=80',
-  laundry:  'https://images.unsplash.com/photo-1567113463300-102a7eb3cb26?w=400&h=300&fit=crop&q=80',
-  entrance: 'https://images.unsplash.com/photo-1558618047-3d4f302c0d32?w=400&h=300&fit=crop&q=80',
-  garden:   'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=300&fit=crop&q=80',
-  wifi:     'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=400&h=300&fit=crop&q=80',
-  house1:   'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=400&h=220&fit=crop&q=80',
-  house2:   'https://images.unsplash.com/photo-1598228723793-52759bba239c?w=400&h=220&fit=crop&q=80',
-  house3:   'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=220&fit=crop&q=80',
-  house4:   'https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=400&h=220&fit=crop&q=80',
-  house5:   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=220&fit=crop&q=80',
-  avatar1:  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&q=80',
-  avatar2:  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&q=80',
-  avatar3:  'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&h=80&fit=crop&q=80',
-  avatar4:  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&q=80',
-  avatar5:  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&q=80',
-  avatar6:  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&q=80',
-  avatar7:  'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&q=80',
-  avatar8:  'https://images.unsplash.com/photo-1463453091185-61582044d556?w=80&h=80&fit=crop&q=80',
-  landlord: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&q=80',
-  gcash:    'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=400&fit=crop&q=80',
+  bed: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzFFM0E1RiIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn5uP77iPPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkJlZHJvb208L3RleHQ+PC9zdmc+',
+  cr: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzBENEEzQSIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn5q/PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkJhdGhyb29tPC90ZXh0Pjwvc3ZnPg==',
+  window: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzJEMUI2OSIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn6qfPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPldpbmRvdyBWaWV3PC90ZXh0Pjwvc3ZnPg==',
+  closet: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzRBMjMwOCIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn5qqPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlN0b3JhZ2U8L3RleHQ+PC9zdmc+',
+  desk: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzFBMkYxQSIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn6qRPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlN0dWR5IEFyZWE8L3RleHQ+PC9zdmc+',
+  fan: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzBDMzM1NCIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn5KoPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlZlbnRpbGF0aW9uPC90ZXh0Pjwvc3ZnPg==',
+  kitchen: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzNEMTUxNSIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn42zPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPktpdGNoZW4gQXJlYTwvdGV4dD48L3N2Zz4=',
+  laundry: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzFBMjA0MCIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn5GVPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxhdW5kcnkgQXJlYTwvdGV4dD48L3N2Zz4=',
+  entrance: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzFGMUYxRiIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn4+gPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkVudHJhbmNlPC90ZXh0Pjwvc3ZnPg==',
+  garden: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzBGMzAyMCIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn4y/PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkdhcmRlbjwvdGV4dD48L3N2Zz4=',
+  wifi: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzBBMkE0QSIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn5O2PC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPldpRmkgUm91dGVyPC90ZXh0Pjwvc3ZnPg==',
+  house1: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzE0NjJBOCIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn4+hPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlRJQUggQkg8L3RleHQ+PC9zdmc+',
+  house2: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzFBNkIzQyIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn4+gPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkxGSCBCSDwvdGV4dD48L3N2Zz4=',
+  house3: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzdDM0FFRCIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn4+Y77iPPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkNhc2EgQkg8L3RleHQ+PC9zdmc+',
+  house4: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI0I0NTMwOSIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn4+X77iPPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkpEUkIgQkg8L3RleHQ+PC9zdmc+',
+  house5: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iIzFGMjkzNyIvPjx0ZXh0IHg9IjIwMCIgeT0iMTM1IiBmb250LXNpemU9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIj7wn4+a77iPPC90ZXh0PjxyZWN0IHg9IjAiIHk9IjIzMCIgd2lkdGg9IjQwMCIgaGVpZ2h0PSI3MCIgZmlsbD0icmdiYSgwLDAsMCwwLjQ1KSIvPjx0ZXh0IHg9IjIwMCIgeT0iMjY4IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwuOSkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkphcm8gQkg8L3RleHQ+PC9zdmc+',
+  avatar1: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRTkxRThDIiByeD0iNDAiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtc2l6ZT0iMzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPvCfkak8L3RleHQ+PC9zdmc+',
+  avatar2: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMjE5NkYzIiByeD0iNDAiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtc2l6ZT0iMzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPvCfkag8L3RleHQ+PC9zdmc+',
+  avatar3: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRkY1NzIyIiByeD0iNDAiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtc2l6ZT0iMzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPvCfkac8L3RleHQ+PC9zdmc+',
+  avatar4: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjNENBRjUwIiByeD0iNDAiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtc2l6ZT0iMzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPvCfkaY8L3RleHQ+PC9zdmc+',
+  avatar5: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjOUMyN0IwIiByeD0iNDAiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtc2l6ZT0iMzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPvCfkak8L3RleHQ+PC9zdmc+',
+  avatar6: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRkY5ODAwIiByeD0iNDAiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtc2l6ZT0iMzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPvCfkag8L3RleHQ+PC9zdmc+',
+  avatar7: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMDBCQ0Q0IiByeD0iNDAiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtc2l6ZT0iMzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPvCfkak8L3RleHQ+PC9zdmc+',
+  avatar8: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjQ0MzM2IiByeD0iNDAiLz48dGV4dCB4PSI0MCIgeT0iNDAiIGZvbnQtc2l6ZT0iMzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPvCfkaY8L3RleHQ+PC9zdmc+',
 };
 
 const state = {
@@ -5605,7 +5603,10 @@ const state = {
   uploadLog: [], inquiries: [], announcements: [], maintenanceRequests: [],
   expenses: [], visits: [], visitSlots: [], myInquiries: [], myMaintenanceRequests: [],
   pendingTenants: [], referrals: [], adminActivityLog: [], platformAnnouncements: [],
-  maintenanceMode: false, nextId: 700,
+  maintenanceMode: false,
+  referrals: [],
+  adminActivityLog: [],
+  platformAnnouncements: [], nextId: 700,
   tenantProfile: null, regTempName: '', regTempPhone: '', currentInviteCode: null,
   houses: [
     {
@@ -10383,38 +10384,28 @@ function exportAdminData() {
 function generateDemoData() {
   const now  = new Date();
   const mo   = d => d.toLocaleString('en-PH', { month:'long', year:'numeric' });
-  const fmt  = d => new Date(d).toISOString().split('T')[0];
   const ago  = days => new Date(Date.now() - days * 86400000);
   const pick = arr => arr[Math.floor(Math.random() * arr.length)];
   const rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
 
-  // ── People pool ─────────────────────────────────────────────────────
-  const seekerNames   = ['Ana Santos','Juan Cruz','Liza Tan','Mark Uy','Rose Bautista','Carlo Santos','Jenny Lim','Dennis Marcos','Hazel Reyes','Ian Padua','Kyla Navarro','Leo Villanueva'];
-  const tenantNames   = ['Ana Reyes','Juan Cruz','Lisa Tan','Mark Uy','Rose Garcia','Carlo Diaz','Jenny Lim','Dennis Santos'];
-  const avatarPhotos  = [DEMO_PHOTOS.avatar1,DEMO_PHOTOS.avatar2,DEMO_PHOTOS.avatar3,DEMO_PHOTOS.avatar4,DEMO_PHOTOS.avatar5,DEMO_PHOTOS.avatar6,DEMO_PHOTOS.avatar7,DEMO_PHOTOS.avatar8];
-  const phones        = n => '0917' + String(1111111 + n * 123456).slice(0,7);
-  const fmtTime = d => d===0?'Today':d===1?'Yesterday':d<7?d+' days ago':d<30?Math.floor(d/7)+(Math.floor(d/7)===1?' week':' weeks')+' ago':Math.floor(d/30)+(Math.floor(d/30)===1?' month':' months')+' ago';
-  const schools       = ['EVSU Burauen Campus','Burauen Community College'];
-  const courses       = ['BSIT 2nd Year','BSED 1st Year','BSN 3rd Year','BSBA 2nd Year','BSCS 1st Year','BTLED 3rd Year','BS Crim 1st Year','BSA 2nd Year'];
-
-  // ── Landlord profile ────────────────────────────────────────────────
+  // ── Landlord profile ─────────────────────────────────────────────────
   profiles.landlord = {
     name:'Maria Dela Cruz', phone:'09171234567', bhName:'TIAH Boarding House',
     address:'Poblacion VII, Burauen', gcash:'09171234567',
-    avatar:'<i class="ph ph-house"></i>', created: mo(ago(180))
+    avatar: '', created: mo(ago(180))
   };
   saveProfiles();
 
-  // ── Room configs per house ──────────────────────────────────────────
-  const roomTemplates = [
-    [6, 1500], // house 1: 6 rooms, ₱1500
-    [4, 2000], // house 2: 4 rooms, ₱2000
-    [6, 1200], // house 3: 6 rooms, ₱1200
-    [5, 1800], // house 4: 5 rooms, ₱1800
-    [6, 1300], // house 5: 6 rooms, ₱1300
+  // ── House rooms + verification status ────────────────────────────────
+  const roomConfigs = [
+    { houseId:1, count:6, price:1500 },
+    { houseId:2, count:4, price:2000 },
+    { houseId:3, count:6, price:1200 },
+    { houseId:4, count:5, price:1800 },
+    { houseId:5, count:6, price:1300 },
   ];
   const statusPattern = ['paid','paid','paid','paid','pending','empty'];
-  const roomViews = [
+  const photoSets = [
     [DEMO_PHOTOS.bed, DEMO_PHOTOS.cr],
     [DEMO_PHOTOS.bed, DEMO_PHOTOS.window, DEMO_PHOTOS.desk],
     [DEMO_PHOTOS.bed, DEMO_PHOTOS.closet],
@@ -10422,279 +10413,62 @@ function generateDemoData() {
   ];
 
   state.houses.forEach((h, hi) => {
-    const [numRooms, price] = roomTemplates[hi] || [4, 1500];
-    h.price = price;
+    const cfg = roomConfigs.find(c => c.houseId === h.id) || { count:4, price:h.price };
+    h.price        = cfg.price;
     h.adminStatus  = 'active';
     h.adminVerified = hi === 0;
     h.selfVerified  = !h.adminVerified;
     h.verified      = mo(ago(rand(30, 90)));
-    h.lastActive    = pick(['Just now','2h ago','Today','Yesterday','3 days ago']);
-    // Build rooms
-    h.rooms = Array.from({length: numRooms}, (_, ri) => {
-      const tIdx   = (hi * 4 + ri) % tenantNames.length;
-      const status = statusPattern[ri % statusPattern.length];
-      return {
-        id: ri + 1,
-        name: 'R' + (ri + 1),
-        status,
-        tenant: status !== 'empty' ? tenantNames[tIdx] : null,
-        amount: price,
-        photos: roomViews[ri % roomViews.length],
-      };
-    });
-    // Waitlist — first 3 houses get entries
-    h.waitlist = hi < 3
-      ? [seekerNames[(hi * 3) % seekerNames.length], seekerNames[(hi * 3 + 1) % seekerNames.length]]
-      : [];
+    h.lastActive    = pick(['Just now','2h ago','Today','Yesterday']);
+    h.waitlist      = [];
+    h.rooms = Array.from({ length: cfg.count }, (_, ri) => ({
+      id: ri + 1,
+      name: 'R' + (ri + 1),
+      status: statusPattern[ri % statusPattern.length],
+      tenant: null,
+      amount: cfg.price,
+      photos: photoSets[ri % photoSets.length],
+    }));
   });
 
-  // ── Tenants ─────────────────────────────────────────────────────────
-  state.pendingTenants = [];
-  const moveInDates = [fmt(ago(210)),fmt(ago(180)),fmt(ago(150)),fmt(ago(120)),fmt(ago(90)),fmt(ago(60)),fmt(ago(30)),fmt(ago(14))];
-  let tid = 10;
-  state.houses.forEach((h, hi) => {
-    (h.rooms||[]).filter(r => r.status !== 'empty').forEach((r, ri) => {
-      const tIdx = (hi * 4 + ri) % tenantNames.length;
-      state.pendingTenants.push({
-        id: tid++,
-        name: tenantNames[tIdx],
-        phone: phones(tIdx),
-        room: r.name,
-        houseId: h.id,
-        code: String(100000 + rand(0, 899999)),
-        status: r.status === 'pending' ? 'active' : 'active',
-        moveInDate: moveInDates[tIdx % moveInDates.length],
-      });
-    });
-  });
-
-  // ── Demo seeker profile ─────────────────────────────────────────────
-  profiles.seeker = {
-    name: seekerNames[0], phone: phones(0),
-    school: schools[0], course: courses[0],
-    budget: 1500, wifiRequired: true, cookingRequired: false,
-    visitorsRequired: true, noCurfew: false, laundryRequired: true,
-    created: mo(ago(10)),
-  };
-
-  // ── Inquiries with full message threads ─────────────────────────────
-  const qBank = [
-    'Do you still have a vacancy for a single room?',
-    'Is there a room available near the entrance? I prefer ground floor.',
-    'How many people share the comfort room?',
-    'Does the rent include water and electricity?',
-    'How far are you from the EVSU gate exactly?',
-    'Is there a curfew? I sometimes have evening classes.',
-    'Is cooking allowed? I like to prepare my own meals.',
-    'Do you allow visitors on weekends?',
-    'Is there reliable WiFi? I need it for online classes.',
-    'What is the advance payment and deposit required?',
-  ];
-  const replyBank = [
-    'Yes, we still have one room available! When would you like to visit?',
-    'We have ground floor rooms — come by and check it out.',
-    'The CR is shared by 2-3 tenants per floor. Always clean.',
-    'Water is included. Electricity is shared and split among tenants.',
-    'About 5 minutes walking to the EVSU gate.',
-    'Curfew is at 10PM. Evening classes are fine as long as you coordinate.',
-    'Cooking is allowed in the shared kitchen area.',
-    'Yes, visitors are welcome until 8PM.',
-    'WiFi is included — reliable Globe Fiber connection.',
-    'One month advance and one month deposit. No hidden fees.',
-  ];
-  const followUps = [
-    'Thank you! I will visit this Saturday around 10AM if that is okay?',
-    'Great, I will come by tomorrow afternoon.',
-    'Can I bring my parents when I visit?',
-    'Is the room furnished or unfurnished?',
-    'What time are you available for a visit?',
-  ];
-  const finalReplies = [
-    'Saturday 10AM is perfect! See you then.',
-    'Tomorrow afternoon works. Just message when you arrive.',
-    'Of course! Parents are welcome.',
-    'The room has a bed frame and cabinet. Mattress optional.',
-    'We are available 9AM-5PM on weekdays, 9AM-12PM on Saturdays.',
-  ];
-
-  const inqStatuses = ['pending','replied','visit_scheduled','offered','interested','not_a_fit','replied','pending','replied','visit_scheduled'];
-  state.inquiries = [];
-  state.myInquiries = [];
-  let iid = 100;
-
-  qBank.forEach((q, qi) => {
-    const h = state.houses[qi % state.houses.length];
-    const daysAgo = rand(1, 60);
-    const status  = inqStatuses[qi % inqStatuses.length];
-    const sName   = seekerNames[qi % seekerNames.length];
-
-    // Build message thread
-    const messages = [
-      { from: 'seeker', text: q, time: daysAgo + 'd ago' }
-    ];
-    if (status !== 'pending') {
-      messages.push({ from: 'landlord', text: replyBank[qi % replyBank.length], time: (daysAgo - 1) + 'd ago' });
-    }
-    if (['visit_scheduled','offered','interested'].includes(status)) {
-      messages.push({ from: 'seeker', text: followUps[qi % followUps.length], time: (daysAgo - 2) + 'd ago' });
-      messages.push({ from: 'landlord', text: finalReplies[qi % finalReplies.length], time: (daysAgo - 2) + 'd ago' });
-    }
-
-    const inq = {
-      id: iid++, houseId: h.id,
-      name: sName, school: schools[qi % 2], course: courses[qi % courses.length],
-      date: fmt(ago(daysAgo)), q, status,
-      time: fmtTime(daysAgo),
-      avatar: '<i class="ph ph-user-circle"></i>',
-      messages,
-    };
-    state.inquiries.push(inq);
-
-    // Mirror first 5 as seeker myInquiries
-    if (qi < 5) {
-      state.myInquiries.push({
-        id: inq.id, houseId: h.id, houseName: h.name,
-        status, q,
-        read: status !== 'replied',
-        reply: status !== 'pending' ? replyBank[qi % replyBank.length] : null,
-        messages: [...messages],
-        acceptedCode: status === 'offered' ? String(100000 + rand(0,899999)) : null,
-      });
-    }
-  });
-
-  // ── Payment log ─────────────────────────────────────────────────────
-  state.paymentLog = [];
-  let plid = 300;
-  state.pendingTenants.filter(t => t.status === 'active').slice(0, 8).forEach((t, ti) => {
-    const h = state.houses.find(x => x.id === t.houseId);
-    const r = (h?.rooms||[]).find(rm => rm.name === t.room);
-    state.paymentLog.push({
-      id: plid++, tenantName: t.name, room: t.room, houseId: t.houseId,
-      amount: r?.amount || h?.price || 1500,
-      status: r?.status === 'paid' ? 'paid' : 'pending',
-      date: fmt(ago(rand(1, 28))),
-      month: mo(ago(rand(1, 28))),
-    });
-  });
-
-  // ── Expenses ─────────────────────────────────────────────────────────
-  const expPool = [
-    {cat:'<i class="ph ph-wrench"></i> Repairs',     items:['Fixed CR flush Room 2','Replaced door lock R4','Patched roof leak','Fixed kitchen faucet','Painted hallway walls']},
-    {cat:'<i class="ph ph-lightbulb"></i> Utilities', items:['Meralco bill','BURAWEN Water bill','Globe Fiber internet','Meralco bill','Water bill LWUA']},
-    {cat:'<i class="ph ph-shopping-cart"></i> Supplies',items:['Cleaning supplies & bulbs','Pest control supplies','Broom, mop, pail set','CR toiletries','Trash bags & dishwash']},
-    {cat:'<i class="ph ph-user"></i> Labor',          items:['Plumber — faucet repair','Electrician — R3 rewiring','Monthly cleaning service','Painter — common area']},
-  ];
-  state.expenses = [];
-  let eid = 200;
-  for (let i = 0; i < rand(6, 10); i++) {
-    const pool = expPool[i % expPool.length];
-    const amounts = {Repairs:rand(200,1500), Utilities:rand(800,4500), Supplies:rand(150,800), Labor:rand(300,2000)};
-    const key = Object.keys(amounts).find(k => pool.cat.includes(k)) || 'Repairs';
-    state.expenses.push({
-      id: eid++, houseId: state.houses[0]?.id || 1,
-      cat: pool.cat, desc: pick(pool.items),
-      amount: amounts[key], date: fmt(ago(rand(1, 60))),
-    });
-  }
-
-  // ── Announcements ─────────────────────────────────────────────────────
-  state.announcements = [
-    { id:401, cat:'reminder', title:'Rent Due This Friday',
-      body:'Reminder to all tenants — rent is due before Friday. Please send payment to GCash 09171234567 and screenshot your receipt. Thank you!',
-      ts: Date.now() - 3*86400000, isNew:true, dismissed:false, pinned:true },
-    { id:402, cat:'info', title:'Water Interruption Notice',
-      body:'Water service will be interrupted tomorrow morning (8AM–12PM) due to LGU maintenance. Please store water in advance.',
-      ts: Date.now() - 86400000, isNew:false, dismissed:false, pinned:false },
-    { id:403, cat:'activity', title:'Welcome New Tenant',
-      body:'Please welcome our new tenant in Room 5. Kindly introduce yourselves and help them get settled.',
-      ts: Date.now() - 7*86400000, isNew:false, dismissed:false, pinned:false },
-  ];
-
-  // ── Maintenance requests ───────────────────────────────────────────────
-  const maintPool = [
-    {type:'<i class="ph ph-faucet"></i> Plumbing',    desc:'Leaky faucet in shared bathroom — dripping constantly', urgency:'urgent'},
-    {type:'<i class="ph ph-wifi"></i> WiFi',           desc:'WiFi signal very weak on the far side of Room 3', urgency:'normal'},
-    {type:'<i class="ph ph-lightbulb"></i> Electrical',desc:'Flickering light in Room 2 — may need new bulb or wiring check', urgency:'normal'},
-    {type:'<i class="ph ph-door"></i> Door / Lock',    desc:'Door knob on Room 4 is loose and hard to lock from inside', urgency:'urgent'},
-    {type:'<i class="ph ph-broom"></i> Cleaning',      desc:'Drainage in shared CR is slow — needs unclogging', urgency:'low'},
-  ];
-  const maintStatuses = ['pending','in_progress','done','pending','in_progress'];
-  state.maintenanceRequests = maintPool.map((m, i) => ({
-    id: 500 + i,
-    room: 'R' + (i + 1),
-    type: m.type, desc: m.desc, urgency: m.urgency,
-    status: maintStatuses[i],
-    tenantName: tenantNames[i % tenantNames.length],
-    time: (i + 1) + (i === 0 ? ' day' : ' days') + ' ago',
-    houseId: state.houses[0]?.id || 1,
-  }));
-  state.myMaintenanceRequests = state.maintenanceRequests.slice(0, 2).map(r => ({...r}));
-
-  // ── Visits ────────────────────────────────────────────────────────────
-  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-  const dayAfter  = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3);
-  const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
-  state.visits = [
-    { id:600, name: seekerNames[0], house: state.houses[0]?.name, houseId: state.houses[0]?.id, date: fmt(tomorrow), time:'10:00 AM', status:'pending' },
-    { id:601, name: seekerNames[1], house: state.houses[0]?.name, houseId: state.houses[0]?.id, date: fmt(tomorrow), time:'2:00 PM',  status:'pending' },
-    { id:602, name: seekerNames[2], house: state.houses[0]?.name, houseId: state.houses[0]?.id, date: fmt(dayAfter),  time:'9:00 AM',  status:'confirmed' },
-    { id:603, name: seekerNames[3], house: state.houses[0]?.name, houseId: state.houses[0]?.id, date: fmt(yesterday), time:'3:00 PM', status:'confirmed' },
-  ];
-  state.visitSlots = [
-    { id:1, date: fmt(tomorrow), time:'10:00 AM', taken:true },
-    { id:2, date: fmt(tomorrow), time:'2:00 PM',  taken:true },
-    { id:3, date: fmt(dayAfter),  time:'9:00 AM',  taken:false },
-    { id:4, date: fmt(dayAfter),  time:'3:00 PM',  taken:false },
-  ];
-
-  // ── Admin audit log ────────────────────────────────────────────────────
-  state.adminActivityLog = [
-    { msg: 'Admin verified listing: ' + (state.houses[0]?.name || 'TIAH BH'), ts: Date.now() - rand(1,3)*3600000 },
-    { msg: 'New landlord registered: ' + (state.houses[1]?.name || 'LFH BH'),  ts: Date.now() - rand(4,8)*3600000 },
-    { msg: 'Admin verified listing: ' + (state.houses[2]?.name || 'CBH'),       ts: Date.now() - 86400000 },
-    { msg: 'Tenant code reset for ' + tenantNames[2],                            ts: Date.now() - 2*86400000 },
-    { msg: 'Platform announcement posted',                                        ts: Date.now() - 3*86400000 },
-    { msg: 'Admin logged in',                                                     ts: Date.now() - 7*86400000 },
-  ];
-
-  // ── Pre-set tenant profile so Tenant role works immediately ──────────
-  const h1 = state.houses[0];
-  const r1 = h1?.rooms?.find(r => r.status === 'paid') || h1?.rooms?.[0];
-  state.tenantProfile = {
-    name:'Ana Reyes', phone:phones(0),
-    room: r1?.name||'R1', roomLabel: r1?.name||'R1',
-    rent: r1?.amount||h1?.price||1500,
-    houseId: h1?.id||1, houseName: h1?.name||'TIAH Boarding House',
-    houseAddr: h1?.address||'Poblacion VII, Burauen',
-    paymentStatus:'pending', school:'EVSU Burauen Campus',
-    course:'BSIT 2nd Year', gender:'Female',
-    emergencyName:'Maria Reyes', emergencyPhone:'09171234999',
-    photo: DEMO_PHOTOS.avatar1,
-  };
-  profiles.tenant = { ...state.tenantProfile };
-  saveProfiles();
-
-  // ── Reset counters and transient state ───────────────────────────────────
-  state.nextId            = 700;
-  state.currentHouseId    = state.houses[0]?.id || 1;
-  state.filter            = 'all';
-  state.sort              = 'distance';
-  state.school            = 'evsu';
-  state.moveOutRequests   = [];
-  state.referrals         = [];
+  // ── Reset all user-generated data ────────────────────────────────────
+  state.pendingTenants     = [];
+  state.inquiries          = [];
+  state.myInquiries        = [];
+  state.myMaintenanceRequests = [];
+  state.paymentLog         = [];
   state.paymentTransactions = [];
+  state.expenses           = [];
+  state.announcements      = [];
+  state.maintenanceRequests = [];
+  state.visits             = [];
+  state.visitSlots         = [
+    { id:1, date: new Date(now.getFullYear(), now.getMonth(), now.getDate()+2).toISOString().split('T')[0], time:'10:00 AM', taken:false },
+    { id:2, date: new Date(now.getFullYear(), now.getMonth(), now.getDate()+2).toISOString().split('T')[0], time:'2:00 PM',  taken:false },
+    { id:3, date: new Date(now.getFullYear(), now.getMonth(), now.getDate()+4).toISOString().split('T')[0], time:'9:00 AM',  taken:false },
+  ];
+  state.moveOutRequests    = [];
+  state.referrals          = [];
   state.platformAnnouncements = [];
-  state.maintenanceMode   = false;
-  state.savedHouses       = [];
-  state.tenantProfile     = null;
+  state.adminActivityLog   = [
+    { msg: 'Admin logged in', ts: Date.now() },
+    { msg: 'Demo data reset', ts: Date.now() },
+  ];
+  state.savedHouses        = [];
+  state.tenantProfile      = null;
+  state.maintenanceMode    = false;
+  state.nextId             = 100;
+  state.currentHouseId     = state.houses[0]?.id || 1;
+  state.filter             = 'all';
+  state.sort               = 'distance';
+  state.school             = 'evsu';
 }
 
 
 function confirmResetData() {
   const card=document.createElement('div');
   card.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:390px;background:var(--redBg);border:1.5px solid var(--red);border-radius:14px;padding:16px;z-index:600;box-shadow:0 8px 32px rgba(0,0,0,.2);';
-  card.innerHTML=`<div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--red);margin-bottom:6px;"><i class="ph ph-warning"></i> Reset all demo data?</div><div style="font-size:12px;color:var(--text2);margin-bottom:14px;">Reloads with fresh demo data. Cannot be undone.</div><div style="display:flex;gap:8px;"><button onclick="localStorage.clear();generateDemoData();save();location.reload();" style="flex:2;background:var(--red);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Yes, Reset</button><button onclick="this.remove()" style="flex:1;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;cursor:pointer;">Cancel</button></div>`;
+  card.innerHTML=`<div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--red);margin-bottom:6px;"><i class="ph ph-warning"></i> Reset all demo data?</div><div style="font-size:12px;color:var(--text2);margin-bottom:14px;">Reloads with fresh demo data. Cannot be undone.</div><div style="display:flex;gap:8px;"><button onclick="localStorage.clear();generateDemoData();save();if(window.cloudSave)window.cloudSave();location.reload();" style="flex:2;background:var(--red);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Yes, Reset</button><button onclick="this.remove()" style="flex:1;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;cursor:pointer;">Cancel</button></div>`;
   document.body.appendChild(card);
 }
 function selfVerifyListing() {
@@ -11610,11 +11384,12 @@ function handleLogoTap() {
 function goToSeekerEntry() {
   state.role = 'seeker';
   navStack.length = 0;
+  // If no real profile exists, send to setup first
   if (!profiles.seeker || !profiles.seeker.name) {
-    profiles.seeker = { name:'Ana Santos', phone:'09171234567', school:'EVSU Burauen Campus', course:'BSIT 2nd Year', budget:1500, wifiRequired:true, cookingRequired:false, visitorsRequired:true, noCurfew:false, laundryRequired:true, photo:DEMO_PHOTOS.avatar1, showPhoto:true };
-    saveProfiles();
+    goTo('s-setup');
+  } else {
+    goTo('s-home');
   }
-  goTo('s-home');
 }
 
 function goToLandlordEntry() {
@@ -11646,6 +11421,7 @@ function goToLandlordEntry() {
     });
   }
 
+  window.cloudSave = cloudSave;
   async function cloudSave() {
     if (!_sb) return;
     try {

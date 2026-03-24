@@ -1746,14 +1746,16 @@ body {
   border-radius: var(--r);
   padding: 12px 15px;
   font-family: 'Nunito Sans', sans-serif;
-  font-size:16px;
+  font-size: 16px;
   color: var(--text);
   outline: none;
-  resize: none;
-  height: 100px;
-  line-height: 1.55;
+  resize: vertical;
+  min-height: 140px;
+  height: 180px;
+  line-height: 1.6;
   transition: border-color .2s;
   margin-bottom: 4px;
+  box-sizing: border-box;
 }
 .about-ta:focus { border-color: var(--blue); }
 
@@ -2783,62 +2785,48 @@ body {
   <div class="screen active" id="s-role">
     <div class="role-wrap">
       <div style="margin-bottom:6px">
-        <div style="width:48px;height:48px;background:rgba(124,200,250,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border:1px solid rgba(124,200,250,.2)">
-          <i class="ph ph-house-line" style="font-size:26px;color:#7CC8FA"></i>
+        <div id="role-logo-tap" style="width:56px;height:56px;background:rgba(124,200,250,.15);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;border:1px solid rgba(124,200,250,.2);cursor:pointer;" onclick="handleLogoTap()">
+          <i class="ph ph-house-line" style="font-size:28px;color:#7CC8FA"></i>
         </div>
       </div>
       <div class="role-logo">Buhay <span>Boarding</span></div>
       <div class="role-tagline">Verified boarding houses in Burauen.<br>Who are you today?</div>
       <div class="role-cards">
-        <div class="role-card" onclick="goToSeekerEntry()">
-          <div class="role-ic"><i class="ph ph-magnifying-glass" style="font-size:22px;color:#7CC8FA"></i></div>
+        <div class="role-card" onclick="goToSeekerEntry()" style="padding:18px 16px;">
+          <div class="role-ic" style="width:50px;height:50px;border-radius:14px;"><i class="ph ph-magnifying-glass" style="font-size:24px;color:#7CC8FA"></i></div>
           <div class="role-info">
             <div class="role-name">Looking for a Room</div>
-            <div class="role-desc">Browse verified listings, ask questions, schedule visits</div>
+            <div class="role-desc">Browse verified listings, inquire, and schedule visits</div>
           </div>
           <div class="role-arrow"><i class="ph ph-caret-right"></i></div>
         </div>
-        <div class="role-card" onclick="setRole('tenant')">
-          <div class="role-ic"><i class="ph ph-house" style="font-size:22px;color:#7CC8FA"></i></div>
+        <div class="role-card" onclick="showTenantChoice()" style="padding:18px 16px;">
+          <div class="role-ic" style="width:50px;height:50px;border-radius:14px;background:rgba(11,122,106,.2);border-color:rgba(13,148,128,.3);"><i class="ph ph-house" style="font-size:24px;color:#0D9480"></i></div>
           <div class="role-info">
-            <div class="role-name">Current Tenant</div>
-            <div class="role-desc">View announcements, house info, submit maintenance</div>
+            <div class="role-name" style="color:#0D9480;">I'm a Tenant</div>
+            <div class="role-desc">View announcements, pay rent, report issues</div>
+          </div>
+          <div class="role-arrow" style="color:#0D9480;"><i class="ph ph-caret-right"></i></div>
+        </div>
+        <div class="role-card" onclick="goToLandlordEntry()" style="padding:18px 16px;">
+          <div class="role-ic" style="width:50px;height:50px;border-radius:14px;"><i class="ph ph-clipboard-text" style="font-size:24px;color:#7CC8FA"></i></div>
+          <div class="role-info">
+            <div class="role-name">I'm a Landlord</div>
+            <div class="role-desc">Manage listings, tenants, payments, and inquiries</div>
           </div>
           <div class="role-arrow"><i class="ph ph-caret-right"></i></div>
         </div>
-        <div class="role-card" onclick="goTo('t-register')" style="border-color:rgba(13,148,128,.4);background:rgba(13,148,128,.08)">
-          <div class="role-ic" style="background:rgba(13,148,128,.15)"><i class="ph ph-key" style="font-size:22px;color:#0D9480"></i></div>
-          <div class="role-info">
-            <div class="role-name" style="color:#0D9480">New Tenant — First Time</div>
-            <div class="role-desc">Have an invite code? Register your account here</div>
-          </div>
-          <div class="role-arrow" style="color:#0D9480"><i class="ph ph-caret-right"></i></div>
-        </div>
-        <div class="role-card" onclick="goToLandlordEntry()">
-          <div class="role-ic"><i class="ph ph-clipboard-text" style="font-size:22px;color:#7CC8FA"></i></div>
-          <div class="role-info">
-            <div class="role-name">Landlord</div>
-            <div class="role-desc">Manage listings, inquiries, tenants, and financials</div>
-          </div>
-          <div class="role-arrow"><i class="ph ph-caret-right"></i></div>
-        </div>
-        <div class="role-card new-landlord" onclick="goTo('l-onboard')">
-          <div class="role-ic"><i class="ph ph-storefront" style="font-size:22px;color:#C4B5FD"></i></div>
-          <div class="role-info">
-            <div class="role-name" style="color:#C4B5FD;">New Landlord</div>
-            <div class="role-desc" style="color:rgba(196,181,253,.7);">List your boarding house — free setup, verified listing</div>
-          </div>
-          <div class="role-arrow" style="color:rgba(196,181,253,.5);"><i class="ph ph-caret-right"></i></div>
-        </div>
-        <!-- Admin entry -->
-        <div class="role-card" onclick="goTo('a-login')" style="border-color:rgba(255,107,107,.3);background:rgba(255,107,107,.06);">
-          <div class="role-ic" style="background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.2);"><i class="ph ph-shield-check" style="font-size:22px;color:#ff6b6b"></i></div>
+        <div class="role-card hidden" id="role-admin-card" onclick="goTo('a-login')" style="padding:18px 16px;border-color:rgba(255,107,107,.3);background:rgba(255,107,107,.06);">
+          <div class="role-ic" style="width:50px;height:50px;background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.2);border-radius:14px;"><i class="ph ph-shield-check" style="font-size:24px;color:#ff6b6b"></i></div>
           <div class="role-info">
             <div class="role-name" style="color:#ff6b6b;">Platform Admin</div>
-            <div class="role-desc" style="color:rgba(255,107,107,.6);">Manage all listings, users, and platform settings</div>
+            <div class="role-desc" style="color:rgba(255,107,107,.6);">Manage all listings, users, and platform data</div>
           </div>
           <div class="role-arrow" style="color:rgba(255,107,107,.4);"><i class="ph ph-caret-right"></i></div>
         </div>
+      </div>
+      <div style="margin-top:16px;text-align:center;">
+        <span onclick="goTo('l-onboard')" style="font-size:13px;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:2px;">+ List my boarding house</span>
       </div>
     </div>
   </div>
@@ -2899,8 +2887,9 @@ body {
       <i class="ph ph-shield-check" style="font-size:20px;color:#ff6b6b;"></i>
       <div class="admin-topbar-title">Admin Dashboard</div>
       <div class="admin-topbar-badge">ADMIN</div>
+      <button onclick="adminLogout()" style="background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:4px;display:flex;align-items:center;" title="Exit Admin"><i class="ph ph-sign-out"></i></button>
     </div>
-    <div class="scroll" style="padding:14px 14px 16px;">
+    <div class="scroll" style="padding:14px 14px 90px;">
       <!-- Stats grid -->
       <div class="a-stat-grid" id="a-stats-grid"></div>
       <!-- Health indicators -->
@@ -2930,7 +2919,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="a-listings">
     <div class="admin-topbar">
-      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('a-home')" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">Listings Management</div>
       <div class="admin-topbar-badge" id="a-listings-badge">0</div>
     </div>
@@ -2941,7 +2930,7 @@ body {
       <button class="a-btn a-btn-verify"    id="alf-active"  onclick="filterAdminListings('active',this)">Active</button>
       <button class="a-btn a-btn-suspend"   id="alf-suspended" onclick="filterAdminListings('suspended',this)">Suspended</button>
     </div>
-    <div class="scroll" style="padding:14px 14px 16px;" id="a-listings-list"></div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="a-listings-list"></div>
     <div class="admin-bnav">
       <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
       <div class="admin-ni on" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
@@ -2957,7 +2946,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="a-registry">
     <div class="admin-topbar">
-      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('a-home')" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">User Registry</div>
     </div>
     <div style="background:#1a1a2e;padding:0 14px 12px;display:flex;gap:8px;flex-shrink:0;">
@@ -2965,7 +2954,7 @@ body {
       <button class="a-btn a-btn-edit"    id="arf-tenants"   onclick="filterAdminRegistry('tenants',this)">Tenants</button>
       <button class="a-btn a-btn-flag"    id="arf-pending"   onclick="filterAdminRegistry('pending',this)">Pending Codes</button>
     </div>
-    <div class="scroll" style="padding:14px 14px 16px;" id="a-registry-list"></div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="a-registry-list"></div>
     <div class="admin-bnav">
       <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
       <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
@@ -2981,7 +2970,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="a-inquiries">
     <div class="admin-topbar">
-      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('a-home')" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">Inquiry Monitor</div>
       <div class="admin-topbar-badge" id="a-inq-badge">0</div>
     </div>
@@ -2991,7 +2980,7 @@ body {
       <button class="a-btn a-btn-verify"      id="aif-replied" onclick="filterAdminInq('replied',this)">Replied</button>
       <button class="a-btn a-btn-suspend"     id="aif-declined" onclick="filterAdminInq('declined',this)">Declined</button>
     </div>
-    <div class="scroll" style="padding:14px 14px 16px;" id="a-inq-list"></div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="a-inq-list"></div>
     <div class="admin-bnav">
       <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
       <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
@@ -3007,7 +2996,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="a-maintenance">
     <div class="admin-topbar">
-      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('a-home')" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">Maintenance Tracker</div>
       <div class="admin-topbar-badge" id="a-maint-badge">0</div>
     </div>
@@ -3017,7 +3006,7 @@ body {
       <button class="a-btn a-btn-edit"          id="amf-pending"  onclick="filterAdminMaint('pending',this)">Pending</button>
       <button class="a-btn a-btn-verify"        id="amf-done"     onclick="filterAdminMaint('done',this)">Done</button>
     </div>
-    <div class="scroll" style="padding:14px 14px 16px;" id="a-maint-list"></div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="a-maint-list"></div>
     <div class="admin-bnav">
       <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
       <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
@@ -3033,7 +3022,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="a-financials">
     <div class="admin-topbar">
-      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('a-home')" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">Financials & Reports</div>
     </div>
     <!-- Tab switcher -->
@@ -3042,7 +3031,7 @@ body {
       <button class="a-fin-tab" id="aft-txns" onclick="switchAdminFinTab('txns',this)">Transactions</button>
       <button class="a-fin-tab" id="aft-uploads" onclick="switchAdminFinTab('uploads',this)">Uploads</button>
     </div>
-    <div class="scroll" style="padding:14px 14px 16px;" id="a-financials-body"></div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="a-financials-body"></div>
     <div class="admin-bnav">
       <div class="admin-ni" onclick="goTo('a-home')"><span class="admin-ni-ic"><i class="ph ph-chart-bar"></i></span><span class="admin-ni-lb">Overview</span></div>
       <div class="admin-ni" onclick="goTo('a-listings')"><span class="admin-ni-ic"><i class="ph ph-buildings"></i></span><span class="admin-ni-lb">Listings</span></div>
@@ -3058,10 +3047,10 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="a-announcements">
     <div class="admin-topbar">
-      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('a-home')" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">Platform Announcements</div>
     </div>
-    <div class="scroll" style="padding:14px 14px 16px;">
+    <div class="scroll" style="padding:14px 14px 90px;">
       <div class="callout cl-info" style="margin-bottom:16px;">
         <span class="callout-ic"><i class="ph ph-megaphone"></i></span>
         <div class="callout-txt"><strong>Platform-wide announcements</strong> appear as a banner to ALL users (seekers, tenants, landlords) on the role select screen.</div>
@@ -3101,7 +3090,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="a-logs">
     <div class="admin-topbar">
-      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('a-home')" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">Audit Log</div>
       <button onclick="clearAuditLog()" style="background:none;border:none;color:rgba(255,107,107,.7);font-size:12px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;padding:4px 8px;">Clear</button>
     </div>
@@ -3122,10 +3111,10 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="a-settings">
     <div class="admin-topbar">
-      <div class="back" onclick="goBack()" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('a-home')" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">Settings & Controls</div>
     </div>
-    <div class="scroll" style="padding:14px 14px 16px;">
+    <div class="scroll" style="padding:14px 14px 90px;">
 
       <!-- Maintenance mode -->
       <div class="card card-p" style="margin-bottom:12px;">
@@ -3227,6 +3216,7 @@ body {
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
           <div class="av-btn" onclick="goTo('s-myinq')"><i class="ph ph-chat-circle" style="font-size:19px;color:rgba(255,255,255,.8)"></i></div>
+          <div class="av-btn" onclick="goTo('s-role')" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);" title="Exit to Role Select"><i class="ph ph-sign-out" style="font-size:18px;color:rgba(255,255,255,.6)"></i></div>
         </div>
       </div>
       <div class="sc-toggle">
@@ -3305,7 +3295,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="s-detail">
     <div class="topbar">
-      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('s-role')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title" id="d-topname">Boarding House</div>
       <button onclick="shareHouse()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:7px 10px;color:rgba(255,255,255,.75);font-size:18px;cursor:pointer;line-height:1;display:flex;align-items:center;margin-right:4px;">
         <i class="ph ph-share-network"></i>
@@ -3468,7 +3458,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="s-myinq">
     <div class="topbar">
-      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('s-home')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">My Inquiries</div>
     </div>
     <div class="scroll" style="padding:14px 14px 90px">
@@ -3561,7 +3551,10 @@ body {
           <div class="thdr-greet">Welcome home </div>
           <div class="thdr-title" id="t-tenant-name">Ana Reyes</div>
         </div>
-        <div class="av-btn" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.2)"><i class="ph ph-user-circle" style="font-size:19px;color:rgba(255,255,255,.8)"></i></div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="av-btn" onclick="goTo('s-role')" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);" title="Exit to Role Select"><i class="ph ph-sign-out" style="font-size:18px;color:rgba(255,255,255,.6)"></i></div>
+          <div class="av-btn" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.2)"><i class="ph ph-user-circle" style="font-size:19px;color:rgba(255,255,255,.8)"></i></div>
+        </div>
       </div>
       <div class="house-pill">
         <i class="ph ph-house" style="font-size:20px;color:rgba(255,255,255,.7)"></i>
@@ -3577,7 +3570,7 @@ body {
         </div>
         <div class="ric-right">
           <div class="ric-rent" id="t-room-rent">₱1,500</div>
-          <div class="ric-due">bawat buwan</div>
+          <div class="ric-due">per month</div>
         </div>
       </div>
       <!-- Pay acknowledge — shown when status is pending -->
@@ -3621,7 +3614,7 @@ body {
   </div>
   <div class="screen" id="t-houseinfo">
     <div class="topbar" style="background:linear-gradient(135deg,var(--teal),#0B6357)">
-      <div class="back" onclick="goTo('t-home')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('s-myinq')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">House Info</div>
     </div>
     <div class="scroll" style="padding:14px 14px 90px">
@@ -3697,7 +3690,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="t-profile">
     <div class="topbar" style="background:linear-gradient(135deg,var(--teal),#0B6357)">
-      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('t-home')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">My Profile</div>
       <div style="color:rgba(255,255,255,.7);font-size:13px;font-weight:700;cursor:pointer;padding:4px 8px;" onclick="goTo('t-profile-setup')">Edit</div>
     </div>
@@ -3775,7 +3768,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="t-payments">
     <div class="topbar" style="background:linear-gradient(135deg,var(--teal),#0B6357)">
-      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('t-home')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Payment History</div>
     </div>
     <div class="scroll" style="padding:14px 14px 90px">
@@ -3804,26 +3797,47 @@ body {
   <!-- ═══════════════════════════════
        LANDLORD — WAITLIST MANAGER
   ═══════════════════════════════ -->
+  <!-- ═══════════════════════════════
+       LANDLORD — WAITLIST
+  ═══════════════════════════════ -->
   <div class="screen" id="l-waitlist">
     <div class="topbar">
-      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
-      <div class="topbar-title">Waitlist Manager</div>
+      <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
+      <div class="topbar-title">Waitlist</div>
+      <span id="wl-count-badge" style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;background:rgba(255,255,255,.15);color:#fff;padding:3px 10px;border-radius:20px;"></span>
     </div>
-    <div class="scroll" style="padding:14px 14px 90px">
-      <div class="callout cl-info" style="margin-bottom:16px">
-        <span class="callout-ic"><i class="ph ph-queue"></i></span>
-        <div class="callout-txt">People on the waitlist will be notified when a room opens. You can promote them directly to a room offer.</div>
+    <!-- How it works strip -->
+    <div style="background:#1558CC;padding:12px 16px;flex-shrink:0;">
+      <div style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:rgba(255,255,255,.9);margin-bottom:6px;">How does the waitlist work?</div>
+      <div style="display:flex;gap:0;align-items:flex-start;">
+        <div style="flex:1;text-align:center;padding:0 4px;">
+          <div style="font-size:18px;margin-bottom:3px;">👤</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.7);line-height:1.3;">They join the waitlist</div>
+        </div>
+        <div style="color:rgba(255,255,255,.3);font-size:16px;padding-top:8px;">→</div>
+        <div style="flex:1;text-align:center;padding:0 4px;">
+          <div style="font-size:18px;margin-bottom:3px;">🏠</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.7);line-height:1.3;">A room opens up</div>
+        </div>
+        <div style="color:rgba(255,255,255,.3);font-size:16px;padding-top:8px;">→</div>
+        <div style="flex:1;text-align:center;padding:0 4px;">
+          <div style="font-size:18px;margin-bottom:3px;">✉️</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.7);line-height:1.3;">Offer them a room or refer to another BH</div>
+        </div>
       </div>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="wl-manager-list-wrap">
       <div id="wl-manager-list"></div>
-      <div id="wl-manager-empty" style="text-align:center;padding:40px 0;color:var(--muted);font-size:13px;display:none;">
-        <i class="ph ph-users-three" style="font-size:36px;display:block;margin-bottom:10px;color:var(--muted2);"></i>
-        No one on the waitlist yet.
+      <div id="wl-manager-empty" style="text-align:center;padding:52px 20px;display:none;">
+        <div style="font-size:48px;margin-bottom:12px;">😊</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--navy);margin-bottom:6px;">No one on the waitlist</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.5;">When all your rooms are occupied,<br>people waiting will appear here.</div>
       </div>
     </div>
     <div class="bnav">
       <div class="ni" onclick="goTo('l-home')"><span class="ni-ic"><i class="ph ph-chart-bar"></i></span><span class="ni-lb">Overview</span></div>
       <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
-      <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
+      <div class="ni on"><span class="ni-ic"><i class="ph ph-queue"></i></span><span class="ni-lb">Waitlist</span></div>
       <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
       <div class="ni" onclick="goTo('l-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
@@ -3834,7 +3848,10 @@ body {
     <div class="lhdr">
       <div class="lhdr-top">
         <div><div class="lhdr-greet" id="landlord-greeting">Good morning </div><div class="lhdr-name" id="lhdr-dyn-name">Maria Dela Cruz</div></div>
-        <div class="av-btn" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15)"><i class="ph ph-user-circle" style="font-size:19px;color:rgba(255,255,255,.75)"></i></div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="av-btn" onclick="goTo('s-role')" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12);" title="Exit to Role Select"><i class="ph ph-sign-out" style="font-size:18px;color:rgba(255,255,255,.6)"></i></div>
+          <div class="av-btn" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15)"><i class="ph ph-user-circle" style="font-size:19px;color:rgba(255,255,255,.75)"></i></div>
+        </div>
       </div>
       <div class="income-card">
         <div class="ic-lbl">This Month</div>
@@ -3921,6 +3938,7 @@ body {
         <div class="slbl" style="margin-bottom:11px">More Tools</div>
         <div class="qa-grid">
           <div class="qa-btn" onclick="goTo('l-listing')"><div class="qa-ic"><i class="ph ph-storefront"></i></div><div class="qa-lbl">My Listing</div></div>
+          <div class="qa-btn" onclick="goTo('l-analytics')" style="position:relative"><div class="qa-ic" style="color:var(--blue)"><i class="ph ph-chart-line-up"></i></div><div class="qa-lbl">Analytics</div></div>
           <div class="qa-btn" onclick="goTo('l-waitlist')"><div class="qa-ic"><i class="ph ph-queue"></i></div><div class="qa-lbl">Waitlist</div></div>
           <div class="qa-btn" onclick="goTo('l-expense')"><div class="qa-ic"><i class="ph ph-receipt"></i></div><div class="qa-lbl">Expenses</div></div>
           <div class="qa-btn" onclick="goTo('l-maint')" style="position:relative"><div class="qa-ic"><i class="ph ph-wrench"></i></div><div class="qa-lbl">Maintenance</div><div id="l-maint-badge" class="hidden" style="position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-family:'Nunito',sans-serif;font-size:9px;font-weight:800;border-radius:10px;padding:2px 5px;min-width:16px;text-align:center;"></div></div>
@@ -3930,6 +3948,25 @@ body {
     </div>
     <div class="bnav">
       <div class="ni on"><span class="ni-ic"><i class="ph ph-chart-bar"></i></span><span class="ni-lb">Overview</span></div>
+      <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
+      <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
+      <div class="ni" onclick="goTo('l-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       LANDLORD — ANALYTICS
+  ═══════════════════════════════ -->
+  <div class="screen" id="l-analytics">
+    <div class="topbar" style="background:linear-gradient(135deg,#0B1F3A,#1558CC)">
+      <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
+      <div class="topbar-title">Analytics</div>
+      <span style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;padding:3px 8px;background:rgba(255,255,255,.08);border-radius:20px;">BETA</span>
+    </div>
+    <div class="scroll" style="padding:14px 14px 90px;" id="l-analytics-body"></div>
+    <div class="bnav">
+      <div class="ni" onclick="goTo('l-home')"><span class="ni-ic"><i class="ph ph-chart-bar"></i></span><span class="ni-lb">Overview</span></div>
       <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Rooms</span></div>
       <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
@@ -3998,7 +4035,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="l-announce">
     <div class="topbar">
-      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Post Announcement</div>
     </div>
     <div class="scroll" style="padding:16px 16px 90px">
@@ -4285,6 +4322,12 @@ body {
       </div>
       <div class="fg"><label class="lbl">Tenant Name</label><input class="inp" type="text" id="room-tenant-name" placeholder="Full name"></div>
       <div class="fg"><label class="lbl">Monthly Rent (₱)</label><input class="inp" type="number" id="room-rent-amt" placeholder="e.g. 1500"><div class="hint">Leave as-is to keep current price.</div></div>
+      <!-- Room photos -->
+      <div class="fg" style="margin-bottom:0;">
+        <label class="lbl">Room Photos <span style="color:var(--muted);font-weight:400;font-size:11px;">(optional — up to 4)</span></label>
+        <div id="room-photo-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px;"></div>
+        <input type="file" id="room-photo-inp" accept="image/*" style="display:none;" onchange="addRoomPhoto(this)">
+      </div>
       <div style="display:flex;gap:9px;margin-top:6px">
         <button class="btn btn-secondary" style="flex:1" onclick="closeRoomModal()">Cancel</button>
         <button class="btn btn-primary" style="flex:2" onclick="saveRoom()"><i class="ph ph-floppy-disk"></i> Save Changes</button>
@@ -4684,7 +4727,7 @@ body {
     <!-- Header: live gradient preview + tab bar -->
     <div id="bhl-hero-bg" class="bhl-hero" style="background:linear-gradient(135deg,#1462A8,#0D8A78);">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
-        <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+        <div class="back" onclick="goTo('s-home')"><i class="ph ph-arrow-left"></i></div>
         <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:#fff;flex:1;text-align:center;">My Listing</div>
         <div style="width:28px"></div>
       </div>
@@ -5150,7 +5193,7 @@ body {
   <div class="screen" id="s-thread">
     <div class="thread-wrap">
       <div class="thread-header">
-        <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+        <div class="back" onclick="goTo('s-role')"><i class="ph ph-arrow-left"></i></div>
         <div style="flex:1;min-width:0;">
           <div class="thread-house-name" id="thread-house-name">Boarding House</div>
           <div class="thread-house-sub" id="thread-house-sub">Inquiry thread</div>
@@ -5174,7 +5217,7 @@ body {
   <div class="screen" id="s-map">
 
     <div class="map-topbar">
-      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('s-home')"><i class="ph ph-arrow-left"></i></div>
       <div class="map-topbar-title">Burauen Map</div>
       <div class="map-school-pills">
         <button class="map-spill on" id="msp-evsu" onclick="mapHighlight('evsu',this)">EVSU</button>
@@ -5294,7 +5337,7 @@ body {
           </div>
           <button class="btn btn-primary" style="background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3)" onclick="regStep1()">Susunod <i class="ph ph-arrow-right"></i></button>
           <div style="text-align:center;margin-top:14px">
-            <span style="font-size:12px;color:var(--muted)">May account na? </span>
+            <span style="font-size:12px;color:var(--muted)">There are account na? </span>
             <span style="font-size:12px;color:var(--blue);font-weight:700;cursor:pointer" onclick="setRole('tenant')">Mag-login</span>
           </div>
         </div>
@@ -5335,11 +5378,11 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="l-tenants">
     <div class="topbar">
-      <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('s-role')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Tenants</div>
       <button class="btn btn-teal btn-sm" style="margin-left:auto" onclick="openAddTenantModal()"><i class="ph ph-plus"></i> Add</button>
     </div>
-    <div class="scroll" style="padding:14px 14px 30px">
+    <div class="scroll" style="padding:14px 14px 90px">
       <div style="background:var(--blueLt);border-radius:var(--r-lg);padding:15px 16px;margin-bottom:16px;border:1px solid rgba(21,88,204,.1)">
         <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--navy);margin-bottom:11px">How to onboard a tenant?</div>
         <div class="qr-step"><div class="qr-step-num">1</div><div>Tap <strong>+ Add</strong> — enter the tenant's name, phone, and room</div></div>
@@ -5373,7 +5416,7 @@ body {
       <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Boarding House QR Code</div>
     </div>
-    <div class="scroll" style="padding:14px 14px 30px">
+    <div class="scroll" style="padding:14px 14px 90px">
       <div class="qr-wrap">
         <div class="qr-house" id="qr-house-name">Dela Cruz Boarding House</div>
         <div class="qr-title">Scan to Register</div>
@@ -5525,37 +5568,61 @@ body {
 // ════════════════════════════════════════
 // STATE
 // ════════════════════════════════════════
-const state = {
-  role: null,
-  currentHouseId: 1,
-  currentRoom: null,
-  selectedSlot: null,
-  currentInqId: null,
-  filter: 'all',
-  school: 'evsu',
-  sort: 'distance',
-  moveOutRequests: [],
-  saved: [],
-  paymentLog: [],
-  paymentTransactions: [],  // {id, tenantName, room, houseId, amount, ref, note, screenshot, status, submittedAt, resolvedAt, resolvedBy, rejectReason}
-  uploadLog: [],             // {id, type, landlord, house, filename, size, ts}
+// ── Demo photo placeholders (SVG data URIs)
+const DEMO_PHOTOS = {
+  bed:      'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop&q=80',
+  cr:       'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&h=300&fit=crop&q=80',
+  window:   'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=400&h=300&fit=crop&q=80',
+  closet:   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&q=80',
+  desk:     'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=400&h=300&fit=crop&q=80',
+  fan:      'https://images.unsplash.com/photo-1565688534245-05d6b5be184a?w=400&h=300&fit=crop&q=80',
+  kitchen:  'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop&q=80',
+  laundry:  'https://images.unsplash.com/photo-1567113463300-102a7eb3cb26?w=400&h=300&fit=crop&q=80',
+  entrance: 'https://images.unsplash.com/photo-1558618047-3d4f302c0d32?w=400&h=300&fit=crop&q=80',
+  garden:   'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=300&fit=crop&q=80',
+  wifi:     'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=400&h=300&fit=crop&q=80',
+  house1:   'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=400&h=220&fit=crop&q=80',
+  house2:   'https://images.unsplash.com/photo-1598228723793-52759bba239c?w=400&h=220&fit=crop&q=80',
+  house3:   'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=220&fit=crop&q=80',
+  house4:   'https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=400&h=220&fit=crop&q=80',
+  house5:   'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=220&fit=crop&q=80',
+  avatar1:  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&q=80',
+  avatar2:  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&q=80',
+  avatar3:  'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=80&h=80&fit=crop&q=80',
+  avatar4:  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&q=80',
+  avatar5:  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&q=80',
+  avatar6:  'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&q=80',
+  avatar7:  'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&q=80',
+  avatar8:  'https://images.unsplash.com/photo-1463453091185-61582044d556?w=80&h=80&fit=crop&q=80',
+  landlord: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=80&h=80&fit=crop&q=80',
+  gcash:    'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300&h=400&fit=crop&q=80',
+};
 
+const state = {
+  role: null, currentHouseId: null, currentRoom: null, selectedSlot: null,
+  currentInqId: null, filter: 'all', school: 'evsu', sort: 'distance',
+  moveOutRequests: [], savedHouses: [], paymentLog: [], paymentTransactions: [],
+  uploadLog: [], inquiries: [], announcements: [], maintenanceRequests: [],
+  expenses: [], visits: [], visitSlots: [], myInquiries: [], myMaintenanceRequests: [],
+  pendingTenants: [], referrals: [], adminActivityLog: [], platformAnnouncements: [],
+  maintenanceMode: false, nextId: 700,
+  tenantProfile: null, regTempName: '', regTempPhone: '', currentInviteCode: null,
   houses: [
     {
       id: 1, name: 'TIAH Boarding House',
-      latlng: [10.8763, 124.9388],
+      latlng: [10.9707, 124.8884],
       gradient: 'linear-gradient(135deg,#1462A8,#0D8A78)',
-      address: 'Poblacion VII, Burauen, Leyte', distanceEVSU: 8, distanceBCC: 5,
-      price: 1500, curfew: '10:00 PM', verified: 'May 2025', lastActive: '2h ago',
+      address: 'Poblacion VII, Burauen, Leyte', distanceEVSU: 3, distanceBCC: 4,
+      price: 1500, curfew: '10:00 PM', verified: 'There are 2025', lastActive: '2h ago',
       about: 'Safe, quiet boarding house for students. 5-min walk to BCC, 8-min to EVSU. Newly repainted rooms, clean common area, and reliable WiFi. Near carenderia row and the public market.',
       amenities: ['WiFi included','Study room','Laundry area'],
       snapshots: [
-        {emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},
-        {emoji:'<i class="ph ph-shower"></i>',label:'Bathroom'},
-        {emoji:'<i class="ph ph-wifi"></i>',label:'WiFi Router'},
-        {emoji:'<i class="ph ph-lightbulb"></i>',label:'Study Area'},
-        {emoji:'<i class="ph ph-t-shirt"></i>',label:'Laundry'},
-        {emoji:'<i class="ph ph-door"></i>',label:'Entrance'},
+        {img:DEMO_PHOTOS.bed,label:'Bedroom'},
+        {img:DEMO_PHOTOS.cr,label:'Bathroom'},
+        {img:DEMO_PHOTOS.wifi,label:'WiFi'},
+        {img:DEMO_PHOTOS.desk,label:'Study Area'},
+        {img:DEMO_PHOTOS.laundry,label:'Laundry'},
+        {img:DEMO_PHOTOS.entrance,label:'Entrance'},
       ],
       customRules: [
         {emoji:'<i class="ph ph-prohibit"></i>',text:'No smoking anywhere in the premises'},
@@ -5563,157 +5630,70 @@ const state = {
         {emoji:'<i class="ph ph-trash"></i>',text:'Dispose trash every morning before 7AM'},
       ],
       rules: {wifi:true,cooking:false,visitors:'Until 8PM',pets:false,laundry:true,advance:'1 month'},
-      rooms: [
-        {id:1,name:'R1',status:'paid',tenant:'Ana Reyes',amount:1500},
-        {id:2,name:'R2',status:'paid',tenant:'Juan Cruz',amount:1500},
-        {id:3,name:'R3',status:'pending',tenant:'Lisa Tan',amount:1500},
-        {id:4,name:'R4',status:'paid',tenant:'Mark Uy',amount:1500},
-        {id:5,name:'R5',status:'empty',tenant:null,amount:1500},
-        {id:6,name:'R6',status:'empty',tenant:null,amount:1500},
-      ],
-      waitlist: ['Carlos M.','Jenny P.'],
+      rooms: [],
+      waitlist: [],
       available() { return this.rooms.filter(r=>r.status==='empty').length; }
     },
     {
       id: 2, name: 'LFH Boarding House',
-      latlng: [10.8768, 124.9352],
+      latlng: [10.9707, 124.8865],
       gradient: 'linear-gradient(135deg,#1A6B3C,#1462A8)',
-      address: 'Poblacion III, Burauen, Leyte', distanceEVSU: 12, distanceBCC: 7,
+      address: 'Poblacion III, Burauen, Leyte', distanceEVSU: 2, distanceBCC: 2,
       price: 2000, curfew: 'No curfew', verified: 'April 2025', lastActive: 'Today',
       about: 'Spacious rooms with private CR option. No curfew — perfect for working students. Cooking allowed in the shared kitchen. 7-minute walk to BCC.',
       amenities: ['Private CR','Cooking allowed','No curfew'],
-      snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-shower"></i>',label:'Private CR'},{emoji:'<i class="ph ph-cooking-pot"></i>',label:'Kitchen'},{emoji:'<i class="ph ph-door"></i>',label:'Entrance'}],
+      snapshots: [{img:DEMO_PHOTOS.bed,label:'Bedroom'},{img:DEMO_PHOTOS.cr,label:'Private CR'},{img:DEMO_PHOTOS.kitchen,label:'Kitchen'},{img:DEMO_PHOTOS.entrance,label:'Entrance'}],
       customRules: [{emoji:'<i class="ph ph-broom"></i>',text:'Clean shared kitchen after use'},{emoji:'<i class="ph ph-key"></i>',text:'Always lock your room when out'}],
       rules: {wifi:false,cooking:true,visitors:'Anytime',pets:false,laundry:true,advance:'2 months'},
-      rooms: [
-        {id:1,name:'R1',status:'paid',tenant:'Ben Torres',amount:2000},
-        {id:2,name:'R2',status:'paid',tenant:'Cris Lim',amount:2000},
-        {id:3,name:'R3',status:'empty',tenant:null,amount:2000},
-        {id:4,name:'R4',status:'empty',tenant:null,amount:2000},
-      ],
+      rooms: [],
       waitlist: [],
       available() { return this.rooms.filter(r=>r.status==='empty').length; }
     },
     {
       id: 3, name: 'Caspe Boarding House',
-      latlng: [10.8790, 124.9418],
+      latlng: [10.9705, 124.8880],
       gradient: 'linear-gradient(135deg,#5B21B6,#1462A8)',
-      address: 'Near EVSU, Burauen, Leyte', distanceEVSU: 3, distanceBCC: 14,
-      price: 1200, curfew: '9:00 PM', verified: 'May 2025', lastActive: '3 days ago',
+      address: 'Near EVSU, Burauen, Leyte', distanceEVSU: 1, distanceBCC: 3,
+      price: 1200, curfew: '9:00 PM', verified: 'There are 2025', lastActive: '3 days ago',
       about: 'Budget-friendly option just 3 minutes from the EVSU gate. Clean and well-maintained. Laundry area available. Strict 9PM curfew for a focused study environment.',
       amenities: ['Near EVSU','Laundry area','Budget-friendly'],
-      snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-t-shirt"></i>',label:'Laundry'},{emoji:'',label:'Garden'},{emoji:'<i class="ph ph-door"></i>',label:'Entrance'}],
+      snapshots: [{img:DEMO_PHOTOS.bed,label:'Bedroom'},{img:DEMO_PHOTOS.laundry,label:'Laundry'},{img:DEMO_PHOTOS.garden,label:'Garden'},{img:DEMO_PHOTOS.entrance,label:'Entrance'}],
       customRules: [{emoji:'<i class="ph ph-books"></i>',text:'Study hours: 7PM–9PM (quiet)'},{emoji:'<i class="ph ph-prohibit"></i>',text:'No smoking on the property'}],
       rules: {wifi:false,cooking:false,visitors:'Not allowed',pets:false,laundry:true,advance:'1 month'},
-      rooms: [
-        {id:1,name:'R1',status:'paid',tenant:'Diana M.',amount:1200},
-        {id:2,name:'R2',status:'paid',tenant:'Ed Santos',amount:1200},
-        {id:3,name:'R3',status:'paid',tenant:'Faye R.',amount:1200},
-        {id:4,name:'R4',status:'paid',tenant:'Greg V.',amount:1200},
-      ],
-      waitlist: ['Hannah B.','Ivan C.'],
+      rooms: [],
+      waitlist: [],
       available() { return this.rooms.filter(r=>r.status==='empty').length; }
     },
     {
       id: 4, name: 'Jayñamich Residence',
-      latlng: [10.8740, 124.9408],
+      latlng: [10.9758, 124.8917],
       gradient: 'linear-gradient(135deg,#B45309,#1462A8)',
-      address: 'Jaro-Dagami Rd, Burauen, Leyte', distanceEVSU: 10, distanceBCC: 9,
+      address: 'Jaro-Dagami Rd, Burauen, Leyte', distanceEVSU: 9, distanceBCC: 8,
       price: 1800, curfew: '10:30 PM', verified: 'June 2025', lastActive: '5h ago',
       about: 'Spacious rooms with WiFi. Both cooking and visitors allowed. Centrally located — roughly equal distance from EVSU and BCC. Great for students who want flexibility.',
       amenities: ['WiFi included','Affordable price','Spacious rooms'],
-      snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-wifi"></i>',label:'WiFi'},{emoji:'<i class="ph ph-cooking-pot"></i>',label:'Kitchen'},{emoji:'<i class="ph ph-frame-corners"></i>',label:'Window View'}],
+      snapshots: [{img:DEMO_PHOTOS.bed,label:'Bedroom'},{img:DEMO_PHOTOS.wifi,label:'WiFi'},{img:DEMO_PHOTOS.kitchen,label:'Kitchen'},{img:DEMO_PHOTOS.window,label:'Window View'}],
       customRules: [{emoji:'<i class="ph ph-music-notes"></i>',text:'No loud music after 10PM'},{emoji:'<i class="ph ph-broom"></i>',text:'Maintain cleanliness of common areas'}],
       rules: {wifi:true,cooking:true,visitors:'Until 9PM',pets:false,laundry:true,advance:'1 month'},
-      rooms: [
-        {id:1,name:'R1',status:'paid',tenant:'Hana L.',amount:1800},
-        {id:2,name:'R2',status:'empty',tenant:null,amount:1800},
-        {id:3,name:'R3',status:'empty',tenant:null,amount:1800},
-        {id:4,name:'R4',status:'paid',tenant:'Ivan M.',amount:1800},
-        {id:5,name:'R5',status:'empty',tenant:null,amount:1800},
-      ],
+      rooms: [],
       waitlist: [],
       available() { return this.rooms.filter(r=>r.status==='empty').length; }
     },
     {
       id: 5, name: 'Sabai House',
-      latlng: [10.8710, 124.9362],
+      latlng: [10.9763, 124.8909],
       gradient: 'linear-gradient(135deg,#0B7A6A,#112847)',
-      address: 'Jaro-Dagami Rd South, Burauen, Leyte', distanceEVSU: 14, distanceBCC: 11,
+      address: 'Jaro-Dagami Rd South, Burauen, Leyte', distanceEVSU: 10, distanceBCC: 9,
       price: 1300, curfew: '9:30 PM', verified: 'June 2025', lastActive: '1 week ago',
       about: 'Peaceful boarding house in a quiet residential area. Walking distance to the public market. Ideal for students who prefer a calm environment away from the busy town center.',
       amenities: ['Quiet area','Laundry area','Near market'],
-      snapshots: [{emoji:'<i class="ph ph-bed"></i>',label:'Bedroom'},{emoji:'<i class="ph ph-t-shirt"></i>',label:'Laundry'},{emoji:'',label:'Garden'},{emoji:'<i class="ph ph-shower"></i>',label:'Bathroom'}],
+      snapshots: [{img:DEMO_PHOTOS.bed,label:'Bedroom'},{img:DEMO_PHOTOS.laundry,label:'Laundry'},{img:DEMO_PHOTOS.garden,label:'Garden'},{img:DEMO_PHOTOS.cr,label:'Bathroom'}],
       customRules: [{emoji:'<i class="ph ph-speaker-slash"></i>',text:'Quiet hours strictly observed after 9:30PM'},{emoji:'<i class="ph ph-shower"></i>',text:'30-minute bathroom limit during peak hours'}],
       rules: {wifi:false,cooking:false,visitors:'Until 7PM',pets:false,laundry:true,advance:'1 month'},
-      rooms: [
-        {id:1,name:'R1',status:'paid',tenant:'Jan P.',amount:1300},
-        {id:2,name:'R2',status:'paid',tenant:'Kim R.',amount:1300},
-        {id:3,name:'R3',status:'paid',tenant:'Lea S.',amount:1300},
-        {id:4,name:'R4',status:'paid',tenant:'Mike T.',amount:1300},
-      ],
-      waitlist: ['Nina U.','Oscar V.'],
+      rooms: [],
+      waitlist: [],
       available() { return this.rooms.filter(r=>r.status==='empty').length; }
     }  ],
-
-  inquiries: [
-    {id:1,houseId:1,name:'Ana Santos',school:'EVSU Burauen Campus',course:'BSED 1st Year',date:'2025-06-01',q:'Do you still have a vacancy for a single room?',status:'pending',time:'2h ago',avatar:'<i class="ph ph-user-circle"></i>'},
-    {id:2,houseId:1,name:'Juan Cruz',school:'BCC',course:'BSIT 2nd Year',date:'2025-07-01',q:'Can I visit this Saturday morning?',status:'pending',time:'5h ago',avatar:'<i class="ph ph-user-circle"></i>'},
-    {id:3,houseId:1,name:'Liza Tan',school:'EVSU Burauen Campus',course:'BSN 3rd Year',date:'2025-06-15',q:'How many share the CR? Is there a hot shower?',status:'replied',time:'1d ago',avatar:'<i class="ph ph-user-circle"></i>'},
-  ],
-
-  announcements: [
-    {id:1,cat:'reminder',title:'Rent Due This Friday',body:'Reminder: Rent for July is due this Friday, July 5. Please pay via GCash 0917xxxxxx. Late fee of ₱50/day applies after the 3-day grace period.',ts:Date.now()-7200000,isNew:true,pinned:false},
-    {id:2,cat:'info',title:'Water Interruption Tomorrow',body:'LEYTE WATER DISTRICT: Water supply will be interrupted tomorrow July 3, 8AM–2PM. Please store water in advance. Sorry for the inconvenience.',ts:Date.now()-86400000,isNew:true,pinned:false},
-    {id:3,cat:'info',title:'WiFi Password Updated',body:'The WiFi password has been changed to: buhayboarding25. The old password has been deactivated. Please update your devices.',ts:Date.now()-259200000,isNew:false,pinned:false},
-    {id:4,cat:'activity',title:'House Cleaning Saturday',body:'Let\'s keep our house clean! Scheduled general cleaning this Saturday 8AM. Please clean your rooms and assigned common areas. Participation required.',ts:Date.now()-432000000,isNew:false,pinned:false},
-  ],
-
-  maintenanceRequests: [
-    {id:1,room:'Room 3',type:'<i class="ph ph-faucet"></i> Plumbing / Faucet',desc:'Leaky faucet in shared bathroom',urgency:'urgent',status:'in_progress',tenantName:'Lisa Tan',time:'2 days ago'},
-    {id:2,room:'Room 1',type:'<i class="ph ph-wifi"></i> WiFi / Internet',desc:'WiFi signal very weak on the far side of room',urgency:'normal',status:'done',tenantName:'Ana Reyes',time:'1 week ago'},
-  ],
-
-  expenses: [
-    {id:1,cat:'<i class="ph ph-wrench"></i> Repairs',desc:'Fixed CR flush Room 2',amount:350,date:'2025-06-28'},
-    {id:2,cat:'<i class="ph ph-lightbulb"></i> Utilities',desc:'Meralco bill June',amount:2800,date:'2025-06-25'},
-    {id:3,cat:'<i class="ph ph-shopping-cart"></i> Supplies',desc:'Cleaning supplies & lightbulbs',amount:480,date:'2025-06-20'},
-  ],
-
-  visits: [
-    {id:1,name:'Ana Santos',house:'Dela Cruz BH',date:'Jun 28','time':'2:00 PM',status:'confirmed'},
-    {id:2,name:'Ben Torres',house:'Dela Cruz BH',date:'Jun 29','time':'10:00 AM',status:'pending'},
-  ],
-
-  visitSlots: [
-    {id:1,date:'Mon Jun 30',time:'2:00 PM',taken:false},
-    {id:2,date:'Mon Jun 30',time:'4:00 PM',taken:true},
-    {id:3,date:'Tue Jul 1',time:'10:00 AM',taken:false},
-    {id:4,date:'Tue Jul 1',time:'2:00 PM',taken:false},
-    {id:5,date:'Wed Jul 2',time:'3:00 PM',taken:false},
-    {id:6,date:'Thu Jul 3',time:'9:00 AM',taken:false},
-  ],
-
-  savedHouses: [],
-  myInquiries: [
-    { id:101, houseId:1, houseName:'TIAH Boarding House',  status:'replied',    reply:'Hi! We still have R5 and R6 available. Single bed per room, clean and bright. Come visit this week!', q:'Do you still have a vacancy for a single room?',      time:'2h ago'  },
-    { id:102, houseId:3, houseName:'Caspe Boarding House',  status:'pending',    reply:null, q:'Kasama na ba ang kuryente sa ₱1,200?',                                    time:'5h ago'  },
-    { id:103, houseId:2, houseName:'LFH Boarding House',    status:'interested', reply:null, q:'Can I visit this Saturday morning?',                   time:'1d ago'  },
-  ],
-  myMaintenanceRequests: [],
-  nextId: 10,
-
-  // Tenant onboarding
-  pendingTenants: [
-    {id:1,name:'Ana Reyes',phone:'09170000001',room:'R1',houseId:1,code:'481923',status:'active'},
-    {id:2,name:'Juan Cruz',phone:'09170000002',room:'R2',houseId:1,code:'273845',status:'active'},
-    {id:3,name:'Lisa Tan',phone:'09170000003',room:'R3',houseId:1,code:'938471',status:'pending'},
-    {id:4,name:'Mark Uy',phone:'09170000004',room:'R4',houseId:1,code:'627394',status:'active'},
-  ],
-  tenantProfile: null, // set on registration
-  regTempName: '',
-  regTempPhone: '',
-  currentInviteCode: null,
 };
 
 // Save/load key data
@@ -5758,6 +5738,7 @@ function _doSave() {
       adminActivityLog:       state.adminActivityLog || [],
       maintenanceMode:        state.maintenanceMode || false,
       sort:                   state.sort || 'distance',
+      referrals:              state.referrals || [],
     }));
   } catch(e){}
 }
@@ -5839,6 +5820,7 @@ function updateBackBtn() { /* removed - each screen has its own back button */ }
 function refreshScreen(id) {
   switch(id) {
     case 's-home': renderHouses(); break;
+    case 's-waitlist': renderSeekerWaitlist(); break;
     case 's-myinq': renderMyInquiries(); break;
     case 's-thread': {
       const mi = _currentThreadId ? state.myInquiries.find(i => i.id === _currentThreadId) : null;
@@ -5851,6 +5833,7 @@ function refreshScreen(id) {
     case 't-maint': renderTenantMaint(); break;
     case 't-profile': renderTenantProfile(); break;
     case 't-payments': renderPaymentHistory(); break;
+    case 'l-analytics': renderAnalytics(); break;
     case 'l-home': renderLandlordHome(); break;
     case 'l-inbox': renderLandlordInbox(); break;
     case 'l-rooms': renderRooms(); break;
@@ -6386,7 +6369,7 @@ function openHouse(id) {
   // Snapshot
   document.getElementById('d-snap').innerHTML = `
     <div class="snap-itm"><span class="snap-lbl">Monthly Rent</span><span class="snap-val">₱${h.price.toLocaleString()}</span></div>
-    <div class="snap-itm"><span class="snap-lbl">Available Rooms</span><span class="snap-val ${isFull?'r':'g'}">${isFull?'Full – Waitlist':avail+' of '+h.rooms.length}</span></div>
+    <div class="snap-itm"><span class="snap-lbl">Available Rooms</span><span class="snap-val ${isFull?'r':'g'}">${isFull?'Full – Waitlist':avail+' of '+(h.rooms||[]).length}</span></div>
     <div class="snap-itm"><span class="snap-lbl">Curfew</span><span class="snap-val">${h.curfew}</span></div>
     <div class="snap-itm"><span class="snap-lbl">Utilities</span><span class="snap-val">${h.rules.wifi?'WiFi included':'Utilities separate'}</span></div>
     <div class="snap-itm"><span class="snap-lbl">Bathroom</span><span class="snap-val">Shared</span></div>
@@ -6436,15 +6419,19 @@ function openHouse(id) {
       pending: { bg:'#FEF9C3', border:'#FDE047', dot:'#CA8A04', label:'Pending' },
       empty:   { bg:'#F0F9FF', border:'#BAE6FD', dot:'#0EA5E9', label:'Available' },
     };
-    roomsEl.innerHTML = h.rooms.map(r => {
+    roomsEl.innerHTML = (h.rooms||[]).map(r => {
       const c = roomColors[r.status] || roomColors.empty;
-      return `<div style="background:${c.bg};border:1.5px solid ${c.border};border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;">
+      const hasPhotos = r.photos && r.photos.length > 0;
+      return `<div style="background:${c.bg};border:1.5px solid ${c.border};border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;position:relative;cursor:${hasPhotos?'pointer':'default'};"
+        ${hasPhotos ? `onclick="openRoomPhotoViewer(${JSON.stringify(r.photos).replace(/"/g,'&quot;')}, '${r.name}')"` : ''}>
+        ${hasPhotos ? `<div style="position:absolute;top:6px;right:6px;background:rgba(0,0,0,.45);color:#fff;border-radius:6px;padding:2px 6px;font-size:10px;font-weight:700;display:flex;align-items:center;gap:3px;"><i class="ph ph-images"></i>${r.photos.length}</div>` : ''}
         <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:#1e293b;">${r.name}</div>
         <div style="display:flex;align-items:center;gap:5px;">
           <div style="width:7px;height:7px;border-radius:50%;background:${c.dot};flex-shrink:0;"></div>
           <div style="font-size:11px;color:#64748b;font-weight:600;">${r.status==='empty'?'Available':r.tenant||c.label}</div>
         </div>
         <div style="font-size:12px;font-weight:700;color:#0f172a;">₱${r.amount.toLocaleString()}</div>
+        ${hasPhotos ? `<div style="font-size:10px;color:${c.dot};font-weight:700;margin-top:2px;">📷 Tap to see photos</div>` : ''}
       </div>`;
     }).join('');
   }
@@ -6453,7 +6440,7 @@ function openHouse(id) {
   const tenantSnap = document.getElementById('d-tenants-snap');
   const tenantList = document.getElementById('d-tenants-list');
   if(tenantSnap && tenantList) {
-    const occupiedRooms = h.rooms.filter(r=>r.status==='paid'||r.status==='pending');
+    const occupiedRooms = (h.rooms||[]).filter(r=>r.status==='paid'||r.status==='pending');
     if(occupiedRooms.length > 0) {
       tenantSnap.style.display = '';
       tenantList.innerHTML = occupiedRooms.map(r=>`
@@ -6635,7 +6622,8 @@ function submitInquiry() {
     q: q||'(No specific question)',
     status:'pending', time:'Just now',
     photo: (profiles.seeker.showPhoto && profiles.seeker.photo) ? profiles.seeker.photo : null,
-    avatar: '<i class="ph ph-user-circle"></i>'
+    avatar: '<i class="ph ph-user-circle"></i>',
+      photo: avatarPhotos[qi % avatarPhotos.length]
   };
   state.inquiries.unshift(inq);
   state.myInquiries.unshift({id:inq.id, houseId:inq.houseId, houseName:h.name, status:'pending', q:inq.q, time:'Just now'});
@@ -6743,6 +6731,15 @@ function confirmVisit() {
 // ════════════════════════════════════════
 // SEEKER — WAITLIST
 // ════════════════════════════════════════
+function renderSeekerWaitlist() {
+  const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
+  if (!h) return;
+  const nameEl = document.getElementById('wl-house-name');
+  const posEl  = document.getElementById('wl-pos');
+  if (nameEl) nameEl.textContent = h.name;
+  if (posEl)  posEl.textContent  = (h.waitlist || []).length;
+}
+
 function openWaitlist(id) {
   const h = state.houses.find(x=>x.id===id);
   document.getElementById('wl-house-name').textContent = h.name;
@@ -6789,6 +6786,7 @@ function renderMyInquiries() {
     visit_scheduled:{color:'var(--teal)', dot:'var(--teal)', label:'Visit Scheduled'},
     offered:        {color:'var(--green)', dot:'var(--green)', label:'Room Offered'},
     accepted:       {color:'var(--green)', dot:'var(--green)', label:'Offer Accepted ✓'},
+    referred:       {color:'var(--blue)',  dot:'var(--blue)',  label:'Referred to Another'},
     declined:       {color:'var(--muted)', dot:'var(--muted)',label:'Declined'},
   };
   el.innerHTML = state.myInquiries.map(mi=>{
@@ -6954,7 +6952,7 @@ function sendThreadMessage() {
   // Simulate landlord auto-reply after 2.5s (demo only)
   setTimeout(() => {
     const autoReplies = [
-      'Salamat sa iyong mensahe! Susubukan kong sagutin agad.',
+      'Salamat of iyong mensahe! Susubukan kong sagutin agad.',
       'Noted! Can you visit this week to see the room?',
       'Yes, the room is still available. Let\'s discuss the details.',
       'Got it! I\'ll let you know once I have an update.',
@@ -7099,12 +7097,14 @@ function submitPaymentReport() {
   state.paymentTransactions.push(tx);
 
   // Mark tenant profile
-  state.tenantProfile.paymentStatus = 'self_reported';
-  state.tenantProfile.pendingTxId   = tx.id;
+  if (state.tenantProfile) {
+    state.tenantProfile.paymentStatus = 'self_reported';
+    state.tenantProfile.pendingTxId   = tx.id;
+  }
 
   // Mark room
   const h = state.houses.find(x => x.id === tp.houseId);
-  if (h) { const r = h.rooms.find(x => x.name === tp.room); if (r && r.status==='pending') r.status='self_reported'; }
+  if (h) { const r = (h.rooms||[]).find(x => x.name === tp.room); if (r && r.status==='pending') r.status='self_reported'; }
 
   // Update paymentLog
   const log = state.paymentLog || [];
@@ -7179,7 +7179,7 @@ function confirmLandlordPayment() {
   }
   // Update room status
   const h = state.houses.find(x=>x.id===tx.houseId);
-  if (h) { const r=h.rooms.find(x=>x.name===tx.room); if(r) r.status='paid'; }
+  if (h) { const r=(h.rooms||[]).find(x=>x.name===tx.room); if(r) r.status='paid'; }
   // Update paymentLog
   const log = state.paymentLog||[];
   const sr  = log.find(p=>p.status==='self_reported');
@@ -7208,7 +7208,7 @@ function rejectLandlordPayment() {
     state.tenantProfile.pendingTxId   = null;
   }
   const h = state.houses.find(x=>x.id===tx.houseId);
-  if (h) { const r=h.rooms.find(x=>x.name===tx.room); if(r&&r.status==='self_reported') r.status='pending'; }
+  if (h) { const r=(h.rooms||[]).find(x=>x.name===tx.room); if(r&&r.status==='self_reported') r.status='pending'; }
 
   adminLog(`Payment rejected: ${tx.tenantName} ₱${tx.amount.toLocaleString()} — ${reason}`);
   save();
@@ -7279,6 +7279,7 @@ function submitMaintRequest() {
   const _tr = (_tp?.room) || 'Room 1';
   const req = {id:state.nextId++,room:_tr,type,desc,urgency,status:'pending',tenantName:_tn,time:'Just now'};
   state.maintenanceRequests.unshift(req);
+  if (!state.myMaintenanceRequests) state.myMaintenanceRequests = [];
   state.myMaintenanceRequests.unshift({...req});
   save();
   closeMaintModal();
@@ -7299,15 +7300,15 @@ function renderLandlordHome() {
     const displayName = profiles.landlord.name || _lh?.name?.split(' ')[0] || 'Landlord';
     lName.textContent = displayName;
   }
-  const paid = h.rooms.filter(r=>r.status==='paid').length;
-  const pending = h.rooms.filter(r=>r.status==='pending').length;
-  const empty = h.rooms.filter(r=>r.status==='empty').length;
-  const total = h.rooms.reduce((s,r)=>s+(r.status!=='empty'?r.amount:0),0);
+  const paid    = (h.rooms || []).filter(r=>r.status==='paid').length;
+  const pending = (h.rooms || []).filter(r=>r.status==='pending').length;
+  const empty   = (h.rooms || []).filter(r=>r.status==='empty').length;
+  const total   = (h.rooms || []).reduce((s,r)=>s+(r.status!=='empty'?r.amount:0),0);
   const pendAmt = pending * h.price;
 
   document.getElementById('l-total-amt').innerHTML = `₱<span>${total.toLocaleString()}</span>`;
   document.getElementById('l-pending-amt').textContent = '₱'+pendAmt.toLocaleString();
-  document.getElementById('l-rooms-paid').textContent = paid+'/'+h.rooms.length;
+  document.getElementById('l-rooms-paid').textContent = paid+'/'+(h.rooms||[]).length;
   document.getElementById('l-vacant-count').textContent = empty;
 
   // Inbox badge
@@ -7327,7 +7328,7 @@ function renderLandlordHome() {
   }
 
   // Room grid
-  document.getElementById('l-room-grid').innerHTML = h.rooms.map(r => {
+  document.getElementById('l-room-grid').innerHTML = (h.rooms||[]).map(r => {
     const isSelfReported = r.status === 'self_reported';
     const statusLabel = r.status === 'paid' ? 'Paid' : r.status === 'pending' ? 'Pending' : isSelfReported ? 'Confirm?' : 'Empty';
     const statusClass = r.status === 'paid' ? 'paid' : r.status === 'pending' ? 'pend' : isSelfReported ? 'pend' : 'empty';
@@ -7386,7 +7387,7 @@ function saveNewRoom() {
   if (!rent || rent < 1) { showToast('<i class="ph ph-warning"></i> Enter a valid rent amount'); return; }
   const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   // Auto-increment room ID
-  const maxId = h.rooms.reduce((m, r) => Math.max(m, r.id), 0);
+  const maxId = (h.rooms||[]).reduce((m, r) => Math.max(m, r.id), 0);
   h.rooms.push({ id: maxId + 1, name, status, tenant: null, amount: rent });
   save();
   closeAddRoomModal();
@@ -7397,7 +7398,7 @@ function saveNewRoom() {
 
 function openRoomModal(roomId) {
   const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
-  const r = h.rooms.find(x=>x.id===roomId);
+  const r = (h.rooms||[]).find(x=>x.id===roomId);
   if(!r) return;
   state.currentRoom = roomId;
   document.getElementById('room-modal-title').textContent = 'Edit '+r.name;
@@ -7405,18 +7406,25 @@ function openRoomModal(roomId) {
   document.getElementById('room-status-sel').value = r.status;
   document.getElementById('room-tenant-name').value = r.tenant||'';
   document.getElementById('room-rent-amt').value = r.amount||'';
+  renderRoomPhotoGrid(r.photos || []);
   document.getElementById('modal-room').classList.remove('hidden');
 }
 
 function saveRoom() {
   const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
-  const r = h.rooms.find(x=>x.id===state.currentRoom);
+  const r = (h.rooms||[]).find(x=>x.id===state.currentRoom);
   if(!r) return;
   r.status = document.getElementById('room-status-sel').value;
   r.tenant = document.getElementById('room-tenant-name').value.trim()||null;
   const newAmt = parseInt(document.getElementById('room-rent-amt').value);
   if (newAmt && newAmt > 0) r.amount = newAmt;
   if(r.status==='empty') r.tenant=null;
+  // Save photos from grid
+  const grid = document.getElementById('room-photo-grid');
+  if (grid) {
+    const imgs = grid.querySelectorAll('img[data-src]');
+    r.photos = Array.from(imgs).map(img => img.getAttribute('data-src'));
+  }
   save();
   closeRoomModal();
   renderRooms();
@@ -7424,9 +7432,58 @@ function saveRoom() {
   showToast('Room updated');
 }
 
+function renderRoomPhotoGrid(photos) {
+  const grid = document.getElementById('room-photo-grid');
+  if (!grid) return;
+  const slots = 4;
+  let html = '';
+  for (let i = 0; i < slots; i++) {
+    const src = photos[i] || null;
+    html += src
+      ? `<div style="position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;border:1.5px solid var(--border);">
+           <img data-src="${src}" src="${src}" style="width:100%;height:100%;object-fit:cover;">
+           <button onclick="removeRoomPhoto(${i})" style="position:absolute;top:3px;right:3px;background:rgba(0,0,0,.6);color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;">✕</button>
+         </div>`
+      : `<div onclick="document.getElementById('room-photo-inp').dataset.slot='${i}';document.getElementById('room-photo-inp').click()"
+           style="aspect-ratio:1;border-radius:10px;border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;background:var(--warm2);">
+           <i class="ph ph-camera" style="font-size:20px;color:var(--muted2);"></i>
+           <span style="font-size:10px;color:var(--muted2);">Add</span>
+         </div>`;
+  }
+  grid.innerHTML = html;
+}
+
+function addRoomPhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const grid = document.getElementById('room-photo-grid');
+    if (!grid) return;
+    // Get current photos from existing img tags
+    const imgs = grid.querySelectorAll('img[data-src]');
+    const photos = Array.from(imgs).map(img => img.getAttribute('data-src'));
+    // Find first empty slot
+    const slotIdx = photos.length < 4 ? photos.length : 3;
+    photos[slotIdx] = e.target.result;
+    renderRoomPhotoGrid(photos.slice(0, 4));
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+function removeRoomPhoto(idx) {
+  const grid = document.getElementById('room-photo-grid');
+  if (!grid) return;
+  const imgs = grid.querySelectorAll('img[data-src]');
+  const photos = Array.from(imgs).map(img => img.getAttribute('data-src'));
+  photos.splice(idx, 1);
+  renderRoomPhotoGrid(photos);
+}
+
 function confirmLandlordPayment(roomId) {
   const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
-  const r = h.rooms.find(x => x.id === roomId);
+  const r = (h.rooms||[]).find(x => x.id === roomId);
   if (!r) return;
   r.status = 'paid';
   // Sync tenantProfile if the room matches — don't gate on pendingTenants status
@@ -7681,7 +7738,7 @@ function sendInqReply() {
 function renderRooms() {
   const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
   const sMap = {paid:{bg:C.greenBg,tc:C.green,label:'Paid <i class="ph ph-check-circle"></i>'},pending:{bg:C.amberBg,tc:C.amber,label:'Pending '},empty:{bg:'var(--border)',tc:'var(--muted)',label:'Vacant'}};
-  document.getElementById('l-rooms-list').innerHTML = h.rooms.map(r=>{
+  document.getElementById('l-rooms-list').innerHTML = (h.rooms||[]).map(r=>{
     const s = sMap[r.status]||sMap.empty;
     return `<div class="card card-p" style="margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">
       <div>
@@ -7893,7 +7950,7 @@ function renderReminders() {
       summaryEl.style.display = '';
     }
   }
-  const pending = h.rooms.filter(r=>r.status==='pending');
+  const pending = (h.rooms||[]).filter(r=>r.status==='pending');
   const el = document.getElementById('l-reminder-list');
   if(!pending.length) {
     el.innerHTML = '<div class="callout cl-green"><span class="callout-ic"><i class="ph ph-check-circle"></i></span><div class="callout-txt"><strong>All tenants have paid!</strong> No reminders needed this month.</div></div>';
@@ -7914,7 +7971,7 @@ function sendSingleReminder(roomId) {
 }
 function sendAllReminders() {
   const h = state.houses.find(x => x.id === state.currentHouseId) || state.houses[0];
-  const count = h.rooms.filter(r=>r.status==='pending').length;
+  const count = (h.rooms||[]).filter(r=>r.status==='pending').length;
   if(!count) { showToast('No pending payments!'); return; }
   showToast(`Reminder sent to ${count} tenant${count>1?'s':''} <i class="ph ph-bell"></i>`);
 }
@@ -8137,7 +8194,7 @@ function regStep2() {
   if(code.length < 6) { showToast('<i class="ph ph-warning"></i> I-complete ang 6-digit code'); return; }
   // Find matching tenant
   const match = state.pendingTenants.find(t => t.code === code);
-  if(!match) { showToast('<i class="ph ph-x-circle"></i> Mali ang invite code. Subukan ulit.'); return; }
+  if(!match) { showToast('<i class="ph ph-x-circle"></i> Wrong invite code. Please try again.'); return; }
   const house = state.houses.find(h => h.id === match.houseId);
   const room = house?.rooms.find(r => r.name === match.room);
   document.getElementById('reg-confirm-name').textContent = match.name;
@@ -8148,8 +8205,9 @@ function regStep2() {
 
 function completeRegistration() {
   const match = state.pendingTenants.find(t => t.code === state.currentInviteCode);
-  if(!match) { showToast('<i class="ph ph-x-circle"></i> May problema. Subukan ulit.'); return; }
+  if(!match) { showToast('<i class="ph ph-x-circle"></i> Something went wrong. Please try again.'); return; }
   match.status = 'active';
+  match.moveInDate = new Date().toISOString().split('T')[0];
   const house = state.houses.find(h => h.id === match.houseId);
   const room = house?.rooms.find(r => r.name === match.room);
   state.tenantProfile = {
@@ -8164,7 +8222,7 @@ function completeRegistration() {
     paymentStatus: room?.status || 'pending',
   };
   save();
-  showToast(' Maligayang pagdating, ' + match.name + '!');
+  showToast(' Welcome, ' + match.name + '!');
   setRole('tenant');
 }
 
@@ -8382,7 +8440,7 @@ function confirmMoveOut(requestId) {
   // Vacate the room
   const h = state.houses.find(x => x.id === req.houseId);
   if (h) {
-    const r = h.rooms.find(rm => rm.name === req.room);
+    const r = (h.rooms||[]).find(rm => rm.name === req.room);
     if (r) { r.status = 'empty'; r.tenant = null; }
   }
   // Remove from pendingTenants
@@ -8620,14 +8678,7 @@ function saveProfiles(){ try{ localStorage.setItem('bb_profiles', JSON.stringify
 // ════════════════════════════════════════
 // ROLE ENTRY ROUTING
 // ════════════════════════════════════════
-function goToSeekerEntry() {
-  state.role = 'seeker';
-  goTo('s-home'); // always go straight to browse — profile is optional
-}
-function goToLandlordEntry() {
-  state.role = 'landlord';
-  goTo('l-home'); // always go to dashboard — profile prompt is a banner, not a gate
-}
+// goToSeekerEntry and goToLandlordEntry defined below
 
 // ════════════════════════════════════════
 // SEEKER SETUP — 3-STEP FLOW
@@ -8999,7 +9050,7 @@ function landlordOnboardNext() {
       distanceEVSU: nl.school==='evsu' ? (nl.distance||8) : (nl.distance||15),
       distanceBCC:  nl.school==='bcc'  ? (nl.distance||5) : (nl.distance||12),
       gradient:    gradients[newHouseId % gradients.length],
-      latlng:      [10.8755, 124.9390], // default Burauen center
+      latlng:      [10.9748, 124.8927], // verified Burauen center
       verified:    null,
       selfVerified: false,
       adminStatus: 'pending',
@@ -9229,6 +9280,7 @@ function loadSafe() {
     if (d.adminActivityLog !== undefined) state.adminActivityLog = d.adminActivityLog;
     if (d.maintenanceMode !== undefined) state.maintenanceMode = d.maintenanceMode;
     if (d.sort)                state.sort                = d.sort;
+    if (d.referrals)           state.referrals           = d.referrals;
     // Restore adminStatus and adminVerified on houses from saved data
     if (d.houses) {
       d.houses.forEach(dh => {
@@ -9247,6 +9299,12 @@ function loadSafe() {
   }
 }
 loadSafe();
+
+// On first load (no saved state), generate fresh demo data
+if (!localStorage.getItem('bb_state')) {
+  generateDemoData();
+  save();
+}
 
 // ════════════════════════════════════════
 // INIT — runs after profiles + loadSafe
@@ -9357,7 +9415,7 @@ function renderBhlListing() {
   updateBhlPreview();
 
   // Availability strip
-  const avail = h.rooms.filter(r=>r.status==='empty').length;
+  const avail = (h.rooms||[]).filter(r=>r.status==='empty').length;
   const availEl = document.getElementById('bhl-strip-avail');
   if(availEl) {
     availEl.textContent = avail > 0 ? `${avail} slot${avail>1?'s':''} open` : 'Full · Waitlist';
@@ -9613,15 +9671,12 @@ function saveBhlListing() {
   saveBhlToggle();
 
   // Rebuild BH pin label in map if already loaded
-  if(bbMap && bbMarkers[1]) {
-    const icon = L.divIcon({
-      className: '',
-      iconSize:   [1,1],
-      iconAnchor: [50,54],
-      html: buildPinHTML(h),
-    });
-    bbMarkers[1].setIcon(icon);
-  }
+  try {
+    if (bbMap && typeof L !== 'undefined' && bbMarkers[h.id]) {
+      const icon = L.divIcon({ className: '', iconSize: [1,1], iconAnchor: [50,54], html: buildPinHTML(h) });
+      bbMarkers[h.id].setIcon(icon);
+    }
+  } catch(e) { /* map not loaded yet — safe to ignore */ }
 
   save();
   showToast('Listing updated ');
@@ -9696,6 +9751,7 @@ function ensureAdminFields() {
 
 function adminLog(msg) {
   if (!state.adminActivityLog) state.adminActivityLog = [];
+  if (!state.adminActivityLog) state.adminActivityLog = [];
   state.adminActivityLog.unshift({ msg, ts: Date.now() });
   if (state.adminActivityLog.length > 20) state.adminActivityLog.pop();
 }
@@ -9756,13 +9812,13 @@ function renderAdminHome() {
   ensureAdminFields();
   const totalHouses   = state.houses.length;
   const activeHouses  = state.houses.filter(h => h.adminStatus !== 'suspended').length;
-  const totalRooms    = state.houses.reduce((s,h) => s+h.rooms.length, 0);
-  const occupiedRooms = state.houses.reduce((s,h) => s+h.rooms.filter(r=>r.status!=='empty').length, 0);
+  const totalRooms    = state.houses.reduce((s,h) => s+(h.rooms||[]).length, 0);
+  const occupiedRooms = state.houses.reduce((s,h) => s+(h.rooms||[]).filter(r=>r.status!=='empty').length, 0);
   const totalInq      = state.inquiries.length;
   const pendingInq    = state.inquiries.filter(i=>i.status==='pending').length;
   const totalTenants  = state.pendingTenants.filter(t=>t.status==='active').length;
   const pendingVerif  = state.houses.filter(h=>h.adminStatus==='pending').length;
-  const revenue       = state.houses.reduce((s,h) => s+h.rooms.filter(r=>r.status!=='empty').reduce((rs,r)=>rs+r.amount,0), 0);
+  const revenue       = state.houses.reduce((s,h) => s+(h.rooms||[]).filter(r=>r.status!=='empty').reduce((rs,r)=>rs+r.amount,0), 0);
 
   const grid = document.getElementById('a-stats-grid');
   if (grid) grid.innerHTML = `
@@ -9820,7 +9876,7 @@ function renderAdminListings() {
   if (badge) badge.textContent = state.houses.filter(h=>h.adminStatus==='pending').length || state.houses.length;
   if (!houses.length) { list.innerHTML='<div style="text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;">No listings match this filter.</div>'; return; }
   list.innerHTML = houses.map(h => {
-    const occ = h.rooms.filter(r=>r.status!=='empty').length;
+    const occ = (h.rooms||[]).filter(r=>r.status!=='empty').length;
     const inqCount = state.inquiries.filter(i=>i.houseId===h.id).length;
     const statusPill = h.adminStatus==='suspended'
       ? '<span class="a-pill a-pill-suspended">Suspended</span>'
@@ -9836,7 +9892,7 @@ function renderAdminListings() {
     return `<div class="a-row">
       <div class="a-row-top"><div><div class="a-row-name">${h.name}</div><div class="a-row-sub">${h.address}</div></div>${statusPill}</div>
       <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
-        <span style="font-size:11px;color:var(--muted);"><i class="ph ph-house"></i> ${occ}/${h.rooms.length} rooms</span>
+        <span style="font-size:11px;color:var(--muted);"><i class="ph ph-house"></i> ${occ}/${(h.rooms||[]).length} rooms</span>
         <span style="font-size:11px;color:var(--muted);"><i class="ph ph-chat-circle"></i> ${inqCount} inquiries</span>
         <span style="font-size:11px;color:var(--muted);"><i class="ph ph-money"></i> ₱${h.price.toLocaleString()}/mo</span>
         <span style="font-size:11px;color:var(--muted);"><i class="ph ph-clock"></i> ${h.lastActive||'—'}</span>
@@ -9887,11 +9943,11 @@ function renderAdminRegistry() {
   if (_adminRegFilter==='landlords') {
     list.innerHTML = state.houses.map(h => {
       const lp = h.id===1 ? profiles.landlord : {};
-      const occ = h.rooms.filter(r=>r.status!=='empty').length;
+      const occ = (h.rooms||[]).filter(r=>r.status!=='empty').length;
       return `<div class="a-row">
         <div class="a-row-top"><div><div class="a-row-name">${lp.name||h.name.split(' ')[0]}</div><div class="a-row-sub">${h.name} · ${lp.phone||'—'}</div></div>
         <span class="a-pill ${h.adminStatus==='suspended'?'a-pill-suspended':'a-pill-active'}">${h.adminStatus==='suspended'?'Suspended':'Active'}</span></div>
-        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">GCash: ${lp.gcash||'—'} · ${occ}/${h.rooms.length} rooms occupied</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">GCash: ${lp.gcash||'—'} · ${occ}/${(h.rooms||[]).length} rooms occupied</div>
         <div class="a-row-actions">
           <button class="a-btn a-btn-flag"    onclick="adminFlagUser('landlord',${h.id})"><i class="ph ph-flag"></i> Flag</button>
           <button class="a-btn a-btn-suspend" onclick="adminListingAction(${h.id},'suspend')"><i class="ph ph-prohibit"></i> Suspend</button>
@@ -10030,11 +10086,11 @@ function renderAdminFinancials() {
 }
 
 function renderAdminFinOverview(body) {
-  const totalRev  = state.houses.reduce((s,h)=>s+h.rooms.filter(r=>r.status!=='empty').reduce((rs,r)=>rs+r.amount,0),0);
+  const totalRev  = state.houses.reduce((s,h)=>s+(h.rooms||[]).filter(r=>r.status!=='empty').reduce((rs,r)=>rs+r.amount,0),0);
   const totalExp  = state.expenses.reduce((s,e)=>s+Number(e.amount),0);
   const net       = totalRev-totalExp;
-  const occ       = Math.round(state.houses.reduce((s,h)=>s+h.rooms.filter(r=>r.status!=='empty').length,0)/Math.max(1,state.houses.reduce((s,h)=>s+h.rooms.length,0))*100);
-  const houseRows = state.houses.map(h=>({ name:h.name, rev:h.rooms.filter(r=>r.status!=='empty').reduce((s,r)=>s+r.amount,0), occ:h.rooms.filter(r=>r.status!=='empty').length, total:h.rooms.length })).sort((a,b)=>b.rev-a.rev);
+  const occ       = Math.round(state.houses.reduce((s,h)=>s+(h.rooms||[]).filter(r=>r.status!=='empty').length,0)/Math.max(1,state.houses.reduce((s,h)=>s+(h.rooms||[]).length,0))*100);
+  const houseRows = state.houses.map(h=>({ name:h.name, rev:(h.rooms||[]).filter(r=>r.status!=='empty').reduce((s,r)=>s+r.amount,0), occ:(h.rooms||[]).filter(r=>r.status!=='empty').length, total:(h.rooms||[]).length })).sort((a,b)=>b.rev-a.rev);
   const maxRev    = houseRows[0]?.rev||1;
   const inqByHouse= state.houses.map(h=>({ name:h.name, count:state.inquiries.filter(i=>i.houseId===h.id).length })).sort((a,b)=>b.count-a.count);
   const maxInq    = inqByHouse[0]?.count||1;
@@ -10174,6 +10230,7 @@ function postPlatformAnn() {
   const body=document.getElementById('ap-ann-body').value.trim();
   if (!title||!body) { showToast('Fill in title and message'); return; }
   if (!state.platformAnnouncements) state.platformAnnouncements=[];
+  if (!state.platformAnnouncements) state.platformAnnouncements = [];
   state.platformAnnouncements.unshift({id:state.nextId++,type,title,body,ts:Date.now(),active:true});
   save();
   document.getElementById('ap-ann-title').value='';
@@ -10316,10 +10373,328 @@ function exportAdminData() {
   URL.revokeObjectURL(url);
   showToast('<i class="ph ph-download-simple"></i> Data exported');
 }
+
+
+// ════════════════════════════════════════
+// DEMO DATA GENERATOR
+// Never hardcoded — all data built here.
+// Called on first load and on Admin → Reset Data.
+// ════════════════════════════════════════
+function generateDemoData() {
+  const now  = new Date();
+  const mo   = d => d.toLocaleString('en-PH', { month:'long', year:'numeric' });
+  const fmt  = d => new Date(d).toISOString().split('T')[0];
+  const ago  = days => new Date(Date.now() - days * 86400000);
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  const rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+
+  // ── People pool ─────────────────────────────────────────────────────
+  const seekerNames   = ['Ana Santos','Juan Cruz','Liza Tan','Mark Uy','Rose Bautista','Carlo Santos','Jenny Lim','Dennis Marcos','Hazel Reyes','Ian Padua','Kyla Navarro','Leo Villanueva'];
+  const tenantNames   = ['Ana Reyes','Juan Cruz','Lisa Tan','Mark Uy','Rose Garcia','Carlo Diaz','Jenny Lim','Dennis Santos'];
+  const avatarPhotos  = [DEMO_PHOTOS.avatar1,DEMO_PHOTOS.avatar2,DEMO_PHOTOS.avatar3,DEMO_PHOTOS.avatar4,DEMO_PHOTOS.avatar5,DEMO_PHOTOS.avatar6,DEMO_PHOTOS.avatar7,DEMO_PHOTOS.avatar8];
+  const phones        = n => '0917' + String(1111111 + n * 123456).slice(0,7);
+  const fmtTime = d => d===0?'Today':d===1?'Yesterday':d<7?d+' days ago':d<30?Math.floor(d/7)+(Math.floor(d/7)===1?' week':' weeks')+' ago':Math.floor(d/30)+(Math.floor(d/30)===1?' month':' months')+' ago';
+  const schools       = ['EVSU Burauen Campus','Burauen Community College'];
+  const courses       = ['BSIT 2nd Year','BSED 1st Year','BSN 3rd Year','BSBA 2nd Year','BSCS 1st Year','BTLED 3rd Year','BS Crim 1st Year','BSA 2nd Year'];
+
+  // ── Landlord profile ────────────────────────────────────────────────
+  profiles.landlord = {
+    name:'Maria Dela Cruz', phone:'09171234567', bhName:'TIAH Boarding House',
+    address:'Poblacion VII, Burauen', gcash:'09171234567',
+    avatar:'<i class="ph ph-house"></i>', created: mo(ago(180))
+  };
+  saveProfiles();
+
+  // ── Room configs per house ──────────────────────────────────────────
+  const roomTemplates = [
+    [6, 1500], // house 1: 6 rooms, ₱1500
+    [4, 2000], // house 2: 4 rooms, ₱2000
+    [6, 1200], // house 3: 6 rooms, ₱1200
+    [5, 1800], // house 4: 5 rooms, ₱1800
+    [6, 1300], // house 5: 6 rooms, ₱1300
+  ];
+  const statusPattern = ['paid','paid','paid','paid','pending','empty'];
+  const roomViews = [
+    [DEMO_PHOTOS.bed, DEMO_PHOTOS.cr],
+    [DEMO_PHOTOS.bed, DEMO_PHOTOS.window, DEMO_PHOTOS.desk],
+    [DEMO_PHOTOS.bed, DEMO_PHOTOS.closet],
+    [],
+  ];
+
+  state.houses.forEach((h, hi) => {
+    const [numRooms, price] = roomTemplates[hi] || [4, 1500];
+    h.price = price;
+    h.adminStatus  = 'active';
+    h.adminVerified = hi === 0;
+    h.selfVerified  = !h.adminVerified;
+    h.verified      = mo(ago(rand(30, 90)));
+    h.lastActive    = pick(['Just now','2h ago','Today','Yesterday','3 days ago']);
+    // Build rooms
+    h.rooms = Array.from({length: numRooms}, (_, ri) => {
+      const tIdx   = (hi * 4 + ri) % tenantNames.length;
+      const status = statusPattern[ri % statusPattern.length];
+      return {
+        id: ri + 1,
+        name: 'R' + (ri + 1),
+        status,
+        tenant: status !== 'empty' ? tenantNames[tIdx] : null,
+        amount: price,
+        photos: roomViews[ri % roomViews.length],
+      };
+    });
+    // Waitlist — first 3 houses get entries
+    h.waitlist = hi < 3
+      ? [seekerNames[(hi * 3) % seekerNames.length], seekerNames[(hi * 3 + 1) % seekerNames.length]]
+      : [];
+  });
+
+  // ── Tenants ─────────────────────────────────────────────────────────
+  state.pendingTenants = [];
+  const moveInDates = [fmt(ago(210)),fmt(ago(180)),fmt(ago(150)),fmt(ago(120)),fmt(ago(90)),fmt(ago(60)),fmt(ago(30)),fmt(ago(14))];
+  let tid = 10;
+  state.houses.forEach((h, hi) => {
+    (h.rooms||[]).filter(r => r.status !== 'empty').forEach((r, ri) => {
+      const tIdx = (hi * 4 + ri) % tenantNames.length;
+      state.pendingTenants.push({
+        id: tid++,
+        name: tenantNames[tIdx],
+        phone: phones(tIdx),
+        room: r.name,
+        houseId: h.id,
+        code: String(100000 + rand(0, 899999)),
+        status: r.status === 'pending' ? 'active' : 'active',
+        moveInDate: moveInDates[tIdx % moveInDates.length],
+      });
+    });
+  });
+
+  // ── Demo seeker profile ─────────────────────────────────────────────
+  profiles.seeker = {
+    name: seekerNames[0], phone: phones(0),
+    school: schools[0], course: courses[0],
+    budget: 1500, wifiRequired: true, cookingRequired: false,
+    visitorsRequired: true, noCurfew: false, laundryRequired: true,
+    created: mo(ago(10)),
+  };
+
+  // ── Inquiries with full message threads ─────────────────────────────
+  const qBank = [
+    'Do you still have a vacancy for a single room?',
+    'Is there a room available near the entrance? I prefer ground floor.',
+    'How many people share the comfort room?',
+    'Does the rent include water and electricity?',
+    'How far are you from the EVSU gate exactly?',
+    'Is there a curfew? I sometimes have evening classes.',
+    'Is cooking allowed? I like to prepare my own meals.',
+    'Do you allow visitors on weekends?',
+    'Is there reliable WiFi? I need it for online classes.',
+    'What is the advance payment and deposit required?',
+  ];
+  const replyBank = [
+    'Yes, we still have one room available! When would you like to visit?',
+    'We have ground floor rooms — come by and check it out.',
+    'The CR is shared by 2-3 tenants per floor. Always clean.',
+    'Water is included. Electricity is shared and split among tenants.',
+    'About 5 minutes walking to the EVSU gate.',
+    'Curfew is at 10PM. Evening classes are fine as long as you coordinate.',
+    'Cooking is allowed in the shared kitchen area.',
+    'Yes, visitors are welcome until 8PM.',
+    'WiFi is included — reliable Globe Fiber connection.',
+    'One month advance and one month deposit. No hidden fees.',
+  ];
+  const followUps = [
+    'Thank you! I will visit this Saturday around 10AM if that is okay?',
+    'Great, I will come by tomorrow afternoon.',
+    'Can I bring my parents when I visit?',
+    'Is the room furnished or unfurnished?',
+    'What time are you available for a visit?',
+  ];
+  const finalReplies = [
+    'Saturday 10AM is perfect! See you then.',
+    'Tomorrow afternoon works. Just message when you arrive.',
+    'Of course! Parents are welcome.',
+    'The room has a bed frame and cabinet. Mattress optional.',
+    'We are available 9AM-5PM on weekdays, 9AM-12PM on Saturdays.',
+  ];
+
+  const inqStatuses = ['pending','replied','visit_scheduled','offered','interested','not_a_fit','replied','pending','replied','visit_scheduled'];
+  state.inquiries = [];
+  state.myInquiries = [];
+  let iid = 100;
+
+  qBank.forEach((q, qi) => {
+    const h = state.houses[qi % state.houses.length];
+    const daysAgo = rand(1, 60);
+    const status  = inqStatuses[qi % inqStatuses.length];
+    const sName   = seekerNames[qi % seekerNames.length];
+
+    // Build message thread
+    const messages = [
+      { from: 'seeker', text: q, time: daysAgo + 'd ago' }
+    ];
+    if (status !== 'pending') {
+      messages.push({ from: 'landlord', text: replyBank[qi % replyBank.length], time: (daysAgo - 1) + 'd ago' });
+    }
+    if (['visit_scheduled','offered','interested'].includes(status)) {
+      messages.push({ from: 'seeker', text: followUps[qi % followUps.length], time: (daysAgo - 2) + 'd ago' });
+      messages.push({ from: 'landlord', text: finalReplies[qi % finalReplies.length], time: (daysAgo - 2) + 'd ago' });
+    }
+
+    const inq = {
+      id: iid++, houseId: h.id,
+      name: sName, school: schools[qi % 2], course: courses[qi % courses.length],
+      date: fmt(ago(daysAgo)), q, status,
+      time: fmtTime(daysAgo),
+      avatar: '<i class="ph ph-user-circle"></i>',
+      messages,
+    };
+    state.inquiries.push(inq);
+
+    // Mirror first 5 as seeker myInquiries
+    if (qi < 5) {
+      state.myInquiries.push({
+        id: inq.id, houseId: h.id, houseName: h.name,
+        status, q,
+        read: status !== 'replied',
+        reply: status !== 'pending' ? replyBank[qi % replyBank.length] : null,
+        messages: [...messages],
+        acceptedCode: status === 'offered' ? String(100000 + rand(0,899999)) : null,
+      });
+    }
+  });
+
+  // ── Payment log ─────────────────────────────────────────────────────
+  state.paymentLog = [];
+  let plid = 300;
+  state.pendingTenants.filter(t => t.status === 'active').slice(0, 8).forEach((t, ti) => {
+    const h = state.houses.find(x => x.id === t.houseId);
+    const r = (h?.rooms||[]).find(rm => rm.name === t.room);
+    state.paymentLog.push({
+      id: plid++, tenantName: t.name, room: t.room, houseId: t.houseId,
+      amount: r?.amount || h?.price || 1500,
+      status: r?.status === 'paid' ? 'paid' : 'pending',
+      date: fmt(ago(rand(1, 28))),
+      month: mo(ago(rand(1, 28))),
+    });
+  });
+
+  // ── Expenses ─────────────────────────────────────────────────────────
+  const expPool = [
+    {cat:'<i class="ph ph-wrench"></i> Repairs',     items:['Fixed CR flush Room 2','Replaced door lock R4','Patched roof leak','Fixed kitchen faucet','Painted hallway walls']},
+    {cat:'<i class="ph ph-lightbulb"></i> Utilities', items:['Meralco bill','BURAWEN Water bill','Globe Fiber internet','Meralco bill','Water bill LWUA']},
+    {cat:'<i class="ph ph-shopping-cart"></i> Supplies',items:['Cleaning supplies & bulbs','Pest control supplies','Broom, mop, pail set','CR toiletries','Trash bags & dishwash']},
+    {cat:'<i class="ph ph-user"></i> Labor',          items:['Plumber — faucet repair','Electrician — R3 rewiring','Monthly cleaning service','Painter — common area']},
+  ];
+  state.expenses = [];
+  let eid = 200;
+  for (let i = 0; i < rand(6, 10); i++) {
+    const pool = expPool[i % expPool.length];
+    const amounts = {Repairs:rand(200,1500), Utilities:rand(800,4500), Supplies:rand(150,800), Labor:rand(300,2000)};
+    const key = Object.keys(amounts).find(k => pool.cat.includes(k)) || 'Repairs';
+    state.expenses.push({
+      id: eid++, houseId: state.houses[0]?.id || 1,
+      cat: pool.cat, desc: pick(pool.items),
+      amount: amounts[key], date: fmt(ago(rand(1, 60))),
+    });
+  }
+
+  // ── Announcements ─────────────────────────────────────────────────────
+  state.announcements = [
+    { id:401, cat:'reminder', title:'Rent Due This Friday',
+      body:'Reminder to all tenants — rent is due before Friday. Please send payment to GCash 09171234567 and screenshot your receipt. Thank you!',
+      ts: Date.now() - 3*86400000, isNew:true, dismissed:false, pinned:true },
+    { id:402, cat:'info', title:'Water Interruption Notice',
+      body:'Water service will be interrupted tomorrow morning (8AM–12PM) due to LGU maintenance. Please store water in advance.',
+      ts: Date.now() - 86400000, isNew:false, dismissed:false, pinned:false },
+    { id:403, cat:'activity', title:'Welcome New Tenant',
+      body:'Please welcome our new tenant in Room 5. Kindly introduce yourselves and help them get settled.',
+      ts: Date.now() - 7*86400000, isNew:false, dismissed:false, pinned:false },
+  ];
+
+  // ── Maintenance requests ───────────────────────────────────────────────
+  const maintPool = [
+    {type:'<i class="ph ph-faucet"></i> Plumbing',    desc:'Leaky faucet in shared bathroom — dripping constantly', urgency:'urgent'},
+    {type:'<i class="ph ph-wifi"></i> WiFi',           desc:'WiFi signal very weak on the far side of Room 3', urgency:'normal'},
+    {type:'<i class="ph ph-lightbulb"></i> Electrical',desc:'Flickering light in Room 2 — may need new bulb or wiring check', urgency:'normal'},
+    {type:'<i class="ph ph-door"></i> Door / Lock',    desc:'Door knob on Room 4 is loose and hard to lock from inside', urgency:'urgent'},
+    {type:'<i class="ph ph-broom"></i> Cleaning',      desc:'Drainage in shared CR is slow — needs unclogging', urgency:'low'},
+  ];
+  const maintStatuses = ['pending','in_progress','done','pending','in_progress'];
+  state.maintenanceRequests = maintPool.map((m, i) => ({
+    id: 500 + i,
+    room: 'R' + (i + 1),
+    type: m.type, desc: m.desc, urgency: m.urgency,
+    status: maintStatuses[i],
+    tenantName: tenantNames[i % tenantNames.length],
+    time: (i + 1) + (i === 0 ? ' day' : ' days') + ' ago',
+    houseId: state.houses[0]?.id || 1,
+  }));
+  state.myMaintenanceRequests = state.maintenanceRequests.slice(0, 2).map(r => ({...r}));
+
+  // ── Visits ────────────────────────────────────────────────────────────
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const dayAfter  = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3);
+  const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+  state.visits = [
+    { id:600, name: seekerNames[0], house: state.houses[0]?.name, houseId: state.houses[0]?.id, date: fmt(tomorrow), time:'10:00 AM', status:'pending' },
+    { id:601, name: seekerNames[1], house: state.houses[0]?.name, houseId: state.houses[0]?.id, date: fmt(tomorrow), time:'2:00 PM',  status:'pending' },
+    { id:602, name: seekerNames[2], house: state.houses[0]?.name, houseId: state.houses[0]?.id, date: fmt(dayAfter),  time:'9:00 AM',  status:'confirmed' },
+    { id:603, name: seekerNames[3], house: state.houses[0]?.name, houseId: state.houses[0]?.id, date: fmt(yesterday), time:'3:00 PM', status:'confirmed' },
+  ];
+  state.visitSlots = [
+    { id:1, date: fmt(tomorrow), time:'10:00 AM', taken:true },
+    { id:2, date: fmt(tomorrow), time:'2:00 PM',  taken:true },
+    { id:3, date: fmt(dayAfter),  time:'9:00 AM',  taken:false },
+    { id:4, date: fmt(dayAfter),  time:'3:00 PM',  taken:false },
+  ];
+
+  // ── Admin audit log ────────────────────────────────────────────────────
+  state.adminActivityLog = [
+    { msg: 'Admin verified listing: ' + (state.houses[0]?.name || 'TIAH BH'), ts: Date.now() - rand(1,3)*3600000 },
+    { msg: 'New landlord registered: ' + (state.houses[1]?.name || 'LFH BH'),  ts: Date.now() - rand(4,8)*3600000 },
+    { msg: 'Admin verified listing: ' + (state.houses[2]?.name || 'CBH'),       ts: Date.now() - 86400000 },
+    { msg: 'Tenant code reset for ' + tenantNames[2],                            ts: Date.now() - 2*86400000 },
+    { msg: 'Platform announcement posted',                                        ts: Date.now() - 3*86400000 },
+    { msg: 'Admin logged in',                                                     ts: Date.now() - 7*86400000 },
+  ];
+
+  // ── Pre-set tenant profile so Tenant role works immediately ──────────
+  const h1 = state.houses[0];
+  const r1 = h1?.rooms?.find(r => r.status === 'paid') || h1?.rooms?.[0];
+  state.tenantProfile = {
+    name:'Ana Reyes', phone:phones(0),
+    room: r1?.name||'R1', roomLabel: r1?.name||'R1',
+    rent: r1?.amount||h1?.price||1500,
+    houseId: h1?.id||1, houseName: h1?.name||'TIAH Boarding House',
+    houseAddr: h1?.address||'Poblacion VII, Burauen',
+    paymentStatus:'pending', school:'EVSU Burauen Campus',
+    course:'BSIT 2nd Year', gender:'Female',
+    emergencyName:'Maria Reyes', emergencyPhone:'09171234999',
+    photo: DEMO_PHOTOS.avatar1,
+  };
+  profiles.tenant = { ...state.tenantProfile };
+  saveProfiles();
+
+  // ── Reset counters and transient state ───────────────────────────────────
+  state.nextId            = 700;
+  state.currentHouseId    = state.houses[0]?.id || 1;
+  state.filter            = 'all';
+  state.sort              = 'distance';
+  state.school            = 'evsu';
+  state.moveOutRequests   = [];
+  state.referrals         = [];
+  state.paymentTransactions = [];
+  state.platformAnnouncements = [];
+  state.maintenanceMode   = false;
+  state.savedHouses       = [];
+  state.tenantProfile     = null;
+}
+
+
 function confirmResetData() {
   const card=document.createElement('div');
   card.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:390px;background:var(--redBg);border:1.5px solid var(--red);border-radius:14px;padding:16px;z-index:600;box-shadow:0 8px 32px rgba(0,0,0,.2);';
-  card.innerHTML=`<div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--red);margin-bottom:6px;"><i class="ph ph-warning"></i> Reset all demo data?</div><div style="font-size:12px;color:var(--text2);margin-bottom:14px;">Clears localStorage and reloads with default seed data. Cannot be undone.</div><div style="display:flex;gap:8px;"><button onclick="localStorage.clear();location.reload();" style="flex:2;background:var(--red);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Yes, Reset</button><button onclick="this.remove()" style="flex:1;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;cursor:pointer;">Cancel</button></div>`;
+  card.innerHTML=`<div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--red);margin-bottom:6px;"><i class="ph ph-warning"></i> Reset all demo data?</div><div style="font-size:12px;color:var(--text2);margin-bottom:14px;">Reloads with fresh demo data. Cannot be undone.</div><div style="display:flex;gap:8px;"><button onclick="localStorage.clear();generateDemoData();save();location.reload();" style="flex:2;background:var(--red);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Yes, Reset</button><button onclick="this.remove()" style="flex:1;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;cursor:pointer;">Cancel</button></div>`;
   document.body.appendChild(card);
 }
 function selfVerifyListing() {
@@ -10363,6 +10738,7 @@ function updateVerifyBanner(h) {
       </div>`;
   }
 }
+let bbMap = null;
 let bbMarkers = {};     // id → L.marker
 let activeMapHouseId = null;
 let currentSchoolFilter = 'evsu';
@@ -10377,7 +10753,7 @@ const PIN_COLORS = {
 };
 
 function buildPinHTML(h) {
-  const avail = h.rooms.filter(r => r.status === 'empty').length;
+  const avail = (h.rooms||[]).filter(r => r.status === 'empty').length;
   const dotColor = avail > 0 ? '#22C55E' : '#EF4444';
   const accent   = PIN_COLORS[h.id] || '#0B1F3A';
   const shortName = h.name.replace(' Boarding House','').replace(' Residence','');
@@ -10400,44 +10776,44 @@ function buildPinHTML(h) {
 // known local establishments placed at approx. positions.
 const LANDMARKS = [
   // ── SCHOOLS ──
-  { cat:'schools', emoji:'<i class="ph ph-graduation-cap"></i>', label:'EVSU Burauen Campus',        latlng:[10.8797, 124.9428], color:'#1558CC', bg:'#EFF6FF', note:'Eastern Visayas State University' },
-  { cat:'schools', emoji:'<i class="ph ph-books"></i>', label:'Burauen Community College',  latlng:[10.8785, 124.9350], color:'#0B7A6A', bg:'#F0FDF4', note:'BCC · 2-yr & 4-yr programs' },
-  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen Nat\'l High School', latlng:[10.8778, 124.9375], color:'#1558CC', bg:'#EFF6FF', note:'BNHS · Dagami-Burauen Rd' },
-  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'BNHS Senior High Bldg',      latlng:[10.8772, 124.9382], color:'#3B91D4', bg:'#EFF6FF', note:'Senior High School Building' },
-  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen North Central Sch.', latlng:[10.8774, 124.9362], color:'#5B21B6', bg:'#EDE9FE', note:'Sta. Ana St · Elementary' },
-  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen South Central Sch.', latlng:[10.8712, 124.9360], color:'#5B21B6', bg:'#EDE9FE', note:'South Poblacion · Elementary' },
-  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen West Central Sch.',  latlng:[10.8758, 124.9330], color:'#5B21B6', bg:'#EDE9FE', note:'West Poblacion · Elementary' },
-  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen Comp. Nat\'l HS',    latlng:[10.8790, 124.9340], color:'#1A6B3C', bg:'#F0FDF4', note:'Comprehensive HS · Poblacion' },
+  { cat:'schools', emoji:'<i class="ph ph-graduation-cap"></i>', label:'EVSU Burauen Campus',        latlng:[10.9702, 124.8872], color:'#1558CC', bg:'#EFF6FF', note:'Eastern Visayas State University' },
+  { cat:'schools', emoji:'<i class="ph ph-books"></i>', label:'Burauen Community College',  latlng:[10.9715, 124.8870], color:'#0B7A6A', bg:'#F0FDF4', note:'BCC · 2-yr & 4-yr programs' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen Nat\'l High School', latlng:[10.9750, 124.8932], color:'#1558CC', bg:'#EFF6FF', note:'BNHS · Dagami-Burauen Rd' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'BNHS Senior High Bldg',      latlng:[10.9748, 124.8930], color:'#3B91D4', bg:'#EFF6FF', note:'Senior High School Building' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen North Central Sch.', latlng:[10.9750, 124.8919], color:'#5B21B6', bg:'#EDE9FE', note:'Sta. Ana St · Elementary' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen South Central Sch.', latlng:[10.9738, 124.8915], color:'#5B21B6', bg:'#EDE9FE', note:'South Poblacion · Elementary' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen West Central Sch.',  latlng:[10.9750, 124.8907], color:'#5B21B6', bg:'#EDE9FE', note:'West Poblacion · Elementary' },
+  { cat:'schools', emoji:'<i class="ph ph-buildings"></i>', label:'Burauen Comp. Nat\'l HS',    latlng:[10.9723, 124.8860], color:'#1A6B3C', bg:'#F0FDF4', note:'Comprehensive HS · Poblacion' },
 
   // ── FOOD & DRINKS ──
-  { cat:'food', emoji:'<i class="ph ph-coffee"></i>', label:'Brew & Bites Café',     latlng:[10.8768, 124.9395], color:'#B45309', bg:'#FEF3C7', note:'Coffee · snacks · study-friendly' },
-  { cat:'food', emoji:'<i class="ph ph-coffee"></i>', label:'Kape Burauen',          latlng:[10.8755, 124.9358], color:'#B45309', bg:'#FEF3C7', note:'Local coffee shop · near market' },
-  { cat:'food', emoji:'', label:'Andok\'s Burauen',     latlng:[10.8748, 124.9388], color:'#DC2626', bg:'#FEF2F2', note:'Litson manok · fast food' },
-  { cat:'food', emoji:'', label:'Carenderia Row',        latlng:[10.8742, 124.9380], color:'#D97706', bg:'#FFFBEB', note:'Local carinderia strip · budget meals' },
-  { cat:'food', emoji:'', label:'Potato Corner',         latlng:[10.8751, 124.9392], color:'#F59E0B', bg:'#FFFBEB', note:'Near public market entrance' },
-  { cat:'food', emoji:'', label:'Bakes & Co.',           latlng:[10.8762, 124.9342], color:'#B45309', bg:'#FEF3C7', note:'Bakeshop · near BNHS' },
+  { cat:'food', emoji:'<i class="ph ph-coffee"></i>', label:'Brew & Bites Café',     latlng:[10.9743, 124.8917], color:'#B45309', bg:'#FEF3C7', note:'Coffee · snacks · study-friendly' },
+  { cat:'food', emoji:'<i class="ph ph-coffee"></i>', label:'Kape Burauen',          latlng:[10.9754, 124.8893], color:'#B45309', bg:'#FEF3C7', note:'Local coffee shop · near market' },
+  { cat:'food', emoji:'', label:'Andok\'s Burauen',     latlng:[10.9756, 124.8908], color:'#DC2626', bg:'#FEF2F2', note:'Litson manok · fast food' },
+  { cat:'food', emoji:'', label:'Carenderia Row',        latlng:[10.9754, 124.8915], color:'#D97706', bg:'#FFFBEB', note:'Local carinderia strip · budget meals' },
+  { cat:'food', emoji:'', label:'Potato Corner',         latlng:[10.9758, 124.8918], color:'#F59E0B', bg:'#FFFBEB', note:'Near public market entrance' },
+  { cat:'food', emoji:'', label:'Bakes & Co.',           latlng:[10.9725, 124.8880], color:'#B45309', bg:'#FEF3C7', note:'Bakeshop · near BNHS' },
 
   // ── STORES & ESSENTIALS ──
-  { cat:'stores', emoji:'<i class="ph ph-storefront"></i>', label:'Public Market',           latlng:[10.8748, 124.9383], color:'#7C3AED', bg:'#EDE9FE', note:'Main palengke · open daily' },
-  { cat:'stores', emoji:'<i class="ph ph-storefront"></i>', label:'Burauen Supermarket',     latlng:[10.8744, 124.9385], color:'#7C3AED', bg:'#EDE9FE', note:'Groceries & daily needs' },
-  { cat:'stores', emoji:'<i class="ph ph-package"></i>', label:'LBC Express',             latlng:[10.8752, 124.9370], color:'#DC2626', bg:'#FEF2F2', note:'Padala & cargo · near plaza' },
-  { cat:'stores', emoji:'<i class="ph ph-pill"></i>', label:'Mercury Drug',            latlng:[10.8756, 124.9378], color:'#7C3AED', bg:'#EDE9FE', note:'24-hr pharmacy' },
-  { cat:'stores', emoji:'<i class="ph ph-shopping-cart"></i>', label:'Puregold Burauen',        latlng:[10.8738, 124.9398], color:'#7C3AED', bg:'#EDE9FE', note:'Supermarket · south market area' },
-  { cat:'stores', emoji:'<i class="ph ph-device-mobile"></i>', label:'Smart / DITO Store',      latlng:[10.8760, 124.9365], color:'#2563EB', bg:'#EFF6FF', note:'Telco & load · near town hall' },
-  { cat:'stores', emoji:'<i class="ph ph-printer"></i>', label:'Print & Copy Shop',      latlng:[10.8780, 124.9368], color:'#6B7280', bg:'#F9FAFB', note:'Near BNHS · printing & encoding' },
+  { cat:'stores', emoji:'<i class="ph ph-storefront"></i>', label:'Public Market',           latlng:[10.9754, 124.8913], color:'#7C3AED', bg:'#EDE9FE', note:'Main palengke · open daily' },
+  { cat:'stores', emoji:'<i class="ph ph-storefront"></i>', label:'Burauen Supermarket',     latlng:[10.9756, 124.8918], color:'#7C3AED', bg:'#EDE9FE', note:'Groceries & daily needs' },
+  { cat:'stores', emoji:'<i class="ph ph-package"></i>', label:'LBC Express',             latlng:[10.9746, 124.8907], color:'#DC2626', bg:'#FEF2F2', note:'Padala & cargo · near plaza' },
+  { cat:'stores', emoji:'<i class="ph ph-pill"></i>', label:'Mercury Drug',            latlng:[10.9746, 124.8917], color:'#7C3AED', bg:'#EDE9FE', note:'24-hr pharmacy' },
+  { cat:'stores', emoji:'<i class="ph ph-shopping-cart"></i>', label:'Puregold Burauen',        latlng:[10.9762, 124.8923], color:'#7C3AED', bg:'#EDE9FE', note:'Supermarket · south market area' },
+  { cat:'stores', emoji:'<i class="ph ph-device-mobile"></i>', label:'Smart / DITO Store',      latlng:[10.9745, 124.8909], color:'#2563EB', bg:'#EFF6FF', note:'Telco & load · near town hall' },
+  { cat:'stores', emoji:'<i class="ph ph-printer"></i>', label:'Print & Copy Shop',      latlng:[10.9756, 124.8919], color:'#6B7280', bg:'#F9FAFB', note:'Near BNHS · printing & encoding' },
 
   // ── HEALTH ──
-  { cat:'health', emoji:'<i class="ph ph-first-aid"></i>', label:'Burauen District Hospital', latlng:[10.8728, 124.9335], color:'#DC2626', bg:'#FEF2F2', note:'Provincial government hospital' },
-  { cat:'health', emoji:'<i class="ph ph-first-aid"></i>', label:'Rural Health Unit (RHU)',   latlng:[10.8755, 124.9400], color:'#EF4444', bg:'#FEF2F2', note:'Municipal health center' },
-  { cat:'health', emoji:'<i class="ph ph-pill"></i>', label:'Generika Pharmacy',         latlng:[10.8745, 124.9373], color:'#DC2626', bg:'#FEF2F2', note:'Budget pharmacy · near market' },
+  { cat:'health', emoji:'<i class="ph ph-first-aid"></i>', label:'Burauen District Hospital', latlng:[10.9712, 124.8864], color:'#DC2626', bg:'#FEF2F2', note:'Provincial government hospital' },
+  { cat:'health', emoji:'<i class="ph ph-first-aid"></i>', label:'Rural Health Unit (RHU)',   latlng:[10.9747, 124.8944], color:'#EF4444', bg:'#FEF2F2', note:'Municipal health center' },
+  { cat:'health', emoji:'<i class="ph ph-pill"></i>', label:'Generika Pharmacy',         latlng:[10.9754, 124.8901], color:'#DC2626', bg:'#FEF2F2', note:'Budget pharmacy · near market' },
 
   // ── GOVERNMENT & LANDMARKS ──
-  { cat:'gov', emoji:'<i class="ph ph-building-office"></i>', label:'Municipal Hall',               latlng:[10.8756, 124.9371], color:'#0B7A6A', bg:'#F0FDF4', note:'LGU Burauen · Sto. Niño St.' },
-  { cat:'gov', emoji:'<i class="ph ph-cross"></i>',  label:'Our Lady of the Immaculate',  latlng:[10.8753, 124.9362], color:'#6B7280', bg:'#F9FAFB', note:'1600 Parish Church · Santa Ana St.' },
-  { cat:'gov', emoji:'<i class="ph ph-bank"></i>', label:'Land Bank of the Phils.',     latlng:[10.8764, 124.9372], color:'#166534', bg:'#DCFCE7', note:'LBP ATM & branch' },
-  { cat:'gov', emoji:'<i class="ph ph-bank"></i>', label:'Rural Bank of Burauen',       latlng:[10.8758, 124.9384], color:'#166534', bg:'#DCFCE7', note:'Est. 1962 · first rural bank in Leyte' },
-  { cat:'gov', emoji:'<i class="ph ph-tree"></i>', label:'Town Plaza',                  latlng:[10.8754, 124.9368], color:'#166534', bg:'#DCFCE7', note:'Romualdez Park · renovated 2024' },
-  { cat:'gov', emoji:'<i class="ph ph-gas-pump"></i>', label:'Petron Station',              latlng:[10.8790, 124.9402], color:'#D97706', bg:'#FFFBEB', note:'Fuel · near EVSU junction' },
+  { cat:'gov', emoji:'<i class="ph ph-building-office"></i>', label:'Municipal Hall',               latlng:[10.9742, 124.8944], color:'#0B7A6A', bg:'#F0FDF4', note:'LGU Burauen · Sto. Niño St.' },
+  { cat:'gov', emoji:'<i class="ph ph-cross"></i>',  label:'Our Lady of the Immaculate',  latlng:[10.9746, 124.8912], color:'#6B7280', bg:'#F9FAFB', note:'1600 Parish Church · Santa Ana St.' },
+  { cat:'gov', emoji:'<i class="ph ph-bank"></i>', label:'Land Bank of the Phils.',     latlng:[10.9744, 124.8936], color:'#166534', bg:'#DCFCE7', note:'LBP ATM & branch' },
+  { cat:'gov', emoji:'<i class="ph ph-bank"></i>', label:'Rural Bank of Burauen',       latlng:[10.9748, 124.8925], color:'#166534', bg:'#DCFCE7', note:'Est. 1962 · first rural bank in Leyte' },
+  { cat:'gov', emoji:'<i class="ph ph-tree"></i>', label:'Town Plaza',                  latlng:[10.9748, 124.8927], color:'#166534', bg:'#DCFCE7', note:'Romualdez Park · renovated 2024' },
+  { cat:'gov', emoji:'<i class="ph ph-gas-pump"></i>', label:'Petron Station',              latlng:[10.9717, 124.8890], color:'#D97706', bg:'#FFFBEB', note:'Fuel · near EVSU junction' },
   { cat:'gov', emoji:'<i class="ph ph-bus"></i>', label:'Burauen Terminal',            latlng:[10.8738, 124.9400], color:'#0B7A6A', bg:'#F0FDF4', note:'Jeepney & bus terminal · south' },
 ];
 
@@ -10462,6 +10838,7 @@ function makeLmIcon(lm) {
 function toggleLayer(cat, btn) {
   lmVisible[cat] = !lmVisible[cat];
   btn.classList.toggle('on', lmVisible[cat]);
+  if (!bbMap) return; // map not initialized yet — state tracked, applies on next init
   (lmMarkers[cat] || []).forEach(m => {
     if (lmVisible[cat]) m.addTo(bbMap);
     else bbMap.removeLayer(m);
@@ -10485,12 +10862,12 @@ function initLeafletMap() {
     document.head.appendChild(lnk);
   }
 
-  // Center: Burauen Poblacion town center (between plaza & market).
+  // Center: Burauen Poblacion — verified GPS (plaza)rket).
   // Zoom 15 fits both EVSU (NE) and BCC (NW) plus all boarding house pins
   // without clipping. Zoom 16 cut off EVSU at the northeast edge.
   bbMap = L.map('burauen-map', {
-    center: [10.8755, 124.9390],
-    zoom: 15,
+    center: [10.9748, 124.8927],
+    zoom: 16,
     zoomControl: true,
     attributionControl: true,
   });
@@ -10541,7 +10918,7 @@ function openMapCard(id) {
   if (!h) return;
   activeMapHouseId = id;
 
-  const avail = h.rooms.filter(r => r.status === 'empty').length;
+  const avail = (h.rooms||[]).filter(r => r.status === 'empty').length;
   const set = (elId, v) => { const e = document.getElementById(elId); if (e) e.textContent = v; };
 
   const hero = document.getElementById('msh-hero');
@@ -10716,21 +11093,22 @@ function renderPaymentHistory() {
   }).join('');
 }
 
-// ════════════════════════════════════════
-// LANDLORD — WAITLIST MANAGER
-// ════════════════════════════════════════
+
 function renderWaitlistManager() {
   const el    = document.getElementById('wl-manager-list');
   const empty = document.getElementById('wl-manager-empty');
+  const badge = document.getElementById('wl-count-badge');
   if (!el) return;
 
-  // Flatten all house waitlists
   const allEntries = [];
   state.houses.forEach(h => {
     (h.waitlist || []).forEach((name, idx) => {
-      allEntries.push({ name, houseId: h.id, houseName: h.name, idx });
+      allEntries.push({ name, houseId: h.id, houseName: h.name, idx,
+        hasVacancy: availableRooms(h) > 0 });
     });
   });
+
+  if (badge) badge.textContent = allEntries.length ? allEntries.length + ' waiting' : '';
 
   if (!allEntries.length) {
     el.innerHTML = '';
@@ -10739,35 +11117,138 @@ function renderWaitlistManager() {
   }
   if (empty) empty.style.display = 'none';
 
-  el.innerHTML = allEntries.map((entry, pos) => `
-    <div class="card card-p" style="margin-bottom:10px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:40px;height:40px;background:var(--warm2);border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <i class="ph ph-user" style="font-size:20px;color:var(--muted);"></i>
-          </div>
-          <div>
-            <div class="vc-name">${entry.name}</div>
-            <div class="rc-sub2">${entry.houseName} · #${pos + 1} in line</div>
-          </div>
+  const currentHouseId = state.currentHouseId || state.houses[0]?.id;
+  const referrableHouses = state.houses.filter(h =>
+    h.id !== currentHouseId &&
+    (h.selfVerified || h.adminVerified) &&
+    h.adminStatus !== 'suspended' &&
+    availableRooms(h) > 0
+  );
+  const canRefer = referrableHouses.length > 0;
+
+  el.innerHTML = allEntries.map((entry, pos) => {
+    const isFirst = pos === 0;
+    return `
+    <div style="background:var(--card);border:1.5px solid ${isFirst ? 'var(--teal)' : 'var(--border)'};border-radius:16px;padding:16px;margin-bottom:12px;position:relative;">
+
+      <!-- Position badge -->
+      <div style="position:absolute;top:-10px;left:16px;background:${isFirst ? 'var(--teal)' : 'var(--navy)'};color:#fff;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;padding:2px 10px;border-radius:20px;">
+        ${isFirst ? '🔝 1st in line' : '#' + (pos+1) + ' in line'}
+      </div>
+
+      <!-- Person info -->
+      <div style="display:flex;align-items:center;gap:12px;margin-top:6px;margin-bottom:14px;">
+        <div style="width:48px;height:48px;background:${isFirst ? 'var(--greenBg)' : 'var(--warm2)'};border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid ${isFirst ? 'var(--green)' : 'var(--border)'};">
+          <i class="ph ph-user" style="font-size:22px;color:${isFirst ? 'var(--green)' : 'var(--muted)'};"></i>
         </div>
-        <span class="tag ta2">Waiting</span>
+        <div style="flex:1;">
+          <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:var(--navy);">${entry.name}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;">Waiting for an available room</div>
+        </div>
       </div>
-      <div style="display:flex;gap:8px;">
-        <button onclick="promoteWaitlist('${entry.name}', ${entry.houseId}, ${entry.idx})" class="btn btn-teal" style="flex:2;justify-content:center;">
-          <i class="ph ph-arrow-up-right"></i> Offer Room
-        </button>
-        <button onclick="removeWaitlist('${entry.name}', ${entry.houseId}, ${entry.idx})" class="btn-danger-sm" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;">
-          <i class="ph ph-x"></i> Remove
-        </button>
-      </div>
-    </div>`).join('');
+
+      <!-- Action label -->
+      <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.4px;text-transform:uppercase;margin-bottom:8px;">What do you want to do?</div>
+
+      <!-- Primary action: Offer Room (if vacancy exists) -->
+      ${entry.hasVacancy ? `
+      <button onclick="promoteWaitlist('${entry.name}', ${entry.houseId}, ${entry.idx})"
+        style="width:100%;background:linear-gradient(135deg,var(--teal),#0D9480);color:#fff;border:none;border-radius:12px;padding:14px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;box-shadow:0 4px 12px rgba(11,122,106,.25);">
+        <i class="ph ph-key" style="font-size:18px;"></i>
+        Offer a room to ${entry.name.split(' ')[0]}
+      </button>` : `
+      <div style="background:var(--amberBg);border:1px solid var(--amber);border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:13px;color:var(--amber);font-family:'Nunito',sans-serif;font-weight:700;">
+        <i class="ph ph-warning"></i> No vacant rooms right now. Refer to another BH.
+      </div>`}
+
+      <!-- Secondary action: Refer -->
+      ${canRefer ? `
+      <button onclick="openReferralPicker('${entry.name}', ${entry.houseId}, ${entry.idx})"
+        style="width:100%;background:var(--blueLt);color:var(--blue);border:1.5px solid rgba(21,88,204,.2);border-radius:12px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;">
+        <i class="ph ph-share-network" style="font-size:17px;"></i>
+        Refer to another boarding house
+      </button>` : ''}
+
+      <!-- Remove -->
+      <button onclick="removeWaitlist('${entry.name}', ${entry.houseId}, ${entry.idx})"
+        style="width:100%;background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:10px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;">
+        Remove from list
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function openReferralPicker(seekerName, houseId, idx) {
+  const currentHouseId = state.currentHouseId || state.houses[0]?.id;
+  const options = state.houses.filter(h =>
+    h.id !== currentHouseId &&
+    (h.selfVerified || h.adminVerified) &&
+    h.adminStatus !== 'suspended' &&
+    availableRooms(h) > 0
+  );
+  if (!options.length) { showToast('No other verified landlords with vacancies right now'); return; }
+
+  document.getElementById('referral-picker')?.remove();
+  const modal = document.createElement('div');
+  modal.id = 'referral-picker';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:700;display:flex;align-items:flex-end;';
+  modal.innerHTML = `
+    <div style="background:var(--warm);border-radius:20px 20px 0 0;width:100%;max-width:420px;margin:0 auto;padding:20px 16px 32px;max-height:70vh;overflow-y:auto;">
+      <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:var(--navy);margin-bottom:4px;">Refer <strong>${seekerName}</strong> to:</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:16px;">They'll be notified and can confirm or decline.</div>
+      ${options.map(h => `
+        <div onclick="confirmReferral('${seekerName}', ${houseId}, ${idx}, ${h.id})" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px;" ontouchstart="this.style.background='var(--warm2)'" ontouchend="this.style.background='var(--card)'">
+          <div style="width:44px;height:44px;background:${h.gradient};border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+            <i class="ph ph-house" style="font-size:20px;color:#fff;"></i>
+          </div>
+          <div style="flex:1;">
+            <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--navy);">${h.name}</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px;">${availableRooms(h)} room${availableRooms(h)!==1?'s':''} available · ₱${h.price.toLocaleString()}/mo</div>
+          </div>
+          <i class="ph ph-caret-right" style="color:var(--muted2);font-size:18px;"></i>
+        </div>`).join('')}
+      <button onclick="document.getElementById('referral-picker').remove()" style="width:100%;padding:13px;background:var(--warm2);border:1px solid var(--border);border-radius:12px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;margin-top:4px;">Cancel</button>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function confirmReferral(seekerName, fromHouseId, idx, toHouseId) {
+  document.getElementById('referral-picker')?.remove();
+  const toHouse = state.houses.find(h => h.id === toHouseId);
+  if (!toHouse) return;
+  if (!state.referrals) state.referrals = [];
+  const ref = {
+    id: state.nextId++,
+    seekerName,
+    fromHouseId,
+    toHouseId,
+    toHouseName: toHouse.name,
+    toHousePrice: toHouse.price,
+    status: 'pending',
+    createdAt: Date.now(),
+  };
+  if (!state.referrals) state.referrals = [];
+  state.referrals.push(ref);
+  // Add a notification in seeker's inquiry list
+  state.myInquiries.push({
+    id: state.nextId++,
+    houseId: toHouseId,
+    houseName: toHouse.name,
+    status: 'referred',
+    q: 'You were referred here by another landlord.',
+    read: false,
+    referralId: ref.id,
+  });
+  save();
+  renderWaitlistManager();
+  showToast(`<i class="ph ph-share-network"></i> ${seekerName} referred to ${toHouse.name}!`);
 }
 
 function promoteWaitlist(name, houseId, idx) {
   const h = state.houses.find(x => x.id === houseId);
   if (!h) return;
-  const emptyRoom = h.rooms.find(r => r.status === 'empty');
+  const emptyRoom = (h.rooms||[]).find(r => r.status === 'empty');
   if (!emptyRoom) { showToast('No vacant rooms in this house'); return; }
 
   const code = String(Math.floor(100000 + Math.random() * 900000));
@@ -10775,7 +11256,6 @@ function promoteWaitlist(name, houseId, idx) {
   h.waitlist.splice(idx, 1);
   save();
 
-  // Populate and show invite-code modal
   const set = (id, v) => { const e = document.getElementById(id); if(e) e.textContent = v; };
   set('ic-code-display', code);
   set('ic-room-display', emptyRoom.name + ' — ' + h.name);
@@ -10789,6 +11269,57 @@ function promoteWaitlist(name, houseId, idx) {
   renderWaitlistManager();
 }
 
+function openRoomPhotoViewer(photos, roomName) {
+  if (!photos || !photos.length) return;
+  document.getElementById('room-photo-viewer')?.remove();
+
+  let current = 0;
+  const total = photos.length;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'room-photo-viewer';
+  overlay.style.cssText = 'position:fixed;inset:0;background:#000;z-index:800;display:flex;flex-direction:column;';
+
+  const render = () => {
+    overlay.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;flex-shrink:0;">
+        <button onclick="document.getElementById('room-photo-viewer').remove()" style="background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:8px;padding:8px 12px;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px;">
+          <i class="ph ph-arrow-left"></i>
+        </button>
+        <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#fff;">${roomName} — ${current+1} / ${total}</div>
+        <div style="width:40px;"></div>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 12px;">
+        <img src="${photos[current]}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;">
+      </div>
+      <div style="display:flex;justify-content:center;gap:8px;padding:16px;flex-shrink:0;">
+        ${photos.map((_, i) => `<div style="width:${i===current?'24px':'8px'};height:8px;border-radius:4px;background:${i===current?'#fff':'rgba(255,255,255,.3)'};transition:all .2s;cursor:pointer;" onclick="document.getElementById('room-photo-viewer').remove();openRoomPhotoViewerAt(${i})"></div>`).join('')}
+      </div>
+      ${total > 1 ? `
+      <div style="display:flex;gap:12px;padding:0 16px 20px;flex-shrink:0;">
+        <button onclick="rvPrev()" style="flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:10px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;" ${current===0?'disabled style="opacity:.4"':''}>← Prev</button>
+        <button onclick="rvNext()" style="flex:1;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:10px;padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer;" ${current===total-1?'disabled style="opacity:.4"':''}>Next →</button>
+      </div>` : '<div style="height:20px;"></div>'}
+    `;
+  };
+
+  window.rvNext = () => { if (current < total-1) { current++; render(); } };
+  window.rvPrev = () => { if (current > 0) { current--; render(); } };
+  window.openRoomPhotoViewerAt = (idx) => { current = idx; openRoomPhotoViewer(photos, roomName); };
+
+  // Swipe support
+  let touchStartX = 0;
+  overlay.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  overlay.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (dx < -50) window.rvNext();
+    else if (dx > 50) window.rvPrev();
+  });
+
+  document.body.appendChild(overlay);
+  render();
+}
+
 function removeWaitlist(name, houseId, idx) {
   const h = state.houses.find(x => x.id === houseId);
   if (h) {
@@ -10799,6 +11330,298 @@ function removeWaitlist(name, houseId, idx) {
   }
 }
 
+// ════════════════════════════════════════
+// LANDLORD — ANALYTICS
+// ════════════════════════════════════════
+function renderAnalytics() {
+  const body = document.getElementById('l-analytics-body');
+  if (!body) return;
+
+  const h = state.houses.find(x => x.id === (state.currentHouseId || state.houses[0]?.id)) || state.houses[0];
+  if (!h) { body.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--muted);">No house found.</div>'; return; }
+
+  const rooms        = h.rooms || [];
+  const tenants      = state.pendingTenants.filter(t => t.houseId === h.id && t.status === 'active');
+  const totalRooms   = rooms.length;
+  const paidRooms    = rooms.filter(r => r.status === 'paid' || r.status === 'self_reported').length;
+  const pendRooms    = rooms.filter(r => r.status === 'pending').length;
+  const emptyRooms   = rooms.filter(r => r.status === 'empty').length;
+  const occupancy    = totalRooms > 0 ? Math.round((paidRooms + pendRooms) / totalRooms * 100) : 0;
+  const monthlyTarget= h.price * totalRooms;
+  const collected    = h.price * paidRooms;
+  const uncollected  = h.price * pendRooms;
+  const vacancyCost  = h.price * emptyRooms;
+  const riceBags     = Math.round(vacancyCost / 275); // ~55kg sack
+  const expenses     = (state.expenses || []).filter(e => !e.houseId || e.houseId === h.id);
+  const totalExp     = expenses.reduce((s,e) => s + (e.amount||0), 0);
+  const netIncome    = collected - totalExp;
+  const inquiries    = (state.inquiries || []).filter(i => i.houseId === h.id);
+  const now          = new Date();
+  const thisMonth    = now.getMonth();
+  const thisYear     = now.getFullYear();
+  const inqThisMo    = inquiries.filter(i => { const d=new Date(i.date||0); return d.getMonth()===thisMonth&&d.getFullYear()===thisYear; }).length;
+  const waitCount    = (h.waitlist||[]).length;
+  const collRate     = tenants.length > 0 ? Math.round(paidRooms / tenants.length * 100) : 100;
+
+  const latePatterns = tenants.filter(t => {
+    if (!t.moveInDate) return false;
+    const r = rooms.find(rm => rm.name === t.room);
+    if (!r || r.status !== 'pending') return false;
+    return Math.round((Date.now() - new Date(t.moveInDate)) / (30*86400000)) >= 3;
+  });
+
+  const semEnds = [new Date(now.getFullYear(),5,30), new Date(now.getFullYear(),11,20)];
+  const expiringTenants = tenants.filter(t => {
+    if (!t.moveInDate) return false;
+    return semEnds.some(end => { const d=Math.round((end-now)/86400000); return d>=0&&d<=45; });
+  });
+
+  const bccDate  = new Date(now.getFullYear()+(now.getMonth()>=5?1:0),4,1);
+  const evsuDate = new Date(now.getFullYear()+(now.getMonth()>=8?1:0),7,1);
+  const daysToBCC  = Math.max(0, Math.round((bccDate-now)/86400000));
+  const daysToEVSU = Math.max(0, Math.round((evsuDate-now)/86400000));
+
+  // ── Helpers ────────────────────────────────
+  const big = (val, label, color='var(--navy)', sub='') => `
+    <div style="text-align:center;padding:14px 8px;">
+      <div style="font-family:'Nunito',sans-serif;font-size:28px;font-weight:900;color:${color};line-height:1;">${val}</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px;font-weight:600;">${label}</div>
+      ${sub ? `<div style="font-size:11px;color:var(--muted2);margin-top:2px;">${sub}</div>` : ''}
+    </div>`;
+
+  const tipBar = (label, value, max, color, tip, action='') => {
+    const pct = Math.min(100, Math.round(value/Math.max(max,1)*100));
+    return `
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:14px;font-weight:700;color:var(--text);">${label}</span>
+        <span style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:${color};">${value}</span>
+      </div>
+      <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:6px;">
+        <div style="height:100%;width:${pct}%;background:${color};border-radius:4px;transition:width .6s ease;"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:12px;color:var(--muted);">${tip}</span>
+        ${action}
+      </div>
+    </div>`;
+  };
+
+  const sectionHdr = (icon, title) => `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+      <div style="width:32px;height:32px;background:var(--blueLt);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <i class="ph ${icon}" style="font-size:16px;color:var(--blue);"></i>
+      </div>
+      <span style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:var(--navy);">${title}</span>
+    </div>`;
+
+  const card = (content, accent='var(--border)') => `
+    <div style="background:var(--card);border:1.5px solid ${accent};border-radius:16px;padding:18px;margin-bottom:16px;">
+      ${content}
+    </div>`;
+
+  const actionBtn = (label, onclick, color='var(--blue)') => `
+    <button onclick="${onclick}" style="background:${color}18;color:${color};border:1.5px solid ${color}30;border-radius:8px;padding:6px 14px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">${label}</button>`;
+
+  body.innerHTML = `
+
+  <!-- ═══ 1. SNAPSHOT ═══ -->
+  ${card(`
+    ${sectionHdr('ph-lightning', 'Monthly Overview')}
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--border);margin:-2px -2px 14px;">
+      ${big('₱' + collected.toLocaleString(), 'Collected', 'var(--green)')}
+      ${big('₱' + uncollected.toLocaleString(), 'Uncollected', uncollected > 0 ? 'var(--amber)' : 'var(--muted)')}
+      ${big(paidRooms+pendRooms+'/'+totalRooms, 'Occupied', occupancy>=80?'var(--green)':occupancy>=50?'var(--amber)':'var(--red)')}
+    </div>
+    ${tipBar('Occupancy rate', occupancy+'%', 100,
+      occupancy>=80?'var(--green)':occupancy>=50?'var(--amber)':'var(--red)',
+      occupancy>=80 ? 'Great! Almost full.' : emptyRooms + ' room(s) vacant right now',
+      emptyRooms > 0 ? actionBtn('View Rooms', "goTo('l-rooms')") : ''
+    )}
+    ${vacancyCost > 0 ? `<div style="background:var(--amberBg);border:1px solid var(--amber);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
+      <i class="ph ph-piggy-bank" style="font-size:24px;color:var(--amber);flex-shrink:0;"></i>
+      <div>
+        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--amber);">You're losing ₱${vacancyCost.toLocaleString()} per month</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px;">Equal to ${riceBags} sacks of rice. Try posting a vacancy now.</div>
+      </div>
+    </div>` : ''}
+  `, vacancyCost > 0 ? 'var(--amber)' : 'var(--green)')}
+
+  <!-- ═══ 2. PAYMENT HEALTH ═══ -->
+  ${card(`
+    ${sectionHdr('ph-coins', 'Tenant Payments')}
+    ${tipBar('Collection rate', collRate+'%', 100,
+      collRate>=80?'var(--green)':collRate>=50?'var(--amber)':'var(--red)',
+      paidRooms + ' of ' + tenants.length + ' tenant(s) paid',
+      pendRooms > 0 ? actionBtn('Send Reminder', "goTo('l-reminder')", 'var(--amber)') : ''
+    )}
+    ${pendRooms > 0 ? `
+    <div style="border-top:1px solid var(--border);padding-top:12px;margin-top:4px;">
+      <div style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px;">Pending Payment</div>
+      ${rooms.filter(r=>r.status==='pending').map(r=>`
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+          <div>
+            <span style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);">${r.tenant||r.name}</span>
+            <span style="font-size:12px;color:var(--muted);margin-left:6px;">${r.name}</span>
+          </div>
+          <span style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--amber);">₱${(r.amount||h.price).toLocaleString()}</span>
+        </div>`).join('')}
+    </div>` : `<div style="padding:8px 0;font-size:13px;color:var(--green);font-weight:700;"><i class="ph ph-check-circle"></i> All tenants have paid!</div>`}
+    ${latePatterns.length ? `<div style="background:var(--redBg);border:1px solid rgba(192,57,43,.2);border-radius:10px;padding:12px 14px;margin-top:10px;">
+      <div style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--red);margin-bottom:4px;"><i class="ph ph-warning"></i> Late payment pattern: ${latePatterns.map(t=>t.name.split(' ')[0]).join(', ')}</div>
+      <div style="font-size:12px;color:var(--text2);">Has been overdue for multiple months. Follow up to avoid issues.</div>
+    </div>` : ''}
+  `)}
+
+  <!-- ═══ 3. DEMAND ═══ -->
+  ${card(`
+    ${sectionHdr('ph-trend-up', 'Demand & Popularity')}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div style="background:var(--blueLt);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-family:'Nunito',sans-serif;font-size:28px;font-weight:900;color:var(--blue);">${inqThisMo}</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Inquiries this month</div>
+      </div>
+      <div style="background:${waitCount>0?'var(--greenBg)':'var(--warm2)'};border-radius:12px;padding:14px;text-align:center;" id="wl-count-tile">
+        <div style="font-family:'Nunito',sans-serif;font-size:28px;font-weight:900;color:${waitCount>0?'var(--green)':'var(--muted)'};">${waitCount}</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">On waitlist</div>
+        ${waitCount>0 ? '<button onclick="goTo(\'l-waitlist\')" style="margin-top:8px;background:var(--green);color:#fff;border:none;border-radius:8px;padding:5px 14px;font-family:\'Nunito\',sans-serif;font-size:12px;font-weight:800;cursor:pointer;">View</button>' : ''}
+      </div>
+    </div>
+    ${waitCount > 0 ? `<div style="font-size:13px;color:var(--text2);padding:10px 12px;background:var(--greenBg);border-radius:10px;"><i class="ph ph-lightbulb" style="color:var(--green);"></i> There are ${waitCount} waiting. Consider raising price by ₱${Math.round(h.price*0.05/50)*50} on the next vacancy.</div>` : ''}
+  `)}
+
+  <!-- ═══ 4. FINANCES ═══ -->
+  ${card(`
+    ${sectionHdr('ph-chart-bar', 'Income & Expenses')}
+    ${tipBar('Income this month', '₱' + collected.toLocaleString(), monthlyTarget,
+      'var(--teal)',
+      Math.round(collected/Math.max(monthlyTarget,1)*100) + '% ng potential na ₱' + monthlyTarget.toLocaleString(),
+      ''
+    )}
+    ${tipBar('Expenses (logged)', '₱' + totalExp.toLocaleString(), collected||1,
+      totalExp > collected*0.5 ? 'var(--red)' : 'var(--muted)',
+      expenses.length + ' entries logged',
+      actionBtn('Add Expense', "goTo('l-expense')", 'var(--muted)')
+    )}
+    <div style="border-top:1.5px solid var(--border);padding-top:14px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:13px;color:var(--muted);">Net income</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:${netIncome>=0?'var(--green)':'var(--red)'};">₱${netIncome.toLocaleString()}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:13px;color:var(--muted);">Projected / year</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;color:var(--navy);">₱${(netIncome*12).toLocaleString()}</div>
+      </div>
+    </div>
+  `)}
+
+  <!-- ═══ 5. TENANT TURNOVER ═══ -->
+  ${card(`
+    ${sectionHdr('ph-arrows-counter-clockwise', 'Tenants & Move-in Dates')}
+    ${rooms.filter(r=>r.status!=='empty').map(r => {
+      const t = tenants.find(tn => tn.room === r.name);
+      const days = t?.moveInDate ? Math.round((Date.now()-new Date(t.moveInDate))/86400000) : 0;
+      const pct  = Math.min(100, Math.round(days/365*100));
+      return `
+      <div style="margin-bottom:14px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+          <span style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--navy);">${r.name} — ${r.tenant||'Tenant'}</span>
+          <span style="font-size:12px;color:var(--muted);">${days>0?days+' days':'New'}</span>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
+          <div style="height:100%;width:${pct}%;background:var(--blue);border-radius:3px;"></div>
+        </div>
+        <div style="font-size:11px;color:var(--muted2);margin-top:3px;">${t?.moveInDate?'Move-in: '+new Date(t.moveInDate).toLocaleDateString('en-PH',{month:'short',day:'numeric',year:'numeric'}):'Move-in date not recorded'}</div>
+      </div>`;
+    }).join('') || '<div style="font-size:13px;color:var(--muted);text-align:center;padding:12px;">No active tenants.</div>'}
+  `)}
+
+  <!-- ═══ 6. LEASE EXPIRY ═══ -->
+  ${card(`
+    ${sectionHdr('ph-calendar-x', 'Watch Out: Leaving Soon?')}
+    ${expiringTenants.length ? `
+      <div style="background:var(--amberBg);border:1px solid var(--amber);border-radius:10px;padding:14px;margin-bottom:12px;">
+        <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--amber);margin-bottom:6px;"><i class="ph ph-warning"></i> ${expiringTenants.length} tenant ang maaaring umalis of 45 days</div>
+        ${expiringTenants.map(t=>`<div style="font-size:13px;color:var(--text2);padding:4px 0;">${t.name} · ${t.room}</div>`).join('')}
+        <div style="margin-top:8px;">${actionBtn('Post vacancy now', "goTo('l-listing')", 'var(--amber)')}</div>
+      </div>` : `
+      <div style="background:var(--greenBg);border:1px solid var(--green);border-radius:10px;padding:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--green);margin-bottom:12px;">
+        <i class="ph ph-check-circle"></i> No tenants leaving within 45 days
+      </div>`}
+  `)}
+
+  <!-- ═══ 7. ENROLLMENT SEASON ═══ -->
+  ${card(`
+    ${sectionHdr('ph-calendar-blank', 'Enrollment Season')}
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div style="background:${daysToBCC<=30?'linear-gradient(135deg,var(--amber),#D97706)':'var(--card)'};border:1.5px solid ${daysToBCC<=30?'var(--amber)':'var(--border)'};border-radius:14px;padding:16px;text-align:center;">
+        <div style="font-size:11px;font-weight:800;color:${daysToBCC<=30?'#fff':'var(--muted)'};letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px;">BCC</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:${daysToBCC<=30?'#fff':'var(--navy)'};">${daysToBCC}</div>
+        <div style="font-size:12px;color:${daysToBCC<=30?'rgba(255,255,255,.8)':'var(--muted)'};margin-top:4px;">days away · May</div>
+      </div>
+      <div style="background:${daysToEVSU<=30?'linear-gradient(135deg,var(--blue),#1558CC)':'var(--card)'};border:1.5px solid ${daysToEVSU<=30?'var(--blue)':'var(--border)'};border-radius:14px;padding:16px;text-align:center;">
+        <div style="font-size:11px;font-weight:800;color:${daysToEVSU<=30?'#fff':'var(--muted)'};letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px;">EVSU</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:${daysToEVSU<=30?'#fff':'var(--navy)'};">${daysToEVSU}</div>
+        <div style="font-size:12px;color:${daysToEVSU<=30?'rgba(255,255,255,.8)':'var(--muted)'};margin-top:4px;">days away · August</div>
+      </div>
+    </div>
+    <div style="background:var(--blueLt);border-radius:10px;padding:13px 14px;font-size:13px;color:var(--text2);line-height:1.5;">
+      <i class="ph ph-lightbulb" style="color:var(--blue);"></i>
+      ${daysToBCC<=45||daysToEVSU<=45 ? ' Enrollment is coming! Update your listing and make sure it is verified.' : ' No enrollment season in the next 45 days. Good time to do repairs and update your listing photos.'}
+    </div>
+  `)}
+  `;
+}
+
+
+
+// ════════════════════════════════════════
+// ROLE SELECT — helpers
+// ════════════════════════════════════════
+function showTenantChoice() {
+  const bg = document.createElement('div');
+  bg.id = 'tenant-choice-bg';
+  bg.style.cssText = 'position:absolute;inset:0;background:rgba(11,31,58,.65);z-index:500;display:flex;align-items:flex-end;backdrop-filter:blur(4px);';
+  bg.innerHTML = `<div style="background:var(--warm);border-radius:22px 22px 0 0;padding:26px 20px 36px;width:100%;">
+    <div style="width:34px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 20px;"></div>
+    <div style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:var(--text);margin-bottom:6px;">I'm a Tenant</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:20px;">Already registered, or joining for the first time?</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <button onclick="document.getElementById('tenant-choice-bg').remove();setRole('tenant')" style="background:var(--teal);color:#fff;border:none;border-radius:var(--r);padding:16px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;"><i class="ph ph-house"></i> I'm already registered</button>
+      <button onclick="document.getElementById('tenant-choice-bg').remove();goTo('t-register')" style="background:var(--card);color:var(--teal);border:2px solid var(--teal);border-radius:var(--r);padding:16px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;"><i class="ph ph-key"></i> I have an invite code</button>
+      <button onclick="document.getElementById('tenant-choice-bg').remove()" style="background:transparent;color:var(--muted);border:none;padding:12px;font-family:'Nunito',sans-serif;font-size:14px;cursor:pointer;">Cancel</button>
+    </div>
+  </div>`;
+  document.querySelector('.phone').appendChild(bg);
+}
+
+let _logoTapCount = 0, _logoTapTimer = null;
+function handleLogoTap() {
+  _logoTapCount++;
+  clearTimeout(_logoTapTimer);
+  _logoTapTimer = setTimeout(() => { _logoTapCount = 0; }, 800);
+  if (_logoTapCount >= 3) {
+    _logoTapCount = 0;
+    const card = document.getElementById('role-admin-card');
+    if (card) { card.classList.toggle('hidden'); showToast(card.classList.contains('hidden') ? 'Admin hidden' : '🔐 Admin revealed'); }
+  }
+}
+
+function goToSeekerEntry() {
+  state.role = 'seeker';
+  navStack.length = 0;
+  if (!profiles.seeker || !profiles.seeker.name) {
+    profiles.seeker = { name:'Ana Santos', phone:'09171234567', school:'EVSU Burauen Campus', course:'BSIT 2nd Year', budget:1500, wifiRequired:true, cookingRequired:false, visitorsRequired:true, noCurfew:false, laundryRequired:true, photo:DEMO_PHOTOS.avatar1, showPhoto:true };
+    saveProfiles();
+  }
+  goTo('s-home');
+}
+
+function goToLandlordEntry() {
+  state.role = 'landlord';
+  navStack.length = 0;
+  goTo('l-home');
+}
 </script>
 </body>
 </html>

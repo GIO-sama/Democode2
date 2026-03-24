@@ -11623,6 +11623,85 @@ function goToLandlordEntry() {
   goTo('l-home');
 }
 </script>
+
+<script>
+(function () {
+  'use strict';
+
+  const SUPABASE_URL = 'https://vjcipdiurykfctbuszbs.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_wqzKE-V0zoy2vN4EgOpGog_E35TFxU9';
+  const CLOUD_KEYS   = ['bb_state', 'bb_profiles'];
+
+  let _sb       = null;
+  let _syncBusy = false;
+
+  function loadSDK() {
+    return new Promise(resolve => {
+      if (window.supabase) { resolve(); return; }
+      const s = document.createElement('script');
+      s.src     = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js';
+      s.onload  = resolve;
+      s.onerror = () => { console.warn('[BB Cloud] SDK load failed — offline mode'); resolve(); };
+      document.head.appendChild(s);
+    });
+  }
+
+  async function cloudSave() {
+    if (!_sb) return;
+    try {
+      const rows = CLOUD_KEYS
+        .map(k => { const v = localStorage.getItem(k); return v ? { key: k, value: JSON.parse(v), updated_at: new Date().toISOString() } : null; })
+        .filter(Boolean);
+      if (!rows.length) return;
+      const { error } = await _sb.from('app_data').upsert(rows);
+      if (error) throw error;
+      console.log('[BB Cloud] Saved ✓');
+    } catch(e) { console.warn('[BB Cloud] Save failed:', e.message); }
+  }
+
+  async function cloudLoad() {
+    if (!_sb || _syncBusy) return;
+    const last = sessionStorage.getItem('bb_cloud_ts');
+    if (last && Date.now() - parseInt(last) < 15000) return;
+    _syncBusy = true;
+    try {
+      const { data, error } = await _sb.from('app_data').select('key,value');
+      if (error) throw error;
+      if (!data || !data.length) { console.log('[BB Cloud] No cloud data yet — will save on next change'); return; }
+      let changed = false;
+      data.forEach(row => {
+        const local = localStorage.getItem(row.key);
+        const cloud = JSON.stringify(row.value);
+        if (local !== cloud) { localStorage.setItem(row.key, cloud); changed = true; }
+      });
+      sessionStorage.setItem('bb_cloud_ts', String(Date.now()));
+      if (changed) { console.log('[BB Cloud] Newer data found — refreshing ✓'); location.reload(); }
+      else { console.log('[BB Cloud] Already in sync ✓'); }
+    } catch(e) { console.warn('[BB Cloud] Load failed:', e.message); }
+    finally { _syncBusy = false; }
+  }
+
+  function patchSaves() {
+    const oDS = window._doSave;
+    if (typeof oDS === 'function') window._doSave = function(){ oDS.call(this); cloudSave(); };
+    const oSP = window.saveProfiles;
+    if (typeof oSP === 'function') window.saveProfiles = function(){ oSP.call(this); cloudSave(); };
+    console.log('[BB Cloud] Patched ✓');
+  }
+
+  async function init() {
+    await loadSDK();
+    if (!window.supabase) return;
+    _sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    console.log('[BB Cloud] Connected ✓');
+    await cloudLoad();
+    patchSaves();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
 </body>
 </html>
 

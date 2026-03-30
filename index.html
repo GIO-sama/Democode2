@@ -25,6 +25,8 @@
   --teal:      #0B7A6A;
   --teal2:     #0D9480;
   --tealBg:    #F0FDF4;
+  --landlord:  #0B5E4A;
+  --landlord2: #0D7A60;
   --warm:      #F5F3EF;
   --warm2:     #EDE9E3;
   --card:      #FFFFFF;
@@ -149,6 +151,25 @@ body {
   background:var(--blue);
   border-radius:0 0 2px 2px;
 }
+
+/* Landlord screens get their own nav accent — dark teal, not seeker blue */
+#l-home .ni.on .ni-ic, #l-inbox .ni.on .ni-ic, #l-rooms .ni.on .ni-ic,
+#l-listing .ni.on .ni-ic, #l-tenants .ni.on .ni-ic, #l-profile .ni.on .ni-ic,
+#l-visits .ni.on .ni-ic, #l-qr .ni.on .ni-ic, #l-expense .ni.on .ni-ic,
+#l-maint .ni.on .ni-ic, #l-waitlist .ni.on .ni-ic, #l-announce .ni.on .ni-ic,
+#l-reminder .ni.on .ni-ic { color:var(--landlord); }
+
+#l-home .ni.on .ni-lb, #l-inbox .ni.on .ni-lb, #l-rooms .ni.on .ni-lb,
+#l-listing .ni.on .ni-lb, #l-tenants .ni.on .ni-lb, #l-profile .ni.on .ni-lb,
+#l-visits .ni.on .ni-lb, #l-qr .ni.on .ni-lb, #l-expense .ni.on .ni-lb,
+#l-maint .ni.on .ni-lb, #l-waitlist .ni.on .ni-lb, #l-announce .ni.on .ni-lb,
+#l-reminder .ni.on .ni-lb { color:var(--landlord); }
+
+#l-home .ni.on::after, #l-inbox .ni.on::after, #l-rooms .ni.on::after,
+#l-listing .ni.on::after, #l-tenants .ni.on::after, #l-profile .ni.on::after,
+#l-visits .ni.on::after, #l-qr .ni.on::after, #l-expense .ni.on::after,
+#l-maint .ni.on::after, #l-waitlist .ni.on::after, #l-announce .ni.on::after,
+#l-reminder .ni.on::after { background:var(--landlord); }
 
 /* ─── TYPOGRAPHY ─────────────────────────────────── */
 .f-nun { font-family:'Nunito', sans-serif; }
@@ -808,7 +829,7 @@ body {
 ═══════════════════════════════════════════════════ */
 .lhdr {
   background:var(--navy);
-  background-image:radial-gradient(ellipse 120% 80% at 60% -20%, rgba(21,88,204,.4) 0%, transparent 65%);
+  background-image:radial-gradient(ellipse 120% 80% at 60% -20%, rgba(11,94,74,.55) 0%, transparent 65%);
   padding:16px 18px 20px;
   flex-shrink:0;
 }
@@ -1594,7 +1615,6 @@ body {
   border-style: solid;
   border-color: transparent;
 }
-.snap-slot-emoji { font-size: 26px; }
 .snap-slot-label {
   font-family: 'Nunito', sans-serif;
   font-size: 9px;
@@ -1802,7 +1822,6 @@ body {
   overflow: hidden;
   position: relative;
 }
-.d-photo-slot-emoji { font-size: 22px; }
 .d-photo-slot-label {
   font-family: 'Nunito', sans-serif;
   font-size: 8px;
@@ -2742,6 +2761,50 @@ body {
 /* fg labels */
 [id^="a-"] .fg .lbl { color: rgba(255,255,255,.5) !important; }
 
+/* ─── SORT SHEET ─────────────────────────── */
+.sort-sheet-opt {
+  width:100%; padding:13px 16px; background:var(--warm2);
+  border:1.5px solid var(--border); border-radius:var(--r);
+  font-family:'Nunito',sans-serif; font-size:14px; font-weight:700;
+  color:var(--text2); cursor:pointer; text-align:left;
+  display:flex; align-items:center; gap:10px; transition:all .15s;
+}
+.sort-sheet-opt:active { background:var(--border); }
+.sort-sheet-opt.sort-sheet-on {
+  background:var(--navy); color:#fff; border-color:var(--navy);
+}
+
+/* ─── SEEKER INQUIRY UNREAD BADGE ─────────────────── */
+.seeker-inq-ni { position: relative; }
+.ni-inq-dot {
+  position: absolute;
+  top: 5px;
+  right: calc(50% - 16px);
+  width: 9px; height: 9px;
+  background: var(--red);
+  border-radius: 50%;
+  border: 1.5px solid #fff;
+  display: none;
+  z-index: 2;
+}
+.seeker-inq-ni.has-unread .ni-inq-dot { display: block; animation: badgePop .3s ease; }
+@keyframes badgePop { 0%{transform:scale(0)} 70%{transform:scale(1.25)} 100%{transform:scale(1)} }
+
+/* Unread nudge banner on home */
+#s-home-unread-nudge {
+  margin: 0 14px 8px;
+  background: var(--blueLt);
+  border: 1px solid rgba(21,88,204,.22);
+  border-radius: var(--r);
+  padding: 10px 13px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background .15s;
+}
+#s-home-unread-nudge:active { background: #DBEAFE; }
+
 /* ─── SMALL SCREEN (320px — old iPhone SE, budget Androids) ────── */
 @media(max-width:360px) {
   .ni-lb { font-size:10px; }
@@ -2826,8 +2889,12 @@ body {
           <div class="role-arrow" style="color:rgba(255,107,107,.4);"><i class="ph ph-caret-right"></i></div>
         </div>
       </div>
-      <div style="margin-top:16px;text-align:center;">
-        <span onclick="goTo('l-onboard')" style="font-size:13px;color:rgba(255,255,255,.4);font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:2px;">+ List my boarding house</span>
+      <!-- New landlord entry point — separated from role cards so it's clearly an action, not a role -->
+      <div style="margin-top:20px;padding:0 4px;">
+        <div onclick="goTo('l-onboard')" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:13px 16px;cursor:pointer;transition:background .15s;" onmouseenter="this.style.background='rgba(255,255,255,.1)'" onmouseleave="this.style.background='rgba(255,255,255,.06)'" ontouchstart="this.style.background='rgba(255,255,255,.1)'" ontouchend="this.style.background='rgba(255,255,255,.06)'">
+          <i class="ph ph-plus-circle" style="font-size:16px;color:rgba(255,255,255,.5);"></i>
+          <span style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,.5);">List my boarding house</span>
+        </div>
       </div>
     </div>
   </div>
@@ -3093,7 +3160,7 @@ body {
     <div class="admin-topbar">
       <div class="back" onclick="goTo('a-home')" style="color:rgba(255,255,255,.7);"><i class="ph ph-arrow-left"></i></div>
       <div class="admin-topbar-title">Audit Log</div>
-      <button onclick="clearAuditLog()" style="background:none;border:none;color:rgba(255,107,107,.7);font-size:12px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;padding:4px 8px;">Clear</button>
+      <button onclick="confirmClearAuditLog()" style="background:none;border:none;color:rgba(255,107,107,.7);font-size:12px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;padding:4px 8px;">Clear</button>
     </div>
     <div class="scroll" style="padding:14px 14px 90px;background:#12122a;" id="a-logs-list"></div>
     <div class="admin-bnav">
@@ -3102,7 +3169,6 @@ body {
       <div class="admin-ni" onclick="goTo('a-registry')"><span class="admin-ni-ic"><i class="ph ph-users"></i></span><span class="admin-ni-lb">Users</span></div>
       <div class="admin-ni" onclick="goTo('a-financials')"><span class="admin-ni-ic"><i class="ph ph-chart-line"></i></span><span class="admin-ni-lb">Financials</span></div>
       <div class="admin-ni on" onclick="goTo('a-logs')"><span class="admin-ni-ic"><i class="ph ph-scroll"></i></span><span class="admin-ni-lb">Log</span></div>
-
       <div class="admin-ni" onclick="goTo('a-settings')"><span class="admin-ni-ic"><i class="ph ph-gear"></i></span><span class="admin-ni-lb">Settings</span></div>
     </div>
   </div>
@@ -3181,10 +3247,49 @@ body {
         </div>
       </div>
 
+      <!-- Enrollment Season Dates -->
+      <div class="card card-p" style="margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+          <div style="width:38px;height:38px;background:var(--amberBg);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="ph ph-calendar-blank" style="font-size:20px;color:var(--amber);"></i>
+          </div>
+          <div>
+            <div class="title-md">Enrollment Season Dates</div>
+            <div style="font-size:12px;color:var(--muted);">Controls the countdown shown on the landlord dashboard</div>
+          </div>
+        </div>
+        <div class="fg">
+          <label class="lbl">BCC Enrollment Start (Month)</label>
+          <select class="sel" id="admin-bcc-month" onchange="saveEnrollmentDates()">
+            <option value="0">January</option><option value="1">February</option>
+            <option value="2">March</option><option value="3">April</option>
+            <option value="4" selected>May</option><option value="5">June</option>
+            <option value="6">July</option><option value="7">August</option>
+            <option value="8">September</option><option value="9">October</option>
+            <option value="10">November</option><option value="11">December</option>
+          </select>
+        </div>
+        <div class="fg" style="margin-bottom:0;">
+          <label class="lbl">EVSU Enrollment Start (Month)</label>
+          <select class="sel" id="admin-evsu-month" onchange="saveEnrollmentDates()">
+            <option value="0">January</option><option value="1">February</option>
+            <option value="2">March</option><option value="3">April</option>
+            <option value="4">May</option><option value="5">June</option>
+            <option value="6">July</option><option value="7" selected>August</option>
+            <option value="8">September</option><option value="9">October</option>
+            <option value="10">November</option><option value="11">December</option>
+          </select>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5;padding:8px 10px;background:var(--warm2);border-radius:8px;">
+          <i class="ph ph-info" style="font-size:11px;"></i> Changes take effect immediately on the landlord dashboard. BCC = May, EVSU = August by default.
+        </div>
+      </div>
+
       <!-- Quick links -->
       <div class="card card-p" style="margin-bottom:12px;">
         <div class="slbl" style="margin-bottom:12px;">Quick Access</div>
         <div style="display:flex;flex-direction:column;gap:8px;">
+          <button onclick="goTo('a-logs')" class="btn btn-secondary" style="width:100%;justify-content:flex-start;"><i class="ph ph-scroll"></i> Audit Log</button>
           <button onclick="goTo('a-inquiries')" class="btn btn-secondary" style="width:100%;justify-content:flex-start;"><i class="ph ph-chat-circle"></i> Inquiry Monitor</button>
           <button onclick="goTo('a-maintenance')" class="btn btn-secondary" style="width:100%;justify-content:flex-start;"><i class="ph ph-wrench"></i> Maintenance Tracker</button>
           <button onclick="goTo('a-announcements')" class="btn btn-secondary" style="width:100%;justify-content:flex-start;"><i class="ph ph-broadcast"></i> Platform Announcements</button>
@@ -3230,21 +3335,25 @@ body {
 
       </div>
     </div>
-    <div class="filter-row" id="filter-row" style="padding-bottom:4px;">
+    <div class="filter-row" id="filter-row" style="padding-bottom:6px;gap:6px;align-items:center;">
+      <!-- Unread reply nudge -->
+      <div id="s-home-unread-nudge" onclick="goTo('s-myinq')">
+        <i class="ph ph-chat-circle-dots" style="font-size:18px;color:var(--blue);flex-shrink:0;"></i>
+        <div style="flex:1;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--blue);">
+          <span id="s-home-unread-count">1</span> unread repl<span id="s-home-unread-ies">y</span> waiting
+        </div>
+        <i class="ph ph-caret-right" style="font-size:14px;color:var(--blue);opacity:.6;flex-shrink:0;"></i>
+      </div>
+      <!-- Filter chips -->
       <div class="chip on" onclick="setFilter('all',this)">All</div>
-      <div class="chip" onclick="setFilter('available',this)">Available now</div>
+      <div class="chip" onclick="setFilter('available',this)">Available</div>
       <div class="chip" onclick="setFilter('under2k',this)">Under ₱2k</div>
-      <div class="chip" onclick="setFilter('wifi',this)">WiFi included</div>
+      <div class="chip" onclick="setFilter('wifi',this)">WiFi</div>
       <div class="chip" onclick="setFilter('nocurfew',this)">No curfew</div>
-    </div>
-    <!-- Sort row -->
-    <div style="display:flex;gap:6px;padding:4px 16px 10px;overflow-x:auto;" id="sort-row">
-      <span style="font-size:11px;color:rgba(255,255,255,.45);font-weight:700;align-self:center;white-space:nowrap;flex-shrink:0;">Sort:</span>
-      <div class="chip on" id="sort-dist"   onclick="setSort('distance',this)" style="font-size:11px;padding:4px 10px;">Nearest</div>
-      <div class="chip"    id="sort-match"  onclick="setSort('match',this)"   style="font-size:11px;padding:4px 10px;"><i class="ph ph-star-four"></i> Best Match</div>
-      <div class="chip"    id="sort-price"  onclick="setSort('price',this)"   style="font-size:11px;padding:4px 10px;">Price ↑</div>
-      <div class="chip"    id="sort-avail"  onclick="setSort('avail',this)"   style="font-size:11px;padding:4px 10px;">Most Rooms</div>
-      <div class="chip"    id="sort-active" onclick="setSort('active',this)"  style="font-size:11px;padding:4px 10px;">Recently Active</div>
+      <!-- Sort button — always visible, right edge -->
+      <button id="sort-btn" onclick="openSortSheet()" style="flex-shrink:0;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:20px;padding:6px 12px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:rgba(255,255,255,.8);cursor:pointer;white-space:nowrap;">
+        <i class="ph ph-sort-ascending" id="sort-btn-icon"></i> <span id="sort-btn-label">Nearest</span>
+      </button>
     </div>
     <div class="scroll" style="padding:10px 0 90px">
       <div style="padding:0 14px 10px"><span class="slbl" id="houses-count">3 houses near EVSU</span></div>
@@ -3253,7 +3362,7 @@ body {
     <div class="bnav">
       <div class="ni on"><span class="ni-ic"><i class="ph ph-house-line"></i></span><span class="ni-lb">Discover</span></div>
       <div class="ni" onclick="goTo('s-map')"><span class="ni-ic"><i class="ph ph-map-trifold"></i></span><span class="ni-lb">Map</span></div>
-      <div class="ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni seeker-inq-ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-circle"></i><span class="ni-inq-dot"></span></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('s-saved')"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
       <div class="ni" onclick="goTo('s-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
@@ -3278,14 +3387,17 @@ body {
         </div>
         <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:var(--navy);margin-bottom:8px;">No saved houses yet</div>
         <div style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;">Tap the heart icon on any listing to save it here for easy comparison.</div>
-        <button onclick="goTo('s-home')" class="btn-navy-cta"><i class="ph ph-house-line"></i> Browse Listings</button>
+        <button onclick="goTo('s-home')" class="btn-navy-cta" style="width:100%;margin-bottom:10px;"><i class="ph ph-house-line"></i> Browse Listings</button>
+        <button onclick="setFilter('all',null);setSort('match');goTo('s-home')" style="width:100%;background:transparent;border:1.5px solid var(--border);border-radius:var(--r);padding:12px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--muted);cursor:pointer;">
+          <i class="ph ph-sliders"></i> Try Best Match sort
+        </button>
       </div>
       <div id="saved-list" class="cards-list"></div>
     </div>
     <div class="bnav">
       <div class="ni" onclick="goTo('s-home')"><span class="ni-ic"><i class="ph ph-house-line"></i></span><span class="ni-lb">Discover</span></div>
       <div class="ni" onclick="goTo('s-map')"><span class="ni-ic"><i class="ph ph-map-trifold"></i></span><span class="ni-lb">Map</span></div>
-      <div class="ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni seeker-inq-ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-circle"></i><span class="ni-inq-dot"></span></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
       <div class="ni" onclick="goTo('s-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
@@ -3296,7 +3408,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="s-detail">
     <div class="topbar">
-      <div class="back" onclick="goTo('s-role')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title" id="d-topname">Boarding House</div>
       <button onclick="shareHouse()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:7px 10px;color:rgba(255,255,255,.75);font-size:18px;cursor:pointer;line-height:1;display:flex;align-items:center;margin-right:4px;">
         <i class="ph ph-share-network"></i>
@@ -3313,7 +3425,7 @@ body {
       </div>
       <!-- Dynamic photo strip — populated from house.snapshots -->
       <div class="d-photo-strip" id="d-photo-strip"></div>
-      <div style="padding:0 16px 4px;font-size:11px;color:var(--muted);font-style:italic;" id="d-photo-note"><i class="ph ph-info" style="font-size:11px;"></i> Photos taken during in-person verification visit</div>
+      <div style="padding:0 16px 4px;font-size:11px;color:var(--muted);font-style:italic;display:none;" id="d-photo-note"></div>
 
       <!-- About section -->
       <div class="d-about" id="d-about"></div>
@@ -3349,7 +3461,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="s-inquiry">
     <div class="topbar">
-      <div class="back" onclick="goTo('s-detail')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Ask a Question</div>
     </div>
     <div class="fscroll">
@@ -3369,6 +3481,10 @@ body {
       <div class="fintro">
         <span class="fintro-ic"><i class="ph ph-lightbulb" style="color:var(--amber)"></i></span>
         <div class="fintro-txt">This reaches the landlord directly. <strong>No cold messaging</strong> — your info is already structured so they can reply fast.</div>
+      </div>
+      <div id="inq-prefill-note" class="hidden" style="background:var(--blueLt);border:1px solid rgba(21,88,204,.15);border-radius:var(--r);padding:10px 13px;margin-bottom:16px;font-size:12px;color:var(--blue);display:flex;gap:8px;align-items:center;">
+        <i class="ph ph-user-circle" style="font-size:16px;flex-shrink:0;"></i>
+        <span>Some fields were filled from your profile. <span onclick="goTo('s-setup')" style="font-weight:800;text-decoration:underline;cursor:pointer;">Update in Profile</span></span>
       </div>
       <div class="fg"><label class="lbl">Your Name</label><input class="inp" type="text" id="inq-name" placeholder="e.g. Maria Santos"></div>
       <div class="fg"><label class="lbl">School</label>
@@ -3397,7 +3513,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="s-visit">
     <div class="topbar">
-      <div class="back" onclick="goTo('s-detail')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Schedule a Visit</div>
     </div>
     <div class="fscroll">
@@ -3424,7 +3540,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="s-waitlist">
     <div class="topbar">
-      <div class="back" onclick="goTo('s-detail')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Join Waitlist</div>
     </div>
     <div class="fscroll">
@@ -3459,7 +3575,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="s-myinq">
     <div class="topbar">
-      <div class="back" onclick="goTo('s-home')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">My Inquiries</div>
     </div>
     <div class="scroll" style="padding:14px 14px 90px">
@@ -3481,7 +3597,7 @@ body {
     <div class="bnav">
       <div class="ni" onclick="goTo('s-home')"><span class="ni-ic"><i class="ph ph-house-line"></i></span><span class="ni-lb">Discover</span></div>
       <div class="ni" onclick="goTo('s-map')"><span class="ni-ic"><i class="ph ph-map-trifold"></i></span><span class="ni-lb">Map</span></div>
-      <div class="ni on"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni on seeker-inq-ni"><span class="ni-ic"><i class="ph ph-chat-circle"></i><span class="ni-inq-dot"></span></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('s-saved')"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
       <div class="ni" onclick="goTo('s-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
@@ -3492,53 +3608,90 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="s-success">
     <div class="success-wrap">
-      <!-- Auto-forward countdown bar -->
-      <div id="succ-countdown-bar" style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--border);overflow:hidden;display:none;">
-        <div id="succ-countdown-fill" style="height:100%;background:var(--blue);width:100%;transition:width 6s linear;"></div>
-      </div>
       <div class="success-icon-wrap" style="background:var(--greenBg)" id="succ-ic-wrap">
         <span id="succ-ic" style="font-size:38px;"><i class="ph ph-check-circle" style="font-size:38px;color:var(--green)"></i></span>
       </div>
       <div style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:var(--navy);margin-bottom:6px" id="succ-title">Inquiry Sent!</div>
       <div style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:18px" id="succ-body">Your inquiry was sent. Landlords typically respond within 24 hours.</div>
       <div class="card card-p" style="width:100%;margin-bottom:18px;text-align:left" id="succ-card"></div>
-      <!-- What happens next timeline -->
-      <div style="width:100%;background:#F5F3EF;border-radius:14px;padding:16px;margin-bottom:18px;text-align:left;">
-        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:900;color:#0B1F3A;margin-bottom:12px;letter-spacing:.3px;">WHAT HAPPENS NEXT</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="display:flex;align-items:flex-start;gap:10px;">
-            <div style="width:26px;height:26px;background:#1558CC;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
-              <i class="ph ph-check" style="font-size:13px;color:#fff;"></i>
+      <!-- What happens next timeline — rendered dynamically by showSuccessTimeline() -->
+      <div id="succ-timeline" style="width:100%;background:#F5F3EF;border-radius:14px;padding:16px;margin-bottom:18px;text-align:left;"></div>
+      <button id="succ-cal-btn" style="display:none;width:100%;margin-bottom:10px;padding:13px;background:linear-gradient(135deg,#0B7A6A,#0D9480);color:#fff;border:none;border-radius:var(--r);font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 14px rgba(11,122,106,.3);"><i class="ph ph-calendar-plus" style="font-size:18px;"></i> Add to Phone Calendar</button>
+      <button class="btn btn-navy" onclick="goTo('s-home')" style="width:100%;margin-bottom:10px;padding:13px;"><i class="ph ph-arrow-left"></i> Browse More Houses</button>
+      <button class="btn btn-ghost" onclick="goTo('s-myinq')" style="width:100%;padding:13px;">View My Inquiries</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════
+       SEEKER → TENANT HANDOFF
+  ═══════════════════════════════ -->
+  <div class="screen" id="s-handoff">
+    <div style="flex:1;overflow-y:auto;padding:24px 20px 40px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <!-- Celebration header -->
+      <div style="width:80px;height:80px;background:linear-gradient(135deg,var(--teal),#0D9480);border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 24px rgba(11,122,106,.3);">
+        <i class="ph ph-house-line" style="font-size:36px;color:#fff;"></i>
+      </div>
+      <div style="font-family:'Nunito',sans-serif;font-size:24px;font-weight:900;color:var(--navy);margin-bottom:8px;" id="handoff-title">You've got a room!</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:28px;max-width:280px;" id="handoff-sub">Your offer has been accepted. Here's what happens next to complete your move-in.</div>
+
+      <!-- House card -->
+      <div id="handoff-house-card" style="width:100%;background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;margin-bottom:20px;text-align:left;box-shadow:var(--sh-sm);"></div>
+
+      <!-- Next steps -->
+      <div style="width:100%;text-align:left;margin-bottom:24px;">
+        <div style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;margin-bottom:14px;">YOUR MOVE-IN CHECKLIST</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;background:var(--greenBg);border:1px solid rgba(22,101,52,.15);border-radius:var(--r);padding:13px 14px;">
+            <div style="width:28px;height:28px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="ph ph-check" style="font-size:14px;color:#fff;"></i>
             </div>
             <div>
-              <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:#0B1F3A;">Inquiry received</div>
-              <div style="font-size:12px;color:#6B7280;margin-top:1px;">The landlord can see your message now.</div>
+              <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--green);">Offer accepted</div>
+              <div style="font-size:12px;color:var(--text2);margin-top:2px;">The landlord has reserved a room for you.</div>
             </div>
           </div>
-          <div style="display:flex;align-items:flex-start;gap:10px;">
-            <div style="width:26px;height:26px;background:#E4DDD5;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
-              <i class="ph ph-clock" style="font-size:13px;color:#6B7280;"></i>
+          <div style="display:flex;align-items:flex-start;gap:12px;background:var(--amberBg);border:1px solid rgba(180,83,9,.15);border-radius:var(--r);padding:13px 14px;">
+            <div style="width:28px;height:28px;background:var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="ph ph-key" style="font-size:14px;color:#fff;"></i>
             </div>
             <div>
-              <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:#374151;">Landlord responds</div>
-              <div style="font-size:12px;color:#6B7280;margin-top:1px;">Usually within 24 hours. Check My Inquiries for updates.</div>
+              <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--amber);">Get your invite code</div>
+              <div style="font-size:12px;color:var(--text2);margin-top:2px;">Your landlord will send a 6-character code via text or Viber. You'll use it to register as a tenant.</div>
             </div>
           </div>
-          <div style="display:flex;align-items:flex-start;gap:10px;">
-            <div style="width:26px;height:26px;background:#E4DDD5;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
-              <i class="ph ph-calendar-check" style="font-size:13px;color:#6B7280;"></i>
+          <div style="display:flex;align-items:flex-start;gap:12px;background:var(--blueLt);border:1px solid rgba(21,88,204,.12);border-radius:var(--r);padding:13px 14px;">
+            <div style="width:28px;height:28px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="ph ph-device-mobile" style="font-size:14px;color:#fff;"></i>
             </div>
             <div>
-              <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:#374151;">Schedule a visit</div>
-              <div style="font-size:12px;color:#6B7280;margin-top:1px;">If accepted, visit the house before deciding.</div>
+              <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--blue);">Register as a tenant</div>
+              <div style="font-size:12px;color:var(--text2);margin-top:2px;">Tap "I'm a Tenant" → "I have an invite code" and enter the code from your landlord.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;background:var(--tealBg);border:1px solid rgba(11,122,106,.12);border-radius:var(--r);padding:13px 14px;">
+            <div style="width:28px;height:28px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <i class="ph ph-house" style="font-size:14px;color:#fff;"></i>
+            </div>
+            <div>
+              <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--teal);">Move in!</div>
+              <div style="font-size:12px;color:var(--text2);margin-top:2px;">Pay your first month via GCash, report your payment in the app, and you're home.</div>
             </div>
           </div>
         </div>
       </div>
-      <button id="succ-cal-btn" style="display:none;width:100%;margin-bottom:10px;padding:13px;background:linear-gradient(135deg,#0B7A6A,#0D9480);color:#fff;border:none;border-radius:var(--r);font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 14px rgba(11,122,106,.3);"><i class="ph ph-calendar-plus" style="font-size:18px;"></i> Add to Phone Calendar</button>
-      <button class="btn btn-navy" onclick="cancelSuccessForward();goTo('s-home')" style="width:100%;margin-bottom:10px;padding:13px;"><i class="ph ph-arrow-left"></i> Browse More Houses</button>
-      <button class="btn btn-ghost" onclick="cancelSuccessForward();goTo('s-myinq')" style="width:100%;padding:13px;">View My Inquiries</button>
-      <div id="succ-auto-msg" style="font-size:12px;color:var(--muted2);margin-top:12px;display:none;">Auto-forwarding to My Inquiries… <button onclick="cancelSuccessForward()" style="background:none;border:none;color:var(--blue);font-size:12px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;padding:0;">Stay</button></div>
+
+      <!-- Tip callout -->
+      <div style="width:100%;background:var(--warm2);border-radius:var(--r);padding:13px 15px;margin-bottom:24px;text-align:left;display:flex;gap:10px;align-items:flex-start;">
+        <i class="ph ph-lightbulb" style="font-size:18px;color:var(--amber);flex-shrink:0;margin-top:1px;"></i>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5;">If you don't receive an invite code within 24 hours, message the landlord directly through your inquiry thread.</div>
+      </div>
+
+      <button onclick="goTo('s-myinq')" class="btn btn-primary" style="width:100%;margin-bottom:10px;padding:14px;">
+        <i class="ph ph-chat-circle-dots"></i> View My Inquiry Thread
+      </button>
+      <button onclick="goTo('s-role')" class="btn btn-secondary" style="width:100%;padding:14px;">
+        <i class="ph ph-sign-in"></i> Go to Tenant Registration
+      </button>
     </div>
   </div>
 
@@ -3582,7 +3735,7 @@ body {
           <div style="font-size:12px;color:var(--text2);">Pay via GCash then tap below so your landlord is notified.</div>
         </div>
         <button onclick="openPaymentReportModal()" style="background:var(--amber);color:#fff;border:none;border-radius:8px;padding:9px 13px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0;white-space:nowrap;">
-          I've Paid
+          Report GCash Payment
         </button>
       </div>
       <div class="report-btn" onclick="goTo('t-maint');setTimeout(()=>openMaintModal(),200)">
@@ -3593,6 +3746,8 @@ body {
         </div>
         <div class="report-arrow"><i class="ph ph-caret-right"></i></div>
       </div>
+      <!-- Lease-end notice — shown dynamically by renderTenantHome() when within 45 days of semester end -->
+      <div id="t-lease-notice" style="display:none;background:var(--amberBg);border:1.5px solid var(--amber);border-radius:var(--r-lg);padding:13px 14px;margin-bottom:14px;align-items:flex-start;gap:11px;"></div>
       <div class="sec-hdr" style="margin-bottom:10px">
         <span class="slbl">Announcements</span>
         <span style="font-size:12px;color:var(--blue);font-family:'Nunito',sans-serif;font-weight:700" id="t-ann-badge">2 new</span>
@@ -3615,7 +3770,7 @@ body {
   </div>
   <div class="screen" id="t-houseinfo">
     <div class="topbar" style="background:linear-gradient(135deg,var(--teal),#0B6357)">
-      <div class="back" onclick="goTo('s-myinq')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('t-home')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">House Info</div>
     </div>
     <div class="scroll" style="padding:14px 14px 90px">
@@ -3838,7 +3993,7 @@ body {
     <div class="bnav">
       <div class="ni" onclick="goTo('l-home')"><span class="ni-ic"><i class="ph ph-chart-bar"></i></span><span class="ni-lb">Overview</span></div>
       <div class="ni" onclick="goTo('l-inbox')"><span class="ni-ic"><i class="ph ph-chat-circle"></i></span><span class="ni-lb">Inquiries</span></div>
-      <div class="ni on"><span class="ni-ic"><i class="ph ph-queue"></i></span><span class="ni-lb">Waitlist</span></div>
+      <div class="ni on" onclick="goTo('l-rooms')"><span class="ni-ic"><i class="ph ph-door"></i></span><span class="ni-lb">Rooms</span></div>
       <div class="ni" onclick="goTo('l-tenants')"><span class="ni-ic"><i class="ph ph-users"></i></span><span class="ni-lb">Tenants</span></div>
       <div class="ni" onclick="goTo('l-profile')"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
@@ -4155,16 +4310,94 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="l-visits">
     <div class="topbar">
-      <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Visit Schedule</div>
     </div>
-    <div class="scroll" style="padding:14px 14px 90px">
+    <!-- Tab bar -->
+    <div style="display:flex;background:var(--warm);border-bottom:1px solid var(--border);flex-shrink:0;">
+      <button id="lvtab-upcoming" onclick="switchVisitTab('upcoming')" style="flex:1;padding:12px 6px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--blue);border-bottom:2px solid var(--blue);cursor:pointer;transition:all .18s;">Upcoming Visits</button>
+      <button id="lvtab-slots"    onclick="switchVisitTab('slots')"    style="flex:1;padding:12px 6px;border:none;background:transparent;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer;transition:all .18s;">My Availability</button>
+    </div>
+    <!-- Upcoming Visits panel -->
+    <div id="lvpanel-upcoming" class="scroll" style="padding:14px 14px 90px">
       <div class="callout cl-info" style="margin-bottom:16px">
         <span class="callout-ic"><i class="ph ph-calendar-blank"></i></span>
-        <div class="callout-txt">Seekers pick from these slots. <strong>Confirmed visits show here.</strong></div>
+        <div class="callout-txt">Seekers pick from your available slots. <strong>Confirm or decline visits here.</strong></div>
       </div>
       <div class="slbl" style="margin-bottom:11px">Upcoming Visits</div>
       <div id="l-visits-list"></div>
+    </div>
+    <!-- My Availability panel -->
+    <div id="lvpanel-slots" class="scroll" style="padding:14px 14px 100px;display:none;">
+      <div class="callout cl-info" style="margin-bottom:16px">
+        <span class="callout-ic"><i class="ph ph-clock"></i></span>
+        <div class="callout-txt">Set times when seekers can visit. Add <strong>weekly recurring</strong> slots or specific dates up to a month ahead.</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span class="slbl">Available Slots</span>
+        <button onclick="openAddSlotSheet()" style="background:var(--navy);color:#fff;border:none;border-radius:8px;padding:7px 13px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:5px;"><i class="ph ph-plus"></i> Add Slot</button>
+      </div>
+      <div id="l-slots-list"></div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL — SORT SHEET ═══ -->
+  <div class="modal-bg hidden" id="modal-sort-sheet">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title" style="font-size:16px;margin-bottom:16px;">Sort Listings</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button onclick="setSort('distance')" id="ss-distance" class="sort-sheet-opt sort-sheet-on"><i class="ph ph-map-pin"></i> Nearest First</button>
+        <button onclick="setSort('match')"    id="ss-match"    class="sort-sheet-opt"><i class="ph ph-star-four"></i> Best Match</button>
+        <button onclick="setSort('price')"    id="ss-price"    class="sort-sheet-opt"><i class="ph ph-currency-circle-dollar"></i> Lowest Price</button>
+        <button onclick="setSort('avail')"    id="ss-avail"    class="sort-sheet-opt"><i class="ph ph-door-open"></i> Most Rooms Available</button>
+        <button onclick="setSort('active')"   id="ss-active"   class="sort-sheet-opt"><i class="ph ph-clock-clockwise"></i> Recently Active</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ MODAL — ADD VISIT SLOT ═══ -->
+  <div class="modal-bg hidden" id="modal-add-slot">
+    <div class="modal">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Add Visit Slot</div>
+      <div class="modal-sub">Pick a day and time. Seekers will see this as an available slot.</div>
+      <!-- Recurring vs specific -->
+      <div style="display:flex;gap:8px;margin-bottom:18px;">
+        <button id="slot-type-once" onclick="setSlotType('once')" style="flex:1;padding:10px;border-radius:var(--r);border:1.5px solid var(--blue);background:var(--blue);color:#fff;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Specific Date</button>
+        <button id="slot-type-weekly" onclick="setSlotType('weekly')" style="flex:1;padding:10px;border-radius:var(--r);border:1.5px solid var(--border);background:transparent;color:var(--muted);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Weekly Recurring</button>
+      </div>
+      <!-- Specific date picker -->
+      <div id="slot-once-fields">
+        <div class="fg"><label class="lbl">Date</label><input class="inp" type="date" id="slot-date"></div>
+      </div>
+      <!-- Weekly recurring picker -->
+      <div id="slot-weekly-fields" class="hidden">
+        <div class="fg"><label class="lbl">Day of Week</label>
+          <select class="sel" id="slot-weekday">
+            <option value="0">Sunday</option>
+            <option value="1">Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5">Friday</option>
+            <option value="6">Saturday</option>
+          </select>
+        </div>
+        <div class="callout cl-info" style="margin-bottom:14px;"><span class="callout-ic"><i class="ph ph-repeat"></i></span><div class="callout-txt" style="font-size:12px;">This will add slots for every <span id="slot-weekday-preview">Sunday</span> for the next 4 weeks.</div></div>
+      </div>
+      <!-- Time -->
+      <div class="fg"><label class="lbl">Time</label>
+        <select class="sel" id="slot-time">
+          <option>8:00 AM</option><option>9:00 AM</option><option>10:00 AM</option>
+          <option>11:00 AM</option><option>1:00 PM</option><option>2:00 PM</option>
+          <option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:9px;margin-top:4px;">
+        <button onclick="closeAddSlotSheet()" style="flex:1;padding:13px;background:var(--warm2);color:var(--navy);border:1.5px solid var(--border);border-radius:var(--r);font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">Cancel</button>
+        <button onclick="saveVisitSlot()" style="flex:2;padding:13px;background:var(--navy);color:#fff;border:none;border-radius:var(--r);font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;"><i class="ph ph-calendar-plus"></i> Save Slot</button>
+      </div>
     </div>
   </div>
 
@@ -4591,7 +4824,7 @@ body {
     <div class="bnav">
       <div class="ni" onclick="goTo('s-home')"><span class="ni-ic"><i class="ph ph-house"></i></span><span class="ni-lb">Discover</span></div>
       <div class="ni" onclick="goTo('s-map')"><span class="ni-ic"><i class="ph ph-map-trifold"></i></span><span class="ni-lb">Map</span></div>
-      <div class="ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-teardrop-dots"></i></span><span class="ni-lb">Inquiries</span></div>
+      <div class="ni seeker-inq-ni" onclick="goTo('s-myinq')"><span class="ni-ic"><i class="ph ph-chat-teardrop-dots"></i><span class="ni-inq-dot"></span></span><span class="ni-lb">Inquiries</span></div>
       <div class="ni" onclick="goTo('s-saved')"><span class="ni-ic"><i class="ph ph-heart"></i></span><span class="ni-lb">Saved</span></div>
       <div class="ni on"><span class="ni-ic"><i class="ph ph-user-circle"></i></span><span class="ni-lb">Profile</span></div>
     </div>
@@ -4728,7 +4961,7 @@ body {
     <!-- Header: live gradient preview + tab bar -->
     <div id="bhl-hero-bg" class="bhl-hero" style="background:linear-gradient(135deg,#1462A8,#0D8A78);">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
-        <div class="back" onclick="goTo('s-home')"><i class="ph ph-arrow-left"></i></div>
+        <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
         <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;color:#fff;flex:1;text-align:center;">My Listing</div>
         <div style="width:28px"></div>
       </div>
@@ -5194,7 +5427,7 @@ body {
   <div class="screen" id="s-thread">
     <div class="thread-wrap">
       <div class="thread-header">
-        <div class="back" onclick="goTo('s-role')"><i class="ph ph-arrow-left"></i></div>
+        <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
         <div style="flex:1;min-width:0;">
           <div class="thread-house-name" id="thread-house-name">Boarding House</div>
           <div class="thread-house-sub" id="thread-house-sub">Inquiry thread</div>
@@ -5218,7 +5451,7 @@ body {
   <div class="screen" id="s-map">
 
     <div class="map-topbar">
-      <div class="back" onclick="goTo('s-home')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goBack()"><i class="ph ph-arrow-left"></i></div>
       <div class="map-topbar-title">Burauen Map</div>
       <div class="map-school-pills">
         <button class="map-spill on" id="msp-evsu" onclick="mapHighlight('evsu',this)">EVSU</button>
@@ -5379,7 +5612,7 @@ body {
   ═══════════════════════════════ -->
   <div class="screen" id="l-tenants">
     <div class="topbar">
-      <div class="back" onclick="goTo('s-role')"><i class="ph ph-arrow-left"></i></div>
+      <div class="back" onclick="goTo('l-home')"><i class="ph ph-arrow-left"></i></div>
       <div class="topbar-title">Tenants</div>
       <button class="btn btn-teal btn-sm" style="margin-left:auto" onclick="openAddTenantModal()"><i class="ph ph-plus"></i> Add</button>
     </div>
@@ -5418,6 +5651,10 @@ body {
       <div class="topbar-title">Boarding House QR Code</div>
     </div>
     <div class="scroll" style="padding:14px 14px 90px">
+      <div class="callout cl-info" style="margin-bottom:14px;">
+        <span class="callout-ic"><i class="ph ph-info"></i></span>
+        <div class="callout-txt"><strong>Two QR codes work together.</strong> Post this general one at your entrance so students can find your listing. When you accept a tenant, generate their personal QR from <strong>Tenants → Add Tenant</strong> — it pre-fills their invite code automatically.</div>
+      </div>
       <div class="qr-wrap">
         <div class="qr-house" id="qr-house-name">Dela Cruz Boarding House</div>
         <div class="qr-title">Scan to Register</div>
@@ -5428,10 +5665,10 @@ body {
         <button class="btn btn-primary" style="width:100%;margin-bottom:12px" onclick="copyQRLink()"><i class="ph ph-copy"></i> Copy Link</button>
         <div class="qr-instruction">
           <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--navy);margin-bottom:11px">How to use this QR code:</div>
-          <div class="qr-step"><div class="qr-step-num">1</div><div>Print the QR code — post it in the common area, CR, or front door</div></div>
-          <div class="qr-step"><div class="qr-step-num">2</div><div>Tenant scans it with their phone camera — registration opens automatically</div></div>
-          <div class="qr-step"><div class="qr-step-num">3</div><div>Tenant asks you for an invite code — give them the code for their room</div></div>
-          <div class="qr-step" style="margin-bottom:0"><div class="qr-step-num">4</div><div>Their account is now active — they'll receive your announcements</div></div>
+          <div class="qr-step"><div class="qr-step-num">1</div><div>Print and post it at your entrance or common area — students scan to open the app</div></div>
+          <div class="qr-step"><div class="qr-step-num">2</div><div>Once you accept a tenant, go to <strong>Tenants → Add Tenant</strong> and generate their invite code</div></div>
+          <div class="qr-step"><div class="qr-step-num">3</div><div>Tap <strong>"Show QR"</strong> on the invite code screen — tenant scans it and their code fills in automatically</div></div>
+          <div class="qr-step" style="margin-bottom:0"><div class="qr-step-num">4</div><div>Tenant confirms their name and room — their account is now active</div></div>
         </div>
       </div>
     </div>
@@ -5469,7 +5706,7 @@ body {
       <div class="modal-sub" id="ic-modal-sub">Share this with your tenant — via text, in person, or Viber.</div>
       <div class="invite-display">
         <div class="invite-lbl">6-digit Invite Code</div>
-        <div class="invite-code" id="ic-code-display">000000</div>
+        <div class="invite-code" id="ic-code-display">------</div>
         <div class="invite-room" id="ic-room-display">Room 1 — Dela Cruz BH</div>
       </div>
       <div class="invite-hint">Text or Viber this code to your tenant.<br>They'll use it to register their account in the app.</div>
@@ -5477,6 +5714,7 @@ body {
         <button class="btn btn-secondary" style="flex:1" onclick="closeInviteModal()">Close</button>
         <button id="ic-copy-btn" class="btn btn-primary" style="flex:2;background:var(--teal);box-shadow:0 4px 14px rgba(11,122,106,.3)" onclick="copyInviteCode()"><i class="ph ph-copy"></i> Copy Code</button>
       </div>
+      <button id="ic-qr-btn" onclick="showTenantQRFromModal()" style="width:100%;margin-top:9px;background:var(--blueLt);color:var(--blue);border:1.5px solid rgba(21,88,204,.2);border-radius:var(--r);padding:12px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;"><i class="ph ph-qr-code"></i> Show QR — tenant scans to register</button>
     </div>
   </div>
 
@@ -5666,8 +5904,8 @@ const state = {
 
 // Save/load key data
 
-// ─── CRITICAL FIX: availableRooms(h) is dropped by JSON.stringify on save/restore ───
-// Always use availableRooms(h) instead of availableRooms(h)
+// ─── CRITICAL FIX: h.available() is dropped by JSON.stringify on save/restore ───
+// Always use availableRooms(h) instead of h.available()
 function availableRooms(h) {
   return (h.rooms || []).filter(r => r.status === 'empty').length;
 }
@@ -5713,23 +5951,36 @@ function _doSave() {
 function load() {
   try {
     const d = JSON.parse(localStorage.getItem('bb_state'));
-    if(d) {
-      state.inquiries = d.inquiries || state.inquiries;
-      state.announcements = d.announcements || state.announcements;
-      state.maintenanceRequests = d.maintenanceRequests || state.maintenanceRequests;
-      state.expenses = d.expenses || state.expenses;
-      state.savedHouses = d.savedHouses || [];
-      state.myInquiries = d.myInquiries || [];
-      state.myMaintenanceRequests = d.myMaintenanceRequests || [];
-      state.nextId = d.nextId || 10;
-      if(d.houses) {
-        d.houses.forEach(dh => {
-          const sh = state.houses.find(h=>h.id===dh.id);
-          if(sh) { sh.rooms = dh.rooms; sh.waitlist = dh.waitlist; }
-        });
-      }
+    if (!d) return;
+    state.inquiries             = d.inquiries             || state.inquiries;
+    state.announcements         = d.announcements         || state.announcements;
+    state.maintenanceRequests   = d.maintenanceRequests   || state.maintenanceRequests;
+    state.expenses              = d.expenses              || state.expenses;
+    state.savedHouses           = d.savedHouses           || [];
+    state.myInquiries           = d.myInquiries           || [];
+    state.myMaintenanceRequests = d.myMaintenanceRequests || [];
+    state.nextId                = d.nextId                || 10;
+    state.visits                = d.visits                || state.visits;
+    state.pendingTenants        = d.pendingTenants        || state.pendingTenants;
+    state.tenantProfile         = d.tenantProfile         || state.tenantProfile;
+    state.seekerProfile         = d.seekerProfile         || state.seekerProfile;
+    state.visitSlots            = d.visitSlots            || state.visitSlots;
+    state.paymentLog            = d.paymentLog            || state.paymentLog;
+    state.paymentTransactions   = d.paymentTransactions   || [];
+    state.uploadLog             = d.uploadLog             || [];
+    state.moveOutRequests       = d.moveOutRequests       || [];
+    state.platformAnnouncements = d.platformAnnouncements || [];
+    state.adminActivityLog      = d.adminActivityLog      || [];
+    state.maintenanceMode       = d.maintenanceMode       || false;
+    state.sort                  = d.sort                  || 'distance';
+    state.referrals             = d.referrals             || [];
+    if (d.houses) {
+      d.houses.forEach(dh => {
+        const sh = state.houses.find(h => h.id === dh.id);
+        if (sh) { sh.rooms = dh.rooms; sh.waitlist = dh.waitlist; }
+      });
     }
-  } catch(e){}
+  } catch(e) {}
 }
 
 // ════════════════════════════════════════
@@ -5797,6 +6048,7 @@ function refreshScreen(id) {
     }
     case 's-visit': renderSlots(); break;
     case 's-success': startSuccessCountdown(); break;
+    case 's-handoff': /* populated by acceptOffer before navigation */ break;
     case 't-home': renderTenantHome(); break;
     case 't-maint': renderTenantMaint(); break;
     case 't-profile': renderTenantProfile(); break;
@@ -5807,7 +6059,7 @@ function refreshScreen(id) {
     case 'l-rooms': renderRooms(); break;
     case 'l-expense': renderExpenses(); break;
     case 'l-maint': renderLandlordMaint(); break;
-    case 'l-visits': renderVisits(); break;
+    case 'l-visits': switchVisitTab('upcoming'); break;
     case 'l-reminder': renderReminders(); break;
     case 'l-tenants': renderTenantManagement(); break;
     case 'l-waitlist': renderWaitlistManager(); break;
@@ -5861,9 +6113,12 @@ function refreshScreen(id) {
       const _ni = document.getElementById('inq-name');
       const _si = document.getElementById('inq-school');
       const _ci = document.getElementById('inq-course');
-      if (_ni && _sp.name  && !_ni.value) { _ni.value = _sp.name;   _ni.readOnly = true; _ni.style.background='var(--warm)'; _ni.style.color='var(--muted)'; }
-      if (_si && _sp.school && !_si.value) { _si.value = _sp.school; }
-      if (_ci && _sp.course && !_ci.value) { _ci.value = _sp.course; _ci.readOnly = true; _ci.style.background='var(--warm)'; _ci.style.color='var(--muted)'; }
+      let _prefilled = false;
+      if (_ni && _sp.name  && !_ni.value) { _ni.value = _sp.name;   _ni.readOnly = true; _ni.style.background='var(--warm)'; _ni.style.color='var(--muted)'; _prefilled = true; }
+      if (_si && _sp.school && !_si.value) { _si.value = _sp.school; _prefilled = true; }
+      if (_ci && _sp.course && !_ci.value) { _ci.value = _sp.course; _ci.readOnly = true; _ci.style.background='var(--warm)'; _ci.style.color='var(--muted)'; _prefilled = true; }
+      const noteEl = document.getElementById('inq-prefill-note');
+      if (noteEl) noteEl.classList.toggle('hidden', !_prefilled);
       break;
     }
     case 's-map':
@@ -5930,6 +6185,34 @@ function updateGreetings() {
 }
 
 updateClock(); setInterval(updateClock,60000);
+
+// ════════════════════════════════════════
+// QR DEEP LINK — hash-based invite routing
+// When tenant scans a per-tenant QR, URL is:
+//   page.html#code=XXXXXX
+// This detects the hash on load, navigates to
+// t-register, and pre-fills the OTP boxes.
+// ════════════════════════════════════════
+(function checkInviteHash() {
+  const hash = window.location.hash;
+  if (!hash) return;
+  const codeMatch = hash.match(/[#&]code=([A-Z0-9]{6})/i);
+  if (!codeMatch) return;
+  const code = codeMatch[1].toUpperCase();
+  // Clear hash from URL so refreshing doesn't re-trigger
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+  // Navigate to tenant registration step 2 with code pre-filled
+  setTimeout(() => {
+    goTo('t-register');
+    showRegStep(2);
+    // Fill OTP boxes
+    code.split('').forEach((ch, i) => {
+      const box = document.getElementById('otp' + i);
+      if (box) box.value = ch;
+    });
+    showToast('<i class="ph ph-qr-code"></i> Invite code filled — tap Verify');
+  }, 300);
+})();
 
 // ════════════════════════════════════════
 // TOAST
@@ -6141,6 +6424,7 @@ function matchBadgeHtml(h) {
 // SEEKER — HOUSES
 // ════════════════════════════════════════
 function renderHouses() {
+  updateSeekerInqBadge();
   const list = document.getElementById('houses-list');
   const countEl = document.getElementById('houses-count');
   // Only show houses that are self-verified OR admin-verified, not suspended, not brand new pending
@@ -6314,24 +6598,44 @@ function openHouse(id) {
   if(aboutEl) aboutEl.textContent = h.about || '';
 
   // Photo strip (from snapshots)
-  const stripEl = document.getElementById('d-photo-strip');
-  if(stripEl) {
-    const snaps = h.snapshots && h.snapshots.length ? h.snapshots : [
-      {label:'Facade'},{label:'Room'},{label:'Bathroom'},{label:'Entrance'}
-    ];
-    const gradStart = h.gradient.match(/#[0-9A-Fa-f]{6}/)?.[0] || '#1462A8';
-    stripEl.innerHTML = snaps.map(s => s.img
-      ? `<div class="d-photo-slot" style="padding:0;overflow:hidden;border:none;">
-           <img src="${s.img}" alt="${s.label}" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:10px;">
-           <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.45);padding:2px 6px;border-radius:0 0 10px 10px;">
-             <div class="d-photo-slot-label">${s.label}</div>
-           </div>
-         </div>`
-      : `<div class="d-photo-slot" style="background:${gradStart}22;border:1.5px solid ${gradStart}44;">
-           <div class="d-photo-slot-emoji">${snapIcon(s.label)}</div>
-           <div class="d-photo-slot-label">${s.label}</div>
-         </div>`
-    ).join('');
+  const stripEl   = document.getElementById('d-photo-strip');
+  const noteEl    = document.getElementById('d-photo-note');
+  if (stripEl) {
+    const snaps    = (h.snapshots || []);
+    const realPhotos = snaps.filter(s => s.img);
+    if (!snaps.length) {
+      // Landlord has added no slots at all — show a single neutral placeholder
+      stripEl.innerHTML = `
+        <div class="d-photo-slot" style="min-width:100%;height:96px;background:var(--warm2);border:1.5px dashed var(--border2);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;flex-shrink:0;">
+          <i class="ph ph-camera" style="font-size:28px;color:var(--muted2);"></i>
+          <span style="font-size:12px;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;">No photos yet</span>
+        </div>`;
+      if (noteEl) noteEl.style.display = 'none';
+    } else {
+      const gradStart = h.gradient.match(/#[0-9A-Fa-f]{6}/)?.[0] || '#1462A8';
+      stripEl.innerHTML = snaps.map(s => s.img
+        ? `<div class="d-photo-slot" style="padding:0;overflow:hidden;border:none;">
+             <img src="${s.img}" alt="${s.label}" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:10px;">
+             <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.45);padding:2px 6px;border-radius:0 0 10px 10px;">
+               <div class="d-photo-slot-label">${s.label}</div>
+             </div>
+           </div>`
+        : `<div class="d-photo-slot" style="background:${gradStart}18;border:1.5px dashed ${gradStart}40;">
+             <i class="ph ${SNAP_ICONS[s.label]||'ph-camera'}" style="font-size:22px;color:var(--muted2);"></i>
+             <div class="d-photo-slot-label" style="color:var(--muted);background:none;">${s.label}</div>
+           </div>`
+      ).join('');
+      // Show note only if there are real uploaded photos
+      if (noteEl) {
+        if (realPhotos.length) {
+          noteEl.style.display = 'block';
+          noteEl.innerHTML = `<i class="ph ph-info" style="font-size:11px;"></i> Photos uploaded by the landlord`;
+        } else {
+          noteEl.style.display = 'block';
+          noteEl.innerHTML = `<i class="ph ph-camera" style="font-size:11px;"></i> Tap a slot to see the photo — landlord hasn't uploaded photos yet`;
+        }
+      }
+    }
   }
 
   // Snapshot
@@ -6477,10 +6781,36 @@ function setFilter(f,el) {
   renderHouses();
 }
 
-function setSort(s, el) {
+const SORT_META = {
+  distance: { label:'Nearest',       icon:'ph-map-pin' },
+  match:    { label:'Best Match',    icon:'ph-star-four' },
+  price:    { label:'Lowest Price',  icon:'ph-currency-circle-dollar' },
+  avail:    { label:'Most Rooms',    icon:'ph-door-open' },
+  active:   { label:'Recent',        icon:'ph-clock-clockwise' },
+};
+
+function openSortSheet() {
+  // Sync active state to current sort
+  document.querySelectorAll('.sort-sheet-opt').forEach(b => b.classList.remove('sort-sheet-on'));
+  const active = document.getElementById('ss-' + state.sort);
+  if (active) active.classList.add('sort-sheet-on');
+  document.getElementById('modal-sort-sheet').classList.remove('hidden');
+}
+
+function setSort(s) {
   state.sort = s;
-  document.querySelectorAll('#sort-row .chip').forEach(c => c.classList.remove('on'));
-  if (el) el.classList.add('on');
+  // Update sort button label + icon
+  const meta = SORT_META[s] || SORT_META.distance;
+  const lblEl  = document.getElementById('sort-btn-label');
+  const icEl   = document.getElementById('sort-btn-icon');
+  if (lblEl) lblEl.textContent = meta.label;
+  if (icEl)  { icEl.className = 'ph ' + meta.icon; }
+  // Highlight active option in sheet
+  document.querySelectorAll('.sort-sheet-opt').forEach(b => b.classList.remove('sort-sheet-on'));
+  const active = document.getElementById('ss-' + s);
+  if (active) active.classList.add('sort-sheet-on');
+  // Close sheet and re-render
+  document.getElementById('modal-sort-sheet').classList.add('hidden');
   renderHouses();
 }
 
@@ -6627,7 +6957,16 @@ function renderSlots() {
   btn.style.opacity='.4'; btn.style.pointerEvents='none';
   document.getElementById('visit-confirm-area').classList.add('hidden');
 
-  document.getElementById('slot-grid').innerHTML = state.visitSlots.map(s=>`
+  document.getElementById('slot-grid').innerHTML = state.visitSlots.length === 0
+    ? `<div style="grid-column:1/-1;text-align:center;padding:32px 20px;color:var(--muted);">
+        <div style="width:56px;height:56px;background:var(--warm2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+          <i class="ph ph-calendar-x" style="font-size:26px;color:var(--muted2);"></i>
+        </div>
+        <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--navy);margin-bottom:6px;">No visit slots available</div>
+        <div style="font-size:13px;line-height:1.5;margin-bottom:16px;">The landlord hasn't set up visit slots yet. Message them directly to arrange a visit.</div>
+        <button onclick="goTo('s-detail')" class="btn-navy-cta" style="font-size:13px;padding:10px 18px;">← Back to Listing</button>
+      </div>`
+    : state.visitSlots.map(s=>`
     <div class="slot ${s.taken?'taken':''}" id="slot-${s.id}" onclick="${s.taken?'':('pickSlot('+s.id+')')}">
       <div class="slot-date">${s.date}</div>
       <div class="slot-time">${s.time}</div>
@@ -6738,6 +7077,7 @@ function joinWaitlist() {
 // SEEKER — MY INQUIRIES
 // ════════════════════════════════════════
 function renderMyInquiries() {
+  updateSeekerInqBadge();
   const el = document.getElementById('myinq-list');
   const empty = document.getElementById('myinq-empty');
   state.myInquiries.forEach(mi=>{
@@ -6797,7 +7137,7 @@ function renderMyInquiries() {
       <div class="inq-top">
         <span class="inq-house">${mi.houseName}</span>
         <div style="display:flex;align-items:center;gap:6px;">
-          ${hasUnread ? '<div style="width:8px;height:8px;background:var(--blue);border-radius:50%;flex-shrink:0;"></div>' : ''}
+          ${hasUnread ? '<span style="background:var(--blue);color:#fff;font-family:\'Nunito\',sans-serif;font-size:10px;font-weight:800;padding:2px 9px;border-radius:10px;flex-shrink:0;letter-spacing:.2px;">New Reply</span>' : ''}
           <span class="inq-time">${mi.time}</span>
         </div>
       </div>
@@ -6809,6 +7149,28 @@ function renderMyInquiries() {
       ${withdrawHtml}
     </div>`;
   }).join('');
+}
+
+// ════════════════════════════════════════
+// SEEKER — UNREAD BADGE + HOME NUDGE
+// ════════════════════════════════════════
+function updateSeekerInqBadge() {
+  const unread = (state.myInquiries || []).filter(mi =>
+    !mi.read && mi.messages && mi.messages.some(m => m.from === 'them')
+  ).length;
+  // Nav dot on all seeker Inquiries tabs
+  document.querySelectorAll('.seeker-inq-ni').forEach(el =>
+    el.classList.toggle('has-unread', unread > 0)
+  );
+  // Home screen nudge banner
+  const nudge = document.getElementById('s-home-unread-nudge');
+  if (nudge) {
+    nudge.style.display = unread > 0 ? 'flex' : 'none';
+    const cEl = document.getElementById('s-home-unread-count');
+    const iEl = document.getElementById('s-home-unread-ies');
+    if (cEl) cEl.textContent = unread;
+    if (iEl) iEl.textContent = unread === 1 ? 'y' : 'ies';
+  }
 }
 
 // ════════════════════════════════════════
@@ -6826,6 +7188,7 @@ function openThread(inqId) {
 
   // Mark as read
   mi.read = true;
+  updateSeekerInqBadge();
 
   // Seed messages array from existing inquiry data if not yet threaded
   if (!mi.messages) {
@@ -6958,7 +7321,7 @@ function acceptOffer(inqId) {
   if (!existing && inq) {
     const h = state.houses.find(x => x.id === inq.houseId);
     const emptyRoom = (h?.rooms || []).find(r => r.status === 'empty');
-    const code = String(Math.floor(100000 + Math.random() * 900000));
+    const code = generateInviteCode();
     state.pendingTenants.push({
       id: state.nextId++,
       name: seekerName,
@@ -6973,7 +7336,31 @@ function acceptOffer(inqId) {
   }
   save();
   renderMyInquiries();
-  showToast('<i class="ph ph-check-circle"></i> Offer accepted! Landlord will send your invite code.');
+
+  // Navigate to the handoff screen — the key missing moment
+  const h = state.houses.find(x => x.id === inq?.houseId);
+  const hc = document.getElementById('handoff-house-card');
+  if (hc && h) {
+    hc.innerHTML = `
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="width:44px;height:44px;border-radius:12px;background:${h.gradient||'var(--navy)'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <i class="ph ph-house" style="font-size:20px;color:#fff;"></i>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h.name}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;">${h.address}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:var(--teal);">₱${(h.price||0).toLocaleString()}</div>
+          <div style="font-size:11px;color:var(--muted);">per month</div>
+        </div>
+      </div>`;
+  }
+  const handoffTitle = document.getElementById('handoff-title');
+  const handoffSub   = document.getElementById('handoff-sub');
+  if (handoffTitle) handoffTitle.textContent = 'You\'ve got a room!';
+  if (handoffSub)   handoffSub.textContent   = `Your offer at ${h?.name || 'the boarding house'} has been accepted. Here's how to complete your move-in.`;
+  goTo('s-handoff');
 }
 
 function declineOffer(inqId) {
@@ -7223,12 +7610,23 @@ function renderTenantMaint() {
   };
   el.innerHTML = myReqs.map(r=>{
     const s = sMap[r.status]||sMap.pending;
+    const landlordNote = r.landlordNote
+      ? `<div style="margin-top:8px;padding:8px 10px;background:${r.status==='done'?'var(--greenBg)':'var(--tealBg)'};border-radius:8px;display:flex;gap:8px;align-items:flex-start;">
+           <i class="ph ph-chat-circle" style="font-size:14px;color:${r.status==='done'?'var(--green)':'var(--teal)'};flex-shrink:0;margin-top:1px;"></i>
+           <div style="font-size:12px;color:var(--text2);line-height:1.45;"><strong style="font-family:'Nunito',sans-serif;font-weight:800;color:var(--text);">Landlord:</strong> ${r.landlordNote}</div>
+         </div>`
+      : r.status !== 'pending'
+        ? `<div style="margin-top:8px;padding:8px 10px;background:var(--tealBg);border-radius:8px;font-size:12px;color:var(--teal);font-family:'Nunito',sans-serif;font-weight:700;">
+             <i class="ph ph-wrench"></i> ${r.status==='in_progress'?'Your landlord is working on this.':'This issue has been resolved.'}
+           </div>`
+        : '';
     return `<div class="mreq-item">
       <span class="mreq-ic">${r.type.split(' ')[0]}</span>
       <div class="mreq-body">
         <div class="mreq-title">${r.type.replace(/^\S+\s/,'')}</div>
         <div class="mreq-desc">${r.desc}</div>
-        <div class="mreq-foot">
+        ${landlordNote}
+        <div class="mreq-foot" style="margin-top:8px;">
           <span class="tag" style="background:${s.bg};color:${s.tc}">${s.label}</span>
           <span class="mreq-time">${r.time}</span>
         </div>
@@ -7620,8 +8018,8 @@ function setInqStatus(status) {
     const h = state.houses.find(x => x.id === inq.houseId);
     // Find an empty room
     const emptyRoom = (h?.rooms || []).find(r => r.status === 'empty');
-    // Generate 6-digit invite code
-    const code = String(Math.floor(100000 + Math.random() * 900000));
+    // Generate invite code
+    const code = generateInviteCode();
     // Pre-populate the tenant in pendingTenants
     state.pendingTenants.push({
       id: state.nextId++,
@@ -7654,7 +8052,28 @@ function setInqStatus(status) {
   closeInqModal();
   renderLandlordInbox();
   renderLandlordHome();
-  showToast('Status updated ');
+
+  // Send a polite auto-message to the seeker on decline or not_a_fit
+  if (status === 'declined' || status === 'not_a_fit') {
+    const msg = status === 'declined'
+      ? `Hi ${inq.name}, thank you for your interest in our boarding house. Unfortunately, we are unable to accommodate your inquiry at this time. We wish you all the best in finding a place — feel free to check back with us in the future!`
+      : `Hi ${inq.name}, thank you for reaching out! After reviewing your inquiry, we feel our boarding house may not be the best fit for your needs right now. We hope you find the perfect place soon!`;
+    if (!inq.messages) inq.messages = [{ from:'me', text: inq.q||'(Inquiry)', time: inq.time||'Earlier' }];
+    inq.messages.push({ from:'them', text: msg, time: 'Just now' });
+    inq.reply = msg;
+    const mi = state.myInquiries.find(m => m.id === inq.id);
+    if (mi) {
+      mi.status = status; mi.read = false; mi.reply = msg;
+      if (!mi.messages) mi.messages = [...inq.messages];
+      else mi.messages.push({ from:'them', text: msg, time: 'Just now' });
+    }
+    updateSeekerInqBadge();
+    save();
+    showToast('<i class="ph ph-x-circle"></i> Declined — seeker notified politely');
+  } else {
+    save();
+    showToast('Status updated');
+  }
 }
 
 function sendInqReply() {
@@ -7697,6 +8116,7 @@ function sendInqReply() {
 
   document.getElementById('inq-reply-txt').value = '';
   renderLandlordInbox();
+  updateSeekerInqBadge();
   showToast('<i class="ph ph-paper-plane-tilt"></i> Reply sent');
 }
 
@@ -8048,40 +8468,110 @@ function renderLandlordMaint() {
         <span class="tag" style="background:${s.bg};color:${s.tc};font-size:10px">${s.label}</span>
       </div>
       <div class="mt-desc">${r.desc}</div>
-      <div class="mt-foot">
+      ${r.landlordNote?`<div style="margin-top:6px;padding:7px 10px;background:var(--tealBg);border-radius:8px;font-size:12px;color:var(--text2);border:1px solid rgba(11,122,106,.12);"><i class="ph ph-chat-circle" style="color:var(--teal);"></i> <em>Your note:</em> ${r.landlordNote}</div>`:''}
+      <div class="mt-foot" style="flex-wrap:wrap;gap:6px;">
         ${r.urgency!=='normal'?`<span class="tag tr" style="font-size:10px">${urgMap[r.urgency]}</span>`:''}
-        ${r.status==='pending'?`<button class="btn-green-sm" style="font-size:11px;padding:5px 10px" onclick="updateMaint(${r.id},'in_progress')">Mark In Progress</button>`:''}
-        ${r.status==='in_progress'?`<button class="btn-green-sm" style="font-size:11px;padding:5px 10px" onclick="updateMaint(${r.id},'done')">Mark Done </button>`:''}
+        ${r.status==='pending'?`<button class="btn-green-sm" style="font-size:11px;padding:5px 10px" onclick="promptMaintUpdate(${r.id},'in_progress')"><i class="ph ph-wrench"></i> Mark In Progress</button>`:''}
+        ${r.status==='in_progress'?`<button class="btn-green-sm" style="font-size:11px;padding:5px 10px" onclick="promptMaintUpdate(${r.id},'done')"><i class="ph ph-check-circle"></i> Mark Done</button>`:''}
       </div>
     </div>`;
   }).join('');
 }
 
-function updateMaint(id, status) {
+function promptMaintUpdate(id, newStatus) {
   const r = state.maintenanceRequests.find(x=>x.id===id);
-  if(r) { r.status=status; save(); renderLandlordMaint(); showToast('Status updated '); }
+  if (!r) return;
+  const existing = document.getElementById('maint-update-card');
+  if (existing) existing.remove();
+  const label = newStatus === 'in_progress' ? 'Mark In Progress' : 'Mark Done';
+  const card = document.createElement('div');
+  card.id = 'maint-update-card';
+  card.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:390px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;z-index:600;box-shadow:var(--sh-lg);';
+  card.innerHTML = `
+    <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px;">${label} — ${r.type}</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;">${r.room} · ${r.tenantName}</div>
+    <div style="margin-bottom:12px;">
+      <label style="font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px;">Note to tenant (optional)</label>
+      <input id="maint-note-inp" class="inp" type="text" placeholder="${newStatus==='in_progress'?'e.g. Will fix this by tomorrow':'e.g. Replaced the faucet, all good now'}" style="font-size:14px;">
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="updateMaintWithNote(${id},'${newStatus}')" class="btn btn-primary" style="flex:2;padding:11px;font-size:13px;">
+        <i class="ph ph-check"></i> ${label}
+      </button>
+      <button onclick="document.getElementById('maint-update-card').remove()" class="btn btn-secondary" style="flex:1;padding:11px;font-size:13px;">Cancel</button>
+    </div>`;
+  document.body.appendChild(card);
+  setTimeout(() => document.getElementById('maint-note-inp')?.focus(), 100);
+}
+
+function updateMaintWithNote(id, status) {
+  const r = state.maintenanceRequests.find(x=>x.id===id);
+  if (!r) return;
+  const note = document.getElementById('maint-note-inp')?.value.trim() || '';
+  r.status = status;
+  if (note) r.landlordNote = note;
+  // Sync to tenant's copy
+  const myR = state.myMaintenanceRequests.find(x=>x.id===id);
+  if (myR) { myR.status = status; if (note) myR.landlordNote = note; }
+  save();
+  document.getElementById('maint-update-card')?.remove();
+  renderLandlordMaint();
+  showToast(status==='done' ? '<i class="ph ph-check-circle"></i> Marked done — tenant notified' : '<i class="ph ph-wrench"></i> Marked in progress — tenant notified');
+}
+
+function updateMaint(id, status) {
+  // Legacy — kept for any old callers; routes through new function
+  updateMaintWithNote(id, status);
 }
 
 // ════════════════════════════════════════
 // LANDLORD — VISITS
 // ════════════════════════════════════════
+// ════════════════════════════════════════
+// LANDLORD — VISIT SCHEDULE MANAGEMENT
+// ════════════════════════════════════════
+let _visitTab = 'upcoming';
+
+function switchVisitTab(tab) {
+  _visitTab = tab;
+  ['upcoming','slots'].forEach(t => {
+    const btn   = document.getElementById('lvtab-' + t);
+    const panel = document.getElementById('lvpanel-' + t);
+    const isOn  = t === tab;
+    if (btn)   { btn.style.color = isOn ? 'var(--blue)' : 'var(--muted)'; btn.style.borderBottomColor = isOn ? 'var(--blue)' : 'transparent'; }
+    if (panel) panel.style.display = isOn ? 'block' : 'none';
+  });
+  if (tab === 'upcoming') renderVisits();
+  if (tab === 'slots')    renderSlotManager();
+}
+
 function renderVisits() {
   const el = document.getElementById('l-visits-list');
-  if(!state.visits.length) { el.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">No scheduled visits yet</div>'; return; }
-  el.innerHTML = state.visits.map(v=>{
-    const isPending = v.status==='pending';
+  if (!el) return;
+  const active = (state.visits || []).filter(v => v.status !== 'cancelled');
+  if (!active.length) {
+    el.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;">
+      <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--navy);margin-bottom:6px;">No upcoming visits</div>
+      <div>Seekers will book once you add available slots.</div>
+      <button onclick="switchVisitTab('slots')" style="margin-top:14px;background:var(--navy);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">+ Add Availability</button>
+    </div>`;
+    return;
+  }
+  el.innerHTML = active.map(v => {
+    const isPending = v.status === 'pending';
     return `<div class="card card-p" style="margin-bottom:9px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
         <div>
           <div class="vc-name">${v.name}</div>
           <div class="vc-meta">${v.date} at ${v.time}</div>
+          ${v.house ? `<div style="font-size:11px;color:var(--muted);margin-top:2px;">${v.house}</div>` : ''}
         </div>
-        <span class="tag ${isPending?'ta2':'tg'}">${isPending?'Pending':'Confirmed'}</span>
+        <span class="tag ${isPending ? 'ta2' : 'tg'}">${isPending ? 'Pending' : 'Confirmed'}</span>
       </div>
-      ${isPending?`<div style="display:flex;gap:8px;margin-top:8px">
-        <button class="btn-green-sm" style="flex:1" onclick="confirmVisitL(${v.id})"><i class="ph ph-check-circle"></i> Confirm</button>
-        <button class="btn-red-sm" style="flex:1" onclick="cancelVisit(${v.id})">Cancel</button>
-      </div>`:''}
+      <div style="display:flex;gap:8px;margin-top:10px">
+        ${isPending ? `<button class="btn-success-sm" style="flex:1" onclick="confirmVisitL(${v.id})"><i class="ph ph-check-circle"></i> Confirm</button>` : ''}
+        <button class="btn-danger-sm" style="flex:1" onclick="cancelVisitEmergency(${v.id})">${isPending ? 'Decline' : 'Cancel Visit'}</button>
+      </div>
     </div>`;
   }).join('');
 }
@@ -8090,40 +8580,157 @@ function confirmVisitL(id) {
   const v = state.visits.find(x => x.id === id);
   if (!v) return;
   v.status = 'confirmed';
-  // Push visit confirmation message into the related inquiry thread
   const relatedInq = state.inquiries.find(i => i.name === v.name && i.houseId === (state.houses.find(h=>h.name===v.house)?.id));
   if (relatedInq) {
     if (!relatedInq.messages) relatedInq.messages = [];
-    relatedInq.messages.push({ from:'them', text:`Visit confirmed for ${v.date} at ${v.time}. See you then!`, time:'Just now' });
+    relatedInq.messages.push({ from:'them', text:`Visit confirmed for ${v.date} at ${v.time}. See you then! Please bring a valid ID.`, time:'Just now' });
     relatedInq.status = 'visit_scheduled';
     const mi = state.myInquiries.find(m => m.id === relatedInq.id);
     if (mi) { mi.status = 'visit_scheduled'; mi.read = false; }
   }
-  save();
-  renderVisits();
-  showToast('<i class="ph ph-check-circle"></i> Visit confirmed');
+  updateSeekerInqBadge();
+  save(); renderVisits();
+  showToast('<i class="ph ph-check-circle"></i> Visit confirmed — seeker notified');
 }
 
-function cancelVisit(id) {
-  const v = state.visits.find(x => x.id === id);
+function renderSlotManager() {
+  const el = document.getElementById('l-slots-list');
+  if (!el) return;
+  if (!state.visitSlots.length) {
+    el.innerHTML = `<div style="text-align:center;padding:40px 20px;">
+      <div style="width:64px;height:64px;background:var(--warm2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+        <i class="ph ph-calendar-x" style="font-size:28px;color:var(--muted2);"></i>
+      </div>
+      <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--navy);margin-bottom:6px;">No slots set yet</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.5;">Seekers cannot book visits until you add available times.</div>
+    </div>`;
+    return;
+  }
+  const grouped = {};
+  state.visitSlots.forEach(s => { if (!grouped[s.date]) grouped[s.date] = []; grouped[s.date].push(s); });
+  el.innerHTML = Object.keys(grouped).sort().map(date => {
+    const d = new Date(date + 'T00:00:00');
+    const label = d.toLocaleDateString('en-PH', { weekday:'long', month:'short', day:'numeric' });
+    return `<div style="margin-bottom:14px;">
+      <div style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;">${label}</div>
+      ${grouped[date].map(s => `
+        <div style="display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid ${s.taken ? 'rgba(180,83,9,.25)' : 'var(--border)'};border-radius:10px;padding:10px 13px;margin-bottom:6px;">
+          <i class="ph ph-clock" style="font-size:16px;color:${s.taken ? 'var(--amber)' : 'var(--teal)'};flex-shrink:0;"></i>
+          <div style="flex:1;">
+            <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);">${s.time}</div>
+            <div style="font-size:11px;color:${s.taken ? 'var(--amber)' : 'var(--teal)'};font-weight:700;margin-top:1px;">${s.taken ? 'Booked' : 'Available'}</div>
+          </div>
+          ${s.recurring ? `<span style="font-size:10px;font-family:'Nunito',sans-serif;font-weight:700;background:var(--purpleBg);color:var(--purple);padding:2px 8px;border-radius:10px;flex-shrink:0;">Weekly</span>` : ''}
+          <button onclick="removeSlot(${s.id})" style="width:30px;height:30px;background:var(--redBg);border:none;border-radius:8px;color:var(--red);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ph ph-trash"></i></button>
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+let _slotType = 'once';
+function openAddSlotSheet() {
+  const dateEl = document.getElementById('slot-date');
+  if (dateEl) { const today = new Date().toISOString().split('T')[0]; dateEl.min = today; dateEl.value = today; }
+  document.getElementById('modal-add-slot').classList.remove('hidden');
+}
+function closeAddSlotSheet() { document.getElementById('modal-add-slot').classList.add('hidden'); }
+
+function setSlotType(type) {
+  _slotType = type;
+  const onceBtn   = document.getElementById('slot-type-once');
+  const weeklyBtn = document.getElementById('slot-type-weekly');
+  onceBtn.style.cssText   += `;background:${type==='once'?'var(--blue)':'transparent'};color:${type==='once'?'#fff':'var(--muted)'};border-color:${type==='once'?'var(--blue)':'var(--border)'}`;
+  weeklyBtn.style.cssText += `;background:${type==='weekly'?'var(--navy)':'transparent'};color:${type==='weekly'?'#fff':'var(--muted)'};border-color:${type==='weekly'?'var(--navy)':'var(--border)'}`;
+  document.getElementById('slot-once-fields').classList.toggle('hidden',   type !== 'once');
+  document.getElementById('slot-weekly-fields').classList.toggle('hidden', type !== 'weekly');
+}
+
+function saveVisitSlot() {
+  const time  = document.getElementById('slot-time').value;
+  const today = new Date(); today.setHours(0,0,0,0);
+  if (_slotType === 'once') {
+    const dateVal = document.getElementById('slot-date').value;
+    if (!dateVal) { showToast('Please pick a date'); return; }
+    const d = new Date(dateVal + 'T00:00:00');
+    if (d < today) { showToast('Date must be today or later'); return; }
+    state.visitSlots.push({ id:state.nextId++, date:dateVal, time, taken:false, recurring:false });
+    showToast('<i class="ph ph-calendar-plus"></i> Slot added');
+  } else {
+    const targetDay = parseInt(document.getElementById('slot-weekday').value);
+    const cur = new Date(today); let added = 0;
+    for (let i = 0; i < 35 && added < 4; i++) {
+      if (cur.getDay() === targetDay) {
+        const dateStr = cur.toISOString().split('T')[0];
+        if (!state.visitSlots.find(s => s.date === dateStr && s.time === time)) {
+          state.visitSlots.push({ id:state.nextId++, date:dateStr, time, taken:false, recurring:true });
+          added++;
+        }
+      }
+      cur.setDate(cur.getDate() + 1);
+    }
+    showToast(`<i class="ph ph-repeat"></i> Added ${added} weekly slots`);
+  }
+  state.visitSlots.sort((a,b) => a.date.localeCompare(b.date));
+  save(); closeAddSlotSheet(); renderSlotManager();
+}
+
+function removeSlot(id) {
+  const slot = state.visitSlots.find(s => s.id === id);
+  if (!slot) return;
+  if (slot.taken) {
+    const bookedVisit = state.visits.find(v => v.date === slot.date && v.time === slot.time && v.status !== 'cancelled');
+    if (bookedVisit) { cancelVisitEmergency(bookedVisit.id, true); return; }
+  }
+  state.visitSlots = state.visitSlots.filter(s => s.id !== id);
+  save(); renderSlotManager(); showToast('Slot removed');
+}
+
+function cancelVisitEmergency(visitId, removeSlotToo) {
+  const v = state.visits.find(x => x.id === visitId);
+  if (!v) return;
+  const existing = document.getElementById('visit-cancel-confirm-card');
+  if (existing) existing.remove();
+  const card = document.createElement('div');
+  card.id = 'visit-cancel-confirm-card';
+  card.style.cssText = 'position:absolute;bottom:90px;left:12px;right:12px;background:var(--redBg);border:1.5px solid var(--red);border-radius:14px;padding:16px;z-index:600;box-shadow:var(--sh-lg);';
+  card.innerHTML = `
+    <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--red);margin-bottom:6px;"><i class="ph ph-warning"></i> Cancel ${v.name}'s visit?</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.5;">A polite message will be sent to the seeker explaining the cancellation so they can choose a new slot.</div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="document.getElementById('visit-cancel-confirm-card').remove()" style="flex:1;background:var(--warm);border:1px solid var(--border);border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;cursor:pointer;">Keep It</button>
+      <button onclick="confirmEmergencyCancel(${visitId},${!!removeSlotToo})" style="flex:2;background:var(--red);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">Yes, Cancel Visit</button>
+    </div>`;
+  document.querySelector('.phone').appendChild(card);
+}
+
+function confirmEmergencyCancel(visitId, removeSlotToo) {
+  const card = document.getElementById('visit-cancel-confirm-card');
+  if (card) card.remove();
+  const v = state.visits.find(x => x.id === visitId);
   if (!v) return;
   v.status = 'cancelled';
-  // Notify seeker via inquiry thread
-  const relatedInq = state.inquiries.find(i => i.name === v.name && i.houseId === (state.houses.find(h=>h.name===v.house)?.id));
+  const relatedInq = state.inquiries.find(i => i.name === v.name && i.houseId === (state.houses.find(h => h.name === v.house)?.id));
   if (relatedInq) {
     if (!relatedInq.messages) relatedInq.messages = [];
-    relatedInq.messages.push({ from:'them', text:`Sorry, we can't accommodate the visit on ${v.date}. Please request a new schedule.`, time:'Just now' });
+    relatedInq.messages.push({ from:'them', text:`Hi ${v.name}, we sincerely apologize but we need to cancel your visit scheduled for ${v.date} at ${v.time} due to an emergency on our end. Please go back to Schedule a Visit to choose a new available slot, or message us here and we'll arrange something. Sorry for the inconvenience!`, time:'Just now' });
+    relatedInq.status = 'replied';
     const mi = state.myInquiries.find(m => m.id === relatedInq.id);
-    if (mi) { mi.read = false; }
+    if (mi) { mi.status = 'replied'; mi.read = false; }
   }
-  save();
-  renderVisits();
-  showToast('Visit declined');
+  if (removeSlotToo) { state.visitSlots = state.visitSlots.filter(s => !(s.date === v.date && s.time === v.time)); }
+  else { const slot = state.visitSlots.find(s => s.date === v.date && s.time === v.time); if (slot) slot.taken = false; }
+  updateSeekerInqBadge(); save(); renderVisits();
+  if (removeSlotToo) renderSlotManager();
+  showToast('<i class="ph ph-x-circle"></i> Visit cancelled — seeker notified');
 }
-function cancelVisit(id) {
-  state.visits = state.visits.filter(x=>x.id!==id);
-  save(); renderVisits(); showToast('Visit cancelled');
-}
+
+document.addEventListener('change', function(e) {
+  if (e.target && e.target.id === 'slot-weekday') {
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const prev = document.getElementById('slot-weekday-preview');
+    if (prev) prev.textContent = days[e.target.value];
+  }
+});
 
 // ════════════════════════════════════════
 // TENANT REGISTRATION FLOW
@@ -8224,7 +8831,7 @@ function renderTenantManagement() {
         <span class="tc-code-lbl">Invite Code</span>
         <span class="tc-code-val">${t.code}</span>
         <span class="tc-code-copy" onclick="copyCode('${t.code}','${t.name}')">Copy</span>
-      </div>` : `<div class="tc-code"><span class="tc-code-lbl">Registered na — active ang account</span></div>`}
+      </div>` : `<div class="tc-code"><span class="tc-code-lbl">Registered — account is active</span></div>`}
     </div>`;
   }).join('');
   // Update pending badge
@@ -8257,7 +8864,7 @@ function addTenantAndGenerateCode() {
   const room = document.getElementById('at-room').value;
   if(!name) { showToast('<i class="ph ph-warning"></i> Please enter the tenant\'s name'); return; }
   if(!phone || phone.length < 10) { showToast('<i class="ph ph-warning"></i> Mali ang phone number'); return; }
-  const code = String(Math.floor(100000 + Math.random() * 900000));
+  const code = generateInviteCode();
   const newTenant = {
     id: state.nextId++,
     name, phone, room,
@@ -8282,6 +8889,17 @@ function closeInviteModal() {
   document.getElementById('modal-invite-code').classList.add('hidden');
 }
 
+function showTenantQRFromModal() {
+  const code = document.getElementById('ic-code-display').textContent.trim();
+  const room = document.getElementById('ic-room-display').textContent.trim();
+  // Try to get tenant name from the modal sub text
+  const sub  = document.getElementById('ic-modal-sub')?.textContent || '';
+  const nameMatch = sub.match(/for\s+(.+?)(?:\s*—|\s*\.|$)/i);
+  const tenantName = nameMatch ? nameMatch[1].trim() : 'Tenant';
+  closeInviteModal();
+  showTenantQR(code, tenantName, room);
+}
+
 function copyInviteCode() {
   const code = document.getElementById('ic-code-display').textContent;
   const room = document.getElementById('ic-room-display').textContent;
@@ -8292,14 +8910,14 @@ function copyInviteCode() {
 function copyCode(code, name) {
   if(navigator.clipboard) {
     navigator.clipboard.writeText(code).then(()=>{
-      showToast(` Nakopya ang code ni ${name}: ${code}`);
-    }).catch(()=> showToast(`Code ni ${name}: ${code}`));
+      showToast(` Code copied for ${name}: ${code}`);
+    }).catch(()=> showToast(`Code for ${name}: ${code}`));
   } else {
     // Fallback for older browsers
     const ta = document.createElement('textarea');
     ta.value = code; ta.style.position='fixed'; ta.style.opacity='0';
     document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); showToast(` Nakopya: ${code}`); }
+    try { document.execCommand('copy'); showToast(` Copied: ${code}`); }
     catch(e) { showToast(`Code: ${code}`); }
     document.body.removeChild(ta);
   }
@@ -8317,9 +8935,12 @@ function renderQRCode() {
     const house = state.houses.find(h => h.id === state.currentHouseId);
     if (document.getElementById('qr-house-name'))
       document.getElementById('qr-house-name').textContent = house?.name || 'Boarding House';
+    // Use the real page URL + hash so phone camera can open it directly
+    const baseUrl = window.location.href.split('#')[0];
+    const qrUrl = `${baseUrl}#register?house=${state.currentHouseId}`;
     try {
       new QRCode(container, {
-        text: `buhayboarding://register?house=${state.currentHouseId}&name=${encodeURIComponent(house?.name||'')}`,
+        text: qrUrl,
         width: 200, height: 200,
         colorDark: '#0D2B45', colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.H
@@ -8342,13 +8963,80 @@ function renderQRCode() {
   }
 }
 
+// Show a per-tenant QR that embeds their specific invite code
+function showTenantQR(code, tenantName, roomLabel) {
+  // Remove any existing sheet
+  const existing = document.getElementById('tenant-qr-sheet');
+  if (existing) existing.remove();
+
+  const sheet = document.createElement('div');
+  sheet.id = 'tenant-qr-sheet';
+  sheet.style.cssText = 'position:absolute;inset:0;background:rgba(11,31,58,.65);z-index:500;display:flex;align-items:flex-end;backdrop-filter:blur(4px);';
+
+  const baseUrl = window.location.href.split('#')[0];
+  const qrUrl = `${baseUrl}#code=${code}`;
+
+  sheet.innerHTML = `
+    <div style="background:var(--warm);border-radius:22px 22px 0 0;padding:26px 20px 36px;width:100%;">
+      <div style="width:34px;height:3px;background:var(--border2);border-radius:2px;margin:0 auto 20px;"></div>
+      <div style="font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;color:var(--text);margin-bottom:4px;">QR for ${tenantName}</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:18px;">${roomLabel} · Code: <strong style="letter-spacing:3px;color:var(--navy);font-family:'Nunito',sans-serif;">${code}</strong></div>
+      <div style="background:var(--blueLt);border:1px solid rgba(21,88,204,.15);border-radius:var(--r);padding:11px 13px;font-size:12px;color:var(--blue);margin-bottom:18px;display:flex;gap:8px;align-items:flex-start;">
+        <i class="ph ph-info" style="font-size:15px;flex-shrink:0;margin-top:1px;"></i>
+        <span>Have your tenant scan this with their phone camera. It opens the app and fills their invite code automatically.</span>
+      </div>
+      <div id="tenant-qr-code-box" style="display:flex;justify-content:center;margin-bottom:20px;"></div>
+      <div style="display:flex;gap:9px;">
+        <button onclick="document.getElementById('tenant-qr-sheet').remove()" style="flex:1;background:var(--warm2);color:var(--navy);border:1.5px solid var(--border);border-radius:var(--r);padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">Close</button>
+        <button onclick="copyCodeFromSheet('${code}')" style="flex:2;background:var(--teal);color:#fff;border:none;border-radius:var(--r);padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;"><i class="ph ph-copy"></i> Copy Code</button>
+      </div>
+    </div>`;
+  document.querySelector('.phone').appendChild(sheet);
+
+  // Render QR inside the sheet
+  const renderTenantQR = () => {
+    const box = document.getElementById('tenant-qr-code-box');
+    if (!box) return;
+    try {
+      new QRCode(box, {
+        text: qrUrl,
+        width: 180, height: 180,
+        colorDark: '#0D2B45', colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    } catch(e) {
+      box.innerHTML = `<div style="width:180px;height:180px;background:var(--warm2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-size:28px;font-weight:900;letter-spacing:6px;color:var(--navy);">${code}</div>`;
+    }
+  };
+  if (window.QRCode) {
+    renderTenantQR();
+  } else {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+    s.crossOrigin = 'anonymous';
+    s.onload = renderTenantQR;
+    document.head.appendChild(s);
+  }
+}
+
+function copyCodeFromSheet(code) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(code).then(() => showToast('Code copied: ' + code)).catch(() => showToast('Code: ' + code));
+  } else {
+    showToast('Code: ' + code);
+  }
+  const sheet = document.getElementById('tenant-qr-sheet');
+  if (sheet) sheet.remove();
+}
+
 function copyQRLink() {
   const house = state.houses.find(h => h.id === state.currentHouseId);
-  const link = `buhayboarding://register?house=${state.currentHouseId}&name=${encodeURIComponent(house?.name||'')}`;
+  const baseUrl = window.location.href.split('#')[0];
+  const link = `${baseUrl}#register?house=${state.currentHouseId}`;
   if(navigator.clipboard) {
     navigator.clipboard.writeText(link).then(()=>showToast(' Na-copy ang registration link!')).catch(()=>showToast('Link: ' + link));
   } else {
-    showToast('buhayboarding://register?house=' + state.currentHouseId);
+    showToast('Link copied: #register?house=' + state.currentHouseId);
   }
 }
 
@@ -8537,23 +9225,73 @@ function renderTenantHome() {
     if (isPaid) {
       payPrompt.style.display = 'none';
     } else if (isSelfReported) {
+      // Find the pending transaction to show submitted time
+      const tx = (state.paymentTransactions||[]).find(t =>
+        t.status === 'pending_confirmation' && t.tenantName === profile.name
+      );
+      const submittedTime = tx ? relTime(tx.submittedAt) : 'Just now';
       payPrompt.style.display = 'flex';
-      // Change prompt to waiting state
-      const promptBtn = payPrompt.querySelector('button');
-      if (promptBtn) {
-        promptBtn.textContent = 'Sent ✓';
-        promptBtn.disabled = true;
-        promptBtn.style.background = 'var(--muted2)';
-        promptBtn.style.cursor = 'default';
-      }
-      const promptTitle = payPrompt.querySelector('div div:first-child');
-      if (promptTitle) promptTitle.textContent = 'Naghihintay ng kumpirmasyon';
+      payPrompt.style.background = 'var(--tealBg)';
+      payPrompt.style.borderColor = 'var(--teal)';
+      payPrompt.innerHTML = `
+        <i class="ph ph-clock-countdown" style="font-size:22px;color:var(--teal);flex-shrink:0;"></i>
+        <div style="flex:1;">
+          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--teal);margin-bottom:2px;">Report received — awaiting confirmation</div>
+          <div style="font-size:12px;color:var(--text2);">Submitted ${submittedTime}. Your landlord will confirm shortly.</div>
+        </div>`;
     } else {
       payPrompt.style.display = 'flex';
+      payPrompt.style.background = 'var(--amberBg)';
+      payPrompt.style.borderColor = 'var(--amber)';
+      payPrompt.innerHTML = `
+        <i class="ph ph-warning-circle" style="font-size:22px;color:var(--amber);flex-shrink:0;"></i>
+        <div style="flex:1;">
+          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--amber);margin-bottom:2px;">Rent not yet reported</div>
+          <div style="font-size:12px;color:var(--text2);">Pay via GCash then tap below so your landlord is notified.</div>
+        </div>
+        <button onclick="openPaymentReportModal()" style="background:var(--amber);color:#fff;border:none;border-radius:8px;padding:9px 13px;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0;white-space:nowrap;">
+          Report GCash Payment
+        </button>`;
     }
   }
   // Announcements
   const newCount = state.announcements.filter(a => a.isNew && !a.dismissed).length;
+
+  // ── Lease-end notice — show when within 45 days of semester end ──
+  const leaseNoticeEl = document.getElementById('t-lease-notice');
+  if (leaseNoticeEl) {
+    const now = new Date();
+    const semEnds = [
+      new Date(now.getFullYear(), 5, 30),   // June 30
+      new Date(now.getFullYear(), 11, 20),  // Dec 20
+    ];
+    const nearest = semEnds
+      .map(d => Math.round((d - now) / 86400000))
+      .filter(d => d >= 0)
+      .sort((a, b) => a - b)[0];
+
+    if (nearest !== undefined && nearest <= 45) {
+      leaseNoticeEl.style.display = 'flex';
+      const urgency = nearest <= 14;
+      leaseNoticeEl.style.background    = urgency ? 'var(--redBg)'   : 'var(--amberBg)';
+      leaseNoticeEl.style.borderColor   = urgency ? 'var(--red)'     : 'var(--amber)';
+      const iconColor = urgency ? 'var(--red)' : 'var(--amber)';
+      leaseNoticeEl.innerHTML = `
+        <i class="ph ph-calendar-x" style="font-size:22px;color:${iconColor};flex-shrink:0;margin-top:2px;"></i>
+        <div style="flex:1;">
+          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:${iconColor};margin-bottom:3px;">
+            ${urgency ? 'Lease ending soon!' : 'Lease ending in ' + nearest + ' days'}
+          </div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.5;">
+            ${urgency
+              ? 'Your lease ends very soon. Please confirm with your landlord whether you are renewing or moving out.'
+              : 'The semester is ending. Let your landlord know if you plan to renew your stay or move out — doing it early helps both of you plan ahead.'}
+          </div>
+        </div>`;
+    } else {
+      leaseNoticeEl.style.display = 'none';
+    }
+  }
   const badge = document.getElementById('t-ann-badge');
   if(badge) badge.textContent = newCount > 0 ? newCount + ' new' : 'All';
   const list = document.getElementById('t-ann-list');
@@ -9525,7 +10263,7 @@ function renderBhlSnapGrid() {
     // Icon placeholder — tap to upload
     return `<div class="snap-slot filled" style="background:${gradStart}18;border-color:${gradStart}44;cursor:pointer;" onclick="triggerSnapUpload(${i})">
       <span class="snap-slot-del" onclick="event.stopPropagation();deleteSnap(${i})">×</span>
-      <span class="snap-slot-emoji">${snapIcon(s.label)}</span>
+      <i class="ph ${SNAP_ICONS[s.label]||'ph-camera'}" style="font-size:24px;color:var(--muted);margin-bottom:2px;"></i>
       <span class="snap-slot-label">${s.label}</span>
       <div style="position:absolute;bottom:4px;left:0;right:0;text-align:center;">
         <i class="ph ph-camera-plus" style="font-size:12px;color:var(--muted2);"></i>
@@ -9656,26 +10394,42 @@ function saveBhlListing() {
 // SUCCESS SCREEN AUTO-FORWARD
 // ════════════════════════════════════════
 function startSuccessCountdown() {
+  // FIX-02: No auto-redirect. User chooses via explicit CTAs.
   cancelSuccessForward();
-  const bar  = document.getElementById('succ-countdown-bar');
-  const fill = document.getElementById('succ-countdown-fill');
-  const msg  = document.getElementById('succ-auto-msg');
-  if (!bar || !fill) return;
+  showSuccessTimeline();
+}
 
-  bar.style.display  = '';
-  if (msg) msg.style.display = '';
-  fill.style.transition = 'none';
-  fill.style.width = '100%';
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      fill.style.transition = 'width 6s linear';
-      fill.style.width = '0%';
-    });
-  });
-
-  _successTimer = setTimeout(() => {
-    goTo(_successDest);
-  }, 6000);
+// Renders the "What happens next" timeline based on what action just happened
+function showSuccessTimeline() {
+  const el = document.getElementById('succ-timeline');
+  if (!el) return;
+  const timelines = {
+    's-myinq': [
+      { done:true,  color:'#1558CC', icon:'ph-check',           title:'Inquiry received',    sub:'The landlord can see your message now.' },
+      { done:false, color:'#E4DDD5', icon:'ph-clock',           title:'Landlord responds',   sub:'Usually within 24 hours. Check My Inquiries for updates.' },
+      { done:false, color:'#E4DDD5', icon:'ph-calendar-check',  title:'Schedule a visit',    sub:'If accepted, visit the house before deciding.' },
+    ],
+    's-home': [
+      { done:true,  color:'#1558CC', icon:'ph-check',           title:'Visit requested',     sub:'Landlord received your visit request.' },
+      { done:false, color:'#E4DDD5', icon:'ph-clock',           title:'Landlord confirms',   sub:'Usually within a few hours. Check My Inquiries.' },
+      { done:false, color:'#E4DDD5', icon:'ph-house-line',      title:'Visit & decide',      sub:'Visit the house, then inquire or join the waitlist.' },
+    ],
+  };
+  const steps = timelines[_successDest] || timelines['s-myinq'];
+  el.innerHTML = `
+    <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:900;color:#0B1F3A;margin-bottom:12px;letter-spacing:.3px;">WHAT HAPPENS NEXT</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      ${steps.map(s => `
+      <div style="display:flex;align-items:flex-start;gap:10px;">
+        <div style="width:26px;height:26px;background:${s.color};border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+          <i class="ph ${s.icon}" style="font-size:13px;color:${s.done?'#fff':'#6B7280'};"></i>
+        </div>
+        <div>
+          <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:${s.done?'#0B1F3A':'#374151'};">${s.title}</div>
+          <div style="font-size:12px;color:#6B7280;margin-top:1px;">${s.sub}</div>
+        </div>
+      </div>`).join('')}
+    </div>`;
 }
 
 function cancelSuccessForward() {
@@ -9693,6 +10447,13 @@ function cancelSuccessForward() {
 const ADMIN_PIN_KEY  = 'bb_admin_pin';
 const DEFAULT_PIN    = '112233';
 function getAdminPin() { return localStorage.getItem(ADMIN_PIN_KEY) || DEFAULT_PIN; }
+
+// FIX-12: Generates a realistic 6-char alphanumeric invite code
+// Excludes confusable characters (0/O, 1/I/L)
+function generateInviteCode() {
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  return Array.from({length: 6}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+}
 
 function ensureAdminFields() {
   state.houses.forEach(h => {
@@ -9953,7 +10714,7 @@ function adminFlagUser(type,id) { adminLog(`Flagged ${type} ID:${id}`); showToas
 function adminResetTenantCode(id) {
   const t = state.pendingTenants.find(x=>x.id===id);
   if (!t) return;
-  t.code=String(Math.floor(100000+Math.random()*900000)); t.status='pending';
+  t.code=generateInviteCode(); t.status='pending';
   save(); renderAdminRegistry(); showToast(`New code for ${t.name}: ${t.code}`);
 }
 function adminRevokeTenantCode(id) {
@@ -10260,6 +11021,21 @@ function renderAdminSettings() {
   if (track)  track.style.background=on?'var(--red)':'var(--border2)';
   if (thumb)  thumb.style.left=on?'23px':'3px';
   if (status) status.innerHTML=on?'Maintenance mode is <strong style="color:var(--red)">ON</strong> — showing maintenance screen to all users.':'Maintenance mode is <strong>off</strong> — app is live for all users.';
+  // Enrollment dates
+  const bccSel  = document.getElementById('admin-bcc-month');
+  const evsuSel = document.getElementById('admin-evsu-month');
+  if (bccSel)  bccSel.value  = state.enrollmentMonths?.bcc  ?? 4; // default May
+  if (evsuSel) evsuSel.value = state.enrollmentMonths?.evsu ?? 7; // default August
+}
+
+function saveEnrollmentDates() {
+  const bccSel  = document.getElementById('admin-bcc-month');
+  const evsuSel = document.getElementById('admin-evsu-month');
+  if (!state.enrollmentMonths) state.enrollmentMonths = {};
+  state.enrollmentMonths.bcc  = parseInt(bccSel?.value  ?? 4);
+  state.enrollmentMonths.evsu = parseInt(evsuSel?.value ?? 7);
+  save();
+  showToast('<i class="ph ph-calendar-check"></i> Enrollment dates saved');
 }
 
 // ════════════════════════════════════════
@@ -10308,11 +11084,55 @@ function renderAuditLog() {
       </div>`).join('')}`;
 }
 
+function confirmClearAuditLog() {
+  const existing = document.getElementById('modal-clear-log');
+  if (existing) existing.remove();
+  const overlay = document.createElement('div');
+  overlay.id = 'modal-clear-log';
+  overlay.style.cssText = 'position:absolute;inset:0;background:rgba(11,31,58,.65);z-index:500;display:flex;align-items:flex-end;backdrop-filter:blur(4px);';
+  overlay.innerHTML = `
+    <div style="background:#1a1a2e;border-radius:22px 22px 0 0;padding:26px 20px 36px;width:100%;border-top:1px solid rgba(255,255,255,.08);">
+      <div style="width:34px;height:3px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 20px;"></div>
+      <div style="width:48px;height:48px;background:rgba(248,113,113,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+        <i class="ph ph-trash" style="font-size:24px;color:#f87171;"></i>
+      </div>
+      <div style="font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;color:#fff;text-align:center;margin-bottom:8px;">Clear audit log?</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.55);text-align:center;line-height:1.6;margin-bottom:24px;">This will permanently delete all activity records.<br>This cannot be undone.</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button onclick="document.getElementById('modal-clear-log').remove();clearAuditLog();"
+          style="background:#f87171;color:#fff;border:none;border-radius:var(--r);padding:15px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;">
+          <i class="ph ph-trash"></i> Clear All
+        </button>
+        <button onclick="document.getElementById('modal-clear-log').remove();"
+          style="background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:15px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;touch-action:manipulation;">
+          Cancel
+        </button>
+      </div>
+    </div>`;
+  document.querySelector('.phone').appendChild(overlay);
+}
+
 function clearAuditLog() {
-  state.adminActivityLog = [];
-  save();
-  renderAuditLog();
-  showToast('Audit log cleared');
+  const existing = document.getElementById('clear-log-confirm');
+  if (existing) { existing.remove(); return; }
+  const card = document.createElement('div');
+  card.id = 'clear-log-confirm';
+  card.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:390px;background:#1a1a2e;border:1.5px solid rgba(248,113,113,.5);border-radius:14px;padding:16px;z-index:600;box-shadow:0 8px 32px rgba(0,0,0,.4);';
+  card.innerHTML = `
+    <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:#f87171;margin-bottom:6px;"><i class="ph ph-warning"></i> Clear audit log?</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:14px;">This permanently deletes all activity records and cannot be undone.</div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="state.adminActivityLog=[];save();renderAuditLog();document.getElementById('clear-log-confirm').remove();showToast('Audit log cleared');"
+        style="flex:2;background:#f87171;color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;">
+        <i class="ph ph-trash"></i> Clear All
+      </button>
+      <button onclick="document.getElementById('clear-log-confirm').remove()"
+        style="flex:1;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px;font-family:'Nunito',sans-serif;font-size:13px;cursor:pointer;">
+        Cancel
+      </button>
+    </div>`;
+  document.body.appendChild(card);
+  setTimeout(() => { const c = document.getElementById('clear-log-confirm'); if(c) c.remove(); }, 8000);
 }
 function toggleMaintenanceMode() {
   state.maintenanceMode=!state.maintenanceMode;
@@ -10453,7 +11273,7 @@ function selfVerifyListing() {
         <i class="ph ph-seal-check" style="font-size:20px;color:var(--green);"></i>
       </div>
       <div style="flex:1;">
-        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--green);margin-bottom:3px;"><i class="ph ph-check-circle"></i> Na-verify na ang Listing!</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--green);margin-bottom:3px;"><i class="ph ph-check-circle"></i> Listing Verified!</div>
         <div style="font-size:12px;color:var(--text2);line-height:1.5;">Verified ${month} · Students will now see the verified badge on your listing.</div>
       </div>`;
   }
@@ -10471,7 +11291,7 @@ function updateVerifyBanner(h) {
         <i class="ph ph-seal-check" style="font-size:20px;color:var(--green);"></i>
       </div>
       <div style="flex:1;">
-        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--green);margin-bottom:3px;"><i class="ph ph-check-circle"></i> Na-verify na ang Listing!</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;color:var(--green);margin-bottom:3px;"><i class="ph ph-check-circle"></i> Listing Verified!</div>
         <div style="font-size:12px;color:var(--text2);line-height:1.5;">Verified ${h.verified} · Students will see the verified badge on your listing.</div>
       </div>`;
   }
@@ -10808,25 +11628,39 @@ function renderPaymentHistory() {
   const paidTotal = paid.reduce((s, p) => s + p.amount, 0);
 
   if (total) total.textContent = '₱' + paidTotal.toLocaleString();
-  if (sumEl)  sumEl.textContent = paid.length + ' payment' + (paid.length !== 1 ? 's' : '') + ' on record';
+  if (sumEl)  sumEl.textContent = paid.length + ' confirmed · ' + log.length + ' total records';
 
   if (!log.length) { list.innerHTML = ''; if(empty) empty.style.display = ''; return; }
   if (empty) empty.style.display = 'none';
 
   list.innerHTML = log.map(p => {
     const isSelfReported = p.status === 'self_reported';
-    const isPaid  = p.status === 'paid';
-    const amtColor  = isPaid ? 'var(--green)' : isSelfReported ? 'var(--blue)' : 'var(--amber)';
-    const statusLbl = isPaid ? 'Paid' : isSelfReported ? 'Awaiting confirmation' : 'Pending';
-    return `<div class="card card-p" style="margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
-      <div>
-        <div class="vc-name">${p.month}</div>
-        <div class="rc-sub2">${p.date} · ${p.method}</div>
+    const isPaid         = p.status === 'paid';
+    const isPending      = p.status === 'pending';
+    const statusColor    = isPaid ? 'var(--green)' : isSelfReported ? 'var(--blue)' : 'var(--amber)';
+    const statusBg       = isPaid ? 'var(--greenBg)' : isSelfReported ? 'var(--blueLt)' : 'var(--amberBg)';
+    const statusLbl      = isPaid ? 'Confirmed' : isSelfReported ? 'Awaiting landlord' : 'Pending';
+    const statusIcon     = isPaid ? 'ph-check-circle' : isSelfReported ? 'ph-clock' : 'ph-hourglass';
+    return `<div class="card card-p" style="margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+        <div>
+          <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--text);">${p.month}</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px;">${p.date} · ${p.method || 'GCash'}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;color:${statusColor};">₱${p.amount.toLocaleString()}</div>
+        </div>
       </div>
-      <div style="text-align:right;">
-        <div style="font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;color:${amtColor};">₱${p.amount.toLocaleString()}</div>
-        <div style="font-size:11px;font-family:'Nunito',sans-serif;font-weight:700;color:${amtColor};">${statusLbl}</div>
+      <!-- Status badge row -->
+      <div style="display:flex;align-items:center;justify-content:space-between;background:${statusBg};border-radius:8px;padding:8px 10px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <i class="ph ${statusIcon}" style="font-size:14px;color:${statusColor};"></i>
+          <span style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;color:${statusColor};">${statusLbl}</span>
+        </div>
+        ${p.ref ? `<span style="font-size:11px;color:var(--muted);font-family:'Nunito',sans-serif;font-weight:700;">Ref: ${p.ref}</span>` : ''}
       </div>
+      ${isSelfReported ? `<div style="margin-top:8px;font-size:11px;color:var(--muted);line-height:1.5;"><i class="ph ph-info" style="font-size:11px;"></i> Reported via app. Waiting for landlord to confirm. If not confirmed in 24 hrs, message your landlord.</div>` : ''}
+      ${p.note ? `<div style="margin-top:6px;padding:6px 9px;background:var(--warm2);border-radius:7px;font-size:12px;color:var(--text2);font-style:italic;">"${p.note}"</div>` : ''}
     </div>`;
   }).join('');
 }
@@ -10989,7 +11823,7 @@ function promoteWaitlist(name, houseId, idx) {
   const emptyRoom = (h.rooms||[]).find(r => r.status === 'empty');
   if (!emptyRoom) { showToast('No vacant rooms in this house'); return; }
 
-  const code = String(Math.floor(100000 + Math.random() * 900000));
+  const code = generateInviteCode();
   state.pendingTenants.push({ id: state.nextId++, name, phone:'', room: emptyRoom.name, houseId, code, status:'pending' });
   h.waitlist.splice(idx, 1);
   save();
@@ -11114,8 +11948,10 @@ function renderAnalytics() {
     return semEnds.some(end => { const d=Math.round((end-now)/86400000); return d>=0&&d<=45; });
   });
 
-  const bccDate  = new Date(now.getFullYear()+(now.getMonth()>=5?1:0),4,1);
-  const evsuDate = new Date(now.getFullYear()+(now.getMonth()>=8?1:0),7,1);
+  const bccMonth  = state.enrollmentMonths?.bcc  ?? 4; // default May (month index)
+  const evsuMonth = state.enrollmentMonths?.evsu ?? 7; // default August
+  const bccDate  = new Date(now.getFullYear()+(now.getMonth()>=bccMonth?1:0),bccMonth,1);
+  const evsuDate = new Date(now.getFullYear()+(now.getMonth()>=evsuMonth?1:0),evsuMonth,1);
   const daysToBCC  = Math.max(0, Math.round((bccDate-now)/86400000));
   const daysToEVSU = Math.max(0, Math.round((evsuDate-now)/86400000));
 
@@ -11233,7 +12069,7 @@ function renderAnalytics() {
     ${sectionHdr('ph-chart-bar', 'Income & Expenses')}
     ${tipBar('Income this month', '₱' + collected.toLocaleString(), monthlyTarget,
       'var(--teal)',
-      Math.round(collected/Math.max(monthlyTarget,1)*100) + '% ng potential na ₱' + monthlyTarget.toLocaleString(),
+      Math.round(collected/Math.max(monthlyTarget,1)*100) + '% of potential ₱' + monthlyTarget.toLocaleString(),
       ''
     )}
     ${tipBar('Expenses (logged)', '₱' + totalExp.toLocaleString(), collected||1,
@@ -11279,9 +12115,10 @@ function renderAnalytics() {
     ${sectionHdr('ph-calendar-x', 'Watch Out: Leaving Soon?')}
     ${expiringTenants.length ? `
       <div style="background:var(--amberBg);border:1px solid var(--amber);border-radius:10px;padding:14px;margin-bottom:12px;">
-        <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--amber);margin-bottom:6px;"><i class="ph ph-warning"></i> ${expiringTenants.length} tenant ang maaaring umalis of 45 days</div>
+        <div style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--amber);margin-bottom:6px;"><i class="ph ph-warning"></i> ${expiringTenants.length} tenant(s) may leave within 45 days</div>
         ${expiringTenants.map(t=>`<div style="font-size:13px;color:var(--text2);padding:4px 0;">${t.name} · ${t.room}</div>`).join('')}
-        <div style="margin-top:8px;">${actionBtn('Post vacancy now', "goTo('l-listing')", 'var(--amber)')}</div>
+        <div style="font-size:12px;color:var(--text2);margin:10px 0 8px;line-height:1.5;"><i class="ph ph-info" style="color:var(--amber);"></i> Their lease hasn't ended yet. Get your listing ready so you can publish it the moment a room opens up.</div>
+        <div style="margin-top:8px;">${actionBtn('Prepare my listing', "goTo('l-listing')", 'var(--amber)')}</div>
       </div>` : `
       <div style="background:var(--greenBg);border:1px solid var(--green);border-radius:10px;padding:14px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;color:var(--green);margin-bottom:12px;">
         <i class="ph ph-check-circle"></i> No tenants leaving within 45 days
@@ -11295,12 +12132,12 @@ function renderAnalytics() {
       <div style="background:${daysToBCC<=30?'linear-gradient(135deg,var(--amber),#D97706)':'var(--card)'};border:1.5px solid ${daysToBCC<=30?'var(--amber)':'var(--border)'};border-radius:14px;padding:16px;text-align:center;">
         <div style="font-size:11px;font-weight:800;color:${daysToBCC<=30?'#fff':'var(--muted)'};letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px;">BCC</div>
         <div style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:${daysToBCC<=30?'#fff':'var(--navy)'};">${daysToBCC}</div>
-        <div style="font-size:12px;color:${daysToBCC<=30?'rgba(255,255,255,.8)':'var(--muted)'};margin-top:4px;">days away · May</div>
+        <div style="font-size:12px;color:${daysToBCC<=30?'rgba(255,255,255,.8)':'var(--muted)'};margin-top:4px;">days away · ${new Date(2000,bccMonth,1).toLocaleString('en-PH',{month:'long'})}</div>
       </div>
       <div style="background:${daysToEVSU<=30?'linear-gradient(135deg,var(--blue),#1558CC)':'var(--card)'};border:1.5px solid ${daysToEVSU<=30?'var(--blue)':'var(--border)'};border-radius:14px;padding:16px;text-align:center;">
         <div style="font-size:11px;font-weight:800;color:${daysToEVSU<=30?'#fff':'var(--muted)'};letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px;">EVSU</div>
         <div style="font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:${daysToEVSU<=30?'#fff':'var(--navy)'};">${daysToEVSU}</div>
-        <div style="font-size:12px;color:${daysToEVSU<=30?'rgba(255,255,255,.8)':'var(--muted)'};margin-top:4px;">days away · August</div>
+        <div style="font-size:12px;color:${daysToEVSU<=30?'rgba(255,255,255,.8)':'var(--muted)'};margin-top:4px;">days away · ${new Date(2000,evsuMonth,1).toLocaleString('en-PH',{month:'long'})}</div>
       </div>
     </div>
     <div style="background:var(--blueLt);border-radius:10px;padding:13px 14px;font-size:13px;color:var(--text2);line-height:1.5;">
@@ -11359,7 +12196,12 @@ function goToSeekerEntry() {
 function goToLandlordEntry() {
   state.role = 'landlord';
   navStack.length = 0;
-  goTo('l-home');
+  // New landlord (no BH name set) → onboarding; existing → dashboard
+  if (!profiles.landlord || !profiles.landlord.bhName) {
+    goTo('l-onboard');
+  } else {
+    goTo('l-home');
+  }
 }
 </script>
 
@@ -11444,3 +12286,4 @@ function goToLandlordEntry() {
 </script>
 </body>
 </html>
+
